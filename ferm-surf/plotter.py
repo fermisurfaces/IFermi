@@ -37,8 +37,6 @@ from pymatgen.io.vasp.outputs import Vasprun
 from pymatgen.electronic_structure.core import Spin
 from pymatgen.symmetry.bandstructure import *
 
-from seekpath.brillouinzone.brillouinzone import *
-
 class FSPlotter(object):
 
     """Class containing functions for plotting the Fermi Surface of band structure objects.
