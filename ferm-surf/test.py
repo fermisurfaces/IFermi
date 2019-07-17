@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
 	plotter = FSPlotter(fs, bz, rc)
 
-	plotter.fs_plot_data(plot_type = 'plotly', title_str = r"Fermi surface of $Ca_{20}Ga_{8}N_{16}$")
+	plotter.fs_plot_data(plot_type = 'plotly', title_str = r"Fermi surface of $MgB_2$")
 
 
 
