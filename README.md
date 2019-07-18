@@ -12,3 +12,5 @@ Dependencies:
 
 ## Example: ![equation](https://latex.codecogs.com/gif.latex?%24MgB_2%24)
 
+![The Fermi surface of Magneisum Diboride](https://github.com/ajsearle97/ferm-surf/blob/master/data_MgB2/FermSurf_MgB2.png)
+
