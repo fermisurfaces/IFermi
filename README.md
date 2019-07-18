@@ -9,3 +9,6 @@ Dependencies:
 3. plotly
 3. matplotlib
 4. colorlover (colours for Plotly plots)
+
+## Example: ![equation](https://latex.codecogs.com/gif.latex?%24MgB_2%24)
+
