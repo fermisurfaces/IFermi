@@ -1,3 +1,4 @@
+# Label by negative or positive, slice, place into new grid
 import numpy as np
 import scipy as sp
 import scipy.linalg as la
@@ -12,18 +13,30 @@ class FermiSurface(object):
     where energy(K) == fermi energy
     """
     
-    def __init__(self, bs: BandStructure, hdims,
-                 soc: bool = False, doping = None) -> None:
+    def __init__(self, bs: BandStructure, hdims: list, rlattvec,
+                 mu:float = 0, soc: bool = False, doping = None) -> None:
         """
         Args:
+            bs (BandStructure): Description
+            mu (float, optional): Enegy offset from the Fermi energy at which 
+                the iso-surface is defined. Useful for visualising the effect of
+                dopants on the shape of the surface. 
+            hdims (list): Description
+            soc (bool, optional): Description
+            doping (None, optional): Description
             k_dim (int): Description
-            fermi_energy (int): The Fermi energy
-            iso_surface (np.array): A List containing all parameters for each surface at the Fermi surface. 
+            fermi_level (int): The Fermi energy
+            iso_surface (np.array): A List containing all parameters for each surface at the Fermi surface.
+                                    The index i will access [verts, faces, normals, values] for surface i.  
             n_bands (int): Number of bands which cross the Fermi-Surface
-            is_spin_polarised (bool, optional): set to True to perform a spin-polarised.
-            The index i will access [verts, faces, normals, values] for surface i. 
+            is_spin_polarised (bool, optional): set to True if spin polarised.
         """
-        self._fermi_energy = bs.efermi
+
+        if doping is not None:
+            # perform some calculation for mu from doping (how is this done??)
+            mu = 0.1
+            
+        self._fermi_level = bs.efermi + mu
 
         self._kpoints = np.array([k.frac_coords for k in bs.kpoints])
         
@@ -35,9 +48,13 @@ class FermiSurface(object):
 
         self._k_dim = (dims[0], dims[1], dims[2])
 
-        # self.rearrange_bands(bs)
+        self._rlattvec = rlattvec
+
+        # self.expand_bands(bs)
 
         # self.trim_energies(bs)
+
+        # self.rearrange_bands(bs)
 
         self._spacing = (np.linalg.norm(bs.lattice_rec._matrix[:,0]) / dims[0], np.linalg.norm(bs.lattice_rec._matrix[:,1]) / dims[1], np.linalg.norm(bs.lattice_rec._matrix[:,2]) / dims[2])
 
@@ -52,13 +69,14 @@ class FermiSurface(object):
         self._structure = bs.structure
 
 
+
     @property
     def k_dim(self):
         return self._k_dim
 
     @property
-    def fermi_energy(self):
-        return self._fermi_energy
+    def fermi_level(self):
+        return self._fermi_level
 
     @property
     def iso_surface(self):
@@ -73,146 +91,173 @@ class FermiSurface(object):
         return self._is_spin_polarised
 
     def compute_isosurfaces(self, bs):
-        """Use ski-kit's marching cubes algorithm to compute 
-        the isosurfaces of the energy bands. (surfaces correpond to points
-        in k-space where E = E_fermi)
-        
-        Args:
-            bs (BandStructure): Pymatgen BandStructure Object
-        """
         total_data = []
         iso_surface = []
-        n_bands = 0
 
         for spin in bs.bands.keys():
 
             ebands = bs.bands[spin]
-            ebands -= bs.efermi
-            emax = ebands.max(axis=1)
-            emin = ebands.min(axis=1)
 
+            ebands -= self._fermi_level
 
             for  band in ebands:
-                n_bands += 1
-                i, j, k = 0, 0, 0
-                data_min = 0
-                data_max = 0
-                data = np.zeros((self._k_dim[0], self._k_dim[1], self._k_dim[2]))
-                for energy in band:
-                
-                    data[i][j][k] = energy
-                    if energy<data_min or data_min ==0:
-                        data_min = energy
-                    if energy>data_max or data_max==0:
-                        data_max = energy
-                            
-                    if j == (self._k_dim[1] - 1) and k == (self._k_dim[2] - 1):
-                        j = 0
-                        k = 0
-                        i += 1
-                    
-                    elif k == (self._k_dim[2] - 1):
-                        j += 1
-                        k = 0
-                    
-                    else:
-                        k += 1
 
-                if 0 > data_min and 0 < data_max:
-                    total_data.append(data)
+                emax = np.nanmax(band)
+                emin = np.nanmin(band)
 
-        rlattvec = bs.lattice_rec._matrix
-
+                if emax > 0 and emin < 0:
+                    total_data.append(band.reshape(np.array(self._dims)))
 
         for band_index, band_data in enumerate(total_data):
 
             verts, faces, normals, values = measure.marching_cubes_lewiner(band_data, 0,
                                                                            self._spacing)
+
             iso_surface.append([verts, faces, normals, values])
 
 
         self._iso_surface = iso_surface
 
-    def rearrange_bands(self, bs):
-        """Changes the order of the bands so that the surface from (-0.5*b_i, 0.5*b_i) is plotted
-        where b_i is the reciprocal lattice vector in directions {1, 2, 3}.
-        
-        Args:
-            bs (BandStructure): pymatgen BandStrucutre object whose bands are to be rearranged.
-        """
+    def expand_bands(self, bs):
         for spin in bs.bands.keys():
             ebands = bs.bands[spin]
+
+            super_ebands = []
 
             dims = self._dims
             hdims = self._hdims
 
             new_ebands = []
 
+            A = (-1, 0, 1)
+
+            super_kpoints = np.array([], dtype=np.int64).reshape(0,3)
+
+            for i, j, k in itertools.product(A, A, A):
+
+                super_kpoints = np.concatenate((super_kpoints, np.array(self._kpoints) + [i,j,k]), axis = 0)
+
+            sort_idx = np.lexsort((super_kpoints[:, 2], super_kpoints[:, 1], super_kpoints[:, 0]))
+
+            final_kpoints = super_kpoints[sort_idx]
+
             for band in ebands:
-                
-                old_bands = band
-                band = np.concatenate((old_bands[int((len(old_bands) + dims[2] * dims[1]) / 2):],
-                                          old_bands[:int((len(old_bands) + dims[2] * dims[1]) / 2)]), axis=0)
+                A = (-1, 0, 1)
 
-                q = 0
-                old_bands = band
-                while (q + 1) * dims[1] * dims[2] < len(old_bands) - 1:
-                    sub_array = old_bands[q * dims[2] * dims[1]:(q + 1) * dims[2] * dims[1]:1]
-                    band = np.concatenate((band[:(q) * dims[2] * dims[1]], sub_array[(hdims[1] + 1) * dims[2]:],
-                                              sub_array[:(hdims[1] + 1) * dims[2] + 1],
-                                           band[(q) * dims[2] * dims[1] + dims[2] * dims[1] + 1:]), axis=0)
+                super_band = np.array([], dtype=np.int64)  
 
-                    q += 1
+                for i, j, k in itertools.product(A, A, A):
 
-                old_bands = band
-                q = 0
-                while (q + 1) * dims[2] < len(old_bands) - 1:
-                    sub_array = old_bands[q * dims[2]:(q + 1) * dims[2]:1]
-                    new = (np.concatenate((sub_array[(hdims[2] + 1):], sub_array[:(hdims[2] + 1)]), axis=0))
-                    band = np.concatenate((band[:(q) * dims[2]], sub_array[(hdims[2] + 1):], sub_array[:(hdims[2] + 2)],
-                                           band[(q) * dims[2] + dims[2] + 1:]), axis=0)
-                    q += 1
+                    super_band = np.concatenate((super_band, np.array(band)), axis=0)
 
-                new_ebands.append(band)
+                super_ebands.append(super_band[sort_idx])
 
-            bs.bands[spin] = np.array(new_ebands)
+            bs.bands[spin] = np.array(super_ebands)
+
+        self._kpoints = final_kpoints
+
+        self._dims = 3*dims
+
+        self._hdims = 3*hdims
 
 
+    def rearrange_bands(self, bs):
 
-    def trim_energies(self, bs):
-        """Sets energies not in the Brillouin Zone to None. 
-        
-        Args:
-            bs (BandStructure): BandStrucutre object
-        """
-        bz = BrillouinZone(bs.structure.lattice.reciprocal_lattice)
+        sort_idx = np.lexsort((self._kpoints[:, 2], self._kpoints[:, 1], self._kpoints[:, 0]))
 
         for spin in bs.bands.keys():
             ebands = bs.bands[spin]
 
-            emax = ebands.max(axis=1)
-            emin = ebands.min(axis=1)
+            new_ebands = []
+           
+            for band in ebands:
+
+                band_sorted = band[sort_idx]
+                new_ebands.append(band_sorted)
+
+            bs.bands[spin] = np.array(new_ebands)
+
+    
+    def trim_energies(self, bs):
+
+        bz = BrillouinZone(self._rlattvec)
+
+        for spin in bs.bands.keys():
+            ebands = bs.bands[spin]
 
             #Remove all points outside the BZ
-            for i, ijk0 in enumerate(itertools.product(*(range(0, d) for d in self._dims))):
-                ijk = [
-                    ijk0[j] if ijk0[j] <= self._hdims[j] else ijk0[j] - self._dims[j]
-                    for j in range(len(self._dims))
-                ]
-                abc = np.array(ijk, dtype=np.float64) / np.array(self._dims)
-                xyz = bs.lattice_rec._matrix @ abc
+            for i, ijk in enumerate(self._kpoints):
+                abc = np.array(ijk)
+                xyz = self._rlattvec @ abc
                 for c, n in zip(bz._centers, bz._normals):
                     if np.dot(xyz - c, n) > 0.:
                         ebands[:, i] = None
                         break
+
+            bs.bands[spin]=ebands
+
+
+
+    def project_data(self, proj_plane: tuple):
+
+        projected_band = []
+
+        for i, band in enumerate(self._iso_surface):
+            verts = band[0]
+            faces = band[1] 
+
+            projected_verts = []
+
+            for vertex in verts:
+                projected_verts.append(project(vertex, proj_plane))
+
+            projected_band.append([projected_verts, faces])
+
+        return projected_band
+
+    def slice_data(self, bs, slice_plane: tuple, contour):
+
+        for spin in bs.bands.keys():
+
+            ebands = bs.bands[spin]
+
+            plane_bands = []
+
+            dis_array = [plane_dist(np.append(proj_plane, -contour), i) for i in self._kpoints]
+        
+            for i, j in enumerate(slice_array):
+                if not j == 0:
+                    if i==0:
+                        sort_indx = np.lexsort(dis_array[dis_array[:,0].argsort()])
+                        plane_mesh = [1, mesh[1], mesh[2]]
+                    if i==1:
+                        sort_indx = np.lexsort(dis_array[dis_array[:,1].argsort()])
+                        plane_mesh = [mesh[0], 1, mesh[2]]
+
+                    if i==2:
+                        sort_indx = np.lexsort(dis_array[dis_array[:,2].argsort()])
+                        plane_mesh = [mesh[0], mesh[1], 1]
+
+            sorted_dist = dis_array(sort_index)
+            sorted_energies = ebands(sort_indx)
+            sorted_kpoints = self._kpoints(sort_index)
+
+            for dist, index in enumerate(sorted_dist):
+                while np.abs(dist- np.min(sorted_dist))<0.001:
+                    plane_bands.append(sorted_energies[index])
+
+            sort_idx = np.lexsort((sorted_kpoints[:, 2], sorted_kpoints[:, 1], sorted_kpoints[:, 0]))
+            energies_sorted = sorted_energies[sort_idx]
+
+            return energies.reshape(plane_mesh)
+
 
 
 
 class BrillouinZone(object):
 
     """An object which holds information for the Brillioun Zone. This is the Wigner–Seitz cell
-        of the reciprocal lattice. Not currently used in the plotter. Once I have included a mthod which 
-        reloacted the bands to the Brillouin Zone, I will update this.
+        of the reciprocal lattice.
     """
 
     def __init__(self, rlattvec: np.array):
@@ -233,11 +278,6 @@ class BrillouinZone(object):
         vertices = voronoi.vertices[vertex_indices, :]
 
         self._vertices = vertices 
-
-        to_return = []
-        for r in voronoi.ridge_dict:
-            if r[0] == 13 or r[1] == 13:
-                to_return.append([voronoi.vertices[i] for i in voronoi.ridge_dict[r]])
 
         # Compute a center and an outward-pointing normal for each of the facets
         # of the BZ
@@ -268,7 +308,6 @@ class BrillouinZone(object):
         self._normals = normals
         self._facets = facets
         self._bz_corners = bz_corners
-        self._to_return = to_return
 
 class RecipCell(object):
     """
@@ -305,4 +344,42 @@ class RecipCell(object):
             faces.append(corners)
 
         self._faces = faces
+
+def project(vector, plane):
+    theta = np.array([0, 0, np.pi])
+    a = np.array([[1, 0, 0],
+                [0, np.cos(theta[0]), np.sin(theta[0])], 
+                [0, -np.sin(theta[0]), np.cos(theta[0])]])
+
+    b = np.array([[np.cos(theta[1]), 0, -np.sin(theta[1])],
+                [0, 1, 0], 
+                [np.sin(theta[1]), 0, np.cos(theta[1])]])
+
+    c = np.array([[np.cos(theta[2]), np.sin(theta[2]), 0],
+                [0, 1, 0], 
+                [np.sin(theta[1]), 0, np.cos(theta[1])]])
+
+    d = np.matmul(np.matmul(a,np.matmul(b,c)), vector)
+
+    e = np.array([[1, 0, 0, 0], 
+                [0, 1, 0, 0], 
+                [0, 0, 1, 0],
+                [0, 0, 0, 1]])
+
+    f = np.matmul(e, np.append(d, 1))
+
+    b_x = f[0]/f[3]
+    b_y = f[1]/f[3]
+
+    return [b_x, b_y, 0]
+
+def plane_dist(slice_plane, vertex):
+
+    return (np.linalg.norm(slice_plane[0]*vertex[0] + slice_plane[1]*vertex[1] + slice_plane[2]*vertex[2] + slice_plane[3]))/(np.sqrt(slice_plane[0]**2 + slice_plane[1]**2 + slice_plane[2]**2))
+
+def compute_energy_contours(energies, contour:float):
+
+    contours = measure.find_contours(energies, contour)
+
+    return contours
 
