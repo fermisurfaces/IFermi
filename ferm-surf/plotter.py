@@ -31,7 +31,7 @@ from BoltzTraP2.units import *
 from BoltzTraP2.fite import *
 from BoltzTraP2.dft import *
 
-from bulk_objects import FermiSurface, BrillouinZone, RecipCell
+from bulk_objects_2 import FermiSurface, RecipCell
 
 from pymatgen.io.vasp.outputs import Vasprun
 from pymatgen.electronic_structure.core import Spin
@@ -42,7 +42,7 @@ class FSPlotter(object):
     """Class containing functions for plotting the Fermi Surface of band structure objects.
     """
     
-    def __init__(self, fs: FermiSurface, bz: BrillouinZone, rc: RecipCell):
+    def __init__(self, fs: FermiSurface, rc: RecipCell):
         """
         Args:
             fermi_surface (FermiSurface): A FermiSurface object to be used in plotting
@@ -53,7 +53,6 @@ class FSPlotter(object):
                 "FSPlotter only works with FermiSurface objects. "
                 "A bandstructure must first be converted to a FermiSurface object.")
         self._fermi_surface = fs
-        self._brillouin_zone = bz
         self._recip_cell = rc
 
         self._symmetry_pts = self._add_symmetry_points(fs)

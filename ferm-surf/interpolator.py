@@ -53,7 +53,7 @@ class Interpolater(object):
     def interpolate_bands(self, interpolation_factor: float = 5,
                                energy_cutoff: Optional[float] = None,
                                nworkers: int = -1
-                               ) -> BandStructure:
+                               ):
         """Gets a pymatgen band structure.
         Note, the interpolation mesh is determined using by
         ``interpolate_factor`` option in the ``Inteprolater`` constructor.
@@ -142,8 +142,15 @@ class Interpolater(object):
             interpolation_mesh, atoms, symprec=0.1)
         full_kpoints = grid / interpolation_mesh
 
+        sort_idx = np.lexsort((full_kpoints[:, 2], full_kpoints[:, 2]<0,
+                                full_kpoints[:, 1], full_kpoints[:, 1]<0,
+                                full_kpoints[:, 0], full_kpoints[:, 0]<0))
+
+        reordered_kpoints = full_kpoints[sort_idx]
+
+
         return BandStructure(
-            full_kpoints, energies, self._band_structure.structure.lattice,
+            reordered_kpoints, energies, self._band_structure.structure.lattice,
             efermi, structure = self._structure), np.max(
             np.abs(np.vstack(equivalences)), axis=0)
 

@@ -1,5 +1,5 @@
 from interpolator import Interpolater
-from bulk_objects import FermiSurface, BrillouinZone, RecipCell
+from bulk_objects_2 import FermiSurface, RecipCell
 from plotter import *
 
 from pymatgen.io.vasp.outputs import Vasprun
@@ -15,13 +15,11 @@ if __name__ == '__main__':
 
 	new_bs, hdims = interpolater.interpolate_bands(10)
 
-	fs = FermiSurface(new_bs, hdims)
-
-	bz = BrillouinZone(new_bs.lattice_rec._matrix)
+	fs = FermiSurface(new_bs, hdims, new_bs.lattice_rec._matrix)
 
 	rc = RecipCell(new_bs.lattice_rec._matrix)
 
-	plotter = FSPlotter(fs, bz, rc)
+	plotter = FSPlotter(fs, rc)
 
 	plotter.fs_plot_data(plot_type = 'plotly', title_str = r"Fermi surface of $MgB_2$")
 
