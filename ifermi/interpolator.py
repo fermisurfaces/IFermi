@@ -53,7 +53,7 @@ class Interpolater(object):
     def interpolate_bands(self, interpolation_factor: float = 5,
                                energy_cutoff: Optional[float] = None,
                                nworkers: int = -1
-                               ):
+                               ) -> BandStructure:
         """Gets a pymatgen band structure.
         Note, the interpolation mesh is determined using by
         ``interpolate_factor`` option in the ``Inteprolater`` constructor.
@@ -152,7 +152,7 @@ class Interpolater(object):
         return BandStructure(
             reordered_kpoints, energies, self._band_structure.structure.lattice,
             efermi, structure = self._structure), np.max(
-            np.abs(np.vstack(equivalences)), axis=0)
+            np.abs(np.vstack(equivalences)), axis=0), self._band_structure.lattice_rec._matrix
 
 
 
