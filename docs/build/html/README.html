@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Usage &#8212; IFermi 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">IFermi 0.1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <dl class="simple">
+<dt>:raw-html-m2r:<a href="#id1"><span class="problematic" id="id2">`</span></a>&lt;img src=”../source/_static/logo-01.png”</dt><dd><p>alt=”ifermi logo”
+style=”float: center; margin-right: 10px;” /&gt;`</p>
+</dd>
+</dl>
+<a class="reference external image-reference" href="../source/_static/logo-01.png"><img alt="The Fermi surface of Magneisum Diboride" src="_images/logo-01.png" /></a>
+<p>IFermi is a package which provides tools for plotting Fermi surfaces
+from DFT output. IFermi is also useful for visualisation of slices of
+the three-dimensional Fermi surface along a specified plane. The idea
+is to provide tools which allow for more tailored Fermi surface plots
+than what other plotting software currently offer.</p>
+<p>The main features include:</p>
+<ol class="arabic simple">
+<li><p><strong>Plotting of three-dimensional Fermi surfaces, with interactive plotting
+supported by Mayavi*, Plotly* and Matplotlib_ (see recommended
+libraries below).</strong></p></li>
+<li><p><strong>Taking a slice of a three-dimensional Fermi surface along a specified
+plane and plotting the resulting contour.</strong></p></li>
+<li><p><strong>Identification and visualisation of vanishingly small Fermi surfaces</strong></p>
+<ul class="simple">
+<li><p>useful in the identification of Dirac points.</p></li>
+<li><p>requires a DFT scf calculation on a more fine k-mesh</p></li>
+</ul>
+</li>
+</ol>
+<p>Notes about the use of external libraries:</p>
+<ul class="simple">
+<li><p>VASP calculations are imported using <a class="reference external" href="http://pymatgen.org">Pymatgen</a>.</p></li>
+<li><p>Band interpolation is carried out using <a href="#id3"><span class="problematic" id="id4">BoltzTraP2_</span></a></p></li>
+<li><p>Plotting is supported in Mayavi<em>, Plotly</em> and <a class="reference external" href="https://matplotlib.org">Matplotlib</a>.</p></li>
+<li><p>I reccomned using Mayavi* or Plotly* for three-dimensional
+Fermi surface visualisation, and <a class="reference external" href="https://matplotlib.org">Matplotlib</a> for two
+plotting two-dimensional slices.</p></li>
+</ul>
+<p>The code currently primarily supports VASP calculations, but will
+soon be extended to other platforms supported by <a class="reference external" href="http://pymatgen.org">Pymatgen</a>
+(Quantum Espresso, Questaal, etc.)</p>
+<div class="section" id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+<p>IFermi can be used from the command-line or from a python API.</p>
+<p>While is is easiest to use a vasprun.xml file for generation of the FermiSurface
+object, it is also possible to specify energy values on a uniform k-grid.</p>
+<p>A guide to using each command can be found on the
+<a class="reference external" href="http://sumo.readthedocs.io/en/latest/tutorials.html">Tutorial page</a>.</p>
+<p>For a preview of the functionality of IFermi, see the
+<a class="reference external" href="http://sumo.readthedocs.io/en/latest/gallery.html">Gallery</a>.</p>
+<p>Currently, the scripts provided are:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ifermi-fsplot</span></code>: For generating a three-dimensional plot of the</dt><dd><p>Fermi surface of a material.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ifermi-slice</span></code>: For plotting a slice of the three-dimensional</dt><dd><p>Fermi surface along a specified plane.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ifermi-diracplot</span></code>: For generating three-dimensional plots of Dirac</dt><dd><p>points, where Dirac points are displayed as red dots for easy
+identification.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ifermi-diracslice</span></code>: For plotting slices of a Fermi surface with</dt><dd><p>Dirac points.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="section" id="python-interface">
+<h2>Python interface<a class="headerlink" href="#python-interface" title="Permalink to this headline">¶</a></h2>
+<p>The two core classes in robocrystallographer are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">StructureCondenser</span></code>: to condense the structure into an descriptive JSON
+representation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">StructureDescriber</span></code>: to turn the condensed structure into a text description.</p></li>
+</ul>
+<p>A minimal working example for generating text descriptions is simply:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pymatgen</span> <span class="kn">import</span> <span class="n">Structure</span>
+<span class="kn">from</span> <span class="nn">robocrys</span> <span class="kn">import</span> <span class="n">StructureCondenser</span><span class="p">,</span> <span class="n">StructureDescriber</span>
+
+<span class="n">structure</span> <span class="o">=</span> <span class="n">Structure</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s2">&quot;my_structure.cif&quot;</span><span class="p">)</span> <span class="c1"># other file formats also supported</span>
+
+<span class="c1"># alternatively, uncomment the lines below to use the MPRester object</span>
+<span class="c1"># to fetch structures from the Materials Project database</span>
+<span class="c1"># from pymatgen import MPRester</span>
+<span class="c1"># structure = MPRester(API_KEY=None).get_structure_by_material_id(&quot;mp-856&quot;)</span>
+
+<span class="n">condenser</span> <span class="o">=</span> <span class="n">StructureCondenser</span><span class="p">()</span>
+<span class="n">describer</span> <span class="o">=</span> <span class="n">StructureDescriber</span><span class="p">()</span>
+
+<span class="n">condensed_structure</span> <span class="o">=</span> <span class="n">condenser</span><span class="o">.</span><span class="n">condense_structure</span><span class="p">(</span><span class="n">structure</span><span class="p">)</span>
+<span class="n">description</span> <span class="o">=</span> <span class="n">describer</span><span class="o">.</span><span class="n">describe</span><span class="p">(</span><span class="n">condensed_structure</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Where <code class="docutils literal notranslate"><span class="pre">structure</span></code> is a pymatgen Structure object. Both classes have many
+options for customising the output of the structure
+descriptions. More information is provided in the
+<a class="reference external" href="https://hackingmaterials.github.io/robocrystallographer/modules">module documentation</a>.</p>
+</div>
+<div class="section" id="example-output">
+<h2>Example output<a class="headerlink" href="#example-output" title="Permalink to this headline">¶</a></h2>
+<p>An example of the output generated by robocrystallographer for SnO<span class="raw-html-m2r"><sub>2</sub></span> (<a class="reference external" href="https://materialsproject.org/materials/mp-856/">mp-856</a>) is given below:</p>
+<p align="center">
+<img alt="SnO2 crystal structure" src="https://raw.githubusercontent.com/hackingmaterials/robocrystallographer/master/docs/_static/rutile.jpg" height=
+"200px">
+</p><div class="highlight-guess notranslate"><div class="highlight"><pre><span></span>SnO2 is Rutile structured and crystallizes in the tetragonal P4_2/mnm space
+group. The structure is three-dimensional. Sn(1) is bonded to six equivalent
+O(1) atoms to form a mixture of edge and corner-sharing SnO6 octahedra. The
+corner-sharing octahedral tilt angles are 51°. All Sn(1)–O(1) bond lengths
+are 2.09 Å. O(1) is bonded in a trigonal planar geometry to three equivalent
+Sn(1) atoms.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="how-to-cite-ifermi">
+<h1>How to cite IFermi<a class="headerlink" href="#how-to-cite-ifermi" title="Permalink to this headline">¶</a></h1>
+<p><em>A research paper has been submitted. This section will be updated when the paper has been published online.</em></p>
+</div>
+<div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>IFermi can be installed using pip:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install ifermi
+</pre></div>
+</div>
+<p>IFermi requires Python 3.6+.</p>
+</div>
+<div class="section" id="tests">
+<h1>Tests<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h1>
+<p>From a developer installation, the unit tests can be
+run (from the root directory of the project) using:</p>
+<blockquote>
+<div><p>python3 -m unittest discover tests</p>
+</div></blockquote>
+</div>
+<div class="section" id="detailed-requirements">
+<h1>Detailed requirements<a class="headerlink" href="#detailed-requirements" title="Permalink to this headline">¶</a></h1>
+<p>IFermi is currently compatible with Python 3.5+ and relies on a number of
+open-source python packages, specifically:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://pymatgen.org">Pymatgen</a> (version &gt;= 2017.12.30)</p></li>
+<li><p><a class="reference external" href="http://www.numpy.org">Numpy</a></p></li>
+<li><p><a class="reference external" href="https://www.scipy.org">Scipy</a></p></li>
+<li><p><a class="reference external" href="https://matplotlib.org">Matplotlib</a></p></li>
+<li><p><a class="reference external" href="https://atztogo.github.io/spglib">Spglib</a></p></li>
+<li><p><a class="reference external" href="https://atztogo.github.io/phonopy">Phonopy</a></p></li>
+<li><p><a class="reference external" href="https://github.com/giovannipizzi/seekpath">SeeK-path</a></p></li>
+<li><p><a class="reference external" href="https://www.h5py.org">H5py</a></p></li>
+</ul>
+</div>
+<div class="section" id="contributing">
+<h1>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h1>
+<p>I have tried to implement the program in a logical way.
+However, if you think that it could use some improvement
+or added functionality,send a push request to the GitHub page.
+I would greatly appreciate any contributions.</p>
+</div>
+<div class="section" id="license">
+<h1>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h1>
+<p>Sumo is made available under the MIT License.</p>
+</div>
+<div class="section" id="acknowledgements">
+<h1>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permalink to this headline">¶</a></h1>
+<p>Alex Ganose for help developing/improving code.
+Sinead Griffin for suggesting the project.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Usage</a><ul>
+<li><a class="reference internal" href="#python-interface">Python interface</a></li>
+<li><a class="reference internal" href="#example-output">Example output</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#how-to-cite-ifermi">How to cite IFermi</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#tests">Tests</a></li>
+<li><a class="reference internal" href="#detailed-requirements">Detailed requirements</a></li>
+<li><a class="reference internal" href="#contributing">Contributing</a></li>
+<li><a class="reference internal" href="#license">License</a></li>
+<li><a class="reference internal" href="#acknowledgements">Acknowledgements</a></li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/README.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">IFermi 0.1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Amy Searle.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>plotter module &#8212; IFermi 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="test module" href="test.html" />
+    <link rel="prev" title="interpolator module" href="interpolator.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="test.html" title="test module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="interpolator.html" title="interpolator module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">IFermi 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">ifermi</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-plotter">
+<span id="plotter-module"></span><h1>plotter module<a class="headerlink" href="#module-plotter" title="Permalink to this headline">¶</a></h1>
+<p>This module implements a plotter for the Fermi-Surface of a material
+todo:
+* Remap into Brillioun zone (Wigner Seitz cell)
+* Get Latex working for labels
+* Do projections onto arbitrary surface
+* Comment more
+* Think about classes/methods, maybe restructure depending on sumo layout</p>
+<dl class="class">
+<dt id="plotter.FSPlotter">
+<em class="property">class </em><code class="sig-prename descclassname">plotter.</code><code class="sig-name descname">FSPlotter</code><span class="sig-paren">(</span><em class="sig-param">fs: bulk_objects.FermiSurface</em>, <em class="sig-param">rc: bulk_objects.RecipCell = None</em>, <em class="sig-param">bz: bulk_objects.BrillouinZone = None</em><span class="sig-paren">)</span><a class="headerlink" href="#plotter.FSPlotter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class containing functions for plotting the Fermi Surface of band structure objects.</p>
+<dl class="method">
+<dt id="plotter.FSPlotter.fs_plot_data">
+<code class="sig-name descname">fs_plot_data</code><span class="sig-paren">(</span><em class="sig-param">plot_type='mpl'</em>, <em class="sig-param">interactive=True</em>, <em class="sig-param">bz_linewidth=0.9</em>, <em class="sig-param">axis_labels=True</em>, <em class="sig-param">symmetry_labels=True</em>, <em class="sig-param">color_list=None</em>, <em class="sig-param">title_str=None</em>, <em class="sig-param">fname='fs'</em><span class="sig-paren">)</span><a class="headerlink" href="#plotter.FSPlotter.fs_plot_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for producing a plot of the Fermi surface.
+Will edit this to allow for custom plotting options.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="plotter.FSPlotter2D">
+<em class="property">class </em><code class="sig-prename descclassname">plotter.</code><code class="sig-name descname">FSPlotter2D</code><span class="sig-paren">(</span><em class="sig-param">fs: bulk_objects.FermiSurface</em>, <em class="sig-param">plane_orig</em>, <em class="sig-param">plane_norm</em><span class="sig-paren">)</span><a class="headerlink" href="#plotter.FSPlotter2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="plotter.FSPlotter2D.fs2d_plot_data">
+<code class="sig-name descname">fs2d_plot_data</code><span class="sig-paren">(</span><em class="sig-param">plot_type='matplotlib'</em><span class="sig-paren">)</span><a class="headerlink" href="#plotter.FSPlotter2D.fs2d_plot_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="interpolator.html"
+                        title="previous chapter">interpolator module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="test.html"
+                        title="next chapter">test module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/plotter.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="test.html" title="test module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="interpolator.html" title="interpolator module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">IFermi 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >ifermi</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Amy Searle.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+    </div>
+  </body>
+</html>

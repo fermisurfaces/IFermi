@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>bulk_objects module &#8212; IFermi 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="interpolator module" href="interpolator.html" />
+    <link rel="prev" title="ifermi" href="modules.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="interpolator.html" title="interpolator module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="ifermi"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">IFermi 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">ifermi</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-bulk_objects">
+<span id="bulk-objects-module"></span><h1>bulk_objects module<a class="headerlink" href="#module-bulk_objects" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="bulk_objects.BrillouinZone">
+<em class="property">class </em><code class="sig-prename descclassname">bulk_objects.</code><code class="sig-name descname">BrillouinZone</code><span class="sig-paren">(</span><em class="sig-param">rlattvec: numpy.array</em><span class="sig-paren">)</span><a class="headerlink" href="#bulk_objects.BrillouinZone" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>An object which holds information for the Brillioun Zone. This is the Wigner–Seitz cell
+of the reciprocal lattice.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="bulk_objects.FermiSurface">
+<em class="property">class </em><code class="sig-prename descclassname">bulk_objects.</code><code class="sig-name descname">FermiSurface</code><span class="sig-paren">(</span><em class="sig-param">bs: pymatgen.electronic_structure.bandstructure.BandStructure</em>, <em class="sig-param">hdims: list</em>, <em class="sig-param">rlattvec</em>, <em class="sig-param">mu: float = 0</em>, <em class="sig-param">soc: bool = False</em>, <em class="sig-param">doping=None</em>, <em class="sig-param">plot_wigner_seitz=False</em><span class="sig-paren">)</span><a class="headerlink" href="#bulk_objects.FermiSurface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>An object which holds information relevent to the Fermi Surface. It only stores information at k-space points
+where energy(K) == fermi energy</p>
+<dl class="method">
+<dt id="bulk_objects.FermiSurface.compute_isosurfaces">
+<code class="sig-name descname">compute_isosurfaces</code><span class="sig-paren">(</span><em class="sig-param">bs</em><span class="sig-paren">)</span><a class="headerlink" href="#bulk_objects.FermiSurface.compute_isosurfaces" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bulk_objects.FermiSurface.expand_bands">
+<code class="sig-name descname">expand_bands</code><span class="sig-paren">(</span><em class="sig-param">bs</em><span class="sig-paren">)</span><a class="headerlink" href="#bulk_objects.FermiSurface.expand_bands" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bulk_objects.FermiSurface.fermi_level">
+<em class="property">property </em><code class="sig-name descname">fermi_level</code><a class="headerlink" href="#bulk_objects.FermiSurface.fermi_level" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bulk_objects.FermiSurface.is_spin_polarised">
+<em class="property">property </em><code class="sig-name descname">is_spin_polarised</code><a class="headerlink" href="#bulk_objects.FermiSurface.is_spin_polarised" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bulk_objects.FermiSurface.iso_surface">
+<em class="property">property </em><code class="sig-name descname">iso_surface</code><a class="headerlink" href="#bulk_objects.FermiSurface.iso_surface" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bulk_objects.FermiSurface.k_dim">
+<em class="property">property </em><code class="sig-name descname">k_dim</code><a class="headerlink" href="#bulk_objects.FermiSurface.k_dim" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bulk_objects.FermiSurface.n_bands">
+<em class="property">property </em><code class="sig-name descname">n_bands</code><a class="headerlink" href="#bulk_objects.FermiSurface.n_bands" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bulk_objects.FermiSurface.project_data">
+<code class="sig-name descname">project_data</code><span class="sig-paren">(</span><em class="sig-param">proj_plane: tuple</em><span class="sig-paren">)</span><a class="headerlink" href="#bulk_objects.FermiSurface.project_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bulk_objects.FermiSurface.rearrange_bands">
+<code class="sig-name descname">rearrange_bands</code><span class="sig-paren">(</span><em class="sig-param">bs</em><span class="sig-paren">)</span><a class="headerlink" href="#bulk_objects.FermiSurface.rearrange_bands" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bulk_objects.FermiSurface.trim_energies">
+<code class="sig-name descname">trim_energies</code><span class="sig-paren">(</span><em class="sig-param">bs</em><span class="sig-paren">)</span><a class="headerlink" href="#bulk_objects.FermiSurface.trim_energies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="bulk_objects.FermiSurface2D">
+<em class="property">class </em><code class="sig-prename descclassname">bulk_objects.</code><code class="sig-name descname">FermiSurface2D</code><span class="sig-paren">(</span><em class="sig-param">bs: pymatgen.electronic_structure.bandstructure.BandStructure</em>, <em class="sig-param">hdims: list</em>, <em class="sig-param">rlattvec</em>, <em class="sig-param">slice_plane: tuple</em>, <em class="sig-param">contour</em>, <em class="sig-param">mu: float = 0</em>, <em class="sig-param">soc: bool = False</em>, <em class="sig-param">doping=None</em><span class="sig-paren">)</span><a class="headerlink" href="#bulk_objects.FermiSurface2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#bulk_objects.FermiSurface" title="bulk_objects.FermiSurface"><code class="xref py py-class docutils literal notranslate"><span class="pre">bulk_objects.FermiSurface</span></code></a></p>
+<dl class="method">
+<dt id="bulk_objects.FermiSurface2D.compute_isosurfaces">
+<code class="sig-name descname">compute_isosurfaces</code><span class="sig-paren">(</span><em class="sig-param">energies</em>, <em class="sig-param">contour: float</em><span class="sig-paren">)</span><a class="headerlink" href="#bulk_objects.FermiSurface2D.compute_isosurfaces" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bulk_objects.FermiSurface2D.slice_data">
+<code class="sig-name descname">slice_data</code><span class="sig-paren">(</span><em class="sig-param">bs</em>, <em class="sig-param">slice_plane: tuple</em><span class="sig-paren">)</span><a class="headerlink" href="#bulk_objects.FermiSurface2D.slice_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="bulk_objects.RecipCell">
+<em class="property">class </em><code class="sig-prename descclassname">bulk_objects.</code><code class="sig-name descname">RecipCell</code><span class="sig-paren">(</span><em class="sig-param">rlattvec: numpy.array</em><span class="sig-paren">)</span><a class="headerlink" href="#bulk_objects.RecipCell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>An object which holds information for the reciprocal cell. The reciprocal cell is the paralellopiped formed
+by the vector set (b1, b2, b3) and contains all the same information as the Brillouin Zone.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="bulk_objects.plane_dist">
+<code class="sig-prename descclassname">bulk_objects.</code><code class="sig-name descname">plane_dist</code><span class="sig-paren">(</span><em class="sig-param">slice_plane</em>, <em class="sig-param">vertex</em><span class="sig-paren">)</span><a class="headerlink" href="#bulk_objects.plane_dist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="bulk_objects.project">
+<code class="sig-prename descclassname">bulk_objects.</code><code class="sig-name descname">project</code><span class="sig-paren">(</span><em class="sig-param">vector</em>, <em class="sig-param">plane</em><span class="sig-paren">)</span><a class="headerlink" href="#bulk_objects.project" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="modules.html"
+                        title="previous chapter">ifermi</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="interpolator.html"
+                        title="next chapter">interpolator module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/bulk_objects.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="interpolator.html" title="interpolator module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="ifermi"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">IFermi 0.1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >ifermi</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Amy Searle.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+    </div>
+  </body>
+</html>
