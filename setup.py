@@ -37,7 +37,7 @@ setup(
     packages=find_packages(),
     install_requires=['sympy', 'numpy', 'scipy', 'matplotlib', 'pymatgen>=2017.12.30',
                       'colorlover', 'plotly', 'BoltzTraP2', 'mayavi', 'mlabtex',
-                      'math', 'meshcut', 'scikit-image'],
+                      'meshcut', 'scikit-image'],
     extras_require={'docs': ['sphinx', 'sphinx-argparse',
                              'sphinx-autodoc-typehints', 'm2r'],
                     'dev': ['tqdm', 'pybel', 'pebble', 'maggma'],
