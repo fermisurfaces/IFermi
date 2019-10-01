@@ -32,7 +32,8 @@ from BoltzTraP2.units import *
 from BoltzTraP2.fite import *
 from BoltzTraP2.dft import *
 
-from bulk_objects import FermiSurface, RecipCell, BrillouinZone
+from fermi_surface import FermiSurface
+from brillouin_zone import RecipCell, BrillouinZone
 
 from pymatgen.io.vasp.outputs import Vasprun
 from pymatgen.electronic_structure.core import Spin

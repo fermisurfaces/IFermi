@@ -1,4 +1,9 @@
-# Label by negative or positive, slice, place into new grid
+"""
+    This module contains the classes and methods for creating iso-surface structures from 
+    Pymatgen bandstrucutre objects. The iso-surfaces are found using the Scikit-image 
+    package. 
+    
+    """
 import numpy as np
 import scipy as sp
 import scipy.linalg as la
@@ -14,27 +19,29 @@ class FermiSurface(object):
     """
     
     def __init__(self, bs: BandStructure, hdims: list, rlattvec,
-                 mu:float = 0, soc: bool = False, doping = None, plot_wigner_seitz = False) -> None:
+                 mu:float = 0., soc: bool = False, plot_wigner_seitz = False) -> None:
         """
         Args:
-            bs (BandStructure): Description
+            bs (BandStructure): A Pymatgen bandstructure object 
+            hdims (list): The dimension of the grid in reciprocal space on which the energy eigenvalues
+                are defined.
+            rlattvec (np.array): The reciprocal space lattice vectors. See 
+                pymatgen.electronic_structure.bandstructure.lattice_rec._matrix for format.
             mu (float, optional): Enegy offset from the Fermi energy at which 
                 the iso-surface is defined. Useful for visualising the effect of
-                dopants on the shape of the surface. 
-            hdims (list): Description
-            soc (bool, optional): Description
-            doping (None, optional): Description
-            k_dim (int): Description
-            fermi_level (int): The Fermi energy
+                dopants on the shape of the resulting iso-surface. 
+            soc (bool, optional): Set to True if the up and down spins are both to be plotted.
+                Otherwsie, spins will be treated as degenerate and only one componenet will be
+                plotted.
+            plot_wigner_seitz (bool, optional): Controls whether the brillioun zone is the Wigner-Seitz 
+                cell or the reciprocal space parallelopiped. 
+            kpoints (np.array): A numpy list of the kpoints in fractional coordinates 
+            structure (::object:: pymatgen.structure): Structural information of the material
             iso_surface (np.array): A List containing all parameters for each surface at the Fermi surface.
                                     The index i will access [verts, faces, normals, values] for surface i.  
             n_bands (int): Number of bands which cross the Fermi-Surface
-            is_spin_polarised (bool, optional): set to True if spin polarised.
+        
         """
-        
-        
-        if doping is not None:
-            mu = doping
             
         self._fermi_level = bs.efermi + mu
 
@@ -49,8 +56,6 @@ class FermiSurface(object):
         self._k_dim = (dims[0], dims[1], dims[2])
 
         self._rlattvec = rlattvec
-        
-        self._doping = doping
         
         self._soc = soc
         
@@ -68,13 +73,9 @@ class FermiSurface(object):
 
         else:
 
-            self._spacing = (np.linalg.norm(self._rlattvec[0]) / self._dims[0], np.linalg.norm(self._rlattvec[1]) / self._dims[1], np.linalg.norm(self._rlattvec[2]) / self._dims[2])
+            self._spacing = (np.linalg.norm(self._rlattvec[:,0]) / self._dims[0], np.linalg.norm(self._rlattvec[:,1]) / self._dims[1], np.linalg.norm(self._rlattvec[:,2]) / self._dims[2])
 
-        self.compute_isosurfaces(bs)   
-
-        print("bs.lattice_rec._matrix")
-
-        print(bs.lattice_rec._matrix)    
+        self.compute_isosurfaces(bs)     
 
         self._n_bands = len(self._iso_surface)
 
@@ -290,28 +291,28 @@ class FermiSurface(object):
 class FermiSurface2D(FermiSurface):
 
     def __init__(self, bs: BandStructure, hdims: list, rlattvec, 
-                 slice_plane: tuple, contour, mu:float = 0, soc: bool = False,
-                  doping = None) -> None:
+                 slice_plane: tuple, contour, mu:float = 0., soc: bool = False) -> None:
         """
         Args:
-            bs (BandStructure): Description
+            bs (BandStructure): A Pymatgen bandstructure object 
+            hdims (list): The dimension of the grid in reciprocal space on which the energy eigenvalues
+                are defined.
+            rlattvec (np.array): The reciprocal space lattice vectors. See 
+                pymatgen.electronic_structure.bandstructure.lattice_rec._matrix for format.
+            slice_plane (tuple): The plane along which the surface is to be sliced. Only (0,0,1), (0,1,0)
+                or (1,0,0) are currently supported. 
             mu (float, optional): Enegy offset from the Fermi energy at which 
                 the iso-surface is defined. Useful for visualising the effect of
-                dopants on the shape of the surface. 
-            hdims (list): Description
-            soc (bool, optional): Description
-            doping (None, optional): Description
-            k_dim (int): Description
-            fermi_level (int): The Fermi energy
-            iso_surface (np.array): A List containing all parameters for each surface at the Fermi surface.
-                                    The index i will access [verts, faces, normals, values] for surface i.  
-            n_bands (int): Number of bands which cross the Fermi-Surface
+                dopants on the shape of the resulting iso-surface.
+            kpoints (np.array): A numpy list of the kpoints in fractional coordinates  
+            soc (bool, optional): Set to True if the up and down spins are both to be plotted.
+                Otherwsie, spins will be treated as degenerate and only one componenet will be
+                plotted.
             is_spin_polarised (bool, optional): set to True if spin polarised.
+            n_bands (int): Number of bands which cross the Fermi-Surface
         """
 
-        if doping is not None:
-            # perform some calculation for mu from doping
-            mu = 0.1
+        self._mu = mu
             
         self._fermi_level = bs.efermi + mu
 
@@ -329,17 +330,13 @@ class FermiSurface2D(FermiSurface):
 
         self._slice_plane = slice_plane
 
-        self._contour = compute_energy_contours
-
         self.slice_data(bs, self._slice_plane)
 
-        self.compute_isosurfaces(self._energies, self._contour)       
+        self.compute_isosurfaces(self._energies, self._fermi_level)       
 
         self._n_bands = len(self._iso_surface)
 
         self._soc = soc
-
-        self._doping = doping
 
         self._structure = bs.structure
 
@@ -388,108 +385,6 @@ class FermiSurface2D(FermiSurface):
 
         self._contours = contour
 
-
-class BrillouinZone(object):
-    
-    """An object which holds information for the Brillioun Zone. This is the Wigner–Seitz cell
-        of the reciprocal lattice.
-        """
-    
-    def __init__(self, rlattvec: np.array):
-        """Summary
-            
-            Args:
-            lattvec (np.array): The lattice vector (b1, b2, b3) in reciprocal space.
-            """
-        self._rlattvec = rlattvec
-        
-        points = []
-        for ijk0 in itertools.product(range(5), repeat=3):
-            ijk = [i if i <= 2 else i - 5 for i in ijk0]
-            points.append(rlattvec @ np.array(ijk))
-        voronoi = sp.spatial.Voronoi(points)
-        region_index = voronoi.point_region[0]
-        vertex_indices = voronoi.regions[region_index]
-        vertices = voronoi.vertices[vertex_indices, :]
-        
-        self._vertices = vertices
-        
-        # Compute a center and an outward-pointing normal for each of the facets
-        # of the BZ
-        facets = []
-        for ridge in voronoi.ridge_vertices:
-            if all(i in vertex_indices for i in ridge):
-                facets.append(ridge)
-        centers = []
-        normals = []
-        bz_corners = []
-        
-        for f in facets:
-            corners = np.array([voronoi.vertices[i, :] for i in f])
-            bz_corners.append(np.concatenate((corners, [corners[0]]), axis=0))
-            center = corners.mean(axis=0)
-            v1 = corners[0, :]
-            for i in range(1, corners.shape[0]):
-                v2 = corners[i, :]
-                prod = np.cross(v1 - center, v2 - center)
-                if not np.allclose(prod, 0.):
-                    break
-            if np.dot(center, prod) < 0.:
-                prod = -prod
-            centers.append(center)
-            normals.append(prod)
-
-        # return box dimensions of the Brillouin zone for use in cropping later
-        min_dimensions = [np.amin(vertices[:, 0]), np.amin(vertices[:, 1]), np.amin(vertices[:, 2])]
-        max_dimensions = [np.amax(vertices[:, 0]), np.amax(vertices[:, 1]), np.amax(vertices[:, 2])]
-        
-        
-        self._min_dimensions = min_dimensions
-        self._max_dimensions = max_dimensions
-        self._centers = centers
-        self._normals = normals
-        self._facets = facets
-        self._bz_corners = bz_corners
-
-
-class RecipCell(object):
-    """
-    An object which holds information for the reciprocal cell. The reciprocal cell is the paralellopiped formed 
-    by the vector set (b1, b2, b3) and contains all the same information as the Brillouin Zone.
-    """
-
-    def __init__(self, rlattvec: np.array):
-        """Summary
-        
-        Args:
-            lattvec (np.array): The lattice vector (b1, b2, b3) in reciprocal space.
-        """
-        self._rlattvec = rlattvec
-
-        faces = []
-
-        for i in [0,1]:
-            corners = []
-            for j in [0,1]:
-                for k in [0,1]:
-                    corners.append([k*np.linalg.norm([rlattvec[0]]),j*np.linalg.norm([rlattvec[1]]),i*np.linalg.norm([rlattvec[2]])])
-            corners[-2], corners[-1] = corners[-1], corners[-2]
-            corners.append(corners[0])
-            faces.append(corners)
-
-        for j in [0,1]:
-            corners = []
-            for i in [0,1]:
-                for k in [0,1]:
-                    corners.append([i*np.linalg.norm([rlattvec[0]]),j*np.linalg.norm([rlattvec[1]]),k*np.linalg.norm([rlattvec[2]])])
-            corners[-2], corners[-1] = corners[-1], corners[-2]
-            corners.append(corners[0])
-            faces.append(corners)
-
-        self._faces = faces
-
-        print(rlattvec)
-
 def project(vector, plane):
     theta = np.array([0, 0, np.pi])
     a = np.array([[1, 0, 0],
@@ -521,6 +416,9 @@ def project(vector, plane):
 def plane_dist(slice_plane, vertex):
 
     return (np.linalg.norm(slice_plane[0]*vertex[0] + slice_plane[1]*vertex[1] + slice_plane[2]*vertex[2] + slice_plane[3]))/(np.sqrt(slice_plane[0]**2 + slice_plane[1]**2 + slice_plane[2]**2))
+
+
+
 
 
 

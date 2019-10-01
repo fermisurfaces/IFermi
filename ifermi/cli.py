@@ -18,9 +18,10 @@ import logging
 import argparse
 import warnings
 
-from bz_interpolator import Interpolater
-from bulk_objects_2 import FermiSurface, RecipCell
-from plotter_2 import *
+from interpolator import Interpolater
+from brillouin_zone import BrillouinZone, RecipCell
+from fermi_surface import FermiSurface
+from plotter import *
 
 from pymatgen.io.vasp.outputs import Vasprun
 from pymatgen.electronic_structure.core import Spin

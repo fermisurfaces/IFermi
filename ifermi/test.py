@@ -1,5 +1,6 @@
 from interpolator import Interpolater
-from bulk_objects import FermiSurface, RecipCell
+from fermi_surface import FermiSurface
+from brillouin_zone import BrillouinZone, RecipCell
 from plotter import *
 
 from pymatgen.io.vasp.outputs import Vasprun
