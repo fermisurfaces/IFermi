@@ -485,7 +485,7 @@ class FSPlotter2D(object):
         self._fs = fs
         
 
-   def fs2d_plot_data(self, plot_type = 'matplotlib'):
+   def fs2d_plot_data(self, plot_type = 'mpl'):
         plane_orig = self._plane_orig
         plane_norm = self._plane_norm
 
@@ -495,7 +495,7 @@ class FSPlotter2D(object):
 
             mlab.figure(figure=None, bgcolor=(1, 1, 1), size=(800, 800))
 
-        elif plot_type == 'matplotlib':
+        elif plot_type == 'mpl':
 
             fig = plt.figure()
 
@@ -518,7 +518,7 @@ class FSPlotter2D(object):
                 if plot_type == 'mayavi':
                     mlab.plot3d(p[:, 0], p[:, 1], p[:, 2], tube_radius=None,
                     line_width=3.0, color=(0.,0.,0.))
-                elif plot_type == 'matplotlib':
+                elif plot_type == 'mpl':
                     ax.plot3D(p[:, 0], p[:, 1], p[:, 2], color = 'k')
 
         if plot_type == 'mayavi':
