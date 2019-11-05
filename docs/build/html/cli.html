@@ -1,21 +1,22 @@
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>ifermi program &#8212; IFermi 0.1.0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="ifermi" href="modules.html" />
-    <link rel="prev" title="IFermi" href="index.html" /> 
+    <link rel="prev" title="Usage" href="index.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -30,7 +31,7 @@
           <a href="modules.html" title="ifermi"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="IFermi"
+          <a href="index.html" title="Usage"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">IFermi 0.1.0 documentation</a> &#187;</li> 
       </ul>
@@ -49,71 +50,8 @@ on the command-line. This page details the basic usage of the program.</p>
 <div class="contents local topic" id="table-of-contents">
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#usage" id="id3">Usage</a></p>
-<ul>
-<li><p><a class="reference internal" href="#basic-options" id="id4">Basic options</a></p></li>
-<li><p><a class="reference internal" href="#input-options" id="id5">Input options</a></p></li>
-<li><p><a class="reference internal" href="#describer-options" id="id6">Describer options</a></p></li>
+<li><a class="reference internal" href="#command-line-interface" id="id1">Command-line interface</a></li>
 </ul>
-</li>
-<li><p><a class="reference internal" href="#command-line-interface" id="id7">Command-line interface</a></p></li>
-</ul>
-</div>
-<div class="section" id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
-<p>The full range of options supported by <code class="docutils literal notranslate"><span class="pre">esea</span></code> are detailed in the
-<a class="reference internal" href="#command-line-interface">Command-line interface</a> section, and be can be listed using:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ifermi</span> <span class="o">-</span><span class="n">h</span>
-</pre></div>
-</div>
-<div class="section" id="basic-options">
-<h3>Basic options<a class="headerlink" href="#basic-options" title="Permalink to this headline">¶</a></h3>
-<p>Constructing a plot generally follows two steps. First, the energy mesh must be
-created from a DFT output file and interpolated onto a finer mesh. Next, the
-plot is invoked on this mesh.</p>
-</div>
-<div class="section" id="input-options">
-<h3>Input options<a class="headerlink" href="#input-options" title="Permalink to this headline">¶</a></h3>
-<p>The most direct way to use Esea is by running the program from a folder containing
-the DFT output files. For  VASP, for example, this must include a vasprun.xml file
-and POSCAR. Since the mesh is created through <a href="#id8"><span class="problematic" id="id9">Pymatgen_</span></a>, their documentation will
-give an in depth description of what is needed to generate an electronic strucutre
-object.</p>
-<p>One can also manually enter an energy mesh, or read it in from a file. The formatting
-for this file has been chosen to match that of the Xcrysden _ file for convenience,
-and should be named el_mesh.dat</p>
-<p>Once the mesh has been interpolated, the plotting is  perfomred. For example, if one
-wishes to plot the Fermi surface on a mesh which is first interpolated by a factor of
-10, the command is</p>
-<blockquote>
-<div><p>esea-fs –interpolate 10</p>
-</div></blockquote>
-<p>or, to plot the three dimensional dispersion relation from -3eV below the Fermi
-energy to 3eV above the Fermi energy, after interpolatning by a factor of 10,
-one should type on the command line</p>
-<blockquote>
-<div><p>esea-disp –interpolate 10 –ymin -3 –ymax 3</p>
-</div></blockquote>
-<p>If one is interested in obtaining an interpolated mesh and does not want to
-do any plotting, then the relevent command is</p>
-<blockquote>
-<div><p>esea –interpolate 10</p>
-</div></blockquote>
-</div>
-<div class="section" id="describer-options">
-<h3>Describer options<a class="headerlink" href="#describer-options" title="Permalink to this headline">¶</a></h3>
-<p>The <code class="docutils literal notranslate"><span class="pre">ifermi</span></code> program is a plotting tool, and so the primary options avaliable
-involve style specifications. These may be compactly specified in a style file,
-which much be pointed to on invoking the plotting command with the <code class="docutils literal notranslate"><span class="pre">--style</span> <span class="pre">path/to/stylefile</span></code>.
-By default, labels are included- both symmetry and axis labels. These can be
-disabled using the <code class="docutils literal notranslate"><span class="pre">--no-symmetry--labels``and</span> <span class="pre">``--no-axis--labels</span></code> options, respectively.</p>
-<p>By default, up and down spins are treated as degenerate and one band is plotted for both
-up and down spins for a cleaner plot. If the DFT calculatin was non-collinear or a
-magnetic calcualtion was done, then the command <a href="#id1"><span class="problematic" id="id2">``</span></a>–spin-on should be included.</p>
-<p>Finally, a text file containing the k-points of the relevent iso-surface can be generated
-using the option <code class="docutils literal notranslate"><span class="pre">-f</span> <span class="pre">/path/to/destination</span></code> where /path/to/destination specified where
-the contour.dat file should be created.</p>
-</div>
 </div>
 <div class="section" id="command-line-interface">
 <h2>Command-line interface<a class="headerlink" href="#command-line-interface" title="Permalink to this headline">¶</a></h2>
@@ -126,15 +64,9 @@ the contour.dat file should be created.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
+  <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">ifermi</span></code> program</a><ul>
-<li><a class="reference internal" href="#usage">Usage</a><ul>
-<li><a class="reference internal" href="#basic-options">Basic options</a></li>
-<li><a class="reference internal" href="#input-options">Input options</a></li>
-<li><a class="reference internal" href="#describer-options">Describer options</a></li>
-</ul>
-</li>
 <li><a class="reference internal" href="#command-line-interface">Command-line interface</a></li>
 </ul>
 </li>
@@ -142,7 +74,7 @@ the contour.dat file should be created.</p>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="index.html"
-                        title="previous chapter">IFermi</a></p>
+                        title="previous chapter">Usage</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="modules.html"
                         title="next chapter">ifermi</a></p>
@@ -154,11 +86,13 @@ the contour.dat file should be created.</p>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
+  <h3>Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -180,14 +114,14 @@ the contour.dat file should be created.</p>
           <a href="modules.html" title="ifermi"
              >next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="IFermi"
+          <a href="index.html" title="Usage"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">IFermi 0.1.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Amy Searle.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
     </div>
   </body>
 </html>

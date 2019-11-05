@@ -1,11 +1,6 @@
-
-<img src="../source/_static/logo-01.png"
-     alt="ifermi logo"
-     style="float: center; margin-right: 10px;" />
-
-![The Fermi surface of Magneisum Diboride](../source/_static/logo-01.png)
-
-
+IFERMI
+------
+------
 IFermi is a package which provides tools for plotting Fermi surfaces
 from DFT output. IFermi is also useful for visualisation of slices of
 the three-dimensional Fermi surface along a specified plane. The idea 
