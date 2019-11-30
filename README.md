@@ -5,7 +5,7 @@ IFermi is a package which provides tools for plotting Fermi surfaces
 from DFT output. IFermi is also useful for visualisation of slices of
 the three-dimensional Fermi surface along a specified plane. The idea 
 is to provide tools which allow for more tailored Fermi surface plots
-than what other plotting software currently offer.
+than what is currently offered by other packages.
 
 The main features include:
 
@@ -42,9 +42,12 @@ Fermi surfaces. This includes:
 
 - `FermiSurface`: stores isosurfaces at the Fermi-level for use in plotting,
    as well as other useful structural information. 
+- `BrillouinZone`: Represents the lattice's Wigner-Seitz brillouin zone
+- `RecipCell`: Represents the lattice's standard reciprocal cell 
 - `Interpolator`: Takes energies specified on a uniform k-mesh and interpolates 
    this to a finer k-mesh.
 - `Plotter`: Given a FermiSurface object, produces an interactive plot   
+
 
 A minimal working example for plotting the 3d Fermi surface of MgB2 from a POSCAR
 file and Vasprun.xml file is:
