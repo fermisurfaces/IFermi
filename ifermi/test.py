@@ -8,7 +8,7 @@ from pymatgen.electronic_structure.core import Spin
 from pymatgen.electronic_structure.bandstructure import BandStructure
 
 if __name__ == '__main__':
-	vr = Vasprun("../dataMgB2/vasprun.xml")
+	vr = Vasprun("../data_MgB2/vasprun.xml")
 	bs = vr.get_band_structure()
 
 	# increase interpolation factor to increase density of interpolated bandstructure
