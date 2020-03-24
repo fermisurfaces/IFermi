@@ -1,6 +1,6 @@
 """
     This module contains objects used for defining the brillioun zones of a given crystal structure.
-    
+
     """
 import numpy as np
 import scipy as sp
@@ -10,44 +10,40 @@ import itertools
 from pymatgen.electronic_structure.bandstructure import BandStructure
 from skimage import measure
 
+
 class BrillouinZone(object):
-    
     """An object which holds information for the Brillioun Zone. This is the Wigner–Seitz cell
         of the reciprocal lattice.
         """
-    
+
     def __init__(self, rlattvec: np.array):
-        """Summary
-        
+        """
         Args:
             rlattvec (np.array): The lattice vector (b1, b2, b3) in reciprocal space.
         """
         self._rlattvec = rlattvec
-        
+
+        vec1 = rlattvec[0]
+        vec2 = rlattvec[1]
+        vec3 = rlattvec[2]
+
         points = []
-        for ijk0 in itertools.product(range(5), repeat=3):
-            ijk = [i if i <= 2 else i - 5 for i in ijk0]
-            points.append(rlattvec @ np.array(ijk))
+        for i, j, k in itertools.product([-1, 0, 1], [-1, 0, 1], [-1, 0, 1]):
+            points.append(i * vec1 + j * vec2 + k * vec3)
+
         voronoi = sp.spatial.Voronoi(points)
-        region_index = voronoi.point_region[0]
-        vertex_indices = voronoi.regions[region_index]
-        vertices = voronoi.vertices[vertex_indices, :]
-        
-        self._vertices = vertices
-        
-        # Compute a center and an outward-pointing normal for each of the facets
-        # of the BZ
-        facets = []
-        for ridge in voronoi.ridge_vertices:
-            if all(i in vertex_indices for i in ridge):
-                facets.append(ridge)
+
+        to_return = []
         centers = []
         normals = []
-        bz_corners = []
-        
-        for f in facets:
-            corners = np.array([voronoi.vertices[i, :] for i in f])
-            bz_corners.append(np.concatenate((corners, [corners[0]]), axis=0))
+        for r in voronoi.ridge_dict:
+
+            if r[0] == 13 or r[1] == 13:
+                to_return.append(np.array([voronoi.vertices[i] for i in voronoi.ridge_dict[r]]))
+
+        for i in to_return:
+            corners = np.array(i)
+
             center = corners.mean(axis=0)
             v1 = corners[0, :]
             for i in range(1, corners.shape[0]):
@@ -60,28 +56,34 @@ class BrillouinZone(object):
             centers.append(center)
             normals.append(prod)
 
-        # return box dimensions of the Brillouin zone for use in cropping later
-        min_dimensions = [np.amin(vertices[:, 0]), np.amin(vertices[:, 1]), np.amin(vertices[:, 2])]
-        max_dimensions = [np.amax(vertices[:, 0]), np.amax(vertices[:, 1]), np.amax(vertices[:, 2])]
-        
-        
-        self._min_dimensions = min_dimensions
-        self._max_dimensions = max_dimensions
+        to_return = np.array(to_return)
+
+        # # return box dimensions of the Brillouin zone for use in cropping later
+        # # Must check whether doing this cropping before using centers and normals to find points in the BZ is more
+        # # efficient
+        # min_dim_list = np.array([np.array([np.amin(i[:, 0]), np.amin(i[:, 1]), np.amin(i[:, 2])]) for i in to_return])
+        # max_dim_list = np.array([np.array([np.amax(i[:, 0]), np.amax(i[:, 1]), np.amax(i[:, 2])]) for i in to_return])
+        # min_dimensions = [np.amin(min_dim_list[:, 0]), np.amin(min_dim_list[:, 1]), np.amin(min_dim_list[:, 2])]
+        # max_dimensions = [np.amax(max_dim_list[:, 0]), np.amax(max_dim_list[:, 1]), np.amax(max_dim_list[:, 2])]
+        # self._min_dimensions = min_dimensions
+        # self._max_dimensions = max_dimensions
+
+        # These parameters are used in cropping the Fermi-surface to the Brillouin zone
+
         self._centers = centers
         self._normals = normals
-        self._facets = facets
-        self._bz_corners = bz_corners
+        self._bz_corners = to_return
 
 
 class RecipCell(object):
     """
-    An object which holds information for the reciprocal cell. The reciprocal cell is the paralellopiped formed 
+    An object which holds information for the reciprocal cell. The reciprocal cell is the paralellopiped formed
     by the vector set (b1, b2, b3) and contains all the same information as the Brillouin Zone.
     """
 
     def __init__(self, rlattvec: np.array):
         """Summary
-        
+
         Args:
             lattvec (np.array): The lattice vector (b1, b2, b3) in reciprocal space.
         """
@@ -89,20 +91,22 @@ class RecipCell(object):
 
         faces = []
 
-        for i in [0,1]:
+        for i in [0, 1]:
             corners = []
-            for j in [0,1]:
-                for k in [0,1]:
-                    corners.append([k*np.linalg.norm([rlattvec[:,0]]),j*np.linalg.norm([rlattvec[:,1]]),i*np.linalg.norm([rlattvec[:,2]])])
+            for j in [0, 1]:
+                for k in [0, 1]:
+                    corners.append([k * np.linalg.norm([rlattvec[0]]), j * np.linalg.norm([rlattvec[1]]),
+                                    i * np.linalg.norm([rlattvec[2]])])
             corners[-2], corners[-1] = corners[-1], corners[-2]
             corners.append(corners[0])
             faces.append(corners)
 
-        for j in [0,1]:
+        for j in [0, 1]:
             corners = []
-            for i in [0,1]:
-                for k in [0,1]:
-                    corners.append([i*np.linalg.norm([rlattvec[:,0]]),j*np.linalg.norm([rlattvec[:,1]]),k*np.linalg.norm([rlattvec[:,2]])])
+            for i in [0, 1]:
+                for k in [0, 1]:
+                    corners.append([i * np.linalg.norm([rlattvec[0]]), j * np.linalg.norm([rlattvec[1]]),
+                                    k * np.linalg.norm([rlattvec[2]])])
             corners[-2], corners[-1] = corners[-1], corners[-2]
             corners.append(corners[0])
             faces.append(corners)

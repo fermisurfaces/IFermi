@@ -14,25 +14,27 @@ from BoltzTraP2 import units, sphere, fite
 from spglib import spglib
 from pymatgen.electronic_structure.bandstructure import BandStructure
 from pymatgen.io.ase import AseAtomsAdaptor
+from monty.json import MSONable
 
 
-class Interpolater(object):
-    """Takes a pymatgen BandStructure object and inperpolates the bands to create a 
-    denser mesh. This is done using Boltzstrap2, a module which is able to interpolate 
+class Interpolater(MSONable):
+    """Takes a pymatgen BandStructure object and inperpolates the bands to create a
+    denser mesh. This is done using Boltzstrap2, a module which is able to interpolate
     bands using trasnport coefficients. Implementation taken from Alex Ganose's Interpolator
     class.
-    
+
     Args:
         bs (BandStructure): The Bandstructure object to be interpolated
         interp_factor (int): The factor by which the number of kpoints must be increased
-    
+
     Returns:
         BandStructure: A new BandStructure object with a denser mesh.
-    
+
     """
+
     def __init__(self,
                  band_structure: BandStructure,
-                 soc: bool = False, doping = None,
+                 soc: bool = False, doping=None,
                  magmom: Optional[np.ndarray] = None,
                  mommat: Optional[np.ndarray] = None):
         self._band_structure = band_structure
@@ -49,11 +51,10 @@ class Interpolater(object):
         self._mommat = mommat
         self._structure = band_structure.structure
 
-
     def interpolate_bands(self, interpolation_factor: float = 5,
-                               energy_cutoff: Optional[float] = None,
-                               nworkers: int = -1
-                               ) -> BandStructure:
+                          energy_cutoff: Optional[float] = None,
+                          nworkers: int = -1
+                          ):
         """Gets a pymatgen band structure.
         Note, the interpolation mesh is determined using by
         ``interpolate_factor`` option in the ``Inteprolater`` constructor.
@@ -114,7 +115,7 @@ class Interpolater(object):
 
             energies[spin] = fite.getBTPbands(
                 equivalences, coefficients[spin][ibands],
-                self._lattice_matrix, nworkers=nworkers) [0]
+                self._lattice_matrix, nworkers=nworkers)[0]
 
             # boltztrap2 gives energies in Rydberg, convert to eV
             energies[spin] /= units.eV
@@ -131,9 +132,9 @@ class Interpolater(object):
             efermi = self._band_structure.efermi
         else:
             # if material is semiconducting, set Fermi level to middle of gap
-            e_vbm = max([np.max(energies[s][:new_vb_idx[s]+1])
+            e_vbm = max([np.max(energies[s][:new_vb_idx[s] + 1])
                          for s in self._spins])
-            e_cbm = min([np.min(energies[s][new_vb_idx[s]+1:])
+            e_cbm = min([np.min(energies[s][new_vb_idx[s] + 1:])
                          for s in self._spins])
             efermi = (e_vbm + e_cbm) / 2
 
@@ -142,19 +143,16 @@ class Interpolater(object):
             interpolation_mesh, atoms, symprec=0.1)
         full_kpoints = grid / interpolation_mesh
 
-        sort_idx = np.lexsort((full_kpoints[:, 2], full_kpoints[:, 2]<0,
-                                full_kpoints[:, 1], full_kpoints[:, 1]<0,
-                                full_kpoints[:, 0], full_kpoints[:, 0]<0))
+        sort_idx = np.lexsort((full_kpoints[:, 2], full_kpoints[:, 2] < 0,
+                               full_kpoints[:, 1], full_kpoints[:, 1] < 0,
+                               full_kpoints[:, 0], full_kpoints[:, 0] < 0))
 
         reordered_kpoints = full_kpoints[sort_idx]
 
-
         return BandStructure(
             reordered_kpoints, energies, self._band_structure.structure.lattice,
-            efermi, structure = self._structure), np.max(
+            efermi, structure=self._structure), np.max(
             np.abs(np.vstack(equivalences)), axis=0), self._band_structure.lattice_rec._matrix
-
-
 
 
 class DFTData(object):
