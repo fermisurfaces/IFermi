@@ -1,505 +1,352 @@
 """
-    This module implements a plotter for the Fermi-Surface of a material
-    todo:
-    * Remap into Brillioun zone (Wigner Seitz cell)
-    * Get Latex working for labels
-    * Do projections onto arbitrary surface
-    * Comment more
-    * Think about classes/methods, maybe restructure depending on sumo layout
+This module implements a plotter for the Fermi-Surface of a material
+todo:
+* Remap into Brillioun zone (Wigner Seitz cell)
+* Get Latex working for labels
+* Do projections onto arbitrary surface
+* Comment more
+* Think about classes/methods, maybe restructure depending on sumo layout
+"""
 
-    """
+from typing import Any, List, Optional, Tuple
 
-# plotting library imports
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d.art3d import Line3DCollection
 import colorlover as cl
-
-import plotly
-import plotly.graph_objs as go
-from plotly.offline import init_notebook_mode, plot
-import plotly.io
-
-from ifermi.fermi_surface import FermiSurface
-
-from pymatgen.symmetry.bandstructure import *
-
-import mayavi.mlab
-from mlabtex import mlabtex
-
-import meshcut
-
-import mayavi.mlab as mlab
-
+import numpy as np
+from monty.dev import requires
 from monty.json import MSONable
+
+from ifermi.brillouin_zone import ReciprocalCell
+from ifermi.fermi_surface import FermiSurface
+from pymatgen.symmetry.bandstructure import HighSymmKpath
+
+try:
+    import plotly
+except ImportError:
+    plotly = False
+
+try:
+    import mayavi.mlab as mlab
+except ImportError:
+    mlab = False
+
+_plotly_high_sym_label_style = {
+    "mode": "markers+text",
+    "marker": {"size": 5, "color": "black"},
+    "name": "Markers and Text",
+    "textposition": "bottom center",
+}
+
+_mayavi_high_sym_label_style = {
+    "color": (0, 0, 0),
+    "scale": 0.1,
+    "orientation": (90.0, 0.0, 0.0),
+}
+
+_plotly_scene = dict(
+    xaxis=dict(
+        backgroundcolor="rgb(255, 255, 255)",
+        title="",
+        showgrid=False,
+        zeroline=False,
+        showline=False,
+        ticks="",
+        showticklabels=False,
+    ),
+    yaxis=dict(
+        backgroundcolor="rgb(255, 255, 255)",
+        title="",
+        showgrid=False,
+        zeroline=False,
+        showline=False,
+        ticks="",
+        showticklabels=False,
+    ),
+    zaxis=dict(
+        backgroundcolor="rgb(255, 255, 255)",
+        title="",
+        showgrid=False,
+        zeroline=False,
+        showline=False,
+        ticks="",
+        showticklabels=False,
+    ),
+)
+
+_mayavi_rs_style = {
+    "color": (0.0, 0.0, 0.0),
+    "tube_radius": 0.005,
+    "representation": "surface",
+}
 
 
 class FSPlotter(MSONable):
-    """Class containing functions for plotting the Fermi Surface of band structure objects.
+    """
+    Class to plot FermiSurface.
     """
 
-    def __init__(self, fs: FermiSurface):
+    def __init__(self, fermi_surface: FermiSurface):
         """
         Args:
-            fermi_surface (FermiSurface): A FermiSurface object to be used in plotting
-            bz_corners (np.array[np.array]): A list of numpy arrays of the corners of the facets of the Brillioun zone.
+            fermi_surface: A FermiSurface object.
         """
-        if not isinstance(fs, FermiSurface):
-            raise ValueError(
-                "FSPlotter only works with FermiSurface objects. "
-                "A bandstructure must first be converted to a FermiSurface object.")
+        self.fermi_surface = fermi_surface
+        self.reciprocal_space = fermi_surface.reciprocal_space
+        self.rlat = self.reciprocal_space.reciprocal_lattice
+        self._symmetry_pts = self.get_symmetry_points(fermi_surface)
 
-        if fs._rc is not None and fs._bz is not None:
-            raise ValueError(
-                "Cannot have reciprocal cell outline and Wigner Seitz cell outline"
-                "on the same plot.")
-
-        self._fermi_surface = fs
-
-        self._bz = fs._bz
-
-        self._recip_cell = fs._rc
-
-        self._rlattvec = fs._rlattvec
-
-        if fs._rc is not None:
-            self._symmetry_pts = self._add_symmetry_points(fs._structure)
-
-        if fs._bz is not None:
-            self._prim_rlattvec = fs._prim_rlattvec
-
-            self._symmetry_pts = self._add_symmetry_points(fs._prim_structure)
-
-    def _add_symmetry_points(self, prim_struct):
-
-        kpts, labels = [], []
-
-        first, second = HighSymmKpath(prim_struct).get_kpoints(coords_are_cartesian=False)
-
-        for i, j in zip(first, second):
-            if not len(j) == 0:
-                kpts.append(i)
-                labels.append(j)
-
-        return kpts, labels
-
-    def fs_plot_data(self, plot_type='mpl', interactive=True, bz_linewidth=0.9, axis_labels=True,
-                     symmetry_labels=True, color_list=None, title_str=None, fname="fs"):
-        """Function for producing a plot of the Fermi surface.
-        Will edit this to allow for custom plotting options.
+    @staticmethod
+    def get_symmetry_points(fermi_surface) -> Tuple[np.ndarray, List[str]]:
         """
+        Get the high symmetry k-points and labels for the Fermi surface.
 
+        Args:
+            fermi_surface: A fermi surface.
+
+        Returns:
+            The high symmetry k-points and labels.
+        """
+        kpoints, labels = [], []
+        hskp = HighSymmKpath(fermi_surface.structure)
+        all_kpoints, all_labels = hskp.get_kpoints(coords_are_cartesian=False)
+
+        for kpoint, label in zip(all_kpoints, all_labels):
+            if not len(label) == 0:
+                kpoints.append(kpoint)
+                labels.append(label)
+
+        if isinstance(fermi_surface.reciprocal_space, ReciprocalCell):
+            kpoints = kpoints_to_first_bz(np.array(kpoints))
+
+        kpoints = np.dot(kpoints, fermi_surface.reciprocal_space.reciprocal_lattice)
+        return kpoints, labels
+
+    def plot(
+        self,
+        plot_type: str = "plotly",
+        interactive: bool = True,
+        filename: str = "fs.png",
+        **plot_kwargs,
+    ):
+        """
+        Plot the Fermi surface and save the image to a file.
+
+        Args:
+            plot_type: Method used for plotting. Valid options are: "matplotlib",
+                "plotly", "mayavi".
+            interactive: Whether to enable interactive plots.
+            filename: Output filename.
+            **plot_kwargs: Other keyword arguments supported by the individual plotting
+                methods.
+        """
+        if plot_type == "mpl":
+            self.plot_matplotlib(
+                filename=filename, interactive=interactive, **plot_kwargs
+            )
+        elif plot_type == "plotly":
+            self.plot_plotly(filename=filename, interactive=interactive, **plot_kwargs)
+        elif plot_type == "mayavi":
+            self.plot_mayavi(filename=filename, interactive=interactive, **plot_kwargs)
+        else:
+            types = ["mpl", "plotly", "mayavi"]
+            raise ValueError(
+                "Plot type not recognised, valid options: {}".format(types)
+            )
+
+    def plot_matplotlib(
+        self,
+        interactive: bool = True,
+        bz_linewidth: float = 0.9,
+        colors: Optional[List[Any]] = None,
+        title: str = None,
+        filename: str = "fs.png",
+    ):
+        """
+        Plot the Fermi surface using matplotlib.
+
+        Args:
+            interactive: Whether to enable interactive plots.
+            bz_linewidth: Brillouin zone line width.
+            colors: Colors used for Fermi surfaces.
+            title: The title of the plot.
+            filename: The output file name.
+        """
+        import matplotlib.pyplot as plt
+        from mpl_toolkits.mplot3d.art3d import Line3DCollection
+
+        fig = plt.figure(figsize=(10, 10))
+        ax = fig.add_subplot(111, projection="3d")
+
+        if colors is None:
+            colors = plt.cm.Set1(np.linspace(0, 1, self.fermi_surface.n_surfaces))
+
+        # create a mesh for each electron band which has an isosurfaces at the Fermi
+        # energy mesh data is generated by a marching cubes algorithm when the
+        # FermiSurface object is created.
+        for c, (verts, faces) in zip(colors, self.fermi_surface.isosurfaces):
+            x, y, z = zip(*verts)
+            ax.plot_trisurf(x, y, faces, z, facecolor=c, lw=1)
+
+        # add the cell outline to the plot
+        corners = self.reciprocal_space.faces
+        lines = Line3DCollection(corners, colors="k", linewidths=bz_linewidth)
+        ax.add_collection3d(lines)
+
+        for coords, label in zip(*self._symmetry_pts):
+            ax.scatter(*coords, s=10, c="k")
+            ax.text(*coords, label, size=15, zorder=1)
+
+        if title is not None:
+            plt.title(title)
+
+        rlat_lengths = np.linalg.norm(self.rlat)
+        if isinstance(self.reciprocal_space, ReciprocalCell):
+            xlim, ylim, zlim = rlat_lengths / 2
+            ax.set(xlim=(-xlim, xlim), ylim=(-ylim, ylim), zlim=(-zlim, zlim))
+        else:
+            xlim, ylim, zlim = rlat_lengths
+            ax.set(xlim=(0, xlim), ylim=(0, ylim), zlim=(0, zlim))
+
+        ax.axis("off")
+        plt.tight_layout()
+
+        if interactive:
+            plt.show()
+        else:
+            plt.savefig(filename, dpi=300)
+
+    @requires(plotly, "plotly option requires plotly to be installed.")
+    def plot_plotly(
+        self, interactive: bool = True, filename: str = "fs",
+    ):
+        """
+        Plot the Fermi surface using plotly.
+
+        Args:
+            interactive: Whether to enable interactive plots.
+            filename: The output file name.
+        """
+        from plotly.offline import init_notebook_mode, plot
+        import plotly.graph_objs as go
+
+        init_notebook_mode(connected=True)
+        colors = cl.scales["11"]["qual"]["Set3"]
+
+        # create a mesh for each electron band which has an isosurfaces at the Fermi
+        # energy mesh data is generated by a marching cubes algorithm when the
+        # FermiSurface object is created.
         meshes = []
-
-        if plot_type == 'mpl':
-
-            fig = plt.figure(figsize=(10, 10))
-            ax = fig.add_subplot(111, projection='3d')
-
-            rlattvec = self._rlattvec
-
-            # specify the colour list for plotting the bands.
-            # Below is the deafult, can be overidden by specifying 'colour' in calling function.
-            if color_list is None:
-                color_list = plt.cm.Set1(np.linspace(0, 1, 9))
-
-            # create a mesh for each electron band which has an isosurface at the Fermi energy.
-            # mesh data is generated by a marching cubes algorithm when the FermiSurface object is created.
-            for i, band in enumerate(self._fermi_surface._iso_surface, 0):
-                verts = band[0]
-                faces = band[1]
-
-                grid = [np.array([item[0] for item in verts]), np.array([item[1] for item in verts]),
-                        np.array([item[2] for item in verts])]
-
-                # reposition the vertices so that the cente of the Brill Zone is at (0,0,0)
-                # include if want gamma at centre of plot, along with "rearrange_data method in bulk_objects"
-                # verts -= np.array([grid[0].max()/2,grid[1].max()/2,grid[2].max()/2])
-
-                # create a mesh and add it to the plot
-                # mesh = Poly3DCollection(verts[faces], linewidths=0.1)
-                # mesh.set_facecolor(color_list[i])
-                # mesh.set_edgecolor('lightgray')
-                # mesh.set_zsort(average)
-                # ax.add_collection3d(mesh)
-
-                ax.plot_trisurf(verts[:, 0], verts[:, 1], faces, verts[:, 2],
-                                facecolor=color_list[i], lw=1)
-
-            # add the cell outline to the plot
-
-            if self._bz is not None:
-                corners = self._bz._bz_corners
-            else:
-                corners = self._recip_cell._faces
-
-            ax.add_collection3d(Line3DCollection(corners, colors='k', linewidths=bz_linewidth))
-
-            # add high-symmetry points to the plot
-
-            sym_pts = self._symmetry_pts
-
-            x, y, z = zip(*sym_pts[0])
-
-            # Placeholders for the high-symmetry points in cartesian coordinates
-            x_cart, y_cart, z_cart = [], [], []
-
-            # Convert high-symmetry point coordinates into cartesian, and shift to match mesh position
-            for i in x:
-                if i < 0:
-                    i = np.linalg.norm([rlattvec[:, 0]]) * ((0.5 + i) + 0.5)
-                else:
-                    i = np.linalg.norm(rlattvec[:, 0]) * (i)
-                x_cart.append(i)
-
-            for i in y:
-                if i < 0:
-                    i = np.linalg.norm(rlattvec[:, 1]) * ((0.5 + i) + 0.5)
-                else:
-                    i = np.linalg.norm(rlattvec[:, 1]) * (i)
-                y_cart.append(i)
-
-            for i in z:
-                if i < 0:
-                    i = np.linalg.norm(rlattvec[:, 2]) * ((0.5 + i) + 0.5)
-                else:
-                    i = np.linalg.norm(rlattvec[:, 2]) * (i)
-                z_cart.append(i)
-
-            ax.scatter(x_cart, y_cart, z_cart, s=10, c='k')
-
-            for i, txt in enumerate(sym_pts[1]):
-                ax.text(x_cart[i], y_cart[i], z_cart[i], '%s' % (txt), size=15, zorder=1, color='k')
-
-            ax.axis('off')
-
-            if title_str is not None:
-                plt.title(title_str)
-
-            ax.set_xlim(0, np.linalg.norm(rlattvec[:, 0]) + 1)
-            ax.set_ylim(0, np.linalg.norm(rlattvec[:, 1]) + 1)
-            ax.set_zlim(0, np.linalg.norm(rlattvec[:, 2]) + 1)
-
-            plt.tight_layout()
-
-            if interactive:
-                plt.show()
-
-            else:
-                plt.savefig(fname, dpi=200)
-
-
-        elif plot_type == 'plotly':
-
-            init_notebook_mode(connected=True)
-
-            # plotly.tools.set_credentials_file(username='asearle', api_key='PiOwBRIRWKGJWIFXe1vT')
-
-            if self._bz is not None:
-                rlattvec = self._prim_rlattvec
-            if self._recip_cell is not None:
-                rlattvec = self._rlattvec
-
-            # Different colours
-
-            # colors = [
-            #             '#1f77b4',  # muted blue
-            #             '#ff7f0e',  # safety orange
-            #             '#2ca02c',  # cooked asparagus green
-            #             '#d62728',  # brick red
-            #             '#9467bd',  # muted purple
-            #             '#8c564b',  # chestnut brown
-            #             '#e377c2',  # raspberry yogurt pink
-            #             '#7f7f7f',  # middle gray
-            #             '#bcbd22',  # curry yellow-green
-            #             '#17becf',   # blue-teal
-            #             '#00FFFF'   #another blue teal
-            #             '#1f77b4',  # muted blue
-            #             '#ff7f0e',  # safety orange
-            #             '#2ca02c',  # cooked asparagus green
-            #             '#d62728',  # brick red
-            #             '#9467bd',  # muted purple
-            #             '#8c564b',  # chestnut brown
-            #             '#e377c2',  # raspberry yogurt pink
-            #             '#7f7f7f',  # middle gray
-            #             '#bcbd22',  # curry yellow-green
-            #             '#17becf',   # blue-teal
-            #             '#00FFFF'   #another blue teal
-            #             ]
-
-            colors = cl.scales['11']['qual']['Set3']
-
-            # create a mesh for each electron band which has an isosurface at the Fermi energy.
-            # mesh data is generated by a marching cubes algorithm when the FermiSurface object is created.
-            for i, band in enumerate(self._fermi_surface._iso_surface, 0):
-                verts = band[0]
-                faces = band[1]
-
-                grid = [np.array([np.abs(item[0]) for item in verts]), np.array([np.abs(item[1]) for item in verts]),
-                        np.array([np.abs(item[2]) for item in verts])]
-
-                x, y, z = zip(*verts)
-
-                I, J, K = ([triplet[c] for triplet in faces] for c in range(3))
-
-                trace = go.Mesh3d(x=x,
-                                  y=y,
-                                  z=z,
-                                  color=colors[i], opacity=0.9,
-                                  i=I,
-                                  j=J,
-                                  k=K)
-                meshes.append(trace)
-
-            # add the cell outline to the plot
-            if self._bz is not None:
-                corners = self._bz._bz_corners
-            elif self._recip_cell is not None:
-                corners = self._recip_cell._faces
-
-            for facet in corners:
-                x, y, z = zip(*facet)
-
-                trace = go.Scatter3d(x=x, y=y, z=z, mode='lines',
-                                     line=dict(
-                                         color='black',
-                                         width=3
-                                     ))
-
-                meshes.append(trace)
-
-            # add the high symmetry points to the plot
-            sym_pts = self._symmetry_pts
-
-            # Get text labels into Latex form
-
-            labels = []
-
-            for i in sym_pts[1]:
-                if i == r'\Gamma':
-                    labels.append(u'\u0393')
-                else:
-                    labels.append(i)
-                #     i = u'\u0420'
-
-            x, y, z = zip(*sym_pts[0])
-
-            # Placeholders for the high-symmetry points in cartesian coordinates
-            x_cart, y_cart, z_cart = [], [], []
-
-            # Convert high-symmetry point coordinates into cartesian, and shift to match mesh position
-
-            if self._recip_cell is not None:
-                for i in x:
-                    if i < 0:
-                        i = np.linalg.norm(rlattvec[0]) * (1 + i)
-                    else:
-                        i = np.linalg.norm(rlattvec[0]) * (i)
-                    x_cart.append(i)
-
-                for i in y:
-                    if i < 0:
-                        i = np.linalg.norm(rlattvec[1]) * (1 + i)
-                    else:
-                        i = np.linalg.norm(rlattvec[1]) * (i)
-                    y_cart.append(i)
-
-                for i in z:
-                    if i < 0:
-                        i = np.linalg.norm(rlattvec[2]) * (1 + i)
-                    else:
-                        i = np.linalg.norm(rlattvec[2]) * (i)
-                    z_cart.append(i)
-
-            elif self._bz is not None:
-                scaled_sym_pts = []
-
-                for i in sym_pts[0]:
-                    scaled_sym_pts.append(rlattvec[0] * i[0] + rlattvec[1] * i[1] + rlattvec[2] * i[2])
-
-                x_cart, y_cart, z_cart = zip(*scaled_sym_pts)
-
-            trace = go.Scatter3d(x=x_cart, y=y_cart, z=z_cart,
-                                 mode='markers+text',
-                                 marker=dict(size=5,
-                                             color='black'
-                                             ),
-                                 name='Markers and Text',
-                                 text=labels,
-                                 textposition='bottom center'
-                                 )
-
+        for c, (verts, faces) in zip(colors, self.fermi_surface.isosurfaces):
+            x, y, z = zip(*verts)
+            i, j, k = ([triplet[c] for triplet in faces] for c in range(3))
+            trace = go.Mesh3d(x=x, y=y, z=z, color=c, opacity=1, i=i, j=j, k=k)
             meshes.append(trace)
 
-            # Specify plot parameters
+        # add the cell outline to the plot
+        for facet in self.reciprocal_space.faces:
+            x, y, z = zip(*facet)
+            line = dict(color="black", width=3)
+            trace = go.Scatter3d(x=x, y=y, z=z, mode="lines", line=line)
+            meshes.append(trace)
 
-            layout = go.Layout(scene=dict(xaxis=dict(title='',
-                                                     showgrid=False,
-                                                     zeroline=False,
-                                                     showline=False,
-                                                     ticks='',
-                                                     showticklabels=False), yaxis=dict(title='',
-                                                                                       showgrid=False,
-                                                                                       zeroline=False,
-                                                                                       showline=False,
-                                                                                       ticks='',
-                                                                                       showticklabels=False),
-                                          zaxis=dict(title='',
-                                                     showgrid=False,
-                                                     zeroline=False,
-                                                     showline=False,
-                                                     ticks='',
-                                                     showticklabels=False)),
-                               showlegend=False, title=go.layout.Title(
-                    text='',
-                    xref='paper',
-                    x=0
-                ))
+        # plot high symmetry labels
+        labels = [i.replace(r"\Gamma", "\u0393") for i in self._symmetry_pts[1]]
+        x, y, z = zip(*self._symmetry_pts[0])
+        trace = go.Scatter3d(x=x, y=y, z=z, **_plotly_high_sym_label_style)
+        meshes.append(trace)
 
-            fig = go.Figure(data=meshes, layout=layout)
+        annotations = []
+        for label, (x, y, z) in zip(labels, self._symmetry_pts[0]):
+            # annotations always appear on top of the plot
+            style = dict(xshift=10, yshift=10, text=label, showarrow=False)
+            annotations.append(dict(x=x, y=y, z=z, **style))
+        scene = _plotly_scene.copy()
+        scene["annotations"] = annotations
 
-            if interactive:
-                plot(fig, include_mathjax='cdn')
+        # Specify plot parameters
+        layout = go.Layout(
+            scene=scene,
+            showlegend=False,
+            title=go.layout.Title(text="", xref="paper", x=0),
+        )
+        fig = go.Figure(data=meshes, layout=layout)
 
-            else:
-                plotly.io.write_image(fig, fname, format="pdf", width=600, height=600, scale=5)
-
-        elif plot_type == 'mayavi':
-
-            if self._bz is not None:
-                rlattvec = self._prim_rlattvec
-            if self._recip_cell is not None:
-                rlattvec = self._rlattvec
-
-            mayavi.mlab.figure(figure=None, bgcolor=(1, 1, 1), size=(800, 800))
-
-            # add the cell outline to the plot
-            if self._bz is not None:
-                corners = self._bz._bz_corners
-            elif self._recip_cell is not None:
-                corners = self._recip_cell._faces
-
-            for facet in corners:
-                x, y, z = zip(*facet)
-
-                mayavi.mlab.plot3d(x, y, z, color=(0., 0., 0.), tube_radius=0.005, representation='surface')
-
-            # specify the colour list for plotting the bands.
-            # Below is the deafult, can be overidden by specifying 'colour' in calling function.
-
-            # create a mesh for each electron band which has an isosurface at the Fermi energy.
-            # mesh data is generated by a marching cubes algorithm when the FermiSurface object is created.
-
-            colors = (np.random.random((20, 3)))
-
-            for i, band in enumerate(self._fermi_surface._iso_surface, 0):
-                verts = band[0]
-                faces = band[1]
-
-                grid = [np.array([item[0] for item in verts]), np.array([item[1] for item in verts]),
-                        np.array([item[2] for item in verts])]
-
-                # reposition the vertices so that the cente of the Brill Zone is at (0,0,0)
-                # include if want gamma at centre of plot, along with "rearrange_data method in bulk_objects"
-                # verts -= np.array([grid[0].max()/2,grid[1].max()/2,grid[2].max()/2])
-
-                mayavi.mlab.triangular_mesh(verts[:, 0], verts[:, 1], verts[:, 2], faces, color=tuple(colors[i]),
-                                            opacity=0.7)
-
-            sym_pts = self._symmetry_pts
-
-            print(sym_pts)
-
-            # Get text labels into Latex form
-
-            labels = []
-
-            for i in sym_pts[1]:
-                labels.append('$' + i + '$')
-
-            x, y, z = zip(*sym_pts[0])
-
-            # Placeholders for the high-symmetry points in cartesian coordinates
-            x_cart, y_cart, z_cart = [], [], []
-
-            # Convert high-symmetry point coordinates into cartesian, and shift to match mesh position
-
-            if self._recip_cell is not None:
-                for i in x:
-                    if i < 0:
-                        i = np.linalg.norm(rlattvec[0]) * (1 + i)
-                    else:
-                        i = np.linalg.norm(rlattvec[0]) * (i)
-                    x_cart.append(i)
-
-                for i in y:
-                    if i < 0:
-                        i = np.linalg.norm(rlattvec[1]) * (1 + i)
-                    else:
-                        i = np.linalg.norm(rlattvec[1]) * (i)
-                    y_cart.append(i)
-
-                for i in z:
-                    if i < 0:
-                        i = np.linalg.norm(rlattvec[2]) * (1 + i)
-                    else:
-                        i = np.linalg.norm(rlattvec[2]) * (i)
-                    z_cart.append(i)
-
-            elif self._bz is not None:
-                scaled_sym_pts = []
-
-                for i in sym_pts[0]:
-                    scaled_sym_pts.append(rlattvec[0] * i[0] + rlattvec[1] * i[1] + rlattvec[2] * i[2])
-
-                x_cart, y_cart, z_cart = zip(*scaled_sym_pts)
-
-            for i, label in enumerate(labels):
-                mlabtex(x_cart[i], y_cart[i], z_cart[i],
-                        label, color=(0, 0, 0), scale=0.1, orientation=(90., 0., 0.))
-
-            if self._bz is not None:
-                mayavi.mlab.view(azimuth=0, elevation=60, distance=12)
-            else:
-                mayavi.mlab.view(azimuth=235, elevation=60, distance=12)
-
-            if interactive:
-                mayavi.mlab.show()
-
-            else:
-                mayavi.mlab.savefig('abc.png', figure=mayavi.mlab.gcf())
-
-
-
+        if interactive:
+            plot(fig, include_mathjax="cdn")
         else:
-            raise ValueError(
-                "The type you have entered is not a valid option for the plot_type parameter."
-                "Please enter one of {'mpl', 'plotly'} for a matplotlib or plotly-type plot"
-                " respectively. For an interactive plot 'plotly' is recommended.")
+            plotly.io.write_image(
+                fig, str(filename), format="pdf", width=600, height=600, scale=5
+            )
+
+    @requires(mlab, "mayavi option requires mayavi to be installed.")
+    def plot_mayavi(
+        self,
+        interactive: bool = True,
+        colors: Optional[List[Any]] = None,
+        filename: str = "fs",
+    ):
+        """
+        Plot the Fermi surface using mayavi.
+
+        Args:
+            interactive: Whether to enable interactive plots.
+            colors: The colors used for the plot.
+            filename: The output file name.
+        """
+        from mlabtex import mlabtex
+
+        mlab.figure(figure=None, bgcolor=(1, 1, 1), size=(800, 800))
+
+        for facet in self.reciprocal_space.faces:
+            x, y, z = zip(*facet)
+            mlab.plot3d(x, y, z, **_mayavi_rs_style)
+
+        if not colors:
+            colors = np.random.random((20, 3))
+
+        for c, (verts, faces) in zip(colors, self.fermi_surface.isosurfaces):
+            x, y, z = zip(*verts)
+            mlab.triangular_mesh(x, y, z, faces, color=tuple(c), opacity=0.7)
+
+        # latexify labels
+        labels = ["${}$".format(i) for i in self._symmetry_pts[1]]
+        for coords, label in zip(self._symmetry_pts[0], labels):
+            mlabtex(*coords, label, **_mayavi_high_sym_label_style)
+
+        if isinstance(self.reciprocal_space, ReciprocalCell):
+            mlab.view(azimuth=0, elevation=60, distance=12)
+        else:
+            mlab.view(azimuth=235, elevation=60, distance=12)
+
+        if interactive:
+            mlab.show()
+        else:
+            mlab.savefig(filename, figure=mlab.gcf())
 
 
 class FSPlotter2D(object):
-
     def __init__(self, fs: FermiSurface, plane_orig, plane_norm):
 
         self._plane_orig = plane_orig
         self._plane_norm = plane_norm
         self._fs = fs
 
-    def fs2d_plot_data(self, plot_type='mpl'):
+    def fs2d_plot_data(self, plot_type="mpl"):
+        import meshcut
+
         plane_orig = self._plane_orig
         plane_norm = self._plane_norm
 
         plane = meshcut.Plane(plane_orig, plane_norm)
 
-        if plot_type == 'mayavi':
+        if plot_type == "mayavi":
 
             mlab.figure(figure=None, bgcolor=(1, 1, 1), size=(800, 800))
 
-        elif plot_type == 'mpl':
+        elif plot_type == "mpl":
 
             fig = plt.figure()
 
-            ax = plt.axes(projection='3d')
+            ax = plt.axes(projection="3d")
 
         for surface in self._fs._iso_surface:
 
@@ -510,20 +357,49 @@ class FSPlotter2D(object):
 
             P = meshcut.cross_section_mesh(mesh, plane)
 
-            for p in (P):
+            for p in P:
                 p = np.array(p)
-                if plot_type == 'mayavi':
-                    mlab.plot3d(p[:, 0], p[:, 1], p[:, 2], tube_radius=None,
-                                line_width=3.0, color=(0., 0., 0.))
-                elif plot_type == 'mpl':
-                    ax.plot3D(p[:, 0], p[:, 1], p[:, 2], color='k')
+                if plot_type == "mayavi":
+                    mlab.plot3d(
+                        p[:, 0],
+                        p[:, 1],
+                        p[:, 2],
+                        tube_radius=None,
+                        line_width=3.0,
+                        color=(0.0, 0.0, 0.0),
+                    )
+                elif plot_type == "mpl":
+                    ax.plot3D(p[:, 0], p[:, 1], p[:, 2], color="k")
 
-        if plot_type == 'mayavi':
+        if plot_type == "mayavi":
 
             mlab.show()
 
-        elif plot_type == 'mpl':
+        elif plot_type == "mpl":
 
             ax.set_xticks([])
             ax.set_yticks([])
             plt.show()
+
+
+def kpoints_to_first_bz(kpoints: np.ndarray, tol=1e-5) -> np.ndarray:
+    """Translate fractional k-points to the first Brillouin zone.
+
+    I.e. all k-points will have fractional coordinates:
+        -0.5 <= fractional coordinates < 0.5
+
+    Args:
+        kpoints: The k-points in fractional coordinates.
+
+    Returns:
+        The translated k-points.
+    """
+    kp = kpoints - np.round(kpoints)
+
+    # account for small rounding errors for 0.5
+    round_dp = int(np.log10(1 / tol))
+    krounded = np.round(kp, round_dp)
+
+    kp[krounded == -0.5] = 0.5
+    return kp
+
