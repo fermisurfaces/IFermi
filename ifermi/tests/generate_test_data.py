@@ -1,26 +1,33 @@
-from monty.serialization import *
+from pathlib import Path
+
+from monty.serialization import dumpfn
 from ifermi.fermi_surface import FermiSurface
 from ifermi.interpolator import Interpolater
+from pymatgen import Spin
 
 from pymatgen.io.vasp.outputs import Vasprun
-import numpy as np
-
-def writeFile():
-    vr = Vasprun("/Users/amyjade/Documents/3rdYear/URAP/for_Sinead/IFermi/data_BaFe2As2/vasprun.xml")
-    # vr = Vasprun("/Users/amyjade/Documents/IFermiPlottingTool/IFermi/data_MgB2/vasprun.xml")
-    bs = vr.get_band_structure()
-
-    interpolater = Interpolater(bs)
-
-    new_bs, hdims, rlattvec = interpolater.interpolate_bands(1)
-
-    # Make a three dimensional plot of the Brillioun zone
-
-    fs = FermiSurface(new_bs.efermi, new_bs.structure, new_bs.bands, new_bs.kpoints, hdims, rlattvec, mu=0.0, plot_wigner_seitz=True)
-
-    dumpfn(fs, '/Users/amyjade/PycharmProjects/FermiSurfaceTool/ifermi/data/BaFe2As2/fs_BaFe2As2.json')
-
 
 
 if __name__ == '__main__':
-    writeFile()
+    example_dir = Path("../../examples")
+    vr = Vasprun(example_dir / "MgB2/vasprun.xml")
+    bs = vr.get_band_structure()
+
+    dumpfn(bs.structure, "structure.json.gz")
+
+    interpolater = Interpolater(bs)
+    new_bs, kpoint_dim = interpolater.interpolate_bands(1)
+
+    bs_data = {"bs": new_bs, "dim": kpoint_dim, "structure": bs.structure}
+    dumpfn(bs_data, 'bs_BaFe2As2.json.gz')
+
+    fs = FermiSurface.from_band_structure(new_bs, kpoint_dim, wigner_seitz=True)
+    dumpfn(fs, 'fs_BaFe2As2_wigner.json.gz')
+    dumpfn(fs.reciprocal_space, "rs_wigner.json.gz")
+
+    fs = FermiSurface.from_band_structure(new_bs, kpoint_dim, wigner_seitz=False)
+    dumpfn(fs, 'fs_BaFe2As2_reciprocal.json.gz')
+    dumpfn(fs.reciprocal_space, "rs_reciprocal.json.gz")
+
+    fs = FermiSurface.from_band_structure(new_bs, kpoint_dim, spin=Spin.up)
+    dumpfn(fs, 'fs_BaFe2As2_spin_up.json.gz')
