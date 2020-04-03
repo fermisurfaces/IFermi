@@ -20,6 +20,7 @@ jobs:
         pip install -e .
         pip install -e .[plotly]
         pip install -e .[mayavi]
+        pip install -e .[tests]
 
     - name: Test
       run: python setup.py test
