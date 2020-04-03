@@ -124,7 +124,7 @@ class FSPlotter(MSONable):
         self,
         plot_type: str = "plotly",
         interactive: bool = True,
-        filename: str = "fs.png",
+        filename: str = "fermi_surface.png",
         **plot_kwargs,
     ):
         """
@@ -158,7 +158,7 @@ class FSPlotter(MSONable):
         bz_linewidth: float = 0.9,
         colors: Optional[List[Any]] = None,
         title: str = None,
-        filename: str = "fs.png",
+        filename: str = "fermi_surface.png",
     ):
         """
         Plot the Fermi surface using matplotlib.
@@ -198,7 +198,7 @@ class FSPlotter(MSONable):
         if title is not None:
             plt.title(title)
 
-        rlat_lengths = np.linalg.norm(self.rlat)
+        rlat_lengths = np.linalg.norm(self.rlat, axis=1)
         if isinstance(self.reciprocal_space, ReciprocalCell):
             xlim, ylim, zlim = rlat_lengths / 2
             ax.set(xlim=(-xlim, xlim), ylim=(-ylim, ylim), zlim=(-zlim, zlim))
@@ -216,7 +216,7 @@ class FSPlotter(MSONable):
 
     @requires(plotly, "plotly option requires plotly to be installed.")
     def plot_plotly(
-        self, interactive: bool = True, filename: str = "fs",
+        self, interactive: bool = True, filename: str = "fermi_surface.png",
     ):
         """
         Plot the Fermi surface using plotly.
@@ -282,7 +282,7 @@ class FSPlotter(MSONable):
         self,
         interactive: bool = True,
         colors: Optional[List[Any]] = None,
-        filename: str = "fs",
+        filename: str = "fermi_surface.png",
     ):
         """
         Plot the Fermi surface using mayavi.
@@ -320,7 +320,7 @@ class FSPlotter(MSONable):
         if interactive:
             mlab.show()
         else:
-            mlab.savefig(filename, figure=mlab.gcf())
+            mlab.savefig(str(filename), figure=mlab.gcf())
 
 
 class FSPlotter2D(object):

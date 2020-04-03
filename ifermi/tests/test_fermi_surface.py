@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import numpy as np
 import unittest
 
@@ -6,19 +8,21 @@ from monty.serialization import loadfn
 from ifermi.fermi_surface import FermiSurface
 from pymatgen import Spin
 
+test_dir = Path(__file__).resolve().parent
+
 
 class FermiSurfaceTest(unittest.TestCase):
     def setUp(self):
-        bs_data = loadfn("bs_BaFe2As2.json.gz")
+        bs_data = loadfn(test_dir / "bs_BaFe2As2.json.gz")
         self.band_structure = bs_data["bs"]
 
         # for some reason BandStructure json doesn't include the structure
         self.band_structure.structure = bs_data["structure"]
 
         self.kpoint_dim = bs_data["dim"]
-        self.ref_fs_wigner = loadfn("fs_BaFe2As2_wigner.json.gz")
-        self.ref_fs_reciprocal = loadfn("fs_BaFe2As2_reciprocal.json.gz")
-        self.ref_fs_spin_up = loadfn("fs_BaFe2As2_spin_up.json.gz")
+        self.ref_fs_wigner = loadfn(test_dir / "fs_BaFe2As2_wigner.json.gz")
+        self.ref_fs_reciprocal = loadfn(test_dir / "fs_BaFe2As2_reciprocal.json.gz")
+        self.ref_fs_spin_up = loadfn(test_dir / "fs_BaFe2As2_spin_up.json.gz")
 
     def test_wigner_seitz_cell(self):
         fs = FermiSurface.from_band_structure(

@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Union
 
 import numpy as np
@@ -7,12 +8,14 @@ from monty.serialization import loadfn
 
 from ifermi.brillouin_zone import WignerSeitzCell, ReciprocalCell
 
+test_dir = Path(__file__).resolve().parent
+
 
 class FermiSurfaceTest(unittest.TestCase):
     def setUp(self):
-        self.structure = loadfn("structure.json.gz")
-        self.ref_rs_wigner = loadfn("rs_wigner.json.gz")
-        self.ref_rs_reciprocal = loadfn("rs_reciprocal.json.gz")
+        self.structure = loadfn(test_dir / "structure.json.gz")
+        self.ref_rs_wigner = loadfn(test_dir / "rs_wigner.json.gz")
+        self.ref_rs_reciprocal = loadfn(test_dir / "rs_reciprocal.json.gz")
 
     def test_wigner_seitz_cell(self):
         # test from lattice
