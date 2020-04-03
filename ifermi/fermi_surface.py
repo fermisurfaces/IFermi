@@ -1,340 +1,122 @@
 """
-    This module contains the classes and methods for creating iso-surface structures from
-    Pymatgen bandstrucutre objects. The iso-surfaces are found using the Scikit-image
-    package.
+This module contains the classes and methods for creating iso-surface structures
+from Pymatgen bandstrucutre objects. The iso-surfaces are found using the
+Scikit-image package.
+"""
+import itertools
+import warnings
+from copy import deepcopy
+from typing import Dict, List, Optional, Tuple
 
-    """
-
-from ifermi.brillouin_zone import BrillouinZone, RecipCell
-
-from pymatgen.electronic_structure.bandstructure import BandStructure
-from skimage import measure
-
-from pymatgen.symmetry.analyzer import *
-
+import numpy as np
 from monty.json import MSONable
+from skimage import measure
+from skimage.measure import marching_cubes_lewiner
+from trimesh.intersections import slice_faces_plane
+
+from ifermi.brillouin_zone import WignerSeitzCell, ReciprocalCell, ReciprocalSpace
+from pymatgen import Spin, Structure
+from pymatgen.electronic_structure.bandstructure import BandStructure
+from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
 
 
 class FermiSurface(MSONable):
-    """An object which holds information relevent to the Fermi Surface. It only stores information at k-space points
-    where energy(K) == fermi energy
+    """An object containing Fermi Surface data.
+
+    Only stores information at k-points where energy(k) == Fermi energy.
     """
 
-    def __init__(self, efermi, structure, bands , kpoints, hdims: list, rlattvec,
-                 mu: float = 0., soc: bool = False, plot_wigner_seitz=False) -> None:
+    def __init__(
+        self,
+        isosurfaces: List[Tuple[np.ndarray, np.ndarray]],
+        reciprocal_space: ReciprocalSpace,
+        structure: Structure,
+    ):
+        """
+        Get a Fermi Surface object.
+
+        Args:
+            isosurfaces: The isosurfaces as a List of ``(vertices, faces)``.
+            reciprocal_space: The reciprocal space associated with the Fermi surface.
+            structure: The structure.
+        """
+        self.isosurfaces = isosurfaces
+        self.reciprocal_space = reciprocal_space
+        self.structure = structure
+        self.n_surfaces = len(self.isosurfaces)
+
+    @classmethod
+    def from_band_structure(
+        cls,
+        band_structure: BandStructure,
+        kpoint_dim: np.ndarray,
+        mu: float = 0.0,
+        spin: Optional[Spin] = None,
+        wigner_seitz: bool = False,
+        symprec: float = 0.001,
+    ) -> "FermiSurface":
         """
         Args:
-            bs (BandStructure): A Pymatgen bandstructure object
-            hdims (list): The dimension of the grid in reciprocal space on which the energy eigenvalues
-                are defined.
-            rlattvec (np.array): The reciprocal space lattice vectors. See
-                pymatgen.electronic_structure.bandstructure.lattice_rec._matrix for format.
-            mu (float, optional): Enegy offset from the Fermi energy at which
-                the iso-surface is defined. Useful for visualising the effect of
-                dopants on the shape of the resulting iso-surface.
-            soc (bool, optional): Set to True if the up and down spins are both to be plotted.
-                Otherwsie, spins will be treated as degenerate and only one componenet will be
-                plotted.
-            plot_wigner_seitz (bool, optional): Controls whether the brillioun zone is the Wigner-Seitz
-                cell or the reciprocal space parallelopiped.
-            kpoints (np.array): A numpy list of the kpoints in fractional coordinates
-            structure (::object:: pymatgen.structure): Structural information of the material
-            iso_surface (np.array): A List containing all parameters for each surface at the Fermi surface.
-                                    The index i will access [verts, faces, normals, values] for surface i.
-            n_bands (int): Number of bands which cross the Fermi-Surface
-
+            band_structure: A band structure. The k-points must cover the full
+                Brillouin zone (i.e., not just be the irreducible mesh). Use
+                the ``ifermi.interpolator.Interpolator`` class to expand the k-points to
+                the full Brillouin zone if required.
+            kpoint_dim: The dimension of the grid in reciprocal space on which the
+                energy eigenvalues are defined.
+            mu: Energy offset from the Fermi energy at which the iso-surface is
+               shape of the resulting iso-surface.
+            spin: The spin channel to plot. By default plots both spin channels.
+            wigner_seitz: Controls whether the cell is the Wigner-Seitz cell
+                or the reciprocal unit cell parallelepiped.
+            symprec: Symmetry precision for determining whether the structure is the
+                standard primitive unit cell.
         """
-        self._efermi = efermi
+        if np.product(kpoint_dim) != len(band_structure.kpoints):
+            raise ValueError(
+                "Number of k-points ({}) in band structure does not match number of "
+                "k-points expected from mesh dimensions ({})".format(
+                    len(band_structure.kpoints), np.product(kpoint_dim)
+                )
+            )
 
-        self._structure = structure
+        band_structure = deepcopy(band_structure)  # prevent data getting overwritten
 
-        self._bands = bands
+        structure = band_structure.structure
+        fermi_level = band_structure.efermi + mu
+        bands = band_structure.bands
+        frac_kpoints = [k.frac_coords for k in band_structure.kpoints]
+        frac_kpoints = np.array(frac_kpoints)
 
-        self._fermi_level = efermi + mu
+        if wigner_seitz:
+            prim = get_prim_structure(structure, symprec=symprec)
+            if not np.allclose(prim.lattice.matrix, structure.lattice.matrix, 1e-5):
+                warnings.warn("Structure does not match expected primitive cell")
 
-        self._kpoints = np.array([k.frac_coords for k in kpoints])
-
-        self._hdims = hdims
-
-        dims = [2 * i + 1 for i in hdims]
-
-        self._dims = dims
-
-        self._k_dim = (dims[0], dims[1], dims[2])
-
-        self._rlattvec = rlattvec
-
-        self._soc = soc
-
-        self._plot_wigner_seitz = plot_wigner_seitz
-
-        self._mu = mu
-
-
-        if self._plot_wigner_seitz:
-
-            prim = self.get_prim_structure()
-
-            self._prim_structure = prim
-
-            self._prim_rlattvec = prim.lattice.reciprocal_lattice._matrix
-
-            self._bz = BrillouinZone(self._prim_rlattvec)
-
-            self.expand_bands()
-
-            self.trim_energies()
-
-            self._spacing = (1 / self._dims[0], 1 / self._dims[1], 1 / self._dims[2])
-
-            self._rc = None
+            reciprocal_space = WignerSeitzCell.from_structure(structure)
+            bands, frac_kpoints, kpoint_dim = _expand_bands(
+                bands, frac_kpoints, kpoint_dim
+            )
 
         else:
-
-            self._rc = RecipCell(rlattvec)
-
-            self._bz = None
-
-            self._spacing = (
-            np.linalg.norm(self._rlattvec[0]) / self._dims[0], np.linalg.norm(self._rlattvec[1]) / self._dims[1],
-            np.linalg.norm(self._rlattvec[2]) / self._dims[2])
-
-        self.compute_isosurfaces()
-
-        self._n_bands = len(self._iso_surface)
-
-    @property
-    def efermi(self):
-        return self._efermi
-
-    @property
-    def structure(self):
-        return self._structure
-
-    @property
-    def bands(self):
-        return self._bands
-
-    @property
-    def k_dim(self):
-        return self._k_dim
-
-    @property
-    def k_dim(self):
-        return self._k_dim
-
-    @property
-    def fermi_level(self):
-        return self._fermi_level
-
-    @property
-    def hdims(self):
-        return self._hdims
-
-    @property
-    def dims(self):
-        return self._dims
-
-    @property
-    def rlattvec(self):
-        return self._rlattvec
-
-    @property
-    def soc(self):
-        return self._soc
-
-    @property
-    def structure(self):
-        return self._structure
-
-    @property
-    def plot_wigner_seitz(self):
-        return self._plot_wigner_seitz
-
-    @property
-    def bands(self):
-        return self._bands
-
-    @property
-    def prim_structure(self):
-        return self._prim_structure
-
-    @property
-    def prim_rlattvec(self):
-        return self._prim_rlattvec
-
-    @property
-    def bz(self):
-        return self._bz
-
-    @property
-    def spacing(self):
-        return self._spacing
-
-    @property
-    def rc(self):
-        return self._rc
-
-    @property
-    def n_bands(self):
-        return self._n_bands
-
-    def get_prim_structure(self):
-        """Computes the primitive Structure object (Pymatgen) of the cell. This is needed to find the Wigner-Seitz cell.
-
-        Returns:
-            : An array representation of the primitive lattice vector. (The zero component of the returned array
-            corresponds to the first primitive lattice vector b1, for example.)
-        """
-        struct = self._structure
-
-        analyzer = SpacegroupAnalyzer(struct)
-
-        prim = analyzer.get_primitive_standard_structure()
-
-        return prim
-
-    def compute_isosurfaces(self):
-        total_data = []
-        iso_surface = []
-        l = 0
-
-        for spin in self._bands.keys():
-
-            ebands = self._bands[spin]
-
-            ebands -= self._fermi_level
-
-            for band in ebands:
-
-                emax = np.nanmax(band)
-                emin = np.nanmin(band)
-
-                if emax > 0 and emin < 0:
-                    total_data.append(band.reshape(np.array(self._dims)))
-
-            if l == 0:
-
-                for band_index, band_data in enumerate(total_data):
-
-                    verts, faces, normals, values = measure.marching_cubes_lewiner(band_data, 0,
-                                                                                   self._spacing)
-
-                    if self._plot_wigner_seitz:
-                        for i, abc in enumerate(verts):
-                            verts[i] = [x - 0.5 for x in abc]
-                            verts[i] = np.array([self._rlattvec[0] * verts[i][0] + self._rlattvec[1] * verts[i][1] +
-                                                 self._rlattvec[2] * verts[i][2]])
-                            verts[i] = verts[i] * 3
-
-                    iso_surface.append([verts, faces, normals, values])
-
-                if not self._soc:
-                    l += 1
-
-        self._iso_surface = iso_surface
-
-    def expand_bands(self):
-
-
-        for spin in self._bands.keys():
-            ebands = self._bands[spin]
-
-            super_ebands = []
-
-            dims = self._dims
-            hdims = self._hdims
-
-            new_ebands = []
-
-            A = (-1, 0, 1)
-
-            super_kpoints = np.array([], dtype=np.int64).reshape(0, 3)
-
-            for i, j, k in itertools.product(A, A, A):
-                super_kpoints = np.concatenate((super_kpoints, np.array(self._kpoints) + [i, j, k]), axis=0)
-
-            sort_idx = np.lexsort((super_kpoints[:, 2], super_kpoints[:, 1], super_kpoints[:, 0]))
-
-            final_kpoints = super_kpoints[sort_idx]
-
-            for band in ebands:
-                A = (-1, 0, 1)
-
-                super_band = np.array([], dtype=np.int64)
-
-                for i, j, k in itertools.product(A, A, A):
-                    super_band = np.concatenate((super_band, np.array(band)), axis=0)
-
-                super_ebands.append(super_band[sort_idx])
-
-            self._bands[spin] = np.array(super_ebands)
-
-        self._kpoints = final_kpoints
-
-        self._dims = 3 * dims
-
-        self._hdims = 3 * hdims
-
-    def rearrange_bands(self):
-
-        sort_idx = np.lexsort((self._kpoints[:, 2], self._kpoints[:, 1], self._kpoints[:, 0]))
-
-        for spin in self._bands.keys():
-            ebands = self._bands[spin]
-
-            new_ebands = []
-
-            for band in ebands:
-                band_sorted = band[sort_idx]
-                new_ebands.append(band_sorted)
-
-            self._bands[spin] = np.array(new_ebands)
-
-    def trim_energies(self):
-
-        bz = self._bz
-
-        rlattvec = self._rlattvec
-
-        vec1 = rlattvec[0]
-        vec2 = rlattvec[1]
-        vec3 = rlattvec[2]
-
-        for spin in self._bands.keys():
-            ebands = self._bands[spin]
-
-            # Remove all points outside the BZ
-            for i, ijk in enumerate(self._kpoints):
-                abc = np.array(ijk)
-                xyz = np.array(abc[0] * vec1 + abc[1] * vec2 + abc[2] * vec3)
-
-                # if xyz[0]<bz._min_dimensions[0] or xyz[1]<bz._min_dimensions[1] or xyz[2]<bz._min_dimensions[2]:
-                #     ebands[:, i] = None
-                # elif xyz[0]>bz._max_dimensions[0] or xyz[1]>bz._max_dimensions[1] or xyz[2]>bz._max_dimensions[2]:
-                #     ebands[:, i] = None
-
-                for c, n in zip(bz._centers, bz._normals):
-                    if np.dot(xyz - c, n) > 0.:
-                        ebands[:, i] = None
-
-                        break
-
-            self._bands[spin] = ebands
-
-        self._dims = [(np.unique(self._kpoints[:, 0])).size, (np.unique(self._kpoints[:, 1])).size,
-                      (np.unique(self._kpoints[:, 2])).size]
-
-        self._hdims = [(i - 1) / 2 for i in self._dims]
+            reciprocal_space = ReciprocalCell.from_structure(structure)
+
+        kpoint_dim = tuple(kpoint_dim.astype(int))
+        isosurfaces = compute_isosurfaces(
+            bands,
+            kpoint_dim,
+            fermi_level,
+            reciprocal_space,
+            spin=spin,
+        )
+
+        return cls(isosurfaces, reciprocal_space, structure)
 
     def project_data(self, proj_plane: tuple):
-
         projected_band = []
 
-        for i, band in enumerate(self._iso_surface):
+        for i, band in enumerate(self.isosurfaces):
             verts = band[0]
             faces = band[1]
-
             projected_verts = []
 
             for vertex in verts:
@@ -345,10 +127,152 @@ class FermiSurface(MSONable):
         return projected_band
 
 
-class FermiSurface2D(FermiSurface):
+def compute_isosurfaces(
+    bands: Dict[Spin, np.ndarray],
+    kpoint_dim: Tuple[int, int, int],
+    fermi_level: float,
+    reciprocal_space: ReciprocalSpace,
+    spin: Optional[Spin] = None,
+) -> List[Tuple[np.ndarray, np.ndarray]]:
+    """
+    Compute the isosurfaces at a particular energy level.
 
-    def __init__(self, bs: BandStructure, hdims: list, rlattvec,
-                 slice_plane: tuple, contour, mu: float = 0., soc: bool = False) -> None:
+    Args:
+        bands: The band energies, given as a dictionary of ``{spin: energies}``, where
+            energies has the shape (nbands, nkpoints).
+        kpoint_dim: The k-point mesh dimensions.
+        fermi_level: The energy at which to calculate the Fermi surface.
+        reciprocal_space: The reciprocal space representation.
+        spin: Which spin channel to calculate isosurfaces for. By default use both
+            spin channels if available.
+
+    Returns:
+        A list of isosurfaces given as ``(vertices, faces)``.
+    """
+    rlat = reciprocal_space.reciprocal_lattice
+
+    if not spin:
+        spin = list(bands.keys())
+    elif isinstance(spin, Spin):
+        spin = [spin]
+
+    spacing = 1 / (np.array(kpoint_dim) - 1)
+
+    isosurface = []
+    for s in spin:
+        ebands = bands[s]
+        ebands -= fermi_level
+
+        for band in ebands:
+            # check if band crosses fermi level
+            if np.nanmax(band) > 0 > np.nanmin(band):
+                band_data = band.reshape(kpoint_dim)
+                verts, faces, _, _ = marching_cubes_lewiner(band_data, 0, spacing)
+
+                if isinstance(reciprocal_space, WignerSeitzCell):
+                    verts = np.dot(verts - 0.5, rlat) * 3
+                    verts, faces = _trim_surface(reciprocal_space, verts, faces)
+                else:
+                    # convert coords to cartesian
+                    verts = np.dot(verts - 0.5, rlat)
+
+                isosurface.append((verts, faces))
+
+    return isosurface
+
+
+def _trim_surface(
+    wigner_seitz_cell: WignerSeitzCell,
+    vertices: np.ndarray,
+    faces: np.ndarray
+) -> Tuple[np.ndarray, np.ndarray]:
+    """
+    Trim the surface to remove parts outside the cell boundaries.
+
+    Will add new triangles at the boundary edges as necessary to produce a smooth
+    surface.
+
+    Args:
+        wigner_seitz_cell: The reciprocal space object.
+        vertices: The surface vertices.
+        faces: The surface faces.
+
+    Returns:
+        The trimmed surface as a tuple of ``(vertices, faces)``.
+    """
+    for center, normal in zip(wigner_seitz_cell.centers, wigner_seitz_cell.normals):
+        vertices, faces = slice_faces_plane(vertices, faces, -normal, center)
+    return vertices, faces
+
+
+def _expand_bands(
+    bands: Dict[Spin, np.ndarray], frac_kpoints: np.ndarray, kpoint_dim: np.ndarray
+) -> Tuple[Dict[Spin, np.ndarray], np.ndarray, np.ndarray]:
+    """
+    Expand the band energies and k-points with periodic boundary conditions to form a
+    3x3x3 supercell.
+
+    Args:
+        bands: The band energies, given as a dictionary of ``{spin: energies}``, where
+            energies has the shape (nbands, nkpoints).
+        frac_kpoints: The fractional k-point coordinates.
+        kpoint_dim: The k-point mesh dimensions.
+
+    Returns:
+        The expanded band energies, k-points, and k-point mesh dimensions.
+    """
+    final_ebands = {}
+    for spin, ebands in bands.items():
+        super_ebands = []
+        images = (-1, 0, 1)
+
+        super_kpoints = np.array([], dtype=np.int64).reshape(0, 3)
+        for i, j, k in itertools.product(images, images, images):
+            k_image = frac_kpoints + [i, j, k]
+            super_kpoints = np.concatenate((super_kpoints, k_image), axis=0)
+
+        sort_idx = np.lexsort(
+            (super_kpoints[:, 2], super_kpoints[:, 1], super_kpoints[:, 0])
+        )
+        final_kpoints = super_kpoints[sort_idx]
+
+        for band in ebands:
+            super_band = np.array([], dtype=np.int64)
+            for _ in range(27):
+                super_band = np.concatenate((super_band, band), axis=0)
+            super_ebands.append(super_band[sort_idx])
+
+        final_ebands[spin] = np.array(super_ebands)
+
+    return final_ebands, final_kpoints, kpoint_dim * 3
+
+
+def get_prim_structure(structure, symprec=0.01) -> Structure:
+    """
+    Get the primitive structure.
+
+    Args:
+        structure: The structure.
+        symprec: The symmetry precision in Angstrom.
+
+    Returns:
+       The primitive cell as a pymatgen Structure object.
+    """
+    analyzer = SpacegroupAnalyzer(structure, symprec=symprec)
+    return analyzer.get_primitive_standard_structure()
+
+
+class FermiSurface2D(FermiSurface):
+    def __init__(
+        self,
+        bs: BandStructure,
+        hdims: list,
+        rlattvec,
+        slice_plane: tuple,
+        contour,
+        mu: float = 0.0,
+        soc: bool = False,
+    ) -> None:
         """
         Args:
             bs (BandStructure): A Pymatgen bandstructure object
@@ -366,7 +290,7 @@ class FermiSurface2D(FermiSurface):
                 Otherwsie, spins will be treated as degenerate and only one componenet will be
                 plotted.
             is_spin_polarised (bool, optional): set to True if spin polarised.
-            n_bands (int): Number of bands which cross the Fermi-Surface
+            n_surfaces (int): Number of bands which cross the Fermi-Surface
         """
 
         self._mu = mu
@@ -405,7 +329,9 @@ class FermiSurface2D(FermiSurface):
 
             plane_bands = []
 
-            dis_array = [plane_dist(np.append(proj_plane, -contour), i) for i in self._kpoints]
+            dis_array = [
+                plane_dist(np.append(proj_plane, -contour), i) for i in self._kpoints
+            ]
 
             for i, j in enumerate(slice_array):
                 if not j == 0:
@@ -428,7 +354,9 @@ class FermiSurface2D(FermiSurface):
                 while np.abs(dist - np.min(sorted_dist)) < 0.001:
                     plane_bands.append(sorted_energies[index])
 
-            sort_idx = np.lexsort((sorted_kpoints[:, 2], sorted_kpoints[:, 1], sorted_kpoints[:, 0]))
+            sort_idx = np.lexsort(
+                (sorted_kpoints[:, 2], sorted_kpoints[:, 1], sorted_kpoints[:, 0],)
+            )
             energies_sorted = sorted_energies[sort_idx]
 
             self._energies = energies.reshape(plane_mesh)
@@ -442,24 +370,33 @@ class FermiSurface2D(FermiSurface):
 
 def project(vector, plane):
     theta = np.array([0, 0, np.pi])
-    a = np.array([[1, 0, 0],
-                  [0, np.cos(theta[0]), np.sin(theta[0])],
-                  [0, -np.sin(theta[0]), np.cos(theta[0])]])
+    a = np.array(
+        [
+            [1, 0, 0],
+            [0, np.cos(theta[0]), np.sin(theta[0])],
+            [0, -np.sin(theta[0]), np.cos(theta[0])],
+        ]
+    )
 
-    b = np.array([[np.cos(theta[1]), 0, -np.sin(theta[1])],
-                  [0, 1, 0],
-                  [np.sin(theta[1]), 0, np.cos(theta[1])]])
+    b = np.array(
+        [
+            [np.cos(theta[1]), 0, -np.sin(theta[1])],
+            [0, 1, 0],
+            [np.sin(theta[1]), 0, np.cos(theta[1])],
+        ]
+    )
 
-    c = np.array([[np.cos(theta[2]), np.sin(theta[2]), 0],
-                  [0, 1, 0],
-                  [np.sin(theta[1]), 0, np.cos(theta[1])]])
+    c = np.array(
+        [
+            [np.cos(theta[2]), np.sin(theta[2]), 0],
+            [0, 1, 0],
+            [np.sin(theta[1]), 0, np.cos(theta[1])],
+        ]
+    )
 
     d = np.matmul(np.matmul(a, np.matmul(b, c)), vector)
 
-    e = np.array([[1, 0, 0, 0],
-                  [0, 1, 0, 0],
-                  [0, 0, 1, 0],
-                  [0, 0, 0, 1]])
+    e = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
 
     f = np.matmul(e, np.append(d, 1))
 
@@ -470,10 +407,11 @@ def project(vector, plane):
 
 
 def plane_dist(slice_plane, vertex):
-    return (np.linalg.norm(
-        slice_plane[0] * vertex[0] + slice_plane[1] * vertex[1] + slice_plane[2] * vertex[2] + slice_plane[3])) / (
-               np.sqrt(slice_plane[0] ** 2 + slice_plane[1] ** 2 + slice_plane[2] ** 2))
-
-
-
-
+    return (
+        np.linalg.norm(
+            slice_plane[0] * vertex[0]
+            + slice_plane[1] * vertex[1]
+            + slice_plane[2] * vertex[2]
+            + slice_plane[3]
+        )
+    ) / (np.sqrt(slice_plane[0] ** 2 + slice_plane[1] ** 2 + slice_plane[2] ** 2))
