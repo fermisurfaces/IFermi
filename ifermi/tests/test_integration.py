@@ -3,7 +3,6 @@ from pathlib import Path
 from ifermi.interpolator import Interpolater
 from ifermi.plotter import FSPlotter
 from ifermi.fermi_surface import FermiSurface
-from pymatgen import Spin
 from pymatgen.io.vasp.outputs import Vasprun
 
 test_dir = Path(__file__).resolve().parent

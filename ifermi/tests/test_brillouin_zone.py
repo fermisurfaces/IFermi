@@ -11,7 +11,7 @@ from ifermi.brillouin_zone import WignerSeitzCell, ReciprocalCell
 test_dir = Path(__file__).resolve().parent
 
 
-class FermiSurfaceTest(unittest.TestCase):
+class BrillouinZoneTest(unittest.TestCase):
     def setUp(self):
         self.structure = loadfn(test_dir / "structure.json.gz")
         self.ref_rs_wigner = loadfn(test_dir / "rs_wigner.json.gz")
