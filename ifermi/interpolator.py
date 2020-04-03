@@ -42,14 +42,10 @@ class Interpolater(MSONable):
         self._band_structure = band_structure
         self._soc = soc
         self._spins = self._band_structure.bands.keys()
-        self._lattice_matrix = (
-            band_structure.structure.lattice.matrix * units.Angstrom
-        )
+        self._lattice_matrix = band_structure.structure.lattice.matrix * units.Angstrom
         self._projection_coefficients = defaultdict(dict)
 
-        self._kpoints = np.array(
-            [k.frac_coords for k in band_structure.kpoints]
-        )
+        self._kpoints = np.array([k.frac_coords for k in band_structure.kpoints])
         self._atoms = AseAtomsAdaptor.get_atoms(band_structure.structure)
 
         self._magmom = magmom
@@ -92,17 +88,12 @@ class Interpolater(MSONable):
         )
 
         # get the interpolation mesh used by BoltzTraP2
-        interpolation_mesh = (
-            2 * np.max(np.abs(np.vstack(equivalences)), axis=0) + 1
-        )
+        interpolation_mesh = 2 * np.max(np.abs(np.vstack(equivalences)), axis=0) + 1
 
         for spin in self._spins:
             energies = self._band_structure.bands[spin] * units.eV
             data = DFTData(
-                self._kpoints,
-                energies,
-                self._lattice_matrix,
-                mommat=self._mommat,
+                self._kpoints, energies, self._lattice_matrix, mommat=self._mommat,
             )
             coefficients[spin] = fite.fitde3D(data, equivalences)
         is_metal = self._band_structure.is_metal()
@@ -157,12 +148,8 @@ class Interpolater(MSONable):
             efermi = self._band_structure.efermi
         else:
             # if material is semiconducting, set Fermi level to middle of gap
-            e_vbm = max(
-                [np.max(energies[s][: new_vb_idx[s] + 1]) for s in self._spins]
-            )
-            e_cbm = min(
-                [np.min(energies[s][new_vb_idx[s] + 1 :]) for s in self._spins]
-            )
+            e_vbm = max([np.max(energies[s][: new_vb_idx[s] + 1]) for s in self._spins])
+            e_cbm = min([np.min(energies[s][new_vb_idx[s] + 1 :]) for s in self._spins])
             efermi = (e_vbm + e_cbm) / 2
 
         atoms = AseAtomsAdaptor().get_atoms(self._band_structure.structure)
@@ -171,6 +158,7 @@ class Interpolater(MSONable):
         )
         full_kpoints = grid / interpolation_mesh
 
+        # first sort the spglib k-points so they match those generate by boltztrap2
         sort_idx = np.lexsort(
             (
                 full_kpoints[:, 2],
@@ -181,18 +169,25 @@ class Interpolater(MSONable):
                 full_kpoints[:, 0] < 0,
             )
         )
+        full_kpoints = full_kpoints[sort_idx]
 
-        reordered_kpoints = full_kpoints[sort_idx]
-        hdims = np.max(np.abs(np.vstack(equivalences)), axis=0),
+        # now sort the k-points and energies to the order we want
+        sort_idx = np.lexsort(
+            (full_kpoints[:, 2], full_kpoints[:, 1], full_kpoints[:, 0])
+        )
+        full_kpoints = full_kpoints[sort_idx]
+        energies = {s: b[:, sort_idx] for s, b in energies.items()}
+
+        kpoint_dim = np.max(np.abs(np.vstack(equivalences)), axis=0) * 2 + 1
         interp_band_structure = BandStructure(
-            reordered_kpoints,
+            full_kpoints,
             energies,
             self._band_structure.structure.lattice,
             efermi,
             structure=self._structure,
         )
 
-        return interp_band_structure, hdims
+        return interp_band_structure, kpoint_dim
 
 
 class DFTData(object):
@@ -223,3 +218,30 @@ class DFTData(object):
     def get_lattvec(self) -> np.ndarray:
         """Get the lattice matrix. This method is required by BoltzTraP2."""
         return self.lattice_matrix
+
+
+def sort_boltztrap_to_spglib(kpoints):
+    sort_idx = np.lexsort(
+        (
+            kpoints[:, 2],
+            kpoints[:, 2] < 0,
+            kpoints[:, 1],
+            kpoints[:, 1] < 0,
+            kpoints[:, 0],
+            kpoints[:, 0] < 0,
+        )
+    )
+    boltztrap_kpoints = kpoints[sort_idx]
+
+    sort_idx = np.lexsort(
+        (
+            boltztrap_kpoints[:, 0],
+            boltztrap_kpoints[:, 0] < 0,
+            boltztrap_kpoints[:, 1],
+            boltztrap_kpoints[:, 1] < 0,
+            boltztrap_kpoints[:, 2],
+            boltztrap_kpoints[:, 2] < 0,
+        )
+    )
+    return sort_idx
+
