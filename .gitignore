@@ -92,3 +92,5 @@ ENV/
 .idea*
 .DS_store
 .mypy*
+.log
+temp-plot.html
