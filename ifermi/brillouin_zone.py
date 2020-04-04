@@ -1,110 +1,109 @@
 """
-    This module contains objects used for defining the brillioun zones of a given crystal structure.
-    
-    """
-import numpy as np
-import scipy as sp
-import scipy.linalg as la
+This module contains objects used for defining reciprocal periodic boundaries.
+"""
+
 import itertools
 
-from pymatgen.electronic_structure.bandstructure import BandStructure
-from skimage import measure
+import numpy as np
+from monty.json import MSONable
+from scipy.spatial import Voronoi
 
-class BrillouinZone(object):
-    
-    """An object which holds information for the Brillioun Zone. This is the Wigner–Seitz cell
-        of the reciprocal lattice.
+from pymatgen import Structure
+
+
+class ReciprocalSpace(MSONable):
+    """
+    Common representation of a reciprocal space.
+
+    Attributes:
+        reciprocal_lattice: The reciprocal lattice vectors.
+    """
+
+    def __init__(self, reciprocal_lattice: np.ndarray):
         """
-    
-    def __init__(self, rlattvec: np.array):
-        """Summary
-        
         Args:
-            rlattvec (np.array): The lattice vector (b1, b2, b3) in reciprocal space.
+            reciprocal_lattice: The reciprocal lattice vectors.
         """
-        self._rlattvec = rlattvec
-        
+        self.reciprocal_lattice = reciprocal_lattice
+
+    @classmethod
+    def from_structure(cls, structure: Structure):
+        return cls(structure.lattice.reciprocal_lattice.matrix)
+
+
+class ReciprocalCell(ReciprocalSpace):
+    """
+    The reciprocal cell.
+
+    Defined by the parallelepiped formed by the vector set (b1, b2, b3) and
+    contains all the same information as the first Brillouin Zone.
+
+    Attributes:
+        faces: The coordinates for each face of the reciprocal cell.
+    """
+
+    def __init__(self, reciprocal_lattice: np.ndarray):
+        """
+        Args:
+            reciprocal_lattice: The reciprocal lattice vectors.
+        """
+        super().__init__(reciprocal_lattice)
+
+        face_vertices = [
+            [[0, 0, 0], [0, 0, 1], [0, 1, 1], [0, 1, 0], [0, 0, 0]],
+            [[1, 0, 0], [1, 0, 1], [1, 1, 1], [1, 1, 0], [1, 0, 0]],
+
+            [[0, 0, 0], [0, 0, 1], [1, 0, 1], [1, 0, 0], [0, 0, 0]],
+            [[0, 1, 0], [0, 1, 1], [1, 1, 1], [1, 1, 0], [0, 1, 0]],
+
+            [[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0], [0, 0, 0]],
+            [[0, 0, 1], [1, 0, 1], [1, 1, 1], [0, 1, 1], [0, 0, 1]],
+        ]
+        face_vertices = np.array(face_vertices) - 0.5
+        self.faces = np.dot(face_vertices, reciprocal_lattice)
+
+
+class WignerSeitzCell(ReciprocalSpace):
+    """
+    The first Brillioun Zone information.
+
+    This is the Wigner–Seitz cell of the reciprocal lattice.
+    """
+
+    def __init__(self, reciprocal_lattice: np.ndarray):
+        """
+        Args:
+            reciprocal_lattice: The reciprocal lattice vectors.
+        """
+        super().__init__(reciprocal_lattice)
+
         points = []
-        for ijk0 in itertools.product(range(5), repeat=3):
-            ijk = [i if i <= 2 else i - 5 for i in ijk0]
-            points.append(rlattvec @ np.array(ijk))
-        voronoi = sp.spatial.Voronoi(points)
-        region_index = voronoi.point_region[0]
-        vertex_indices = voronoi.regions[region_index]
-        vertices = voronoi.vertices[vertex_indices, :]
-        
-        self._vertices = vertices
-        
-        # Compute a center and an outward-pointing normal for each of the facets
-        # of the BZ
-        facets = []
-        for ridge in voronoi.ridge_vertices:
-            if all(i in vertex_indices for i in ridge):
-                facets.append(ridge)
+        for i, j, k in itertools.product([-1, 0, 1], [-1, 0, 1], [-1, 0, 1]):
+            points.append(np.dot([i, j, k], reciprocal_lattice))
+
+        voronoi = Voronoi(points)
+
+        self.faces = []
         centers = []
         normals = []
-        bz_corners = []
-        
-        for f in facets:
-            corners = np.array([voronoi.vertices[i, :] for i in f])
-            bz_corners.append(np.concatenate((corners, [corners[0]]), axis=0))
+        for ridge_points, ridge_vertices in voronoi.ridge_dict.items():
+            if ridge_points[0] == 13 or ridge_points[1] == 13:
+                corners = [voronoi.vertices[i] for i in ridge_vertices]
+                self.faces.append(np.array(corners))
+
+        for corners in self.faces:
             center = corners.mean(axis=0)
             v1 = corners[0, :]
-            for i in range(1, corners.shape[0]):
-                v2 = corners[i, :]
+            for v2 in corners[1:]:
                 prod = np.cross(v1 - center, v2 - center)
-                if not np.allclose(prod, 0.):
+                if not np.allclose(prod, 0.0):
                     break
-            if np.dot(center, prod) < 0.:
+
+            if np.dot(center, prod) < 0.0:
                 prod = -prod
+
             centers.append(center)
             normals.append(prod)
 
-        # return box dimensions of the Brillouin zone for use in cropping later
-        min_dimensions = [np.amin(vertices[:, 0]), np.amin(vertices[:, 1]), np.amin(vertices[:, 2])]
-        max_dimensions = [np.amax(vertices[:, 0]), np.amax(vertices[:, 1]), np.amax(vertices[:, 2])]
-        
-        
-        self._min_dimensions = min_dimensions
-        self._max_dimensions = max_dimensions
-        self._centers = centers
-        self._normals = normals
-        self._facets = facets
-        self._bz_corners = bz_corners
-
-
-class RecipCell(object):
-    """
-    An object which holds information for the reciprocal cell. The reciprocal cell is the paralellopiped formed 
-    by the vector set (b1, b2, b3) and contains all the same information as the Brillouin Zone.
-    """
-
-    def __init__(self, rlattvec: np.array):
-        """Summary
-        
-        Args:
-            lattvec (np.array): The lattice vector (b1, b2, b3) in reciprocal space.
-        """
-        self._rlattvec = rlattvec
-
-        faces = []
-
-        for i in [0,1]:
-            corners = []
-            for j in [0,1]:
-                for k in [0,1]:
-                    corners.append([k*np.linalg.norm([rlattvec[:,0]]),j*np.linalg.norm([rlattvec[:,1]]),i*np.linalg.norm([rlattvec[:,2]])])
-            corners[-2], corners[-1] = corners[-1], corners[-2]
-            corners.append(corners[0])
-            faces.append(corners)
-
-        for j in [0,1]:
-            corners = []
-            for i in [0,1]:
-                for k in [0,1]:
-                    corners.append([i*np.linalg.norm([rlattvec[:,0]]),j*np.linalg.norm([rlattvec[:,1]]),k*np.linalg.norm([rlattvec[:,2]])])
-            corners[-2], corners[-1] = corners[-1], corners[-2]
-            corners.append(corners[0])
-            faces.append(corners)
-
-        self._faces = faces
+        self.centers = np.array(centers)
+        self.normals = np.array(normals)
