@@ -28,6 +28,3 @@ if __name__ == '__main__':
     fs = FermiSurface.from_band_structure(new_bs, kpoint_dim, wigner_seitz=False)
     dumpfn(fs, 'fs_BaFe2As2_reciprocal.json.gz')
     dumpfn(fs.reciprocal_space, "rs_reciprocal.json.gz")
-
-    fs = FermiSurface.from_band_structure(new_bs, kpoint_dim, spin=Spin.up)
-    dumpfn(fs, 'fs_BaFe2As2_spin_up.json.gz')

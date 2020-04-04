@@ -3,6 +3,7 @@ from pathlib import Path
 from ifermi.interpolator import Interpolater
 from ifermi.plotter import FSPlotter
 from ifermi.fermi_surface import FermiSurface
+from pymatgen import Spin
 from pymatgen.io.vasp.outputs import Vasprun
 
 test_dir = Path(__file__).resolve().parent
@@ -33,6 +34,17 @@ class IntegrationTest(unittest.TestCase):
         fs = FermiSurface.from_band_structure(new_bs, kpoint_dim, wigner_seitz=False)
         plotter = FSPlotter(fs)
         plotter.plot(plot_type='mpl', interactive=False, filename=self.output_file)
+        # plotter.plot(plot_type='plotly', interactive=True)
+        # plotter.plot(plot_type='mayavi', interactive=False, filename=self.output_file)
+
+    def test_integration_spin(self):
+        interpolater = Interpolater(self.band_structure)
+        new_bs, kpoint_dim = interpolater.interpolate_bands(1)
+        fs = FermiSurface.from_band_structure(new_bs, kpoint_dim, wigner_seitz=False)
+        plotter = FSPlotter(fs)
+        plotter.plot(
+            plot_type='mpl', interactive=False, filename=self.output_file, spin=Spin.up
+        )
         # plotter.plot(plot_type='plotly', interactive=True)
         # plotter.plot(plot_type='mayavi', interactive=False, filename=self.output_file)
 
