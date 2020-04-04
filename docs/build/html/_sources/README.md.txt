@@ -3,17 +3,17 @@ IFERMI
 ------
 IFermi is a package which provides tools for plotting Fermi surfaces
 from DFT output. IFermi is also useful for visualisation of slices of
-the three-dimensional Fermi surface along a specified plane. The idea 
+the three-dimensional Fermi surface along a specified plane. The idea
 is to provide tools which allow for more tailored Fermi surface plots
 than what other plotting software currently offer.
 
 The main features include:
 
 1. **Plotting of three-dimensional Fermi surfaces, with interactive plotting
-   supported by Mayavi_, Plotly_ and Matplotlib_ (see recommended 
+   supported by Mayavi_, Plotly_ and Matplotlib_ (see recommended
    libraries below).**
 
-2. **Taking a slice of a three-dimensional Fermi surface along a specified 
+2. **Taking a slice of a three-dimensional Fermi surface along a specified
    plane and plotting the resulting contour.**
 
 3. **Identification and visualisation of vanishingly small Fermi surfaces**
@@ -21,17 +21,17 @@ The main features include:
    - useful in the identification of Dirac points.
    - requires a DFT scf calculation on a more fine k-mesh
 
-Notes about the use of external libraries: 
+Notes about the use of external libraries:
 
    - VASP calculations are imported using Pymatgen_.
-   - Band interpolation is carried out using BoltzTraP2_   
+   - Band interpolation is carried out using BoltzTraP2_
    - Plotting is supported in Mayavi_, Plotly_ and Matplotlib_.
    - I reccomned using Mayavi_ or Plotly_ for three-dimensional
-     Fermi surface visualisation, and Matplotlib_ for two 
-     plotting two-dimensional slices. 
+     Fermi surface visualisation, and Matplotlib_ for two
+     plotting two-dimensional slices.
 
-The code currently primarily supports VASP calculations, but will 
-soon be extended to other platforms supported by Pymatgen_ 
+The code currently primarily supports VASP calculations, but will
+soon be extended to other platforms supported by Pymatgen_
 (Quantum Espresso, Questaal, etc.)
 
 
@@ -39,8 +39,8 @@ soon be extended to other platforms supported by Pymatgen_
 
 IFermi can be used from the command-line or from a python API.
 
-While is is easiest to use a vasprun.xml file for generation of the FermiSurface 
-object, it is also possible to specify energy values on a uniform k-grid. 
+While is is easiest to use a vasprun.xml file for generation of the FermiSurface
+object, it is also possible to specify energy values on a uniform k-grid.
 
 A guide to using each command can be found on the
 `Tutorial page <http://sumo.readthedocs.io/en/latest/tutorials.html>`_.
@@ -50,12 +50,12 @@ For a preview of the functionality of IFermi, see the
 
 Currently, the scripts provided are:
 
-- ``ifermi-fsplot``: For generating a three-dimensional plot of the 
+- ``ifermi-fsplot``: For generating a three-dimensional plot of the
     Fermi surface of a material.
-- ``ifermi-slice``: For plotting a slice of the three-dimensional 
+- ``ifermi-slice``: For plotting a slice of the three-dimensional
     Fermi surface along a specified plane.
 - ``ifermi-diracplot``: For generating three-dimensional plots of Dirac
-    points, where Dirac points are displayed as red dots for easy 
+    points, where Dirac points are displayed as red dots for easy
     identification.
 - ``ifermi-diracslice``: For plotting slices of a Fermi surface with
     Dirac points.
@@ -66,10 +66,10 @@ IFermi is made up of a number of classes for building and plotting
 Fermi surfaces. This includes:
 
 - `FermiSurface`: stores isosurfaces at the Fermi-level for use in plotting,
-   as well as other useful structural information. 
-- `Interpolator`: Takes energies specified on a uniform k-mesh and interpolates 
+   as well as other useful structural information.
+- `Interpolator`: Takes energies specified on a uniform k-mesh and interpolates
    this to a finer k-mesh.
-- `Plotter`: Given a FermiSurface object, produces an interactive plot   
+- `Plotter`: Given a FermiSurface object, produces an interactive plot
 
 A minimal working example for plotting the 3d Fermi surface of MgB2 from a POSCAR
 file and Vasprun.xml file is:
@@ -88,13 +88,13 @@ if __name__ == '__main__':
 	bs = vr.get_band_structure()
 
 	# increase interpolation factor to increase density of interpolated bandstructure
-	interpolater = Interpolater(bs) 
+	interpolater = Interpolater(bs)
 
 	new_bs, hdims, rlattvec = interpolater.interpolate_bands(10)
 
 	rc = RecipCell(rlattvec)
 
-	bz = BrillouinZone(rlattvec)
+	bz = WignerSeitzCell(rlattvec)
 
 	# Make a three dimensional plot of the Brillioun zone
 
@@ -127,7 +127,7 @@ IFermi can be installed using pip:
 pip install ifermi
 ```
 
-IFermi requires Python 3.6+. 
+IFermi requires Python 3.6+.
 
 ## Tests
 From a developer installation, the unit tests can be
@@ -162,7 +162,7 @@ open-source python packages, specifically:
 
 I have tried to implement the program in a logical way.
 However, if you think that it could use some improvement
-or added functionality,send a push request to the GitHub page. 
+or added functionality,send a push request to the GitHub page.
 I would greatly appreciate any contributions.
 
 ## License

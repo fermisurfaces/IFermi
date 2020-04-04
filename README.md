@@ -10,8 +10,9 @@ than what is currently offered by other packages.
 The main features include:
 
 1. **Plotting of three-dimensional Fermi surfaces, with interactive plotting
-   supported by [mayavi](https://docs.enthought.com/mayavi/mayavi/), [plotly](https://plot.ly/) and [matplotlib](https://matplotlib.org) (see recommended 
-   libraries below).**
+   supported by [mayavi](https://docs.enthought.com/mayavi/mayavi/), 
+   [plotly](https://plot.ly/) and [matplotlib](https://matplotlib.org) (see 
+   recommended libraries below).**
 
 2. **Taking a slice of a three-dimensional Fermi surface along a specified 
    plane and plotting the resulting contour.**
@@ -42,47 +43,36 @@ Fermi surfaces. This includes:
 
 - `FermiSurface`: stores isosurfaces at the Fermi-level for use in plotting,
    as well as other useful structural information. 
-- `BrillouinZone`: Represents the lattice's Wigner-Seitz brillouin zone
-- `RecipCell`: Represents the lattice's standard reciprocal cell 
-- `Interpolator`: Takes energies specified on a uniform k-mesh and interpolates 
-   this to a finer k-mesh.
-- `Plotter`: Given a FermiSurface object, produces an interactive plot   
+- `Interpolator`: Takes band energies and interpolates them to a finer k-mesh.
+- `FSPlotter`: Given a FermiSurface object, produces an interactive plot.
 
-
-A minimal working example for plotting the 3d Fermi surface of MgB2 from a POSCAR
-file and Vasprun.xml file is:
+A minimal working example for plotting the 3d Fermi surface of MgB<sub>2</sub>
+from a vasprun.xml file is:
 
 ```python
-from interpolator import Interpolater
-from fermi_surface import FermiSurface
-from brillouin_zone import BrillouinZone, RecipCell
-from plotter import *
+from ifermi.interpolator import Interpolater
+from ifermi.fermi_surface import FermiSurface
+from ifermi.plotter import FSPlotter
 
 from pymatgen.io.vasp.outputs import Vasprun
 from pymatgen.electronic_structure.core import Spin
-from pymatgen.electronic_structure.bandstructure import BandStructure
 
-if __name__ == '__main__':
-	vr = Vasprun("/Users/amyjade/Documents/3rdYear/URAP/PlottingProgram/dataMgB2/vasprun.xml")
-	bs = vr.get_band_structure()
+# load the vasprun and get a band structure object
+vr = Vasprun("examples/MgB2/vasprun.xml")
+bs = vr.get_band_structure()
 
-	# increase interpolation factor to increase density of interpolated bandstructure
-	interpolater = Interpolater(bs) 
+# increase interpolation factor to increase density of interpolated bandstructure
+interpolater = Interpolater(bs) 
+interp_bs, kpoints_dim = interpolater.interpolate_bands(10)
 
-	new_bs, hdims, rlattvec = interpolater.interpolate_bands(10)
+# get the fermi surface from the band structure for the Wigner-Seitz cell 
+# using the Spin up channel
+fs = FermiSurface.from_band_structure(
+    interp_bs, kpoints_dim, wigner_seitz=True, spin=Spin.up
+)
 
-	rc = RecipCell(rlattvec)
-
-	bz = BrillouinZone(rlattvec)
-
-	# Make a three dimensional plot of the Brillioun zone
-
-	fs = FermiSurface(new_bs, hdims, rlattvec, mu = 0.0, plot_wigner_seitz = True)
-
-	plotter = FSPlotter(fs, rc = None, bz = bz)
-
-	plotter.fs_plot_data(plot_type = 'mayavi')
-
+plotter = FSPlotter(fs)
+plotter.plot(plot_type='mayavi')
 ```
 
 ### Example output
@@ -101,9 +91,8 @@ open-source python packages, specifically:
 - [numpy](http://www.numpy.org)
 - [scipy](https://www.scipy.org)
 - [matplotlib](https://matplotlib.org)
-- [mayavi](https://docs.enthought.com/mayavi/mayavi/)
-- [plotly](https://plot.ly/)
-
+- Optional: [mayavi](https://docs.enthought.com/mayavi/mayavi/)
+- Optional: [plotly](https://plot.ly/)
 
 
 ## Contributing

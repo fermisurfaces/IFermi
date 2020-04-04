@@ -94,7 +94,7 @@ if __name__ == '__main__':
 
 	rc = RecipCell(rlattvec)
 
-	bz = BrillouinZone(rlattvec)
+	bz = WignerSeitzCell(rlattvec)
 
 	# Make a three dimensional plot of the Brillioun zone
 
