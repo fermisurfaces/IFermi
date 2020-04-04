@@ -73,7 +73,7 @@ def fsplot(
 
     interp_bs, kpoint_dim = interpolater.interpolate_bands(interpolate_factor)
     fs = FermiSurface.from_band_structure(
-        interp_bs, kpoint_dim, mu=mu, wigner_seitz=wigner_seitz, spin=spin,
+        interp_bs, kpoint_dim, mu=mu, wigner_seitz=wigner_seitz
     )
 
     plotter = FSPlotter(fs)
@@ -82,7 +82,12 @@ def fsplot(
     prefix = "{}_".format(prefix) if prefix else ""
     output_filename = "{}fermi_surface.{}".format(prefix, image_format)
     output_filename = Path(directory) / output_filename
-    plotter.plot(plot_type=plot_type, interactive=interactive, filename=output_filename)
+    plotter.plot(
+        plot_type=plot_type,
+        interactive=interactive,
+        filename=output_filename,
+        spin=spin
+    )
 
 
 def find_vasprun_file():
