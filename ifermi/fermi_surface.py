@@ -6,7 +6,7 @@ Scikit-image package.
 import itertools
 import warnings
 from copy import deepcopy
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Tuple
 
 import numpy as np
 from monty.json import MSONable
@@ -28,7 +28,7 @@ class FermiSurface(MSONable):
 
     def __init__(
         self,
-        isosurfaces: List[Tuple[np.ndarray, np.ndarray]],
+        isosurfaces: Dict[Spin, List[Tuple[np.ndarray, np.ndarray]]],
         reciprocal_space: ReciprocalSpace,
         structure: Structure,
     ):
@@ -36,7 +36,8 @@ class FermiSurface(MSONable):
         Get a Fermi Surface object.
 
         Args:
-            isosurfaces: The isosurfaces as a List of ``(vertices, faces)``.
+            isosurfaces: A dictionary containing a list of isosurfaces as
+                ``(vertices, faces)`` for each spin channel.
             reciprocal_space: The reciprocal space associated with the Fermi surface.
             structure: The structure.
         """
@@ -51,7 +52,6 @@ class FermiSurface(MSONable):
         band_structure: BandStructure,
         kpoint_dim: np.ndarray,
         mu: float = 0.0,
-        spin: Optional[Spin] = None,
         wigner_seitz: bool = False,
         symprec: float = 0.001,
     ) -> "FermiSurface":
@@ -65,7 +65,6 @@ class FermiSurface(MSONable):
                 energy eigenvalues are defined.
             mu: Energy offset from the Fermi energy at which the iso-surface is
                shape of the resulting iso-surface.
-            spin: The spin channel to plot. By default plots both spin channels.
             wigner_seitz: Controls whether the cell is the Wigner-Seitz cell
                 or the reciprocal unit cell parallelepiped.
             symprec: Symmetry precision for determining whether the structure is the
@@ -106,7 +105,6 @@ class FermiSurface(MSONable):
             kpoint_dim,
             fermi_level,
             reciprocal_space,
-            spin=spin,
         )
 
         return cls(isosurfaces, reciprocal_space, structure)
@@ -126,14 +124,33 @@ class FermiSurface(MSONable):
 
         return projected_band
 
+    @classmethod
+    def from_dict(cls, d):
+        """Returns FermiSurface object from dict."""
+        fs = super().from_dict(d)
+        isosurfaces = {Spin(int(k)): v for k, v in fs.isosurfaces.items()}
+        return cls(isosurfaces, fs.reciprocal_space, fs.structure)
+
+    def as_dict(self):
+        """
+        Get a json-serializable dict representation of FermiSurface.
+        """
+        d = {
+            "@module": self.__class__.__module__,
+            "@class": self.__class__.__name__,
+            "isosurfaces": {str(spin): iso for spin, iso in self.isosurfaces.items()},
+            "structure": self.structure.as_dict(),
+            "reciprocal_space": self.reciprocal_space.as_dict()
+        }
+        return d
+
 
 def compute_isosurfaces(
     bands: Dict[Spin, np.ndarray],
     kpoint_dim: Tuple[int, int, int],
     fermi_level: float,
     reciprocal_space: ReciprocalSpace,
-    spin: Optional[Spin] = None,
-) -> List[Tuple[np.ndarray, np.ndarray]]:
+) -> Dict[Spin, List[Tuple[np.ndarray, np.ndarray]]]:
     """
     Compute the isosurfaces at a particular energy level.
 
@@ -143,25 +160,19 @@ def compute_isosurfaces(
         kpoint_dim: The k-point mesh dimensions.
         fermi_level: The energy at which to calculate the Fermi surface.
         reciprocal_space: The reciprocal space representation.
-        spin: Which spin channel to calculate isosurfaces for. By default use both
-            spin channels if available.
 
     Returns:
-        A list of isosurfaces given as ``(vertices, faces)``.
+        A dictionary containing a list of isosurfaces as ``(vertices, faces)`` for
+        each spin channel.
     """
     rlat = reciprocal_space.reciprocal_lattice
 
-    if not spin:
-        spin = list(bands.keys())
-    elif isinstance(spin, Spin):
-        spin = [spin]
-
     spacing = 1 / (np.array(kpoint_dim) - 1)
 
-    isosurface = []
-    for s in spin:
-        ebands = bands[s]
+    isosurfaces = {}
+    for spin, ebands in bands.items():
         ebands -= fermi_level
+        spin_isosurface = []
 
         for band in ebands:
             # check if band crosses fermi level
@@ -176,9 +187,11 @@ def compute_isosurfaces(
                     # convert coords to cartesian
                     verts = np.dot(verts - 0.5, rlat)
 
-                isosurface.append((verts, faces))
+                spin_isosurface.append((verts, faces))
 
-    return isosurface
+        isosurfaces[spin] = spin_isosurface
+
+    return isosurfaces
 
 
 def _trim_surface(
