@@ -8,15 +8,17 @@ todo:
 * Think about classes/methods, maybe restructure depending on sumo layout
 """
 
-from typing import Any, List, Optional, Tuple
+from typing import Any, List, Optional, Tuple, Union
 
 import colorlover as cl
 import numpy as np
+from matplotlib import cm
 from monty.dev import requires
 from monty.json import MSONable
 
 from ifermi.brillouin_zone import ReciprocalCell
 from ifermi.fermi_surface import FermiSurface
+from pymatgen import Spin
 from pymatgen.symmetry.bandstructure import HighSymmKpath
 
 try:
@@ -125,6 +127,8 @@ class FSPlotter(MSONable):
         plot_type: str = "plotly",
         interactive: bool = True,
         filename: str = "fermi_surface.png",
+        spin: Optional[Spin] = None,
+        colors: Optional[Union[str, dict, list]] = None,
         **plot_kwargs,
     ):
         """
@@ -135,28 +139,87 @@ class FSPlotter(MSONable):
                 "plotly", "mayavi".
             interactive: Whether to enable interactive plots.
             filename: Output filename.
+            spin: Which spin channel to plot. By default plot both spin channels if
+                available.
+            colors: See the docstring for ``get_isosurfaces_and_colors()`` for the
+                available options.
             **plot_kwargs: Other keyword arguments supported by the individual plotting
                 methods.
         """
         if plot_type == "mpl":
             self.plot_matplotlib(
-                filename=filename, interactive=interactive, **plot_kwargs
+                filename=filename, interactive=interactive, colors=colors, **plot_kwargs
             )
         elif plot_type == "plotly":
-            self.plot_plotly(filename=filename, interactive=interactive, **plot_kwargs)
+            self.plot_plotly(
+                filename=filename, interactive=interactive, colors=colors, **plot_kwargs
+            )
         elif plot_type == "mayavi":
-            self.plot_mayavi(filename=filename, interactive=interactive, **plot_kwargs)
+            self.plot_mayavi(
+                filename=filename, interactive=interactive, colors=colors, **plot_kwargs
+            )
         else:
             types = ["mpl", "plotly", "mayavi"]
             raise ValueError(
                 "Plot type not recognised, valid options: {}".format(types)
             )
 
+    def get_isosurfaces_and_colors(
+        self,
+        spin: Optional[Spin] = None,
+        colors: Optional[Union[str, dict, list]] = None
+    ) -> Tuple[List[Tuple[np.ndarray, np.ndarray]], Any]:
+        """
+        Get the isosurfaces and colors to plot.
+
+        Args:
+            spin: Which spin channel to select. By default will return the isosurfaces
+                for both spin channels if available.
+            colors: The color specification. Valid options are:
+                - A list of colors.
+                - A dictionary of ``{Spin.up: color1, Spin.down: color2}``.
+                - A string specifying which matplotlib colormap to use. See
+                  https://matplotlib.org/tutorials/colors/colormaps.html for more
+                  information.
+                - ``None``, in which case the colors will be chosen randomly.
+
+        Returns:
+            The isosurfaces and colors as a tuple.
+        """
+        if not spin:
+            spin = list(self.fermi_surface.isosurfaces.keys())
+        elif isinstance(spin, Spin):
+            spin = [spin]
+
+        isosurfaces = []
+        for s in spin:
+            isosurfaces.extend(self.fermi_surface.isosurfaces[s])
+
+        if isinstance(colors, dict):
+            if len(colors) < len(spin):
+                raise ValueError(
+                    "colors dictionary should have the same number of spin channels as"
+                    "spins to plot"
+                )
+            colors = []
+            for s in spin:
+                colors.extend([colors[s]] * len(self.fermi_surface.isosurfaces[s]))
+
+        elif isinstance(colors, str):
+            cmap = cm.get_cmap(colors)
+            colors = cmap(np.linspace(0, 1, len(isosurfaces)))
+
+        elif colors is None:
+            colors = np.random.random((len(isosurfaces), 3))
+
+        return isosurfaces, colors
+
     def plot_matplotlib(
         self,
         interactive: bool = True,
         bz_linewidth: float = 0.9,
-        colors: Optional[List[Any]] = None,
+        spin: Optional[Spin] = None,
+        colors: Optional[Union[str, dict, list]] = None,
         title: str = None,
         filename: str = "fermi_surface.png",
     ):
@@ -166,7 +229,10 @@ class FSPlotter(MSONable):
         Args:
             interactive: Whether to enable interactive plots.
             bz_linewidth: Brillouin zone line width.
-            colors: Colors used for Fermi surfaces.
+            spin: Which spin channel to plot. By default plot both spin channels if
+                available.
+            colors: See the docstring for ``get_isosurfaces_and_colors()`` for the
+                available options.
             title: The title of the plot.
             filename: The output file name.
         """
@@ -176,13 +242,12 @@ class FSPlotter(MSONable):
         fig = plt.figure(figsize=(10, 10))
         ax = fig.add_subplot(111, projection="3d")
 
-        if colors is None:
-            colors = plt.cm.Set1(np.linspace(0, 1, self.fermi_surface.n_surfaces))
+        isosurfaces, colors = self.get_isosurfaces_and_colors(spin=spin, colors=colors)
 
         # create a mesh for each electron band which has an isosurfaces at the Fermi
         # energy mesh data is generated by a marching cubes algorithm when the
         # FermiSurface object is created.
-        for c, (verts, faces) in zip(colors, self.fermi_surface.isosurfaces):
+        for c, (verts, faces) in zip(colors, isosurfaces):
             x, y, z = zip(*verts)
             ax.plot_trisurf(x, y, faces, z, facecolor=c, lw=1)
 
@@ -198,13 +263,8 @@ class FSPlotter(MSONable):
         if title is not None:
             plt.title(title)
 
-        rlat_lengths = np.linalg.norm(self.rlat, axis=1)
-        if isinstance(self.reciprocal_space, ReciprocalCell):
-            xlim, ylim, zlim = rlat_lengths / 2
-            ax.set(xlim=(-xlim, xlim), ylim=(-ylim, ylim), zlim=(-zlim, zlim))
-        else:
-            xlim, ylim, zlim = rlat_lengths
-            ax.set(xlim=(0, xlim), ylim=(0, ylim), zlim=(0, zlim))
+        xlim, ylim, zlim = np.linalg.norm(self.rlat, axis=1) / 2
+        ax.set(xlim=(-xlim, xlim), ylim=(-ylim, ylim), zlim=(-zlim, zlim))
 
         ax.axis("off")
         plt.tight_layout()
@@ -216,26 +276,34 @@ class FSPlotter(MSONable):
 
     @requires(plotly, "plotly option requires plotly to be installed.")
     def plot_plotly(
-        self, interactive: bool = True, filename: str = "fermi_surface.png",
+        self,
+        interactive: bool = True,
+        spin: Optional[Spin] = None,
+        colors: Optional[Union[str, dict, list]] = None,
+        filename: str = "fermi_surface.png",
     ):
         """
         Plot the Fermi surface using plotly.
 
         Args:
             interactive: Whether to enable interactive plots.
+            spin: Which spin channel to plot. By default plot both spin channels if
+                available.
+            colors: See the docstring for ``get_isosurfaces_and_colors()`` for the
+                available options.
             filename: The output file name.
         """
         from plotly.offline import init_notebook_mode, plot
         import plotly.graph_objs as go
 
         init_notebook_mode(connected=True)
-        colors = cl.scales["11"]["qual"]["Set3"]
+        isosurfaces, colors = self.get_isosurfaces_and_colors(spin=spin, colors=colors)
 
         # create a mesh for each electron band which has an isosurfaces at the Fermi
         # energy mesh data is generated by a marching cubes algorithm when the
         # FermiSurface object is created.
         meshes = []
-        for c, (verts, faces) in zip(colors, self.fermi_surface.isosurfaces):
+        for c, (verts, faces) in zip(colors, isosurfaces):
             x, y, z = zip(*verts)
             i, j, k = ([triplet[c] for triplet in faces] for c in range(3))
             trace = go.Mesh3d(x=x, y=y, z=z, color=c, opacity=1, i=i, j=j, k=k)
@@ -281,7 +349,8 @@ class FSPlotter(MSONable):
     def plot_mayavi(
         self,
         interactive: bool = True,
-        colors: Optional[List[Any]] = None,
+        spin: Optional[Spin] = None,
+        colors: Optional[Union[str, dict, list]] = None,
         filename: str = "fermi_surface.png",
     ):
         """
@@ -289,12 +358,16 @@ class FSPlotter(MSONable):
 
         Args:
             interactive: Whether to enable interactive plots.
-            colors: The colors used for the plot.
+            spin: Which spin channel to plot. By default plot both spin channels if
+                available.
+            colors: See the docstring for ``get_isosurfaces_and_colors()`` for the
+                available options.
             filename: The output file name.
         """
         from mlabtex import mlabtex
 
         mlab.figure(figure=None, bgcolor=(1, 1, 1), size=(800, 800))
+        isosurfaces, colors = self.get_isosurfaces_and_colors(spin=spin, colors=colors)
 
         for facet in self.reciprocal_space.faces:
             x, y, z = zip(*facet)
