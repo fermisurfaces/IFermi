@@ -44,7 +44,7 @@ Fermi surfaces. This includes:
 - `FermiSurface`: stores isosurfaces at the Fermi-level for use in plotting,
    as well as other useful structural information. 
 - `Interpolator`: Takes band energies and interpolates them to a finer k-mesh.
-- `FSPlotter`: Given a FermiSurface object, produces an interactive plot.
+- `FermiSurfacePlotter`: Given a FermiSurface object, produces an interactive plot.
 
 A minimal working example for plotting the 3d Fermi surface of MgB<sub>2</sub>
 from a vasprun.xml file is:
@@ -52,7 +52,7 @@ from a vasprun.xml file is:
 ```python
 from ifermi.interpolator import Interpolater
 from ifermi.fermi_surface import FermiSurface
-from ifermi.plotter import FSPlotter
+from ifermi.plotter import FermiSurfacePlotter
 
 from pymatgen.io.vasp.outputs import Vasprun
 from pymatgen.electronic_structure.core import Spin
@@ -71,7 +71,7 @@ fs = FermiSurface.from_band_structure(
     interp_bs, kpoints_dim, wigner_seitz=True, spin=Spin.up
 )
 
-plotter = FSPlotter(fs)
+plotter = FermiSurfacePlotter(fs)
 plotter.plot(plot_type='mayavi')
 ```
 
