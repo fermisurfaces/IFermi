@@ -100,7 +100,7 @@ if __name__ == '__main__':
 
 	fs = FermiSurface(new_bs, hdims, rlattvec, mu = 0.0, plot_wigner_seitz = True)
 
-	plotter = FSPlotter(fs, rc = None, bz = bz)
+	plotter = FermiSurfacePlotter(fs, rc = None, bz = bz)
 
 	plotter.fs_plot_data(plot_type = 'mayavi')
 
