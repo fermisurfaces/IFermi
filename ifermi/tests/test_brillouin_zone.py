@@ -18,19 +18,11 @@ class BrillouinZoneTest(unittest.TestCase):
         self.ref_rs_reciprocal = loadfn(test_dir / "rs_reciprocal.json.gz")
 
     def test_wigner_seitz_cell(self):
-        # test from lattice
-        rs = WignerSeitzCell(self.structure.lattice.reciprocal_lattice.matrix)
-        self.assert_rs_equal(rs, self.ref_rs_wigner)
-
         # test from structure
         rs = WignerSeitzCell.from_structure(self.structure)
         self.assert_rs_equal(rs, self.ref_rs_wigner)
 
     def test_reciprocal_cell(self):
-        # test from lattice
-        rs = ReciprocalCell(self.structure.lattice.reciprocal_lattice.matrix)
-        self.assert_rs_equal(rs, self.ref_rs_reciprocal)
-
         # test from structure
         rs = ReciprocalCell.from_structure(self.structure)
         self.assert_rs_equal(rs, self.ref_rs_reciprocal)
