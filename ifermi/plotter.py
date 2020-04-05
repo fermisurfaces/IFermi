@@ -31,19 +31,6 @@ try:
 except ImportError:
     mlab = False
 
-_plotly_high_sym_label_style = {
-    "mode": "markers+text",
-    "marker": {"size": 5, "color": "black"},
-    "name": "Markers and Text",
-    "textposition": "bottom center",
-}
-
-_mayavi_high_sym_label_style = {
-    "color": (0, 0, 0),
-    "scale": 0.1,
-    "orientation": (90.0, 0.0, 0.0),
-}
-
 _plotly_scene = dict(
     xaxis=dict(
         backgroundcolor="rgb(255, 255, 255)",
@@ -73,6 +60,16 @@ _plotly_scene = dict(
         showticklabels=False,
     ),
 )
+
+_plotly_label_style = dict(
+    xshift=15, yshift=15, showarrow=False, font={"size": 20}
+)
+
+_mayavi_high_sym_label_style = {
+    "color": (0, 0, 0),
+    "scale": 0.1,
+    "orientation": (90.0, 0.0, 0.0),
+}
 
 _mayavi_rs_style = {
     "color": (0.0, 0.0, 0.0),
@@ -150,7 +147,6 @@ class FermiSurfacePlotter(MSONable):
             self.plot_matplotlib(**plot_kwargs)
         elif plot_type == "plotly":
             self.plot_plotly(**plot_kwargs)
-
         elif plot_type == "mayavi":
             self.plot_mayavi(**plot_kwargs)
         else:
@@ -301,16 +297,17 @@ class FermiSurfacePlotter(MSONable):
             meshes.append(trace)
 
         # plot high symmetry labels
-        labels = [i.replace(r"\Gamma", "\u0393") for i in self._symmetry_pts[1]]
+        # labels = [i.replace(r"\Gamma", "\u0393") for i in self._symmetry_pts[1]]
+        labels = ["${}$".format(i) for i in self._symmetry_pts[1]]
         x, y, z = zip(*self._symmetry_pts[0])
-        trace = go.Scatter3d(x=x, y=y, z=z, **_plotly_high_sym_label_style)
+        marker_style = dict(size=5, color="black")
+        trace = go.Scatter3d(x=x, y=y, z=z, mode="markers", marker=marker_style)
         meshes.append(trace)
 
         annotations = []
         for label, (x, y, z) in zip(labels, self._symmetry_pts[0]):
             # annotations always appear on top of the plot
-            style = dict(xshift=10, yshift=10, text=label, showarrow=False)
-            annotations.append(dict(x=x, y=y, z=z, **style))
+            annotations.append(dict(x=x, y=y, z=z, text=label, **_plotly_label_style))
         scene = _plotly_scene.copy()
         scene["annotations"] = annotations
 
@@ -325,9 +322,7 @@ class FermiSurfacePlotter(MSONable):
         if interactive:
             plot(fig, include_mathjax="cdn")
         else:
-            plotly.io.write_image(
-                fig, str(filename), format="pdf", width=600, height=600, scale=5
-            )
+            plotly.io.write_image(fig, str(filename), width=600, height=600, scale=5)
 
     @requires(mlab, "mayavi option requires mayavi to be installed.")
     def plot_mayavi(
@@ -357,10 +352,7 @@ class FermiSurfacePlotter(MSONable):
             x, y, z = zip(*line)
             mlab.plot3d(x, y, z, **_mayavi_rs_style)
 
-        if not colors:
-            colors = np.random.random((20, 3))
-
-        for c, (verts, faces) in zip(colors, self.fermi_surface.isosurfaces):
+        for c, (verts, faces) in zip(colors, isosurfaces):
             x, y, z = zip(*verts)
             mlab.triangular_mesh(x, y, z, faces, color=tuple(c), opacity=0.7)
 
