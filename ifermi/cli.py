@@ -14,7 +14,7 @@ import os
 import sys
 import warnings
 from pathlib import Path
-from typing import Optional, Union, Tuple
+from typing import Optional, Tuple, Union
 
 from ifermi.plotter import FermiSlicePlotter
 from pymatgen import Spin
@@ -104,7 +104,7 @@ def fsplot(
             plot_type=plot_type,
             interactive=interactive,
             filename=output_filename,
-            spin=spin
+            spin=spin,
         )
 
 
@@ -142,9 +142,9 @@ def _get_fs_parser():
     parser.add_argument(
         "-m",
         "--mu",
-        default=0.,
+        default=0.0,
         type=float,
-        help="offset from the Fermi level at which to calculate Fermi surface"
+        help="offset from the Fermi level at which to calculate Fermi surface",
     )
     parser.add_argument(
         "-d", "--directory", metavar="D", help="output directory for files"
@@ -157,16 +157,16 @@ def _get_fs_parser():
         "--reciprocal-cell",
         dest="wigner_seitz",
         action="store_false",
-        help="use the reciprocal lattice rather than Wigner-Seitz cell"
+        help="use the reciprocal lattice rather than Wigner-Seitz cell",
     )
     parser.add_argument(
-        '--spin',
+        "--spin",
         type=string_to_spin,
         default=None,
-        help='select spin channel (options: up, 1; down, -1)'
+        help="select spin channel (options: up, 1; down, -1)",
     )
     parser.add_argument(
-        '-t',
+        "-t",
         "--type",
         dest="plot_type",
         default="plotly",
@@ -235,10 +235,10 @@ def main():
 
 def string_to_spin(spin_string):
     """Function to convert 'spin' cli argument to pymatgen Spin object"""
-    if spin_string in ['up', 'Up', '1', '+1']:
+    if spin_string in ["up", "Up", "1", "+1"]:
         return Spin.up
 
-    elif spin_string in ['down', 'Down', '-1']:
+    elif spin_string in ["down", "Down", "-1"]:
         return Spin.down
 
     elif spin_string is None:

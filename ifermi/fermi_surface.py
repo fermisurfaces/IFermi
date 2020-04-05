@@ -7,17 +7,16 @@ Scikit-image package.
 import itertools
 import warnings
 from copy import deepcopy
+from dataclasses import dataclass
 from typing import Dict, List, Tuple
 
 import numpy as np
-from dataclasses import dataclass
 from monty.json import MSONable
 from skimage.measure import marching_cubes_lewiner
 from trimesh import Trimesh
-from trimesh.intersections import slice_faces_plane, mesh_plane, mesh_multiplane
+from trimesh.intersections import mesh_multiplane, slice_faces_plane
 
-from ifermi.brillouin_zone import WignerSeitzCell, ReciprocalCell, ReciprocalSpace, \
-    ReciprocalSlice
+from ifermi.brillouin_zone import ReciprocalCell, ReciprocalSlice, WignerSeitzCell
 from pymatgen import Spin, Structure
 from pymatgen.electronic_structure.bandstructure import BandStructure
 from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
@@ -25,29 +24,34 @@ from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
 
 @dataclass
 class FermiSlice(MSONable):
+    """
+    A 2D slice through a Fermi surface.
+
+    Args:
+        slices: The slices for each spin channel. Given as a dictionary of
+            ``{spin: spin_slices}`` where spin_slices is a List of numpy arrays, each
+            with the shape ``(n_lines, 2, 2)``.
+        reciprocal_slice: The reciprocal slice defining the intersection of the
+            plane with the Brillouin zone edges.
+        structure: The structure.
+
+    """
 
     slices: Dict[Spin, List[np.ndarray]]
     reciprocal_slice: ReciprocalSlice
     structure: Structure
 
     @classmethod
-    def from_dict(cls, d):
+    def from_dict(cls, d) -> "FermiSlice":
         """Returns FermiSurface object from dict."""
         fs = super().from_dict(d)
-        slices = {Spin(int(k)): v for k, v in fs.slices.items()}
-        return cls(slices, fs.reciprocal_slice, fs.structure)
+        fs.slices = {Spin(int(k)): v for k, v in fs.slices.items()}
+        return fs
 
-    def as_dict(self):
-        """
-        Get a json-serializable dict representation of FermiSurface.
-        """
-        d = {
-            "@module": self.__class__.__module__,
-            "@class": self.__class__.__name__,
-            "slices": {str(spin): iso for spin, iso in self.slices.items()},
-            "structure": self.structure.as_dict(),
-            "reciprocal_slice": self.reciprocal_slice.as_dict()
-        }
+    def as_dict(self) -> dict:
+        """Get a json-serializable dict representation of FermiSurface."""
+        d = super().as_dict()
+        d["slices"] = {str(spin): iso for spin, iso in self.slices.items()}
         return d
 
 
@@ -62,14 +66,15 @@ class FermiSurface(MSONable):
             faces)`` for each spin channel.
         reciprocal_space: The reciprocal space associated with the Fermi surface.
         structure: The structure.
+
     """
 
     isosurfaces: Dict[Spin, List[Tuple[np.ndarray, np.ndarray]]]
-    reciprocal_space: ReciprocalSpace
+    reciprocal_space: ReciprocalCell
     structure: Structure
 
     @property
-    def n_surfaces(self):
+    def n_surfaces(self) -> int:
         return len(self.isosurfaces)
 
     @classmethod
@@ -95,6 +100,7 @@ class FermiSurface(MSONable):
                 or the reciprocal unit cell parallelepiped.
             symprec: Symmetry precision for determining whether the structure is the
                 standard primitive unit cell.
+
         """
         if np.product(kpoint_dim) != len(band_structure.kpoints):
             raise ValueError(
@@ -127,19 +133,27 @@ class FermiSurface(MSONable):
 
         kpoint_dim = tuple(kpoint_dim.astype(int))
         isosurfaces = compute_isosurfaces(
-            bands,
-            kpoint_dim,
-            fermi_level,
-            reciprocal_space,
+            bands, kpoint_dim, fermi_level, reciprocal_space,
         )
 
         return cls(isosurfaces, reciprocal_space, structure)
 
     def get_fermi_slice(
-        self,
-        plane_normal: Tuple[int, int, int],
-        distance: float = 0
+        self, plane_normal: Tuple[int, int, int], distance: float = 0
     ) -> FermiSlice:
+        """
+        Get a slice through the Fermi surface, defined by the intersection of a plane
+        with the fermi surface.
+
+        Args:
+            plane_normal: The plane normal in fractional indices. E.g., ``(1, 0, 0)``.
+            distance: The distance from the center of the Brillouin zone (the Gamma
+                point).
+
+        Returns:
+            The Fermi slice.
+
+        """
         cart_normal = np.dot(plane_normal, self.reciprocal_space.reciprocal_lattice)
         cart_origin = cart_normal * distance
 
@@ -161,23 +175,16 @@ class FermiSurface(MSONable):
         return FermiSlice(slices, reciprocal_slice, self.structure)
 
     @classmethod
-    def from_dict(cls, d):
+    def from_dict(cls, d) -> "FermiSurface":
         """Returns FermiSurface object from dict."""
         fs = super().from_dict(d)
-        isosurfaces = {Spin(int(k)): v for k, v in fs.isosurfaces.items()}
-        return cls(isosurfaces, fs.reciprocal_space, fs.structure)
+        fs.isosurfaces = {Spin(int(k)): v for k, v in fs.isosurfaces.items()}
+        return fs
 
-    def as_dict(self):
-        """
-        Get a json-serializable dict representation of FermiSurface.
-        """
-        d = {
-            "@module": self.__class__.__module__,
-            "@class": self.__class__.__name__,
-            "isosurfaces": {str(spin): iso for spin, iso in self.isosurfaces.items()},
-            "structure": self.structure.as_dict(),
-            "reciprocal_space": self.reciprocal_space.as_dict()
-        }
+    def as_dict(self) -> dict:
+        """Get a json-serializable dict representation of FermiSurface."""
+        d = super().as_dict()
+        d["isosurfaces"] = {str(spin): iso for spin, iso in self.isosurfaces.items()}
         return d
 
 
@@ -185,7 +192,7 @@ def compute_isosurfaces(
     bands: Dict[Spin, np.ndarray],
     kpoint_dim: Tuple[int, int, int],
     fermi_level: float,
-    reciprocal_space: ReciprocalSpace,
+    reciprocal_space: ReciprocalCell,
 ) -> Dict[Spin, List[Tuple[np.ndarray, np.ndarray]]]:
     """
     Compute the isosurfaces at a particular energy level.
@@ -231,9 +238,7 @@ def compute_isosurfaces(
 
 
 def _trim_surface(
-    wigner_seitz_cell: WignerSeitzCell,
-    vertices: np.ndarray,
-    faces: np.ndarray
+    wigner_seitz_cell: WignerSeitzCell, vertices: np.ndarray, faces: np.ndarray
 ) -> Tuple[np.ndarray, np.ndarray]:
     """
     Trim the surface to remove parts outside the cell boundaries.

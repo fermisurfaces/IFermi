@@ -40,7 +40,7 @@ class FermiSurfaceTest(unittest.TestCase):
         np.testing.assert_array_almost_equal(
             fs1.reciprocal_space.reciprocal_lattice,
             fs2.reciprocal_space.reciprocal_lattice,
-            decimal=5
+            decimal=5,
         )
 
         # check number of spin channels in surfaces is the same

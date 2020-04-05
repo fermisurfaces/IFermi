@@ -66,13 +66,14 @@ interpolater = Interpolater(bs)
 interp_bs, kpoints_dim = interpolater.interpolate_bands(10)
 
 # get the fermi surface from the band structure for the Wigner-Seitz cell 
-# using the Spin up channel
 fs = FermiSurface.from_band_structure(
-    interp_bs, kpoints_dim, wigner_seitz=True, spin=Spin.up
+    interp_bs, kpoints_dim, wigner_seitz=True
 )
 
 plotter = FermiSurfacePlotter(fs)
-plotter.plot(plot_type='mayavi')
+
+# plot and save the spin up Fermi surfaces
+plotter.plot(plot_type='mayavi', spin=Spin.up)
 ```
 
 ### Example output

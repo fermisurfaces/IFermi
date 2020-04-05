@@ -38,7 +38,7 @@ class BrillouinZoneTest(unittest.TestCase):
     def assert_rs_equal(
         self,
         rs1: Union[ReciprocalCell, WignerSeitzCell],
-        rs2: Union[ReciprocalCell, WignerSeitzCell]
+        rs2: Union[ReciprocalCell, WignerSeitzCell],
     ):
         # test reciprocal space the same
         self.assertEqual(type(rs1), type(rs2))

@@ -8,9 +8,8 @@ todo:
 * Think about classes/methods, maybe restructure depending on sumo layout
 """
 
-from typing import Any, List, Optional, Tuple, Union, Dict
+from typing import Any, Dict, List, Optional, Tuple, Union
 
-import colorlover as cl
 import numpy as np
 from matplotlib import cm
 from monty.dev import requires
@@ -18,7 +17,7 @@ from monty.json import MSONable
 from trimesh import transform_points
 
 from ifermi.brillouin_zone import ReciprocalCell
-from ifermi.fermi_surface import FermiSurface, FermiSlice
+from ifermi.fermi_surface import FermiSlice, FermiSurface
 from pymatgen import Spin
 from pymatgen.symmetry.bandstructure import HighSymmKpath
 
@@ -99,7 +98,7 @@ class FermiSurfacePlotter(MSONable):
 
     @staticmethod
     def get_symmetry_points(
-        fermi_surface: FermiSurface
+        fermi_surface: FermiSurface,
     ) -> Tuple[np.ndarray, List[str]]:
         """
         Get the high symmetry k-points and labels for the Fermi surface.
@@ -162,7 +161,7 @@ class FermiSurfacePlotter(MSONable):
     def get_isosurfaces_and_colors(
         self,
         spin: Optional[Spin] = None,
-        colors: Optional[Union[str, dict, list]] = None
+        colors: Optional[Union[str, dict, list]] = None,
     ) -> Tuple[List[Tuple[np.ndarray, np.ndarray]], Any]:
         """
         Get the isosurfaces and colors to plot.
@@ -382,8 +381,17 @@ class FermiSurfacePlotter(MSONable):
 
 
 class FermiSlicePlotter(object):
+    """
+    Class to plot 2D slices through a FermiSurface.
+    """
 
     def __init__(self, fermi_slice: FermiSlice):
+        """
+        Initialize a FermiSurfacePlotter.
+
+        Args:
+            fermi_slice: A slice through a Fermi surface.
+        """
         self.fermi_slice = fermi_slice
         self.reciprocal_slice = fermi_slice.reciprocal_slice
         self._symmetry_pts = self.get_symmetry_points(fermi_slice)
@@ -463,7 +471,7 @@ class FermiSlicePlotter(object):
             ax.text(*coords, " " + label, size=15, zorder=1)
 
         ax.autoscale(enable=True)
-        ax.axis('equal')
+        ax.axis("equal")
         ax.axis("off")
 
         if show:
@@ -473,7 +481,7 @@ class FermiSlicePlotter(object):
     def get_slices_and_colors(
         self,
         spin: Optional[Spin] = None,
-        colors: Optional[Union[str, dict, list]] = None
+        colors: Optional[Union[str, dict, list]] = None,
     ) -> Tuple[List[np.ndarray], Any]:
         """
         Get the isosurfaces and colors to plot.
@@ -531,7 +539,7 @@ def kpoints_to_first_bz(kpoints: np.ndarray, tol=1e-5) -> np.ndarray:
 def _get_colors(
     colors: Optional[Union[str, dict, list]],
     objects: Dict[Spin, List[Any]],
-    spins: List[Spin]
+    spins: List[Spin],
 ) -> Any:
     """
     Plot the Fermi surface using matplotlib.

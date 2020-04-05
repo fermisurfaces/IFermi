@@ -12,7 +12,6 @@ example_dir = root_dir / "examples"
 
 
 class IntegrationTest(unittest.TestCase):
-
     def setUp(self):
         vr = Vasprun(example_dir / "MgB2/vasprun.xml")
         bs = vr.get_band_structure()
@@ -24,7 +23,7 @@ class IntegrationTest(unittest.TestCase):
         new_bs, kpoint_dim = interpolater.interpolate_bands(1)
         fs = FermiSurface.from_band_structure(new_bs, kpoint_dim)
         plotter = FermiSurfacePlotter(fs)
-        plotter.plot(plot_type='mpl', interactive=False, filename=self.output_file)
+        plotter.plot(plot_type="mpl", interactive=False, filename=self.output_file)
         # plotter.plot(plot_type='plotly', interactive=True)
         # plotter.plot(plot_type='mayavi', interactive=False, filename=self.output_file)
 
@@ -33,7 +32,7 @@ class IntegrationTest(unittest.TestCase):
         new_bs, kpoint_dim = interpolater.interpolate_bands(1)
         fs = FermiSurface.from_band_structure(new_bs, kpoint_dim, wigner_seitz=False)
         plotter = FermiSurfacePlotter(fs)
-        plotter.plot(plot_type='mpl', interactive=False, filename=self.output_file)
+        plotter.plot(plot_type="mpl", interactive=False, filename=self.output_file)
         # plotter.plot(plot_type='plotly', interactive=True)
         # plotter.plot(plot_type='mayavi', interactive=False, filename=self.output_file)
 
@@ -43,7 +42,7 @@ class IntegrationTest(unittest.TestCase):
         fs = FermiSurface.from_band_structure(new_bs, kpoint_dim, wigner_seitz=False)
         plotter = FermiSurfacePlotter(fs)
         plotter.plot(
-            plot_type='mpl', interactive=False, filename=self.output_file, spin=Spin.up
+            plot_type="mpl", interactive=False, filename=self.output_file, spin=Spin.up
         )
         # plotter.plot(plot_type='plotly', interactive=True)
         # plotter.plot(plot_type='mayavi', interactive=False, filename=self.output_file)
