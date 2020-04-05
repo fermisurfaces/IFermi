@@ -6,7 +6,6 @@ import unittest
 from monty.serialization import loadfn
 
 from ifermi.fermi_surface import FermiSurface
-from pymatgen import Spin
 
 test_dir = Path(__file__).resolve().parent
 
