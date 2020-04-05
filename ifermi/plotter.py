@@ -20,6 +20,7 @@ from ifermi.brillouin_zone import ReciprocalCell
 from ifermi.fermi_surface import FermiSlice, FermiSurface
 from pymatgen import Spin
 from pymatgen.symmetry.bandstructure import HighSymmKpath
+from pymatgen.symmetry.kpath import KPathLatimerMunro, KPathSeek
 
 try:
     import plotly
@@ -62,7 +63,7 @@ _plotly_scene = dict(
 )
 
 _plotly_label_style = dict(
-    xshift=15, yshift=15, showarrow=False, font={"size": 20}
+    xshift=15, yshift=15, showarrow=False, font={"size": 20, "color": "black"}
 )
 
 _mayavi_high_sym_label_style = {
@@ -96,23 +97,25 @@ class FermiSurfacePlotter(MSONable):
     @staticmethod
     def get_symmetry_points(
         fermi_surface: FermiSurface,
+        symprec: float = 1e-3,
     ) -> Tuple[np.ndarray, List[str]]:
         """
         Get the high symmetry k-points and labels for the Fermi surface.
 
         Args:
             fermi_surface: A fermi surface.
+            symprec: The symmetry precision in Angstrom.
 
         Returns:
             The high symmetry k-points and labels.
         """
-        hskp = HighSymmKpath(fermi_surface.structure)
+        hskp = HighSymmKpath(fermi_surface.structure, symprec=symprec)
         labels, kpoints = list(zip(*hskp.kpath["kpoints"].items()))
 
         if isinstance(fermi_surface.reciprocal_space, ReciprocalCell):
             kpoints = kpoints_to_first_bz(np.array(kpoints))
 
-        kpoints = hskp.rec_lattice.get_cartesian_coords(kpoints)
+        kpoints = np.dot(kpoints, fermi_surface.reciprocal_space.reciprocal_lattice)
 
         return kpoints, labels
 
@@ -405,7 +408,9 @@ class FermiSlicePlotter(object):
         if isinstance(fermi_slice.reciprocal_slice.reciprocal_space, ReciprocalCell):
             kpoints = kpoints_to_first_bz(np.array(kpoints))
 
-        kpoints = hskp.rec_lattice.get_cartesian_coords(kpoints)
+        kpoints = np.dot(
+            kpoints, fermi_slice.reciprocal_slice.reciprocal_space.reciprocal_lattice
+        )
         kpoints = transform_points(kpoints, fermi_slice.reciprocal_slice.transformation)
 
         # filter points that do not lie very close to the plane
