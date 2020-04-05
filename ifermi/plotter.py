@@ -8,16 +8,17 @@ todo:
 * Think about classes/methods, maybe restructure depending on sumo layout
 """
 
-from typing import Any, List, Optional, Tuple, Union
+from typing import Any, List, Optional, Tuple, Union, Dict
 
 import colorlover as cl
 import numpy as np
 from matplotlib import cm
 from monty.dev import requires
 from monty.json import MSONable
+from trimesh import transform_points
 
 from ifermi.brillouin_zone import ReciprocalCell
-from ifermi.fermi_surface import FermiSurface
+from ifermi.fermi_surface import FermiSurface, FermiSlice
 from pymatgen import Spin
 from pymatgen.symmetry.bandstructure import HighSymmKpath
 
@@ -81,7 +82,7 @@ _mayavi_rs_style = {
 }
 
 
-class FSPlotter(MSONable):
+class FermiSurfacePlotter(MSONable):
     """
     Class to plot FermiSurface.
     """
@@ -97,7 +98,9 @@ class FSPlotter(MSONable):
         self._symmetry_pts = self.get_symmetry_points(fermi_surface)
 
     @staticmethod
-    def get_symmetry_points(fermi_surface) -> Tuple[np.ndarray, List[str]]:
+    def get_symmetry_points(
+        fermi_surface: FermiSurface
+    ) -> Tuple[np.ndarray, List[str]]:
         """
         Get the high symmetry k-points and labels for the Fermi surface.
 
@@ -107,19 +110,14 @@ class FSPlotter(MSONable):
         Returns:
             The high symmetry k-points and labels.
         """
-        kpoints, labels = [], []
         hskp = HighSymmKpath(fermi_surface.structure)
-        all_kpoints, all_labels = hskp.get_kpoints(coords_are_cartesian=False)
-
-        for kpoint, label in zip(all_kpoints, all_labels):
-            if not len(label) == 0:
-                kpoints.append(kpoint)
-                labels.append(label)
+        labels, kpoints = list(zip(*hskp.kpath["kpoints"].items()))
 
         if isinstance(fermi_surface.reciprocal_space, ReciprocalCell):
             kpoints = kpoints_to_first_bz(np.array(kpoints))
 
-        kpoints = np.dot(kpoints, fermi_surface.reciprocal_space.reciprocal_lattice)
+        kpoints = hskp.rec_lattice.get_cartesian_coords(kpoints)
+
         return kpoints, labels
 
     def plot(
@@ -146,23 +144,20 @@ class FSPlotter(MSONable):
             **plot_kwargs: Other keyword arguments supported by the individual plotting
                 methods.
         """
+        plot_kwargs.update(
+            dict(filename=filename, interactive=interactive, colors=colors, spin=spin)
+        )
         if plot_type == "mpl":
-            self.plot_matplotlib(
-                filename=filename, interactive=interactive, colors=colors, **plot_kwargs
-            )
+            self.plot_matplotlib(**plot_kwargs)
         elif plot_type == "plotly":
-            self.plot_plotly(
-                filename=filename, interactive=interactive, colors=colors, **plot_kwargs
-            )
+            self.plot_plotly(**plot_kwargs)
+
         elif plot_type == "mayavi":
-            self.plot_mayavi(
-                filename=filename, interactive=interactive, colors=colors, **plot_kwargs
-            )
+            self.plot_mayavi(**plot_kwargs)
         else:
             types = ["mpl", "plotly", "mayavi"]
-            raise ValueError(
-                "Plot type not recognised, valid options: {}".format(types)
-            )
+            error_msg = "Plot type not recognised, valid options: {}".format(types)
+            raise ValueError(error_msg)
 
     def get_isosurfaces_and_colors(
         self,
@@ -195,22 +190,7 @@ class FSPlotter(MSONable):
         for s in spin:
             isosurfaces.extend(self.fermi_surface.isosurfaces[s])
 
-        if isinstance(colors, dict):
-            if len(colors) < len(spin):
-                raise ValueError(
-                    "colors dictionary should have the same number of spin channels as"
-                    "spins to plot"
-                )
-            colors = []
-            for s in spin:
-                colors.extend([colors[s]] * len(self.fermi_surface.isosurfaces[s]))
-
-        elif isinstance(colors, str):
-            cmap = cm.get_cmap(colors)
-            colors = cmap(np.linspace(0, 1, len(isosurfaces)))
-
-        elif colors is None:
-            colors = np.random.random((len(isosurfaces), 3))
+        colors = _get_colors(colors, self.fermi_surface.isosurfaces, spin)
 
         return isosurfaces, colors
 
@@ -252,8 +232,9 @@ class FSPlotter(MSONable):
             ax.plot_trisurf(x, y, faces, z, facecolor=c, lw=1)
 
         # add the cell outline to the plot
-        corners = self.reciprocal_space.faces
-        lines = Line3DCollection(corners, colors="k", linewidths=bz_linewidth)
+        lines = Line3DCollection(
+            self.reciprocal_space.lines, colors="k", linewidths=bz_linewidth
+        )
         ax.add_collection3d(lines)
 
         for coords, label in zip(*self._symmetry_pts):
@@ -299,6 +280,10 @@ class FSPlotter(MSONable):
         init_notebook_mode(connected=True)
         isosurfaces, colors = self.get_isosurfaces_and_colors(spin=spin, colors=colors)
 
+        if isinstance(colors, np.ndarray):
+            colors = (colors * 255).astype(int)
+            colors = ["rgb({},{},{})".format(*c) for c in colors]
+
         # create a mesh for each electron band which has an isosurfaces at the Fermi
         # energy mesh data is generated by a marching cubes algorithm when the
         # FermiSurface object is created.
@@ -310,10 +295,10 @@ class FSPlotter(MSONable):
             meshes.append(trace)
 
         # add the cell outline to the plot
-        for facet in self.reciprocal_space.faces:
-            x, y, z = zip(*facet)
-            line = dict(color="black", width=3)
-            trace = go.Scatter3d(x=x, y=y, z=z, mode="lines", line=line)
+        for line in self.reciprocal_space.lines:
+            x, y, z = zip(*line)
+            line_style = dict(color="black", width=3)
+            trace = go.Scatter3d(x=x, y=y, z=z, mode="lines", line=line_style)
             meshes.append(trace)
 
         # plot high symmetry labels
@@ -369,8 +354,8 @@ class FSPlotter(MSONable):
         mlab.figure(figure=None, bgcolor=(1, 1, 1), size=(800, 800))
         isosurfaces, colors = self.get_isosurfaces_and_colors(spin=spin, colors=colors)
 
-        for facet in self.reciprocal_space.faces:
-            x, y, z = zip(*facet)
+        for line in self.reciprocal_space.lines:
+            x, y, z = zip(*line)
             mlab.plot3d(x, y, z, **_mayavi_rs_style)
 
         if not colors:
@@ -396,63 +381,129 @@ class FSPlotter(MSONable):
             mlab.savefig(str(filename), figure=mlab.gcf())
 
 
-class FSPlotter2D(object):
-    def __init__(self, fs: FermiSurface, plane_orig, plane_norm):
+class FermiSlicePlotter(object):
 
-        self._plane_orig = plane_orig
-        self._plane_norm = plane_norm
-        self._fs = fs
+    def __init__(self, fermi_slice: FermiSlice):
+        self.fermi_slice = fermi_slice
+        self.reciprocal_slice = fermi_slice.reciprocal_slice
+        self._symmetry_pts = self.get_symmetry_points(fermi_slice)
 
-    def fs2d_plot_data(self, plot_type="mpl"):
-        import meshcut
+    @staticmethod
+    def get_symmetry_points(fermi_slice: FermiSlice) -> Tuple[np.ndarray, List[str]]:
+        """
+        Get the high symmetry k-points and labels for the Fermi slice.
 
-        plane_orig = self._plane_orig
-        plane_norm = self._plane_norm
+        Args:
+            fermi_slice: A fermi slice.
 
-        plane = meshcut.Plane(plane_orig, plane_norm)
+        Returns:
+            The high symmetry k-points and labels for points that lie on the slice.
+        """
+        hskp = HighSymmKpath(fermi_slice.structure)
+        labels, kpoints = list(zip(*hskp.kpath["kpoints"].items()))
 
-        if plot_type == "mayavi":
+        if isinstance(fermi_slice.reciprocal_slice.reciprocal_space, ReciprocalCell):
+            kpoints = kpoints_to_first_bz(np.array(kpoints))
 
-            mlab.figure(figure=None, bgcolor=(1, 1, 1), size=(800, 800))
+        kpoints = hskp.rec_lattice.get_cartesian_coords(kpoints)
+        kpoints = transform_points(kpoints, fermi_slice.reciprocal_slice.transformation)
 
-        elif plot_type == "mpl":
+        # filter points that do not lie very close to the plane
+        on_plane = np.where(np.abs(kpoints[:, 2]) < 1e-4)[0]
+        kpoints = kpoints[on_plane]
+        labels = [labels[i] for i in on_plane]
 
-            fig = plt.figure()
+        return kpoints[:, :2], labels
 
-            ax = plt.axes(projection="3d")
+    def plot(
+        self,
+        filename: str = "fermi_slice.png",
+        spin: Optional[Spin] = None,
+        colors: Optional[Union[str, dict, list]] = "viridis",
+        show: bool = False,
+    ):
+        """
+        Plot the Fermi surface and save the image to a file.
 
-        for surface in self._fs._iso_surface:
+        Args:
+            filename: Output filename.
+            spin: Which spin channel to plot. By default plot both spin channels if
+                available.
+            colors: The color specification. Valid options are:
+                - A list of colors.
+                - A dictionary of ``{Spin.up: color1, Spin.down: color2}``.
+                - A string specifying which matplotlib colormap to use. See
+                  https://matplotlib.org/tutorials/colors/colormaps.html for more
+                  information.
+                - ``None``, in which case the colors will be chosen randomly.
+            show: Show the plot before saving to file.
+        """
+        import matplotlib.pyplot as plt
+        from matplotlib.collections import LineCollection
 
-            verts = surface[0]
-            faces = surface[1]
+        fig = plt.figure(figsize=(6, 6))
+        ax = fig.add_subplot(111)
 
-            mesh = meshcut.TriangleMesh(verts, faces)
+        slices, colors = self.get_slices_and_colors(spin=spin, colors=colors)
 
-            P = meshcut.cross_section_mesh(mesh, plane)
+        # create a mesh for each electron band which has an isosurfaces at the Fermi
+        # energy mesh data is generated by a marching cubes algorithm when the
+        # FermiSurface object is created.
+        for c, a_slice in zip(colors, slices):
+            lines = LineCollection(a_slice, colors=c, linewidth=2)
+            ax.add_collection(lines)
 
-            for p in P:
-                p = np.array(p)
-                if plot_type == "mayavi":
-                    mlab.plot3d(
-                        p[:, 0],
-                        p[:, 1],
-                        p[:, 2],
-                        tube_radius=None,
-                        line_width=3.0,
-                        color=(0.0, 0.0, 0.0),
-                    )
-                elif plot_type == "mpl":
-                    ax.plot3D(p[:, 0], p[:, 1], p[:, 2], color="k")
+        # add the cell outline to the plot
+        lines = LineCollection(self.reciprocal_slice.lines, colors="k", linewidth=1)
+        ax.add_collection(lines)
 
-        if plot_type == "mayavi":
+        for coords, label in zip(*self._symmetry_pts):
+            ax.scatter(*coords, s=10, c="k")
+            label = label.replace(r"\Gamma", r"$\Gamma$")
+            ax.text(*coords, " " + label, size=15, zorder=1)
 
-            mlab.show()
+        ax.autoscale(enable=True)
+        ax.axis('equal')
+        ax.axis("off")
 
-        elif plot_type == "mpl":
-
-            ax.set_xticks([])
-            ax.set_yticks([])
+        if show:
             plt.show()
+        plt.savefig(filename, dpi=300, bbox_inches="tight")
+
+    def get_slices_and_colors(
+        self,
+        spin: Optional[Spin] = None,
+        colors: Optional[Union[str, dict, list]] = None
+    ) -> Tuple[List[np.ndarray], Any]:
+        """
+        Get the isosurfaces and colors to plot.
+
+        Args:
+            spin: Which spin channel to select. By default will return the slices
+                for both spin channels if available.
+            colors: The color specification. Valid options are:
+                - A list of colors.
+                - A dictionary of ``{Spin.up: color1, Spin.down: color2}``.
+                - A string specifying which matplotlib colormap to use. See
+                  https://matplotlib.org/tutorials/colors/colormaps.html for more
+                  information.
+                - ``None``, in which case the colors will be chosen randomly.
+
+        Returns:
+            The isosurfaces and colors as a tuple.
+        """
+        if not spin:
+            spin = list(self.fermi_slice.slices.keys())
+        elif isinstance(spin, Spin):
+            spin = [spin]
+
+        slices = []
+        for s in spin:
+            slices.extend(self.fermi_slice.slices[s])
+
+        colors = _get_colors(colors, self.fermi_slice.slices, spin)
+
+        return slices, colors
 
 
 def kpoints_to_first_bz(kpoints: np.ndarray, tol=1e-5) -> np.ndarray:
@@ -476,3 +527,36 @@ def kpoints_to_first_bz(kpoints: np.ndarray, tol=1e-5) -> np.ndarray:
     kp[krounded == -0.5] = 0.5
     return kp
 
+
+def _get_colors(
+    colors: Optional[Union[str, dict, list]],
+    objects: Dict[Spin, List[Any]],
+    spins: List[Spin]
+) -> Any:
+    """
+    Plot the Fermi surface using matplotlib.
+
+    Args:
+        colors: See the docstring for ``get_isosurfaces_and_colors()`` for the
+            available options.
+    """
+    n_objects = sum([len(objects[spin]) for spin in spins])
+
+    if isinstance(colors, dict):
+        if len(colors) < len(spins):
+            raise ValueError(
+                "colors dictionary should have the same number of spin channels as"
+                "spins to plot"
+            )
+        colors = []
+        for s in spins:
+            colors.extend([colors[s]] * len(objects[s]))
+
+    elif isinstance(colors, str):
+        cmap = cm.get_cmap(colors)
+        colors = cmap(np.linspace(0, 1, n_objects))
+
+    elif colors is None:
+        colors = np.random.random((n_objects, 3))
+
+    return colors
