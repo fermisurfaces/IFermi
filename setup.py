@@ -57,6 +57,7 @@ setup(
         ],
         "dev": ["black"],
         "tests": ["nose", "coverage", "coveralls"],
+        ':python_version < "3.7"': ["dataclasses>=0.6"]
     },
     data_files=["LICENSE"],
     entry_points={"console_scripts": ["ifermi = ifermi.cli:main"]},
