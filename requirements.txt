@@ -6,14 +6,16 @@ BoltzTraP2==20.2.1
 certifi==2020.4.5.1
 cftime==1.1.1.2
 chardet==3.0.4
+cmake==3.17.1
 colorlover==0.3.0
 configobj==5.0.6
 cycler==0.10.0
-dataclasses==0.6
+dataclasses==0.7
 decorator==4.4.2
 docutils==0.16
 envisage==4.9.2
 idna==2.9
+ifermi==0.1.0
 imageio==2.8.0
 imagesize==1.2.0
 Jinja2==2.11.2
