@@ -365,9 +365,9 @@ class FermiSurfacePlotter(MSONable):
             mlabtex(*coords, label, **_mayavi_high_sym_label_style)
 
         if isinstance(self.reciprocal_space, ReciprocalCell):
-            mlab.view(azimuth=0, elevation=60, distance=12)
+            mlab.view(azimuth=0, elevation=60, distance=8)
         else:
-            mlab.view(azimuth=235, elevation=60, distance=12)
+            mlab.view(azimuth=235, elevation=60, distance=8)
 
         if interactive:
             mlab.show()
