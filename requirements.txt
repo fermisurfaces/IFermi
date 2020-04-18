@@ -14,7 +14,6 @@ decorator==4.4.2
 docutils==0.16
 envisage==4.9.2
 idna==2.9
-ifermi==0.1.0
 imageio==2.8.0
 imagesize==1.2.0
 Jinja2==2.11.2
