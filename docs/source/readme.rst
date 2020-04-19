@@ -1,5 +1,0 @@
-IFermi
-===========
-
-	
-.. include:: ../README.rst
