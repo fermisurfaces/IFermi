@@ -18,8 +18,6 @@ The main features include:
 
 3. **Identification and visualisation of vanishingly small Fermi surfaces**
 
-   - useful in the identification of Dirac points.
-   - requires a DFT scf calculation on a more fine k-mesh
 
 Dependencies on external libraries: 
 
