@@ -23,8 +23,6 @@ The main features include:
    **Taking a slice of a three-dimensional Fermi surface along a specified 
    plane and plotting the resulting contour.**
 
-   * useful in the identification of Dirac points.
-   * requires a DFT scf calculation on a more fine k-mesh
 
 Dependencies on external libraries: 
 

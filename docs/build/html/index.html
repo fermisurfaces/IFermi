@@ -1,149 +1,35 @@
 
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>IFermi &mdash; IFermi 0.1.0 documentation</title>
-  
 
-  
-  
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>IFermi &#8212; IFermi 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="ifermi" href="modules.html" /> 
-</head>
-
-<body class="wy-body-for-nav">
-
+    <link rel="next" title="ifermi" href="modules.html" />
    
-  <div class="wy-grid-for-nav">
-    
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-          
-
-          
-            <a href="#" class="icon icon-home"> IFermi
-          
-
-          
-          </a>
-
-          
-            
-            
-          
-
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">ifermi</a></li>
-</ul>
-
-            
-          
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">IFermi</a>
-        
-      </nav>
-
-
-      <div class="wy-nav-content">
-        
-        <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="wy-breadcrumbs">
-    
-      <li><a href="#">Docs</a> &raquo;</li>
-        
-      <li>IFermi</li>
-    
-    
-      <li class="wy-breadcrumbs-aside">
-        
-            
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
-          
-        
-      </li>
-    
-  </ul>
-
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
             
   <div class="section" id="ifermi">
 <h1>IFermi<a class="headerlink" href="#ifermi" title="Permalink to this headline">¶</a></h1>
@@ -155,21 +41,16 @@ than what is currently offered by other packages.</p>
 <p>The main features include:</p>
 <ol class="arabic simple">
 <li><p><strong>Plotting of three-dimensional Fermi surfaces, with interactive plotting
-supported by `mayavi &lt;https://docs.enthought.com/mayavi/mayavi/&gt;`_, `plotly &lt;https://plot.ly/&gt;`_ and `matplotlib &lt;https://matplotlib.org&gt;`_ (see recommended
+supported by Mayavi, Plotly and Matplotlib (see recommended
 libraries below).</strong></p></li>
 <li><p><strong>Taking a slice of a three-dimensional Fermi surface along a specified
-plane and plotting the resulting contour.</strong></p>
-<ul class="simple">
-<li><p>useful in the identification of Dirac points.</p></li>
-<li><p>requires a DFT scf calculation on a more fine k-mesh</p></li>
-</ul>
-</li>
+plane and plotting the resulting contour.</strong></p></li>
 </ol>
 <p>Dependencies on external libraries:</p>
 <ul class="simple">
-<li><p>VASP calculations are imported using <a class="reference external" href="https://docs.enthought.com/mayavi/mayavi/">Pymatgen</a>.</p></li>
-<li><p>Band interpolation is carried out using <a href="#id5"><span class="problematic" id="id6">`BoltzTraP2 &lt;&gt;`_</span></a>.</p></li>
-<li><p>Plotting is supported in <a class="reference external" href="https://docs.enthought.com/mayavi/mayavi/">Mayavi</a>, <a class="reference external" href="https://plot.ly/">Plotly</a> and <a class="reference external" href="https://matplotlib.org">Matplotlib</a>.</p></li>
+<li><p>VASP calculations are imported using Pymatgen.</p></li>
+<li><p>Band interpolation is carried out using BoltzTrap2.</p></li>
+<li><p>Plotting is supported in Mayavi, Plotly and Matplotlib.</p></li>
 <li><p>I reccomned using Mayavi or Plotly for three-dimensional
 Fermi surface visualisation. Plotly is selected by deafult.</p></li>
 </ul>
@@ -191,8 +72,6 @@ specified by the miller index (A B C) and at a distance d, run the command</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi --slice A B C d
 </pre></div>
 </div>
-<p>Information on customising these plots can be found on the
-<a class="reference external" href="https://hackingmaterials.github.io/robocrystallographer/cli.html">command-line interface page</a>.</p>
 <div class="section" id="python-interface">
 <h3>Python interface<a class="headerlink" href="#python-interface" title="Permalink to this headline">¶</a></h3>
 <p>ifermi is made up of a number of classes for building and plotting
@@ -268,10 +147,7 @@ file and Vasprun.xml file is:</p>
 </div>
 <div class="section" id="example-output">
 <h2>Example output<a class="headerlink" href="#example-output" title="Permalink to this headline">¶</a></h2>
-<dl class="simple">
-<dt>An example of the output generated by ifermi for BaFe<span class="raw-html-m2r"><sub>2</sub></span>As<span class="raw-html-m2r"><sub>2</sub></span></dt><dd><p>is shown below:</p>
-</dd>
-</dl>
+<p>An example of the output generated by ifermi for BaFe<span class="raw-html-m2r"><sub>2</sub></span>As<span class="raw-html-m2r"><sub>2</sub></span> is shown below:</p>
 <a class="reference external image-reference" href="../source/_static/fermi_surface.png"><img alt="BaFe2As2 fermi surface" src="_images/fermi_surface.png" /></a>
 <p>And for a slice taken along the plane specified by the Miller index (0 0 0.5):</p>
 <a class="reference external image-reference" href="../source/_static/fermi_slice.png"><img alt="BaFe2As2 fermi slice" src="_images/fermi_slice.png" /></a>
@@ -303,7 +179,7 @@ I would greatly appreciate any contributions.</p>
 <div class="section" id="acknowledgements">
 <h1>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permalink to this headline">¶</a></h1>
 <p>Alex Ganose for help developing/improving code.
-Sinead Griffin for suggesting the project.</p>
+Sinéad Griffin for suggesting the project.</p>
 </div>
 <div class="section" id="code-documentation">
 <h1>Code documentation<a class="headerlink" href="#code-documentation" title="Permalink to this headline">¶</a></h1>
@@ -318,50 +194,70 @@ Sinead Griffin for suggesting the project.</p>
 </div>
 
 
-           </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="modules.html" class="btn btn-neutral float-right" title="ifermi" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">IFermi</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">ifermi</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="modules.html" title="next chapter">ifermi</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
     </div>
-  
+</div>
+<script>$('#searchbox').show(0);</script>
 
-  <hr/>
 
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 2020, Amy Searle and Alex Ganose
 
-    </p>
-  </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
-</footer>
+
+
+
 
         </div>
       </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Amy Searle and Alex Ganose.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
 
-    </section>
-
-  </div>
-  
-
-
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script>
-
-  
-  
     
-   
 
-</body>
+    
+  </body>
 </html>
