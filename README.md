@@ -47,16 +47,11 @@ ifermi
 ```
 
 Alternatively, to plot a two-dimensional slice of a Fermi surface along the plane
-specified by the miller index (A B C) and at a distance d, run the command
+specified by the miller indices (A B C) and at a distance d, run the command
 
 ```bash
 ifermi --slice A B C d
 ```
-
-Information on customising these plots can be found on the
-[command-line interface page](https://hackingmaterials.github.io/robocrystallographer/cli.html).
-
-
 
 #### Python interface
 
