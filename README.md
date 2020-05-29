@@ -1,8 +1,8 @@
 IFermi
 ------
 
-Ifermi is a package which provides tools for plotting Fermi surfaces
-from DFT output. Ifermi is also useful for visualisation of slices of
+IFermi is a package which provides tools for plotting Fermi surfaces
+from DFT output. IFermi is also useful for visualisation of slices of
 the three-dimensional Fermi surface along a specified plane. The idea 
 is to provide tools which allow for more tailored Fermi surface plots
 than what is currently offered by other packages.
@@ -15,8 +15,6 @@ The main features include:
 
 2. **Taking a slice of a three-dimensional Fermi surface along a specified 
    plane and plotting the resulting contour.**
-
-3. **Identification and visualisation of vanishingly small Fermi surfaces**
 
 
 Dependencies on external libraries: 

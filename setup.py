@@ -10,7 +10,7 @@ with open("README.md", "r") as file:
 
 setup(
     name="ifermi",
-    version="0.1.1",
+    version="0.1.2",
     description="Fermi surface plotting tool from DFT output",
     url="https://github.com/asearle13/IFermi",
     author="Amy Searle",
