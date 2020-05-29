@@ -1,8 +1,8 @@
 IFermi
 ------
 
-IFermi is a package which provides tools for plotting Fermi surfaces
-from DFT output. IFermi is also useful for visualisation of slices of
+Ifermi is a package which provides tools for plotting Fermi surfaces
+from DFT output. Ifermi is also useful for visualisation of slices of
 the three-dimensional Fermi surface along a specified plane. The idea 
 is to provide tools which allow for more tailored Fermi surface plots
 than what is currently offered by other packages.
@@ -15,6 +15,8 @@ The main features include:
 
 2. **Taking a slice of a three-dimensional Fermi surface along a specified 
    plane and plotting the resulting contour.**
+
+3. **Identification and visualisation of vanishingly small Fermi surfaces**
 
 
 Dependencies on external libraries: 
@@ -29,22 +31,14 @@ The code currently primarily supports VASP calculations, but will
 soon be extended to other platforms supported by Pymatgen 
 (Quantum Espresso, Questaal, etc.)
 
-### Installation
-
-IFermi can be installed using pip:
-
-```bash
-pip install ifermi
-```
-
 ### Usage
 
 IFermi can be used from the command-line or from a python API. The built-in
 help (``-h``) option for each command provides a summary of the
 available options.
 
-To generate the three-dimensional Fermi surface with default parameters  
-run the command:
+To generate the three-dimensional Fermi surface with default parameters one can 
+just run the command:
 
 ```bash
 ifermi
@@ -172,4 +166,3 @@ IFermi is made available under the MIT License.
 
 Alex Ganose for help developing/improving code.
 Sinead Griffin for suggesting the project.
-
