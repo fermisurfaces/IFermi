@@ -24,6 +24,7 @@ from pymatgen.symmetry.kpath import KPathLatimerMunro, KPathSeek
 
 try:
     import plotly
+    import plotly.express as px
 except ImportError:
     plotly = False
 
@@ -159,6 +160,7 @@ class FermiSurfacePlotter(MSONable):
 
     def get_isosurfaces_and_colors(
         self,
+        plot_type: str = "plotly",
         spin: Optional[Spin] = None,
         colors: Optional[Union[str, dict, list]] = None,
     ) -> Tuple[List[Tuple[np.ndarray, np.ndarray]], Any]:
@@ -188,7 +190,11 @@ class FermiSurfacePlotter(MSONable):
         for s in spin:
             isosurfaces.extend(self.fermi_surface.isosurfaces[s])
 
-        colors = _get_colors(colors, self.fermi_surface.isosurfaces, spin)
+        if colors is None and plot_type == 'plotly':
+                colors = _get_plotly_colors(self.fermi_surface.isosurfaces, spin)
+
+        else:
+            colors = _get_random_colors(colors, self.fermi_surface.isosurfaces, spin)
 
         return isosurfaces, colors
 
@@ -539,7 +545,7 @@ def kpoints_to_first_bz(kpoints: np.ndarray, tol=1e-5) -> np.ndarray:
     return kp
 
 
-def _get_colors(
+def _get_random_colors(
     colors: Optional[Union[str, dict, list]],
     objects: Dict[Spin, List[Any]],
     spins: List[Spin],
@@ -569,6 +575,25 @@ def _get_colors(
 
     elif colors is None:
         colors = np.random.random((n_objects, 3))
+
+
+    return colors
+
+def _get_plotly_colors(
+    objects: Dict[Spin, List[Any]],
+    spins: List[Spin],
+) -> Any:
+    import plotly.express as px
+
+    n_objects = sum([len(objects[spin]) for spin in spins])
+
+    if n_objects < len(px.colors.qualitative.Prism):
+        colors = px.colors.qualitative.Prism
+    else:
+        colors = []
+        i = n_objects // len(px.colors.qualitative.Prism) + 1
+        for count in range(i):
+            colors.append(px.colors.qualitative.Prism)
 
     return colors
 
