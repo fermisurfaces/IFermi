@@ -31,6 +31,14 @@ The code currently primarily supports VASP calculations, but will
 soon be extended to other platforms supported by Pymatgen 
 (Quantum Espresso, Questaal, etc.)
 
+### Installation
+IFermi can be installed with a pip command:
+
+
+```bash
+pip install ifermi
+```
+
 ### Usage
 
 IFermi can be used from the command-line or from a python API. The built-in
