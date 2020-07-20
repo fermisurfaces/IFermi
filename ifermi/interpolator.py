@@ -12,6 +12,7 @@ import numpy as np
 from BoltzTraP2 import fite, sphere, units
 from monty.json import MSONable
 from spglib import spglib
+import warnings
 
 from pymatgen.electronic_structure.bandstructure import BandStructure
 from pymatgen.io.ase import AseAtomsAdaptor
@@ -40,6 +41,7 @@ class Interpolater(MSONable):
         mommat: Optional[np.ndarray] = None,
     ):
         self._band_structure = band_structure
+
         self._soc = soc
         self._spins = self._band_structure.bands.keys()
         self._lattice_matrix = band_structure.structure.lattice.matrix * units.Angstrom
@@ -144,10 +146,15 @@ class Interpolater(MSONable):
                 # and including the VBM to get the new number of valence bands
                 new_vb_idx[spin] = sum(ibands[: vb_idx + 1]) - 1
 
+
         if is_metal:
             efermi = self._band_structure.efermi
         else:
             # if material is semiconducting, set Fermi level to middle of gap
+            warnings.warn("The Fermi energy may be different to that in the vasprun.xml file,"
+                          " due to the material being a semiconductor. The Fermi level has been set "
+                          "to midway between the top of the valence band and the bottom of the "
+                          "conduction band.", category=None, stacklevel=1, source=None)
             e_vbm = max([np.max(energies[s][: new_vb_idx[s] + 1]) for s in self._spins])
             e_cbm = min([np.min(energies[s][new_vb_idx[s] + 1 :]) for s in self._spins])
             efermi = (e_vbm + e_cbm) / 2
