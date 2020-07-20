@@ -61,6 +61,7 @@ _plotly_scene = dict(
         ticks="",
         showticklabels=False,
     ),
+    aspectmode='data',
 )
 
 _plotly_label_style = dict(
