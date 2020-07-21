@@ -49,7 +49,7 @@ setup(
         "psutil"
     ],
     extras_require={
-        "mayavi": ["mayavi", "mlabtex"],
+        "mayavi": ["mayavi", "mlabtex", "vtk"],
         "plotly": ["plotly"],
         "docs": [
             "sphinx",
