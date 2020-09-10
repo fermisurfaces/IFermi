@@ -21,6 +21,10 @@ from pymatgen import Spin, Structure
 from pymatgen.electronic_structure.bandstructure import BandStructure
 from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
 
+try:
+    import mcubes
+except ImportError:
+    mcubes = None
 
 @dataclass
 class FermiSlice(MSONable):
@@ -85,6 +89,7 @@ class FermiSurface(MSONable):
         mu: float = 0.0,
         wigner_seitz: bool = False,
         symprec: float = 0.001,
+        smooth: bool = False
     ) -> "FermiSurface":
         """
         Args:
@@ -100,7 +105,8 @@ class FermiSurface(MSONable):
                 or the reciprocal unit cell parallelepiped.
             symprec: Symmetry precision for determining whether the structure is the
                 standard primitive unit cell.
-
+            smooth: If True, will smooth resulting isosurface. Requires PyMCubes. See
+                compute_isosurfaces for more information.
         """
         if np.product(kpoint_dim) != len(band_structure.kpoints):
             raise ValueError(
@@ -133,7 +139,7 @@ class FermiSurface(MSONable):
 
         kpoint_dim = tuple(kpoint_dim.astype(int))
         isosurfaces = compute_isosurfaces(
-            bands, kpoint_dim, fermi_level, reciprocal_space,
+            bands, kpoint_dim, fermi_level, reciprocal_space, smooth=smooth
         )
 
         return cls(isosurfaces, reciprocal_space, structure)
@@ -193,6 +199,7 @@ def compute_isosurfaces(
     kpoint_dim: Tuple[int, int, int],
     fermi_level: float,
     reciprocal_space: ReciprocalCell,
+    smooth: bool = False,
 ) -> Dict[Spin, List[Tuple[np.ndarray, np.ndarray]]]:
     """
     Compute the isosurfaces at a particular energy level.
@@ -203,6 +210,10 @@ def compute_isosurfaces(
         kpoint_dim: The k-point mesh dimensions.
         fermi_level: The energy at which to calculate the Fermi surface.
         reciprocal_space: The reciprocal space representation.
+        smooth: If True, will smooth resulting isosurface. Requires PyMCubes. Smoothing
+            algorithm will use constrained smoothing algorithm to preserve fine details
+            if input dimension is lower than (500, 500, 500), otherwise will apply a
+            Gaussian filter.
 
     Returns:
         A dictionary containing a list of isosurfaces as ``(vertices, faces)`` for
@@ -211,6 +222,10 @@ def compute_isosurfaces(
     rlat = reciprocal_space.reciprocal_lattice
 
     spacing = 1 / (np.array(kpoint_dim) - 1)
+
+    if smooth and mcubes is None:
+        smooth = False
+        warnings.warn("Smoothing disabled, install PyMCubes to enable smoothing.")
 
     isosurfaces = {}
     for spin, ebands in bands.items():
@@ -221,7 +236,18 @@ def compute_isosurfaces(
             # check if band crosses fermi level
             if np.nanmax(band) > 0 > np.nanmin(band):
                 band_data = band.reshape(kpoint_dim)
-                verts, faces, _, _ = marching_cubes(band_data, 0, spacing)
+
+                if smooth:
+                    # smoothing algorithm requires input to have surface at 0.5
+                    smoothed_band_data = mcubes.smooth(band_data + 0.5)
+                    # and outputs embedding array with values 0 and 1
+                    verts, faces = mcubes.marching_cubes(smoothed_band_data, 0)
+                    # have to manually set spacing with PyMCubes
+                    verts = verts * spacing
+                    # comes out as np.uint64, but trimesh doesn't like this
+                    faces = faces.astype(np.int32)
+                else:
+                    verts, faces, _, _ = marching_cubes(band_data, 0, spacing=spacing)
 
                 if isinstance(reciprocal_space, WignerSeitzCell):
                     verts = np.dot(verts - 0.5, rlat) * 3
