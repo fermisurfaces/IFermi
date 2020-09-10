@@ -51,6 +51,7 @@ setup(
     extras_require={
         "mayavi": ["mayavi", "mlabtex", "vtk"],
         "plotly": ["plotly"],
+        "crystal-toolkit": ["crystal-toolkit"],
         "docs": [
             "sphinx",
             "sphinx-argparse",
