@@ -12,7 +12,7 @@ from typing import Dict, List, Tuple
 
 import numpy as np
 from monty.json import MSONable
-from skimage.measure import marching_cubes_lewiner
+from skimage.measure import marching_cubes
 from trimesh import Trimesh
 from trimesh.intersections import mesh_multiplane, slice_faces_plane
 
@@ -221,7 +221,7 @@ def compute_isosurfaces(
             # check if band crosses fermi level
             if np.nanmax(band) > 0 > np.nanmin(band):
                 band_data = band.reshape(kpoint_dim)
-                verts, faces, _, _ = marching_cubes_lewiner(band_data, 0, spacing)
+                verts, faces, _, _ = marching_cubes(band_data, 0, spacing)
 
                 if isinstance(reciprocal_space, WignerSeitzCell):
                     verts = np.dot(verts - 0.5, rlat) * 3
