@@ -52,6 +52,7 @@ setup(
         "mayavi": ["mayavi", "mlabtex", "vtk"],
         "plotly": ["plotly"],
         "crystal-toolkit": ["crystal-toolkit"],
+        "smooth": ["PyMCubes"],
         "docs": [
             "sphinx",
             "sphinx-argparse",
