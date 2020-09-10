@@ -22,7 +22,7 @@ Dependencies on external libraries:
    - VASP calculations are imported using [Pymatgen](https://docs.enthought.com/mayavi/mayavi/).
    - Band interpolation is carried out using [BoltzTraP2]().
    - Plotting is supported in [Mayavi](https://docs.enthought.com/mayavi/mayavi/), [Plotly](https://plot.ly/) and [Matplotlib](https://matplotlib.org).
-   - I reccomned using Mayavi or Plotly for three-dimensional
+   - I recommend using Mayavi or Plotly for three-dimensional
      Fermi surface visualisation. Plotly is selected by deafult. 
 
 The code currently primarily supports VASP calculations, but will 
