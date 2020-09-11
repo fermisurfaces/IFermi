@@ -239,7 +239,7 @@ def compute_isosurfaces(
 
                 if smooth:
                     # smoothing algorithm requires input to have surface at 0.5
-                    smoothed_band_data = mcubes.smooth(band_data + 0.5)
+                    smoothed_band_data = mcubes.smooth(band_data - 0.5)
                     # and outputs embedding array with values 0 and 1
                     verts, faces = mcubes.marching_cubes(smoothed_band_data, 0)
                     # have to manually set spacing with PyMCubes
