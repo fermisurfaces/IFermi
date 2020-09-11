@@ -35,6 +35,7 @@ except ImportError:
 
 try:
     from crystal_toolkit.core.scene import Scene, Spheres, Surface, Lines
+    crystal_toolkit = True
 except ImportError:
     crystal_toolkit = False
 
