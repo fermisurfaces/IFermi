@@ -19,7 +19,7 @@ from pymatgen.io.ase import AseAtomsAdaptor
 
 
 class Interpolater(MSONable):
-    """Takes a pymatgen BandStructure object and inperpolates the bands to
+    """Takes a pymatgen BandStructure object and interpolates the bands to
     create a denser mesh. This is done using Boltzstrap2, a module which is able
     to interpolate bands using Fourier coefficients. Implementation taken from
     Alex Ganose's AMSET Interpolator class.

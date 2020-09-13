@@ -9,6 +9,7 @@ chardet==3.0.4
 cmake==3.17.1
 colorlover==0.3.0
 configobj==5.0.6
+crystal-toolkit==2020.9.3
 cycler==0.10.0
 dataclasses==0.6
 decorator==4.4.2
