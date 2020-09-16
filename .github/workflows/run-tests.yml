@@ -28,6 +28,7 @@ jobs:
         pip install -e .[plotly]
         pip install -e .[mayavi]
         pip install -e .[tests]
+        pip install -e .[decimation]
 
     - name: Test
       run: python setup.py test
