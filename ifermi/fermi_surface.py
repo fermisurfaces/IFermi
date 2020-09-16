@@ -80,7 +80,7 @@ class FermiSurface(MSONable):
 
     @property
     def n_surfaces(self) -> int:
-        return len(self.isosurfaces)
+        return sum(map(len, self.isosurfaces.values()))
 
     @classmethod
     def from_band_structure(
