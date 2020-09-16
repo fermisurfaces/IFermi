@@ -1,8 +1,7 @@
+import unittest
 from pathlib import Path
 
 import numpy as np
-import unittest
-
 from monty.serialization import loadfn
 
 from ifermi.fermi_surface import FermiSurface

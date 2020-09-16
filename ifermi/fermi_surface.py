@@ -12,19 +12,20 @@ from typing import Dict, List, Tuple
 
 import numpy as np
 from monty.json import MSONable
+from pymatgen import Spin, Structure
+from pymatgen.electronic_structure.bandstructure import BandStructure
+from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
 from skimage.measure import marching_cubes
 from trimesh import Trimesh
 from trimesh.intersections import mesh_multiplane, slice_faces_plane
 
 from ifermi.brillouin_zone import ReciprocalCell, ReciprocalSlice, WignerSeitzCell
-from pymatgen import Spin, Structure
-from pymatgen.electronic_structure.bandstructure import BandStructure
-from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
 
 try:
     import mcubes
 except ImportError:
     mcubes = None
+
 
 @dataclass
 class FermiSlice(MSONable):
@@ -89,7 +90,7 @@ class FermiSurface(MSONable):
         mu: float = 0.0,
         wigner_seitz: bool = False,
         symprec: float = 0.001,
-        smooth: bool = False
+        smooth: bool = False,
     ) -> "FermiSurface":
         """
         Args:

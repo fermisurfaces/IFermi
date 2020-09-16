@@ -4,12 +4,11 @@ from typing import List, Optional, Tuple
 
 import numpy as np
 from monty.json import MSONable
+from pymatgen import Structure
 from scipy.spatial import ConvexHull, Voronoi
 from trimesh.geometry import plane_transform
 from trimesh.intersections import plane_lines
 from trimesh.transformations import transform_points
-
-from pymatgen import Structure
 
 
 @dataclass
@@ -146,7 +145,7 @@ class ReciprocalCell(MSONable):
         if len(intersections) == 0:
             raise ValueError("Plane does not intersect reciprocal cell")
 
-        #  transform the intersections from 3D space to 2D coordinates
+        # transform the intersections from 3D space to 2D coordinates
         transformation = plane_transform(origin=cart_center, normal=cart_normal)
         points = transform_points(intersections, transformation)[:, :2]
 
@@ -192,7 +191,7 @@ class WignerSeitzCell(ReciprocalCell):
 
         voronoi = Voronoi(points)
 
-        #  find the bounded voronoi region vertices
+        # find the bounded voronoi region vertices
         valid_vertices = set()
         for region in voronoi.regions:
             if -1 not in region:

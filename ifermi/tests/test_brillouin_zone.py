@@ -1,12 +1,11 @@
+import unittest
 from pathlib import Path
 from typing import Union
 
 import numpy as np
-import unittest
-
 from monty.serialization import loadfn
 
-from ifermi.brillouin_zone import WignerSeitzCell, ReciprocalCell
+from ifermi.brillouin_zone import ReciprocalCell, WignerSeitzCell
 
 test_dir = Path(__file__).resolve().parent
 

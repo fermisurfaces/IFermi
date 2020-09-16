@@ -16,9 +16,10 @@ import warnings
 from pathlib import Path
 from typing import Optional, Tuple, Union
 
-from ifermi.plotter import FermiSlicePlotter
 from pymatgen import Spin
 from pymatgen.io.vasp.outputs import Vasprun
+
+from ifermi.plotter import FermiSlicePlotter
 
 __author__ = "Amy Searle"
 __version__ = "0.1.0"
