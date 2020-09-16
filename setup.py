@@ -10,7 +10,7 @@ with open("README.md", "r") as file:
 
 setup(
     name="ifermi",
-    version="0.1.0",
+    version="0.1.2",
     description="Fermi surface plotting tool from DFT output",
     url="https://github.com/asearle13/IFermi",
     author="Amy Searle",
@@ -45,11 +45,15 @@ setup(
         "meshcut",
         "scikit-image",
         "monty",
-        "spglib"
+        "spglib",
+        "jupyter",
+        "psutil"
     ],
     extras_require={
-        "mayavi": ["mayavi", "mlabtex"],
+        "mayavi": ["mayavi", "mlabtex", "vtk"],
         "plotly": ["plotly"],
+        "crystal-toolkit": ["crystal-toolkit"],
+        "smooth": ["PyMCubes"],
         "docs": [
             "sphinx",
             "sphinx-argparse",

@@ -1,4 +1,5 @@
-.. mdinclude:: README.md
+.. include:: ../README.rst
+
 
 Code documentation
 ------------------
@@ -11,7 +12,6 @@ Code documentation
 .. toctree::
    :hidden:
    :maxdepth: 1
-	
-   cli
+
    modules
 

@@ -5,6 +5,7 @@ BolzTraP2. Developed by Alex Ganose
 """
 
 import multiprocessing
+import warnings
 from collections import defaultdict
 from typing import Optional
 
@@ -18,7 +19,7 @@ from spglib import spglib
 
 
 class Interpolater(MSONable):
-    """Takes a pymatgen BandStructure object and inperpolates the bands to
+    """Takes a pymatgen BandStructure object and interpolates the bands to
     create a denser mesh. This is done using Boltzstrap2, a module which is able
     to interpolate bands using Fourier coefficients. Implementation taken from
     Alex Ganose's AMSET Interpolator class.
@@ -148,6 +149,15 @@ class Interpolater(MSONable):
             efermi = self._band_structure.efermi
         else:
             # if material is semiconducting, set Fermi level to middle of gap
+            warnings.warn(
+                "The Fermi energy may be different to that in the vasprun.xml file,"
+                " due to the material being a semiconductor. The Fermi level has been "
+                "set to midway between the top of the valence band and the bottom of "
+                "the conduction band.",
+                category=None,
+                stacklevel=1,
+                source=None,
+            )
             e_vbm = max([np.max(energies[s][: new_vb_idx[s] + 1]) for s in self._spins])
             e_cbm = min([np.min(energies[s][new_vb_idx[s] + 1 :]) for s in self._spins])
             efermi = (e_vbm + e_cbm) / 2
