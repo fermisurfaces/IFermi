@@ -369,9 +369,9 @@ def get_prim_structure(structure, symprec=0.01) -> Structure:
     return analyzer.get_primitive_standard_structure()
 
 
-@requires(open3d, "open3d package is required to decimate meshes")
+@requires(open3d, "open3d package is required for mesh decimation")
 def decimate_mesh(vertices: np.ndarray, faces: np.ndarray, factor: float = 0.8):
-    """Decimate all mesh to reduce the number of triangles and vertices.
+    """Decimate mesh to reduce the number of triangles and vertices.
 
     The open3d package is required for decimation. The quadric decimation
     algorithm is used.
