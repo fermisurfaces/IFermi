@@ -115,8 +115,12 @@ class FermiSurface(MSONable):
         structure = band_structure.structure
         fermi_level = band_structure.efermi + mu
         bands = band_structure.bands
-        frac_kpoints = [k.frac_coords for k in band_structure.kpoints]
-        frac_kpoints = np.array(frac_kpoints)
+        kpoints = np.array([k.frac_coords for k in band_structure.kpoints])
+
+        # sort k-points to be in the correct order
+        order = np.lexsort((kpoints[:, 2], kpoints[:, 1], kpoints[:, 0]))
+        kpoints = kpoints[order]
+        bands = {s: b[:, order] for s, b in bands.items()}
 
         if wigner_seitz:
             prim = get_prim_structure(structure, symprec=symprec)
@@ -124,9 +128,7 @@ class FermiSurface(MSONable):
                 warnings.warn("Structure does not match expected primitive cell")
 
             reciprocal_space = WignerSeitzCell.from_structure(structure)
-            bands, frac_kpoints, kpoint_dim = _expand_bands(
-                bands, frac_kpoints, kpoint_dim
-            )
+            bands, kpoints, kpoint_dim = _expand_bands(bands, kpoints, kpoint_dim)
 
         else:
             reciprocal_space = ReciprocalCell.from_structure(structure)
@@ -276,6 +278,7 @@ def _expand_bands(
         The expanded band energies, k-points, and k-point mesh dimensions.
     """
     final_ebands = {}
+    final_kpoints = None
     for spin, ebands in bands.items():
         super_ebands = []
         images = (-1, 0, 1)
