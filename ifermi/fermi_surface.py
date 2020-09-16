@@ -98,6 +98,7 @@ class FermiSurface(MSONable):
         wigner_seitz: bool = False,
         symprec: float = 0.001,
         decimate_factor: Optional[float] = None,
+        decimate_method: str = "quadric",
         smooth: bool = False,
     ) -> "FermiSurface":
         """
@@ -114,9 +115,12 @@ class FermiSurface(MSONable):
                 or the reciprocal unit cell parallelepiped.
             symprec: Symmetry precision for determining whether the structure is the
                 standard primitive unit cell.
-            decimate_factor: Scaling factor by which to reduce the number of faces. The
-                open3d package is required for decimation. The quadric decimation
-                algorithm is used.
+            decimate_factor: If method is "quadric", factor is the scaling factor by
+                which to reduce the number of faces. I.e., final # faces = initial
+                # faces * factor. If method is "cluster", factor is the voxel size in
+                which to cluster points. Default is None (no decimation).
+            decimate_method: Algorithm to use for decimation. Options are "quadric"
+                or "cluster".
             smooth: If True, will smooth resulting isosurface. Requires PyMCubes. See
                 compute_isosurfaces for more information.
         """
@@ -154,7 +158,8 @@ class FermiSurface(MSONable):
         kpoint_dim = tuple(kpoint_dim.astype(int))
         isosurfaces = compute_isosurfaces(
             bands, kpoint_dim, fermi_level, reciprocal_space,
-            decimate_factor=decimate_factor, smooth=smooth
+            decimate_factor=decimate_factor, decimate_method=decimate_method,
+            smooth=smooth
         )
 
         return cls(isosurfaces, reciprocal_space, structure)
@@ -215,6 +220,7 @@ def compute_isosurfaces(
     fermi_level: float,
     reciprocal_space: ReciprocalCell,
     decimate_factor: Optional[float] = None,
+    decimate_method: str = "quadric",
     smooth: bool = False,
 ) -> Dict[Spin, List[Tuple[np.ndarray, np.ndarray]]]:
     """
@@ -226,9 +232,12 @@ def compute_isosurfaces(
         kpoint_dim: The k-point mesh dimensions.
         fermi_level: The energy at which to calculate the Fermi surface.
         reciprocal_space: The reciprocal space representation.
-        decimate_factor: Scaling factor by which to reduce the number of faces. The
-            open3d package is required for decimation. The quadric decimation
-            algorithm is used.
+        decimate_factor: If method is "quadric", factor is the scaling factor by which
+            to reduce the number of faces. I.e., final # faces = initial # faces *
+            factor. If method is "cluster", factor is the voxel size in which to
+            cluster points. Default is None (no decimation).
+        decimate_method: Algorithm to use for decimation. Options are "quadric" or
+            "cluster".
         smooth: If True, will smooth resulting isosurface. Requires PyMCubes. Smoothing
             algorithm will use constrained smoothing algorithm to preserve fine details
             if input dimension is lower than (500, 500, 500), otherwise will apply a
@@ -273,7 +282,9 @@ def compute_isosurfaces(
                     verts, faces, _, _ = marching_cubes(band_data, 0, spacing=spacing)
 
                 if decimate_factor:
-                    verts, faces = decimate_mesh(verts, faces, decimate_factor)
+                    verts, faces = decimate_mesh(
+                        verts, faces, decimate_factor, method=decimate_method
+                    )
 
                 if isinstance(reciprocal_space, WignerSeitzCell):
                     verts = np.dot(verts - 0.5, rlat) * 3
@@ -370,24 +381,30 @@ def get_prim_structure(structure, symprec=0.01) -> Structure:
 
 
 @requires(open3d, "open3d package is required for mesh decimation")
-def decimate_mesh(vertices: np.ndarray, faces: np.ndarray, factor: float = 0.8):
+def decimate_mesh(vertices: np.ndarray, faces: np.ndarray, factor, method="quadric"):
     """Decimate mesh to reduce the number of triangles and vertices.
 
-    The open3d package is required for decimation. The quadric decimation
-    algorithm is used.
+    The open3d package is required for decimation.
 
     Args:
         vertices: The mesh vertices.
         faces: The mesh faces.
-        factor: Scaling factor by which to reduce the number of faces.
+        factor: If method is "quadric", factor is the scaling factor by which to
+            reduce the number of faces. I.e., final # faces = initial # faces * factor.
+            If method is "cluster", factor is the voxel size in which to cluster points.
+        method: Algorithm to use for decimation. Options are "quadric" or "cluster".
     """
-    n_target_triangles = int(len(faces) * factor)
-
     # convert mesh to open3d format
     o3d_verts = open3d.utility.Vector3dVector(vertices)
     o3d_faces = open3d.utility.Vector3iVector(faces)
     o3d_mesh = open3d.geometry.TriangleMesh(o3d_verts, o3d_faces)
 
     # decimate mesh
-    o3d_new_mesh = o3d_mesh.simplify_quadric_decimation(n_target_triangles)
+    if method == "quadric":
+        n_target_triangles = int(len(faces) * factor)
+        o3d_new_mesh = o3d_mesh.simplify_quadric_decimation(n_target_triangles)
+    else:
+        cluster_type = open3d.geometry.SimplificationContraction.Quadric
+        o3d_new_mesh = o3d_mesh.simplify_vertex_clustering(factor, cluster_type)
+
     return np.array(o3d_new_mesh.vertices), np.array(o3d_new_mesh.triangles)

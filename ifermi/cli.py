@@ -197,8 +197,8 @@ def _get_fs_parser():
         default=None,
         dest="decimate_factor",
         metavar="N",
-        help="factor by which to decimate Fermi surfaces (i.e., 0.8 gives 20 % "
-             "fewer faces)",
+        help="factor by which to decimate Fermi surfaces (i.e., 0.8 gives 20 %% fewer "
+             "faces)",
     )
     parser.add_argument(
         "--format",
