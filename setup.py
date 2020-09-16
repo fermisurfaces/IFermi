@@ -45,6 +45,7 @@ setup(
         "meshcut",
         "scikit-image",
         "monty",
+        "spglib"
     ],
     extras_require={
         "mayavi": ["mayavi", "mlabtex"],
