@@ -1,11 +1,11 @@
+import unittest
 from pathlib import Path
 
 import numpy as np
-import unittest
-
 from monty.serialization import loadfn
 
 from ifermi.fermi_surface import FermiSurface
+from pymatgen import Spin
 
 test_dir = Path(__file__).resolve().parent
 
@@ -27,6 +27,16 @@ class FermiSurfaceTest(unittest.TestCase):
             self.band_structure, self.kpoint_dim, wigner_seitz=True
         )
         self.assert_fs_equal(fs, self.ref_fs_wigner)
+
+    def test_decimation(self):
+        fs = FermiSurface.from_band_structure(self.band_structure, self.kpoint_dim)
+        n_faces_orig = len(fs.isosurfaces[Spin.up][0][1])
+
+        fs = FermiSurface.from_band_structure(
+            self.band_structure, self.kpoint_dim, decimate_factor=0.8
+        )
+        n_faces_new = len(fs.isosurfaces[Spin.up][0][1])
+        self.assertLess(n_faces_new, n_faces_orig)
 
     def test_reciprocal_cell(self):
         fs = FermiSurface.from_band_structure(

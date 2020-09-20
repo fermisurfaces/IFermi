@@ -1,11 +1,10 @@
 from pathlib import Path
 
 from monty.serialization import dumpfn
-from ifermi.fermi_surface import FermiSurface
-from ifermi.interpolator import Interpolater
-
 from pymatgen.io.vasp.outputs import Vasprun
 
+from ifermi.fermi_surface import FermiSurface
+from ifermi.interpolator import Interpolater
 
 if __name__ == "__main__":
     example_dir = Path("../../examples")

@@ -16,9 +16,10 @@ import warnings
 from pathlib import Path
 from typing import Optional, Tuple, Union
 
-from ifermi.plotter import FermiSlicePlotter
 from pymatgen import Spin
 from pymatgen.io.vasp.outputs import Vasprun
+
+from ifermi.plotter import FermiSlicePlotter
 
 __author__ = "Amy Searle"
 __version__ = "0.1.0"
@@ -30,6 +31,7 @@ __date__ = "Sept 18, 2019"
 def fsplot(
     filename: Optional[Union[Path, str]] = None,
     interpolate_factor: int = 8,
+    decimate_factor: Optional[float] = None,
     mu: float = 0.0,
     wigner_seitz: bool = True,
     spin: Optional[Spin] = None,
@@ -46,6 +48,7 @@ def fsplot(
     Args:
         filename: Path to input vasprun file.
         interpolate_factor: The factor by which to interpolate the bands.
+        decimate_factor: Scaling factor by which to reduce the number of faces.
         mu: The level above the Fermi energy at which the isosurfaces are to be plotted.
         wigner_seitz: Controls whether the cell is the Wigner-Seitz cell or the
             reciprocal unit cell parallelepiped.
@@ -79,7 +82,8 @@ def fsplot(
 
     interp_bs, kpoint_dim = interpolater.interpolate_bands(interpolate_factor)
     fs = FermiSurface.from_band_structure(
-        interp_bs, kpoint_dim, mu=mu, wigner_seitz=wigner_seitz
+        interp_bs, kpoint_dim, mu=mu, wigner_seitz=wigner_seitz,
+        decimate_factor=decimate_factor
     )
 
     directory = directory if directory else "."
@@ -188,6 +192,15 @@ def _get_fs_parser():
         help="interpolate factor for band structure " "projections (default: 4)",
     )
     parser.add_argument(
+        "--decimate-factor",
+        type=float,
+        default=None,
+        dest="decimate_factor",
+        metavar="N",
+        help="factor by which to decimate Fermi surfaces (i.e., 0.8 gives 20 %% fewer "
+             "faces)",
+    )
+    parser.add_argument(
         "--format",
         type=str,
         default="png",
@@ -220,6 +233,7 @@ def main():
     fsplot(
         filename=args.filename,
         interpolate_factor=args.interpolate_factor,
+        decimate_factor=args.decimate_factor,
         mu=args.mu,
         plot_type=args.plot_type,
         spin=args.spin,

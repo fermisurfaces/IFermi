@@ -1,10 +1,12 @@
 import unittest
 from pathlib import Path
-from ifermi.interpolator import Interpolater
-from ifermi.plotter import FermiSurfacePlotter
-from ifermi.fermi_surface import FermiSurface
+
 from pymatgen import Spin
 from pymatgen.io.vasp.outputs import Vasprun
+
+from ifermi.fermi_surface import FermiSurface
+from ifermi.interpolator import Interpolater
+from ifermi.plotter import FermiSurfacePlotter
 
 test_dir = Path(__file__).resolve().parent
 root_dir = test_dir / "../.."

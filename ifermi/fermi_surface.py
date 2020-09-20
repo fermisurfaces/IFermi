@@ -8,23 +8,31 @@ import itertools
 import warnings
 from copy import deepcopy
 from dataclasses import dataclass
-from typing import Dict, List, Tuple
+
+from monty.dev import requires
+from typing import Dict, List, Tuple, Optional
 
 import numpy as np
 from monty.json import MSONable
+from pymatgen import Spin, Structure
+from pymatgen.electronic_structure.bandstructure import BandStructure
+from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
 from skimage.measure import marching_cubes
 from trimesh import Trimesh
 from trimesh.intersections import mesh_multiplane, slice_faces_plane
 
 from ifermi.brillouin_zone import ReciprocalCell, ReciprocalSlice, WignerSeitzCell
-from pymatgen import Spin, Structure
-from pymatgen.electronic_structure.bandstructure import BandStructure
-from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
 
 try:
     import mcubes
 except ImportError:
     mcubes = None
+
+try:
+    import open3d
+except ImportError:
+    open3d = None
+
 
 @dataclass
 class FermiSlice(MSONable):
@@ -79,7 +87,7 @@ class FermiSurface(MSONable):
 
     @property
     def n_surfaces(self) -> int:
-        return len(self.isosurfaces)
+        return sum(map(len, self.isosurfaces.values()))
 
     @classmethod
     def from_band_structure(
@@ -89,7 +97,9 @@ class FermiSurface(MSONable):
         mu: float = 0.0,
         wigner_seitz: bool = False,
         symprec: float = 0.001,
-        smooth: bool = False
+        decimate_factor: Optional[float] = None,
+        decimate_method: str = "quadric",
+        smooth: bool = False,
     ) -> "FermiSurface":
         """
         Args:
@@ -105,6 +115,12 @@ class FermiSurface(MSONable):
                 or the reciprocal unit cell parallelepiped.
             symprec: Symmetry precision for determining whether the structure is the
                 standard primitive unit cell.
+            decimate_factor: If method is "quadric", factor is the scaling factor by
+                which to reduce the number of faces. I.e., final # faces = initial
+                # faces * factor. If method is "cluster", factor is the voxel size in
+                which to cluster points. Default is None (no decimation).
+            decimate_method: Algorithm to use for decimation. Options are "quadric"
+                or "cluster".
             smooth: If True, will smooth resulting isosurface. Requires PyMCubes. See
                 compute_isosurfaces for more information.
         """
@@ -121,8 +137,12 @@ class FermiSurface(MSONable):
         structure = band_structure.structure
         fermi_level = band_structure.efermi + mu
         bands = band_structure.bands
-        frac_kpoints = [k.frac_coords for k in band_structure.kpoints]
-        frac_kpoints = np.array(frac_kpoints)
+        kpoints = np.array([k.frac_coords for k in band_structure.kpoints])
+
+        # sort k-points to be in the correct order
+        order = np.lexsort((kpoints[:, 2], kpoints[:, 1], kpoints[:, 0]))
+        kpoints = kpoints[order]
+        bands = {s: b[:, order] for s, b in bands.items()}
 
         if wigner_seitz:
             prim = get_prim_structure(structure, symprec=symprec)
@@ -130,16 +150,16 @@ class FermiSurface(MSONable):
                 warnings.warn("Structure does not match expected primitive cell")
 
             reciprocal_space = WignerSeitzCell.from_structure(structure)
-            bands, frac_kpoints, kpoint_dim = _expand_bands(
-                bands, frac_kpoints, kpoint_dim
-            )
+            bands, kpoints, kpoint_dim = _expand_bands(bands, kpoints, kpoint_dim)
 
         else:
             reciprocal_space = ReciprocalCell.from_structure(structure)
 
         kpoint_dim = tuple(kpoint_dim.astype(int))
         isosurfaces = compute_isosurfaces(
-            bands, kpoint_dim, fermi_level, reciprocal_space, smooth=smooth
+            bands, kpoint_dim, fermi_level, reciprocal_space,
+            decimate_factor=decimate_factor, decimate_method=decimate_method,
+            smooth=smooth
         )
 
         return cls(isosurfaces, reciprocal_space, structure)
@@ -199,6 +219,8 @@ def compute_isosurfaces(
     kpoint_dim: Tuple[int, int, int],
     fermi_level: float,
     reciprocal_space: ReciprocalCell,
+    decimate_factor: Optional[float] = None,
+    decimate_method: str = "quadric",
     smooth: bool = False,
 ) -> Dict[Spin, List[Tuple[np.ndarray, np.ndarray]]]:
     """
@@ -210,6 +232,12 @@ def compute_isosurfaces(
         kpoint_dim: The k-point mesh dimensions.
         fermi_level: The energy at which to calculate the Fermi surface.
         reciprocal_space: The reciprocal space representation.
+        decimate_factor: If method is "quadric", factor is the scaling factor by which
+            to reduce the number of faces. I.e., final # faces = initial # faces *
+            factor. If method is "cluster", factor is the voxel size in which to
+            cluster points. Default is None (no decimation).
+        decimate_method: Algorithm to use for decimation. Options are "quadric" or
+            "cluster".
         smooth: If True, will smooth resulting isosurface. Requires PyMCubes. Smoothing
             algorithm will use constrained smoothing algorithm to preserve fine details
             if input dimension is lower than (500, 500, 500), otherwise will apply a
@@ -226,6 +254,10 @@ def compute_isosurfaces(
     if smooth and mcubes is None:
         smooth = False
         warnings.warn("Smoothing disabled, install PyMCubes to enable smoothing.")
+
+    if decimate_factor is not None and open3d is None:
+        decimate_factor = None
+        warnings.warn("Decimation disabled, install open3d to enable decimation.")
 
     isosurfaces = {}
     for spin, ebands in bands.items():
@@ -248,6 +280,11 @@ def compute_isosurfaces(
                     faces = faces.astype(np.int32)
                 else:
                     verts, faces, _, _ = marching_cubes(band_data, 0, spacing=spacing)
+
+                if decimate_factor:
+                    verts, faces = decimate_mesh(
+                        verts, faces, decimate_factor, method=decimate_method
+                    )
 
                 if isinstance(reciprocal_space, WignerSeitzCell):
                     verts = np.dot(verts - 0.5, rlat) * 3
@@ -302,6 +339,7 @@ def _expand_bands(
         The expanded band energies, k-points, and k-point mesh dimensions.
     """
     final_ebands = {}
+    final_kpoints = None
     for spin, ebands in bands.items():
         super_ebands = []
         images = (-1, 0, 1)
@@ -340,3 +378,33 @@ def get_prim_structure(structure, symprec=0.01) -> Structure:
     """
     analyzer = SpacegroupAnalyzer(structure, symprec=symprec)
     return analyzer.get_primitive_standard_structure()
+
+
+@requires(open3d, "open3d package is required for mesh decimation")
+def decimate_mesh(vertices: np.ndarray, faces: np.ndarray, factor, method="quadric"):
+    """Decimate mesh to reduce the number of triangles and vertices.
+
+    The open3d package is required for decimation.
+
+    Args:
+        vertices: The mesh vertices.
+        faces: The mesh faces.
+        factor: If method is "quadric", factor is the scaling factor by which to
+            reduce the number of faces. I.e., final # faces = initial # faces * factor.
+            If method is "cluster", factor is the voxel size in which to cluster points.
+        method: Algorithm to use for decimation. Options are "quadric" or "cluster".
+    """
+    # convert mesh to open3d format
+    o3d_verts = open3d.utility.Vector3dVector(vertices)
+    o3d_faces = open3d.utility.Vector3iVector(faces)
+    o3d_mesh = open3d.geometry.TriangleMesh(o3d_verts, o3d_faces)
+
+    # decimate mesh
+    if method == "quadric":
+        n_target_triangles = int(len(faces) * factor)
+        o3d_new_mesh = o3d_mesh.simplify_quadric_decimation(n_target_triangles)
+    else:
+        cluster_type = open3d.geometry.SimplificationContraction.Quadric
+        o3d_new_mesh = o3d_mesh.simplify_vertex_clustering(factor, cluster_type)
+
+    return np.array(o3d_new_mesh.vertices), np.array(o3d_new_mesh.triangles)

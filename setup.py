@@ -45,6 +45,7 @@ setup(
         "meshcut",
         "scikit-image",
         "monty",
+        "spglib",
         "jupyter",
         "psutil"
     ],
@@ -52,6 +53,7 @@ setup(
         "mayavi": ["mayavi", "mlabtex", "vtk"],
         "plotly": ["plotly"],
         "crystal-toolkit": ["crystal-toolkit"],
+        "decimation": ["open3d"],
         "smooth": ["PyMCubes"],
         "docs": [
             "sphinx",
