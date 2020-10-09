@@ -138,12 +138,16 @@ class Interpolater(MSONable):
             energies[spin] /= eV
 
             if not is_metal:
-                vb_idx = max(self._band_structure.get_vbm()["band_index"][spin])
+                vb_energy = self._band_structure.get_vbm()["energy"]
+                spin_bands = self._band_structure.bands[spin]
+                below_vbm = np.any(spin_bands < vb_energy, axis=1)
+                spin_vb_idx = np.max(np.where(below_vbm)[0])
+
                 # need to know the index of the valence band after discounting
                 # bands during the interpolation. As ibands is just a list of
                 # True/False, we can count the number of Trues up to
                 # and including the VBM to get the new number of valence bands
-                new_vb_idx[spin] = sum(ibands[: vb_idx + 1]) - 1
+                new_vb_idx[spin] = sum(ibands[: spin_vb_idx + 1]) - 1
 
         if is_metal:
             efermi = self._band_structure.efermi
