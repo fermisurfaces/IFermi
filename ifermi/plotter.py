@@ -149,6 +149,8 @@ class FermiSurfacePlotter(MSONable):
                 available options.
             **plot_kwargs: Other keyword arguments supported by the individual plotting
                 methods.
+
+        returns: form plotly, returns the figure object?
         """
         plot_kwargs.update(
             dict(filename=filename, interactive=interactive, colors=colors, spin=spin)
@@ -156,7 +158,7 @@ class FermiSurfacePlotter(MSONable):
         if plot_type == "mpl":
             self.plot_matplotlib(**plot_kwargs)
         elif plot_type == "plotly":
-            self.plot_plotly(**plot_kwargs)
+            thefig = self.plot_plotly(**plot_kwargs)
         elif plot_type == "mayavi":
             self.plot_mayavi(**plot_kwargs)
         elif plot_type == "mayavi":
@@ -165,6 +167,7 @@ class FermiSurfacePlotter(MSONable):
             types = ["mpl", "plotly", "mayavi", "crystal_toolkit"]
             error_msg = "Plot type not recognised, valid options: {}".format(types)
             raise ValueError(error_msg)
+        return thefig
 
     def get_isosurfaces_and_colors(
         self,
@@ -254,8 +257,9 @@ class FermiSurfacePlotter(MSONable):
         ax.add_collection3d(lines)
 
         for coords, label in zip(*self._symmetry_pts):
+            #MDF-COMMENT just got the same trick there was in plotly code
             ax.scatter(*coords, s=10, c="k")
-            ax.text(*coords, label, size=15, zorder=1)
+            ax.text(*coords, "${}$".format(label), size=15, zorder=1)
 
         if title is not None:
             plt.title(title)
@@ -270,6 +274,8 @@ class FermiSurfacePlotter(MSONable):
             plt.show()
         else:
             plt.savefig(filename, dpi=300)
+        #MDF-COMMENT also return matplotlib object:
+        return plt
 
     @requires(plotly, "plotly option requires plotly to be installed.")
     def plot_plotly(
@@ -319,6 +325,7 @@ class FermiSurfacePlotter(MSONable):
 
         # plot high symmetry labels
         # labels = [i.replace(r"\Gamma", "\u0393") for i in self._symmetry_pts[1]]
+        #MDF-COMMENT doesnt this very same work for matplotlib ?
         labels = ["${}$".format(i) for i in self._symmetry_pts[1]]
         x, y, z = self._symmetry_pts[0].T
         marker_style = dict(size=5, color="black")
@@ -344,6 +351,8 @@ class FermiSurfacePlotter(MSONable):
             plot(fig, include_mathjax="cdn")
         else:
             plotly.io.write_image(fig, str(filename), width=600, height=600, scale=5)
+        #MDF-COMMENT return the fig so you can adjust properties
+        return fig
 
     @requires(mlab, "mayavi option requires mayavi to be installed.")
     def plot_mayavi(
