@@ -2,18 +2,9 @@
   <img alt="IFermi logo" src="https://raw.githubusercontent.com/ajsearle97/IFermi/master/docs/src/_static/logo-01.png" height="200px">
 </p>
 
-<p align="center">
-  <a href="https://pypi.org/project/ifermi/"><img alt="PyPI version" src="https://img.shields.io/pypi/v/ifermi.svg?colorB=blue"> </a>
-  <a href="https://github.com/ajsearle97/IFermi/actions?query=workflow%3A%22Run+tests%22"><img alt="run-tests" src="https://img.shields.io/github/workflow/status/ajsearle97/IFermi/Run%20tests"> </a>
-</p>
-
 IFermi is a package for plotting Fermi surfaces and from *ab initio* calculation outputs. 
 IFermi can also visualise slices of three-dimensional Fermi surfaces along a specified 
-plane. An example of the Fermi surface and Fermi slice for MgB<sub>2</sub> is shown below:
-
-![MgB2](docs/src/_static/fermi_surface_example-01.png)
-
-The main features include:
+plane. The main features include:
 
 1. Plotting of three-dimensional Fermi surfaces, with interactive plotting
    supported by [mayavi](https://docs.enthought.com/mayavi/mayavi/), [plotly](https://plot.ly/) and [matplotlib](https://matplotlib.org) (see recommended 
@@ -22,6 +13,13 @@ The main features include:
 
 IFermi currently only supports VASP calculations but support for additional DFT packages 
 will be added in the future.
+
+## Example
+
+An example of the Fermi surface and Fermi slice for MgB<sub>2</sub> is shown below:
+
+![MgB2](docs/src/_static/fermi_surface_example-01.png)
+
 
 ## Usage
 
