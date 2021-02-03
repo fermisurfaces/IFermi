@@ -46,9 +46,7 @@ setup(
         "scikit-image",
         "monty",
         "spglib",
-        "jupyter",
         "plotly",
-        "psutil"
     ],
     extras_require={
         "mayavi": ["mayavi", "mlabtex", "vtk"],
