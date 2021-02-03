@@ -108,7 +108,6 @@ html_static_path = ['_static']
 #
 # html_sidebars = {}
 
-
 # -- Options for HTMLHelp test_log ---------------------------------------------
 
 # Output file base name for HTML help builder.
@@ -128,7 +127,7 @@ html_theme_options = {
     'titles_only': False
 }
 
-html_logo = "_static/logo_icon-01.png"
+html_logo = "_static/logo-docs-01.png"
 
 html_context = {
     "display_github": True,

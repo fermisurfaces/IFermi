@@ -3,6 +3,7 @@ Introduction
 ============
 
 .. mdinclude:: ../../README.md
-   :start-line: 9
+   :start-line: 4
+
 
 

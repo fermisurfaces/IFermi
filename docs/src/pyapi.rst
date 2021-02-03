@@ -22,9 +22,6 @@ Generating slices
 ~~~~~~~~~~~~~~~~~
 
 
-API Reference
--------------
-
 .. toctree::
    :caption: Function Reference
 

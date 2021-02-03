@@ -18,7 +18,7 @@ will be added in the future.
 
 An example of the Fermi surface and Fermi slice for MgB<sub>2</sub> is shown below:
 
-![MgB2](docs/src/_static/fermi_surface_example-01.png)
+![MgB2](https://raw.githubusercontent.com/ajsearle97/IFermi/master/docs/src/_static/fermi_surface_example-01.png)
 
 
 ## Usage

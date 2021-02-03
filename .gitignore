@@ -94,4 +94,6 @@ ENV/
 .mypy*
 .log
 temp-plot.html
+fermi-surface.html
 
+docs_build

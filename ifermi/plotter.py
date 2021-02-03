@@ -181,6 +181,7 @@ class FermiSurfacePlotter(MSONable):
             spin: Which spin channel to select. By default will return the isosurfaces
                 for both spin channels if available.
             colors: The color specification. Valid options are:
+
                 - A list of colors.
                 - A dictionary of ``{Spin.up: color1, Spin.down: color2}``.
                 - A string specifying which matplotlib colormap to use. See
@@ -526,12 +527,14 @@ class FermiSlicePlotter(object):
             spin: Which spin channel to plot. By default plot both spin channels if
                 available.
             colors: The color specification. Valid options are:
+
                 - A list of colors.
                 - A dictionary of ``{Spin.up: color1, Spin.down: color2}``.
                 - A string specifying which matplotlib colormap to use. See
                   https://matplotlib.org/tutorials/colors/colormaps.html for more
                   information.
                 - ``None``, in which case the colors will be chosen randomly.
+
             show: Show the plot before saving to file.
         """
         import matplotlib.pyplot as plt
@@ -584,6 +587,7 @@ class FermiSlicePlotter(object):
             spin: Which spin channel to select. By default will return the slices
                 for both spin channels if available.
             colors: The color specification. Valid options are:
+
                 - A list of colors.
                 - A dictionary of ``{Spin.up: color1, Spin.down: color2}``.
                 - A string specifying which matplotlib colormap to use. See

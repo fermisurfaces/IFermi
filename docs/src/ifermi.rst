@@ -1,14 +1,6 @@
 ifermi package
 ==============
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 4
-
-   ifermi.tests
-
 Submodules
 ----------
 

@@ -60,9 +60,12 @@ class Interpolater(MSONable):
         nworkers: int = -1,
     ):
         """Gets a pymatgen band structure.
-        Note, the interpolation mesh is determined using by
-        ``interpolate_factor`` option in the ``Inteprolater`` constructor.
+
+        Note, the interpolation mesh is determined using by ``interpolate_factor``
+        option in the ``Interpolater`` constructor.
+
         The degree of parallelization is controlled by the ``nworkers`` option.
+
         Args:
             interpolation_factor: The factor by which the band structure will
                 be interpolated.
