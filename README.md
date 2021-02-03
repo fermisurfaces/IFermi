@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="IFermi logo" src="https://raw.githubusercontent.com/ajsearle97/IFermi/master/docs/src/_static/logo-01.png" height="200px">
+  <img alt="IFermi logo" src="https://raw.githubusercontent.com/ajsearle97/IFermi/master/docs/src/_static/logo-01.png" height="190px">
 </p>
 
 IFermi is a package for plotting Fermi surfaces and from *ab initio* calculation outputs. 
