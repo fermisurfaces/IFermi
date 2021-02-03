@@ -341,7 +341,7 @@ class FermiSurfacePlotter(MSONable):
         fig = go.Figure(data=meshes, layout=layout)
 
         if interactive:
-            plot(fig, include_mathjax="cdn")
+            plot(fig, include_mathjax="cdn", filename="fermi-surface.html")
         else:
             plotly.io.write_image(fig, str(filename), width=600, height=600, scale=5)
 

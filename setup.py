@@ -47,11 +47,11 @@ setup(
         "monty",
         "spglib",
         "jupyter",
+        "plotly",
         "psutil"
     ],
     extras_require={
         "mayavi": ["mayavi", "mlabtex", "vtk"],
-        "plotly": ["plotly"],
         "crystal-toolkit": ["crystal-toolkit"],
         "decimation": ["open3d"],
         "smooth": ["PyMCubes"],

@@ -1,168 +1,101 @@
-IFermi
-------
+<p align="center">
+  <img alt="IFermi logo" src="https://raw.githubusercontent.com/ajsearle97/IFermi/master/docs/src/_static/logo-01.png" height="200px">
+</p>
 
-IFermi is a package which provides tools for plotting Fermi surfaces
-from DFT output. IFermi is also useful for visualisation of slices of
-the three-dimensional Fermi surface along a specified plane. The idea 
-is to provide tools which allow for more tailored Fermi surface plots
-than what is currently offered by other packages.
+<p align="center">
+  <a href="https://pypi.org/project/ifermi/"><img alt="PyPI version" src="https://img.shields.io/pypi/v/ifermi.svg?colorB=blue"> </a>
+  <a href="https://github.com/ajsearle97/IFermi/actions?query=workflow%3A%22Run+tests%22"><img alt="run-tests" src="https://img.shields.io/github/workflow/status/ajsearle97/IFermi/Run%20tests"> </a>
+</p>
+
+IFermi is a package for plotting Fermi surfaces and from *ab initio* calculation outputs. 
+IFermi can also visualise slices of three-dimensional Fermi surfaces along a specified 
+plane. An example of the Fermi surface and Fermi slice for MgB<sub>2</sub> is shown below:
+
+![MgB2](docs/src/_static/fermi_surface_example-01.png)
 
 The main features include:
 
-1. **Plotting of three-dimensional Fermi surfaces, with interactive plotting
+1. Plotting of three-dimensional Fermi surfaces, with interactive plotting
    supported by [mayavi](https://docs.enthought.com/mayavi/mayavi/), [plotly](https://plot.ly/) and [matplotlib](https://matplotlib.org) (see recommended 
-   libraries below).**
+   libraries below).
+2. Fermi slices of three-dimensional Fermi surface along a specified  plane.
 
-2. **Taking a slice of a three-dimensional Fermi surface along a specified 
-   plane and plotting the resulting contour.**
+IFermi currently only supports VASP calculations but support for additional DFT packages 
+will be added in the future.
 
+## Usage
 
-Dependencies on external libraries: 
-
-   - VASP calculations are imported using [Pymatgen](https://docs.enthought.com/mayavi/mayavi/).
-   - Band interpolation is carried out using [BoltzTraP2]().
-   - Plotting is supported in [Mayavi](https://docs.enthought.com/mayavi/mayavi/), [Plotly](https://plot.ly/) and [Matplotlib](https://matplotlib.org).
-   - I recommend using Mayavi or Plotly for three-dimensional
-     Fermi surface visualisation. Plotly is selected by deafult. 
-
-The code currently primarily supports VASP calculations, but will 
-soon be extended to other platforms supported by Pymatgen 
-(Quantum Espresso, Questaal, etc.)
-
-### Installation
-IFermi can be installed with the command:
-
-
-```bash
-pip install ifermi
-```
-
-### Usage
-
-IFermi can be used from the command-line or from a python API. The built-in
-help (``-h``) option for each command provides a summary of the
-available options.
-
-To generate the three-dimensional Fermi surface with default parameters one can 
-just run the command:
+The documentation available at xyz.com provides a full description of the available options.
+To summarise, three-dimensional Fermi surfaces can be plotted from a `vasprun.xml` file using:
 
 ```bash
 ifermi
 ```
 
-Alternatively, to plot a two-dimensional slice of a Fermi surface along the plane
-specified by the miller indices (A B C) and at a distance d, run the command
+The two-dimensional slice of a Fermi slices along the plane specified by the miller 
+indices (A B C) and distance d can be plotted from a `vasprun.xml` file using:
 
 ```bash
 ifermi --slice A B C d
 ```
 
-#### Python interface
+### Python interface
 
-ifermi is made up of a number of classes for building and plotting
-Fermi surfaces. This includes:
+Alternatively, IFermi can be controlled using the Python API. A full summary of the API
+is given in the API introduction page in the documentation.
 
-- `FermiSurface`: stores isosurfaces at the Fermi-level for use in plotting,
-   as well as other useful structural information. 
-- `FermiSlice`: A two-dimesnional slice of the FermiSurface along a specified plane
-(The plane is specified with Miller indices)
-- `WignerSeitzCell`: Represents the lattice's Wigner-Seitz brillouin zone
-- `ReciprocalCell`: Represents the lattice's standard reciprocal cell 
-- `Interpolator`: Takes energies specified on a uniform k-mesh and interpolates 
-   this to a finer k-mesh.
-- `FermiSurfacePlotter`: Given a FermiSurface object, produces an interactive plot   
-- `FermiSlicePlotter`: Given a FermiSlice object, produces a two-dimensional plot of that object
+The core classes in IFermi are:
 
-A minimal working example for plotting the 3d Fermi surface of MgB2 from a POSCAR
-file and Vasprun.xml file is:
+- `Inerpolator`: to take a band structure on a uniform k-point mesh and interpolate it
+  onto a denser mesh.
+- `FermiSurface`: to stores isosurfaces and reciprocal lattice information.
+- `FermiSurfacePlotter`: to plot a Fermi surface from a `FermiSurface` object.
+
+A minimal working example for plotting the Fermi surface from a `vasprun.xml` file is:
 
 ```python
-import os
-import sys
-
 from pymatgen.io.vasp.outputs import Vasprun
-
-def find_vasprun_file():
-    """Search for vasprun files from the current directory.
-
-    Will look for vasprun.xml or vasprun.xml.gz files.
-    """
-    for file in ["vasprun.xml", "vasprun.xml.gz"]:
-        if os.path.exists(file):
-            return file
-
-    print("ERROR: No vasprun.xml found in current directory")
-    sys.exit()
-
+from ifermi.fermi_surface import FermiSurface
+from ifermi.interpolator import Interpolater
+from ifermi.plotter import FermiSurfacePlotter
 
 if __name__ == '__main__':
-
-    from ifermi.fermi_surface import FermiSurface
-    from ifermi.interpolator import Interpolater
-    from ifermi.plotter import FermiSurfacePlotter
-    
-    # create a Pymatgen BandStructure object from a vasprun file
-
-    filename = find_vasprun_file()
-
-    vr = Vasprun(filename)
+    vr = Vasprun("vasprun.xml")
     bs = vr.get_band_structure()
 
     # interpolate the energies to a finer k-point mesh, specified by the interpolate_factor
-
     interpolater = Interpolater(bs)
+    dense_bs, kmesh = interpolater.interpolate_bands(interpolation_factor=10)
     
-    interpolate_factor = 8
-
-    interp_bs, kpoint_dim = interpolater.interpolate_bands(interpolate_factor)
-    
-    # create a FermiSurface object from the resulting energy mesh
-    # the Fermi-level can be displaced by changing 'mu' to a non-zero value
-    
-    fs = FermiSurface.from_band_structure(
-        interp_bs, kpoint_dim, mu=0.0, wigner_seitz=True, 
-    )
-
-    # Create a FSPlotter object
+    fs = FermiSurface.from_band_structure(dense_bs, kmesh, mu=0.0, wigner_seitz=True)
     plotter = FermiSurfacePlotter(fs)
-    
-    # specify the directory and prefix of the plot name
-    
-    # create and save the plot
-    
-    plotter.plot(plot_type='mayavi', interactive=True)
+    plotter.plot(plot_type='plotly', interactive=True)
 ```
 
-### Example output
+## Installation
 
-An example of the output generated by ifermi for MgB<sub>2</sub>
- is shown below:
+IFermi can be installed with the command:
 
+```bash
+pip install ifermi
+```
 
-![BaFe2As2 fermi slice](docs/source/_static/fermi_surface.png)
-
-And for a slice taken along the plane specified by the Miller index (0 0 0.5):
-![BaFe2As2 fermi slice](docs/source/_static/fermi_slice_3.png)
-
-## Detailed requirements
-
-ifermi is currently compatible with Python 3.5+ and relies on a number of
+IFermi is currently compatible with Python 3.5+ and relies on a number of
 open-source python packages, specifically:
 
-- [pymatgen](http://pymatgen.org)
-- [numpy](http://www.numpy.org)
-- [scipy](https://www.scipy.org)
-- [matplotlib](https://matplotlib.org)
-- [mayavi](https://docs.enthought.com/mayavi/mayavi/)
-- [plotly](https://plot.ly/)
+- [pymatgen](http://pymatgen.org) for parsing VASP calculation output.
+- [BoltzTrap2](https://gitlab.com/sousaw/BoltzTraP2) for band structure interpolation.
+- [matplotlib](https://matplotlib.org), [mayavi](https://docs.enthought.com/mayavi/mayavi/), and [plotly](https://plot.ly/) for three-dimensional plotting.
 
+## What’s new?
 
+Track changes to IFermi through the
+[changelog](https://ajsearle97.github.io/IFermi/changelog.html).
 
 ## Contributing
 
-If you think that the code could use some improvement
-or added functionality, send a push request to the GitHub page. 
-I would greatly appreciate any contributions.
+We greatly appreciate any contributions. Please send any contributions by submitting a Pull Request.
+We maintain a list of all contributors [here](https://ajsearle97.github.io/IFermi/contributors.html).
 
 ## License
 

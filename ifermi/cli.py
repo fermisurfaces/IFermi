@@ -28,7 +28,7 @@ __email__ = "amyjadesearle@gmail.com"
 __date__ = "Sept 18, 2019"
 
 
-def fsplot(
+def ifermi(
     filename: Optional[Union[Path, str]] = None,
     interpolate_factor: int = 8,
     decimate_factor: Optional[float] = None,
@@ -36,7 +36,7 @@ def fsplot(
     wigner_seitz: bool = True,
     spin: Optional[Spin] = None,
     plot_type: str = "plotly",
-    interactive: bool = False,
+    interactive: bool = True,
     slice_info: Optional[Tuple[float, float, float, float]] = None,
     prefix: Optional[str] = None,
     directory: Optional[Union[Path, str]] = None,
@@ -154,7 +154,7 @@ def _get_fs_parser():
         "-d", "--directory", metavar="D", help="output directory for files"
     )
     parser.add_argument(
-        "-i", "--interactive", action="store_true", help="enable interactive plots"
+        "-s", "--static", dest="interactive", action="store_false", help="generate static plots"
     )
     parser.add_argument(
         "-r",
@@ -216,21 +216,12 @@ def _get_fs_parser():
 
 def main():
     args = _get_fs_parser().parse_args()
-    logging.basicConfig(
-        filename="ifermi-fsplot.log",
-        level=logging.INFO,
-        filemode="w",
-        format="%(message)s",
-    )
-    console = logging.StreamHandler()
-    logging.info(" ".join(sys.argv[:]))
-    logging.getLogger("").addHandler(console)
 
     warnings.filterwarnings("ignore", category=UserWarning, module="matplotlib")
     warnings.filterwarnings("ignore", category=UnicodeWarning, module="matplotlib")
     warnings.filterwarnings("ignore", category=UserWarning, module="pymatgen")
 
-    fsplot(
+    ifermi(
         filename=args.filename,
         interpolate_factor=args.interpolate_factor,
         decimate_factor=args.decimate_factor,
