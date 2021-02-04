@@ -4,7 +4,7 @@ from monty.serialization import dumpfn
 from pymatgen.io.vasp.outputs import Vasprun
 
 from ifermi.fermi_surface import FermiSurface
-from ifermi.interpolator import Interpolater
+from ifermi.interpolator import Interpolator
 
 if __name__ == "__main__":
     example_dir = Path("../../examples")
@@ -13,7 +13,7 @@ if __name__ == "__main__":
 
     dumpfn(bs.structure, "structure.json.gz")
 
-    interpolater = Interpolater(bs)
+    interpolater = Interpolator(bs)
     new_bs, kpoint_dim = interpolater.interpolate_bands(1)
 
     bs_data = {"bs": new_bs, "dim": kpoint_dim, "structure": bs.structure}
