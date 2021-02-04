@@ -152,22 +152,7 @@ class Interpolater(MSONable):
                 # and including the VBM to get the new number of valence bands
                 new_vb_idx[spin] = sum(ibands[: spin_vb_idx + 1]) - 1
 
-        if is_metal:
-            efermi = self._band_structure.efermi
-        else:
-            # if material is semiconducting, set Fermi level to middle of gap
-            warnings.warn(
-                "The Fermi energy may be different to that in the vasprun.xml file,"
-                " due to the material being a semiconductor. The Fermi level has been "
-                "set to midway between the top of the valence band and the bottom of "
-                "the conduction band.",
-                category=None,
-                stacklevel=1,
-                source=None,
-            )
-            e_vbm = max([np.max(energies[s][: new_vb_idx[s] + 1]) for s in self._spins])
-            e_cbm = min([np.min(energies[s][new_vb_idx[s] + 1 :]) for s in self._spins])
-            efermi = (e_vbm + e_cbm) / 2
+        efermi = self._band_structure.efermi
 
         atoms = AseAtomsAdaptor().get_atoms(self._band_structure.structure)
         mapping, grid = spglib.get_ir_reciprocal_mesh(
