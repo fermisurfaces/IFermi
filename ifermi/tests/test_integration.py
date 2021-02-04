@@ -6,7 +6,7 @@ from pymatgen.io.vasp.outputs import Vasprun
 
 from ifermi.fermi_surface import FermiSurface
 from ifermi.interpolator import Interpolater
-from ifermi.plotter import FermiSurfacePlotter
+from ifermi.plotter import FermiSurfacePlotter, save_plot
 
 test_dir = Path(__file__).resolve().parent
 root_dir = test_dir / "../.."
@@ -25,7 +25,8 @@ class IntegrationTest(unittest.TestCase):
         new_bs, kpoint_dim = interpolater.interpolate_bands(1)
         fs = FermiSurface.from_band_structure(new_bs, kpoint_dim)
         plotter = FermiSurfacePlotter(fs)
-        plotter.plot(plot_type="mpl", interactive=False, filename=self.output_file)
+        plot = plotter.get_plot(plot_type="mpl")
+        save_plot(plot, self.output_file)
         # plotter.plot(plot_type='plotly', interactive=True)
         # plotter.plot(plot_type='mayavi', interactive=False, filename=self.output_file)
 
@@ -34,7 +35,8 @@ class IntegrationTest(unittest.TestCase):
         new_bs, kpoint_dim = interpolater.interpolate_bands(1)
         fs = FermiSurface.from_band_structure(new_bs, kpoint_dim, wigner_seitz=False)
         plotter = FermiSurfacePlotter(fs)
-        plotter.plot(plot_type="mpl", interactive=False, filename=self.output_file)
+        plot = plotter.get_plot(plot_type="mpl")
+        save_plot(plot, self.output_file)
         # plotter.plot(plot_type='plotly', interactive=True)
         # plotter.plot(plot_type='mayavi', interactive=False, filename=self.output_file)
 
@@ -43,9 +45,8 @@ class IntegrationTest(unittest.TestCase):
         new_bs, kpoint_dim = interpolater.interpolate_bands(1)
         fs = FermiSurface.from_band_structure(new_bs, kpoint_dim, wigner_seitz=False)
         plotter = FermiSurfacePlotter(fs)
-        plotter.plot(
-            plot_type="mpl", interactive=False, filename=self.output_file, spin=Spin.up
-        )
+        plot = plotter.get_plot(plot_type="mpl", spin=Spin.up)
+        save_plot(plot, self.output_file)
         # plotter.plot(plot_type='plotly', interactive=True)
         # plotter.plot(plot_type='mayavi', interactive=False, filename=self.output_file)
 

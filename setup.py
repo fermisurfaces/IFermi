@@ -47,6 +47,7 @@ setup(
         "monty",
         "spglib",
         "plotly",
+        "pyfftw",
     ],
     extras_require={
         "mayavi": ["mayavi", "mlabtex", "vtk"],
