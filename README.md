@@ -57,19 +57,22 @@ A minimal working example to plot the Fermi surface from a `vasprun.xml` file is
 from pymatgen.io.vasp.outputs import Vasprun
 from ifermi.fermi_surface import FermiSurface
 from ifermi.interpolator import Interpolater
-from ifermi.plotter import FermiSurfacePlotter
+from ifermi.plotter import FermiSurfacePlotter, show_plot, save_plot
 
 if __name__ == '__main__':
     vr = Vasprun("vasprun.xml")
     bs = vr.get_band_structure()
 
-    # interpolate the energies to a finer k-point mesh, specified by the interpolate_factor
+    # interpolate the energies to a finer k-point mesh
     interpolater = Interpolater(bs)
     dense_bs, kmesh = interpolater.interpolate_bands(interpolation_factor=10)
     
     fs = FermiSurface.from_band_structure(dense_bs, kmesh, mu=0.0, wigner_seitz=True)
     plotter = FermiSurfacePlotter(fs)
-    plotter.plot(plot_type='plotly', interactive=True)
+    plot = plotter.get_plot(plot_type='plotly')
+
+    show_plot(plot)  # displays an interactive plot
+    save_plot(plot, "fermi-surface.png")  # saves the plot to a file
 ```
 
 ## Installation
