@@ -109,7 +109,7 @@ class FermiSurface(MSONable):
             kpoint_dim: The dimension of the grid in reciprocal space on which the
                 energy eigenvalues are defined.
             mu: Energy offset from the Fermi energy at which the iso-surface is
-               shape of the resulting iso-surface.
+                calculated.
             wigner_seitz: Controls whether the cell is the Wigner-Seitz cell
                 or the reciprocal unit cell parallelepiped.
             symprec: Symmetry precision for determining whether the structure is the

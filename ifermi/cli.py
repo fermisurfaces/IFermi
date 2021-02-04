@@ -62,7 +62,7 @@ def ifermi(
     from pymatgen.io.vasp.outputs import Vasprun
 
     from ifermi.fermi_surface import FermiSurface
-    from ifermi.interpolator import Interpolater
+    from ifermi.interpolator import Interpolator
     from ifermi.plotter import (
         FermiSlicePlotter,
         FermiSurfacePlotter,
@@ -76,8 +76,8 @@ def ifermi(
     vr = Vasprun(filename)
     bs = vr.get_band_structure()
 
-    interpolater = Interpolater(bs)
-    interp_bs, kpoint_dim = interpolater.interpolate_bands(interpolate_factor)
+    interpolator = Interpolator(bs)
+    interp_bs, kpoint_dim = interpolator.interpolate_bands(interpolate_factor)
 
     fs = FermiSurface.from_band_structure(
         interp_bs,
@@ -167,7 +167,7 @@ def _get_fs_parser():
         "--type",
         dest="plot_type",
         default="plotly",
-        help="plotting type (options: mpl, plotly, mayavi)",
+        help="plotting type (options: matplotlib, plotly, mayavi)",
     )
     parser.add_argument(
         "--slice",

@@ -59,6 +59,8 @@ setup(
             "sphinx_rtd_theme==0.5.0",
             "sphinx-autodoc-typehints==1.11.1",
             "m2r2==0.2.5",
+            "nbsphinx",
+            "nbsphinx-link",
         ],
         "dev": ["black"],
         "tests": ["nose", "coverage", "coveralls"],

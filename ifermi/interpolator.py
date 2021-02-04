@@ -5,7 +5,6 @@ BolzTraP2. Developed by Alex Ganose
 """
 
 import multiprocessing
-import warnings
 from collections import defaultdict
 from typing import Optional
 
@@ -18,7 +17,7 @@ from pymatgen.io.ase import AseAtomsAdaptor
 from spglib import spglib
 
 
-class Interpolater(MSONable):
+class Interpolator(MSONable):
     """Takes a pymatgen BandStructure object and interpolates the bands to
     create a denser mesh. This is done using Boltzstrap2, a module which is able
     to interpolate bands using Fourier coefficients. Implementation taken from
@@ -62,7 +61,7 @@ class Interpolater(MSONable):
         """Gets a pymatgen band structure.
 
         Note, the interpolation mesh is determined using by ``interpolate_factor``
-        option in the ``Interpolater`` constructor.
+        option in the ``Interpolator`` constructor.
 
         The degree of parallelization is controlled by the ``nworkers`` option.
 

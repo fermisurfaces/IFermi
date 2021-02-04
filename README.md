@@ -56,7 +56,7 @@ A minimal working example to plot the Fermi surface from a `vasprun.xml` file is
 ```python
 from pymatgen.io.vasp.outputs import Vasprun
 from ifermi.fermi_surface import FermiSurface
-from ifermi.interpolator import Interpolater
+from ifermi.interpolator import Interpolator
 from ifermi.plotter import FermiSurfacePlotter, show_plot, save_plot
 
 
@@ -64,8 +64,8 @@ vr = Vasprun("vasprun.xml")
 bs = vr.get_band_structure()
 
 # interpolate the energies to a finer k-point mesh
-interpolater = Interpolater(bs)
-dense_bs, kmesh = interpolater.interpolate_bands(interpolation_factor=10)
+interpolator = Interpolator(bs)
+dense_bs, kmesh = interpolator.interpolate_bands(interpolation_factor=10)
     
 fs = FermiSurface.from_band_structure(dense_bs, kmesh, mu=0.0, wigner_seitz=True)
 plotter = FermiSurfacePlotter(fs)

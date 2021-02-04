@@ -139,7 +139,7 @@ class FermiSurfacePlotter(MSONable):
                 methods.
         """
         plot_kwargs.update({"colors": colors, "spin": spin})
-        if plot_type == "mpl":
+        if plot_type == "matplotlib":
             plot = self.get_matplotlib_plot(**plot_kwargs)
         elif plot_type == "plotly":
             plot = self.get_plotly_plot(**plot_kwargs)
@@ -148,7 +148,7 @@ class FermiSurfacePlotter(MSONable):
         elif plot_type == "crystal_toolkit":
             plot = self.get_crystal_toolkit_plot(**plot_kwargs)
         else:
-            types = ["mpl", "plotly", "mayavi", "crystal_toolkit"]
+            types = ["matplotlib", "plotly", "mayavi", "crystal_toolkit"]
             error_msg = "Plot type not recognised, valid options: {}".format(types)
             raise ValueError(error_msg)
         return plot
@@ -224,7 +224,7 @@ class FermiSurfacePlotter(MSONable):
         ax = fig.add_subplot(111, projection="3d")
 
         isosurfaces, colors = self.get_isosurfaces_and_colors(
-            spin=spin, colors=colors, plot_type="mpl"
+            spin=spin, colors=colors, plot_type="matplotlib"
         )
 
         # create a mesh for each electron band which has an isosurfaces at the Fermi
@@ -318,7 +318,7 @@ class FermiSurfacePlotter(MSONable):
         layout = go.Layout(
             scene=scene,
             showlegend=False,
-            title=go.layout.Title(text="", xref="paper", x=0),
+            margin=go.layout.Margin(l=0, r=0, b=0, t=0)
         )
         fig = go.Figure(data=meshes, layout=layout)
 
@@ -598,7 +598,6 @@ def show_plot(plot):
         plot.show()
     elif plot_type == "plotly":
         from plotly.offline import plot as show_plotly
-
         show_plotly(plot, include_mathjax="cdn", filename="fermi-surface.html")
     elif plot_type == "mayavi":
         plot.show()
@@ -619,7 +618,6 @@ def save_plot(plot: Any, filename: Union[Path, str]):
         plot.savefig(filename, dpi=300)
     elif plot_type == "plotly":
         from plotly.io import write_image
-
         write_image(plot, filename, width=600, height=600, scale=5)
     elif plot_type == "mayavi":
         plot.savefig(filename, figure=plot.gcf())

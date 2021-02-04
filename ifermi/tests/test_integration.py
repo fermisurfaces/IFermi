@@ -5,7 +5,7 @@ from pymatgen import Spin
 from pymatgen.io.vasp.outputs import Vasprun
 
 from ifermi.fermi_surface import FermiSurface
-from ifermi.interpolator import Interpolater
+from ifermi.interpolator import Interpolator
 from ifermi.plotter import FermiSurfacePlotter, save_plot
 
 test_dir = Path(__file__).resolve().parent
@@ -21,8 +21,8 @@ class IntegrationTest(unittest.TestCase):
         self.output_file = test_dir / "fs.png"
 
     def test_integration_wigner_seitz(self):
-        interpolater = Interpolater(self.band_structure)
-        new_bs, kpoint_dim = interpolater.interpolate_bands(1)
+        interpolator = Interpolator(self.band_structure)
+        new_bs, kpoint_dim = interpolator.interpolate_bands(1)
         fs = FermiSurface.from_band_structure(new_bs, kpoint_dim)
         plotter = FermiSurfacePlotter(fs)
         plot = plotter.get_plot(plot_type="mpl")
@@ -31,8 +31,8 @@ class IntegrationTest(unittest.TestCase):
         # plotter.plot(plot_type='mayavi', interactive=False, filename=self.output_file)
 
     def test_integration_reciprocal(self):
-        interpolater = Interpolater(self.band_structure)
-        new_bs, kpoint_dim = interpolater.interpolate_bands(1)
+        interpolator = Interpolator(self.band_structure)
+        new_bs, kpoint_dim = interpolator.interpolate_bands(1)
         fs = FermiSurface.from_band_structure(new_bs, kpoint_dim, wigner_seitz=False)
         plotter = FermiSurfacePlotter(fs)
         plot = plotter.get_plot(plot_type="mpl")
@@ -41,8 +41,8 @@ class IntegrationTest(unittest.TestCase):
         # plotter.plot(plot_type='mayavi', interactive=False, filename=self.output_file)
 
     def test_integration_spin(self):
-        interpolater = Interpolater(self.band_structure)
-        new_bs, kpoint_dim = interpolater.interpolate_bands(1)
+        interpolator = Interpolator(self.band_structure)
+        new_bs, kpoint_dim = interpolator.interpolate_bands(1)
         fs = FermiSurface.from_band_structure(new_bs, kpoint_dim, wigner_seitz=False)
         plotter = FermiSurfacePlotter(fs)
         plot = plotter.get_plot(plot_type="mpl", spin=Spin.up)

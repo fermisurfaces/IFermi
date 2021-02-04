@@ -4,7 +4,8 @@
 
    Introduction <introduction>
    Command-line interface <cli>
-   Python interface <pyapi>
+   plotting_using_python
+
 
 .. toctree::
    :caption: Information
