@@ -71,8 +71,8 @@ fs = FermiSurface.from_band_structure(dense_bs, kmesh, mu=0.0, wigner_seitz=True
 plotter = FermiSurfacePlotter(fs)
 plot = plotter.get_plot(plot_type='plotly')
 
-show_plot(plot)  # displays an interactive plot
 save_plot(plot, "fermi-surface.png")  # saves the plot to a file
+show_plot(plot)  # displays an interactive plot
 ```
 
 Note, if you're not running the example in a notebook then it must be proceeded by `if __name__ == '__main__':`.
