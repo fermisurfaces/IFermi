@@ -61,6 +61,7 @@ setup(
             "m2r2==0.2.5",
             "nbsphinx",
             "nbsphinx-link",
+            "ipython",
         ],
         "dev": ["black"],
         "tests": ["nose", "coverage", "coveralls"],
