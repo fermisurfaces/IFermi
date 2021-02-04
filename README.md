@@ -59,21 +59,23 @@ from ifermi.fermi_surface import FermiSurface
 from ifermi.interpolator import Interpolater
 from ifermi.plotter import FermiSurfacePlotter, show_plot, save_plot
 
-if __name__ == '__main__':
-    vr = Vasprun("vasprun.xml")
-    bs = vr.get_band_structure()
 
-    # interpolate the energies to a finer k-point mesh
-    interpolater = Interpolater(bs)
-    dense_bs, kmesh = interpolater.interpolate_bands(interpolation_factor=10)
+vr = Vasprun("vasprun.xml")
+bs = vr.get_band_structure()
+
+# interpolate the energies to a finer k-point mesh
+interpolater = Interpolater(bs)
+dense_bs, kmesh = interpolater.interpolate_bands(interpolation_factor=10)
     
-    fs = FermiSurface.from_band_structure(dense_bs, kmesh, mu=0.0, wigner_seitz=True)
-    plotter = FermiSurfacePlotter(fs)
-    plot = plotter.get_plot(plot_type='plotly')
+fs = FermiSurface.from_band_structure(dense_bs, kmesh, mu=0.0, wigner_seitz=True)
+plotter = FermiSurfacePlotter(fs)
+plot = plotter.get_plot(plot_type='plotly')
 
-    show_plot(plot)  # displays an interactive plot
-    save_plot(plot, "fermi-surface.png")  # saves the plot to a file
+show_plot(plot)  # displays an interactive plot
+save_plot(plot, "fermi-surface.png")  # saves the plot to a file
 ```
+
+Note, if you're not running the example in a notebook then it must be proceeded by `if __name__ == '__main__':`.
 
 ## Installation
 
