@@ -1,13 +1,10 @@
 """
-This module implements a plotter for the Fermi-Surface of a material
-todo:
-* Remap into Brillioun zone (Wigner Seitz cell)
-* Get Latex working for labels
-* Do projections onto arbitrary surface
-* Comment more
-* Think about classes/methods, maybe restructure depending on sumo layout
-"""
+This module implements plotters for Fermi surfaces and Fermi slices.
 
+TODO:
+- Projections onto arbitrary surface
+"""
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 import numpy as np
@@ -22,19 +19,12 @@ from ifermi.brillouin_zone import ReciprocalCell, ReciprocalSlice
 from ifermi.fermi_surface import FermiSlice, FermiSurface
 
 try:
-    import plotly
-    import plotly.express as px
-except ImportError:
-    plotly = False
-
-try:
     import mayavi.mlab as mlab
 except ImportError:
     mlab = False
 
 try:
     from crystal_toolkit.core.scene import Lines, Scene, Spheres, Surface
-
     crystal_toolkit = True
 except ImportError:
     crystal_toolkit = False
@@ -89,7 +79,7 @@ _mayavi_rs_style = {
 
 class FermiSurfacePlotter(MSONable):
     """
-    Class to plot FermiSurface.
+    Class to plot a FermiSurface.
     """
 
     def __init__(self, fermi_surface: FermiSurface):
@@ -126,23 +116,19 @@ class FermiSurfacePlotter(MSONable):
 
         return kpoints, labels
 
-    def plot(
+    def get_plot(
         self,
         plot_type: str = "plotly",
-        interactive: bool = True,
-        filename: str = "fermi_surface.png",
         spin: Optional[Spin] = None,
         colors: Optional[Union[str, dict, list]] = None,
         **plot_kwargs,
     ):
         """
-        Plot the Fermi surface and save the image to a file.
+        Plot the Fermi surface.
 
         Args:
             plot_type: Method used for plotting. Valid options are: "matplotlib",
                 "plotly", "mayavi", "crystal_toolkit".
-            interactive: Whether to enable interactive plots.
-            filename: Output filename.
             spin: Which spin channel to plot. By default plot both spin channels if
                 available.
             colors: See the docstring for ``get_isosurfaces_and_colors()`` for the
@@ -150,21 +136,20 @@ class FermiSurfacePlotter(MSONable):
             **plot_kwargs: Other keyword arguments supported by the individual plotting
                 methods.
         """
-        plot_kwargs.update(
-            dict(filename=filename, interactive=interactive, colors=colors, spin=spin)
-        )
+        plot_kwargs.update({"colors": colors, "spin": spin})
         if plot_type == "mpl":
-            self.plot_matplotlib(**plot_kwargs)
+            plot = self.get_matplotlib_plot(**plot_kwargs)
         elif plot_type == "plotly":
-            self.plot_plotly(**plot_kwargs)
+            plot = self.get_plotly_plot(**plot_kwargs)
         elif plot_type == "mayavi":
-            self.plot_mayavi(**plot_kwargs)
-        elif plot_type == "mayavi":
-            self.plot_crystal_toolkit(**plot_kwargs)
+            plot = self.get_mayavi_plot(**plot_kwargs)
+        elif plot_type == "crystal_toolkit":
+            plot = self.get_crystal_toolkit_plot(**plot_kwargs)
         else:
             types = ["mpl", "plotly", "mayavi", "crystal_toolkit"]
             error_msg = "Plot type not recognised, valid options: {}".format(types)
             raise ValueError(error_msg)
+        return plot
 
     def get_isosurfaces_and_colors(
         self,
@@ -209,27 +194,26 @@ class FermiSurfacePlotter(MSONable):
 
         return isosurfaces, colors
 
-    def plot_matplotlib(
+    def get_matplotlib_plot(
         self,
-        interactive: bool = True,
         bz_linewidth: float = 0.9,
         spin: Optional[Spin] = None,
         colors: Optional[Union[str, dict, list]] = None,
         title: str = None,
-        filename: str = "fermi_surface.png",
     ):
         """
         Plot the Fermi surface using matplotlib.
 
         Args:
-            interactive: Whether to enable interactive plots.
             bz_linewidth: Brillouin zone line width.
             spin: Which spin channel to plot. By default plot both spin channels if
                 available.
             colors: See the docstring for ``get_isosurfaces_and_colors()`` for the
                 available options.
             title: The title of the plot.
-            filename: The output file name.
+
+        Returns:
+            matplotlib pyplot object.
         """
         import matplotlib.pyplot as plt
         from mpl_toolkits.mplot3d.art3d import Line3DCollection
@@ -256,7 +240,7 @@ class FermiSurfacePlotter(MSONable):
 
         for coords, label in zip(*self._symmetry_pts):
             ax.scatter(*coords, s=10, c="k")
-            ax.text(*coords, label, size=15, zorder=1)
+            ax.text(*coords, "${}$".format(label), size=15, zorder=1)
 
         if title is not None:
             plt.title(title)
@@ -267,32 +251,27 @@ class FermiSurfacePlotter(MSONable):
         ax.axis("off")
         plt.tight_layout()
 
-        if interactive:
-            plt.show()
-        else:
-            plt.savefig(filename, dpi=300)
+        return plt
 
-    @requires(plotly, "plotly option requires plotly to be installed.")
-    def plot_plotly(
+    def get_plotly_plot(
         self,
-        interactive: bool = True,
         spin: Optional[Spin] = None,
         colors: Optional[Union[str, dict, list]] = None,
-        filename: str = "fermi_surface.png",
     ):
         """
         Plot the Fermi surface using plotly.
 
         Args:
-            interactive: Whether to enable interactive plots.
             spin: Which spin channel to plot. By default plot both spin channels if
                 available.
             colors: See the docstring for ``get_isosurfaces_and_colors()`` for the
                 available options.
-            filename: The output file name.
+
+        Returns:
+            Plotly figure object.
         """
         import plotly.graph_objs as go
-        from plotly.offline import init_notebook_mode, plot
+        from plotly.offline import init_notebook_mode
 
         init_notebook_mode(connected=True)
         isosurfaces, colors = self.get_isosurfaces_and_colors(spin=spin, colors=colors)
@@ -341,29 +320,25 @@ class FermiSurfacePlotter(MSONable):
         )
         fig = go.Figure(data=meshes, layout=layout)
 
-        if interactive:
-            plot(fig, include_mathjax="cdn", filename="fermi-surface.html")
-        else:
-            plotly.io.write_image(fig, str(filename), width=600, height=600, scale=5)
+        return fig
 
     @requires(mlab, "mayavi option requires mayavi to be installed.")
-    def plot_mayavi(
+    def get_mayavi_plot(
         self,
-        interactive: bool = True,
         spin: Optional[Spin] = None,
         colors: Optional[Union[str, dict, list]] = None,
-        filename: str = "fermi_surface.png",
     ):
         """
         Plot the Fermi surface using mayavi.
 
         Args:
-            interactive: Whether to enable interactive plots.
             spin: Which spin channel to plot. By default plot both spin channels if
                 available.
             colors: See the docstring for ``get_isosurfaces_and_colors()`` for the
                 available options.
-            filename: The output file name.
+
+        Returns:
+            mlab figure object.
         """
         from mlabtex import mlabtex
 
@@ -390,16 +365,13 @@ class FermiSurfacePlotter(MSONable):
         else:
             mlab.view(azimuth=235, elevation=60, distance=8)
 
-        if interactive:
-            mlab.show()
-        else:
-            mlab.savefig(str(filename), figure=mlab.gcf())
+        return mlab
 
     @requires(
         crystal_toolkit,
         "crystal_toolkit option requires crystal_toolkit to be installed.",
     )
-    def plot_crystal_toolkit(
+    def get_crystal_toolkit_plot(
         self,
         spin: Optional[Spin] = None,
         colors: Optional[Union[str, dict, list]] = None,
@@ -418,6 +390,9 @@ class FermiSurfacePlotter(MSONable):
                 available options.
             opacity: Opacity of surface. Note that due to limitations of WebGL,
                 overlapping semi-transparent surfaces might result in visual artefacts.
+
+        Returns:
+            Crystal-toolkit scene.
         """
 
         # The implementation here is very similar to the plotly implementation, except
@@ -512,18 +487,15 @@ class FermiSlicePlotter(object):
 
         return kpoints[:, :2], labels
 
-    def plot(
+    def get_plot(
         self,
-        filename: str = "fermi_slice.png",
         spin: Optional[Spin] = None,
         colors: Optional[Union[str, dict, list]] = "viridis",
-        show: bool = False,
     ):
         """
-        Plot the Fermi surface and save the image to a file.
+        Plot the Fermi surface.
 
         Args:
-            filename: Output filename.
             spin: Which spin channel to plot. By default plot both spin channels if
                 available.
             colors: The color specification. Valid options are:
@@ -535,7 +507,8 @@ class FermiSlicePlotter(object):
                   information.
                 - ``None``, in which case the colors will be chosen randomly.
 
-            show: Show the plot before saving to file.
+        Returns:
+            matplotlib pyplot object.
         """
         import matplotlib.pyplot as plt
         from matplotlib.collections import LineCollection
@@ -571,9 +544,7 @@ class FermiSlicePlotter(object):
         ax.axis("equal")
         ax.axis("off")
 
-        if show:
-            plt.show()
-        plt.savefig(filename, dpi=300, bbox_inches="tight")
+        return plt
 
     def get_slices_and_colors(
         self,
@@ -612,7 +583,67 @@ class FermiSlicePlotter(object):
         return slices, colors
 
 
-def kpoints_to_first_bz(kpoints: np.ndarray, tol=1e-5) -> np.ndarray:
+def show_plot(plot):
+    """Display a plot.
+
+    Args:
+        plot: A plot object from ``FermiSurfacePlotter.get_plot()``. Supports matplotlib
+            pyplot objects, plotly figure objects, and mlab figure objects.
+    """
+    plot_type = get_plot_type(plot)
+
+    if plot_type == "matplotlib":
+        plot.show()
+    elif plot_type == "plotly":
+        from plotly.offline import plot as show_plotly
+        show_plotly(plot, include_mathjax="cdn", filename="fermi-surface.html")
+    elif plot_type == "mayavi":
+        plot.show()
+
+
+def save_plot(plot: Any, filename: Union[Path, str]):
+    """Save a plot to file.
+
+    Args:
+        plot: A plot object from ``FermiSurfacePlotter.get_plot()``. Supports matplotlib
+            pyplot objects, plotly figure objects, and mlab figure objects.
+        filename: The output filename.
+    """
+    plot_type = get_plot_type(plot)
+    filename = str(filename)
+
+    if plot_type == "matplotlib":
+        plot.savefig(filename, dpi=300)
+    elif plot_type == "plotly":
+        from plotly.io import write_image
+        write_image(plot, filename, width=600, height=600, scale=5)
+    elif plot_type == "mayavi":
+        plot.savefig(filename, figure=plot.gcf())
+
+
+def get_plot_type(plot) -> str:
+    """Gets the plot type.
+
+    Args:
+        plot: A plot object from ``FermiSurfacePlotter.get_plot()``. Supports matplotlib
+            pyplot objects, plotly figure objects, and mlab figure objects.
+
+    Returns:
+        The plot type. Current options are "matplotlib", "mayavi", and "plotly".
+    """
+    from plotly.graph_objs import Figure
+
+    if isinstance(plot, Figure):
+        return "plotly"
+    elif hasattr(plot, "__name__"):
+        if "matplotlib" in plot.__name__:
+            return "matplotlib"
+        elif "mayavi" in plot.__name__:
+            return "mayavi"
+    raise ValueError("Unrecognised plot type.")
+
+
+def kpoints_to_first_bz(kpoints: np.ndarray, tol: float = 1e-5) -> np.ndarray:
     """Translate fractional k-points to the first Brillouin zone.
 
     I.e. all k-points will have fractional coordinates:
@@ -620,6 +651,7 @@ def kpoints_to_first_bz(kpoints: np.ndarray, tol=1e-5) -> np.ndarray:
 
     Args:
         kpoints: The k-points in fractional coordinates.
+        tol: Numerical tolerance.
 
     Returns:
         The translated k-points.
