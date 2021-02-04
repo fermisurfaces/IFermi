@@ -20,6 +20,8 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-pip-
 
+    - uses: docker://pandoc/core:2.9
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
