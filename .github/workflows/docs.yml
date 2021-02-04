@@ -13,6 +13,9 @@ jobs:
       with:
         python-version: 3.7
 
+    - name: Install pandoc
+      run: sudo apt-get install pandoc
+
     - uses: actions/cache@v2
       with:
         path: ~/.cache/pip
@@ -28,7 +31,6 @@ jobs:
         pip install -e .[docs]
 
     - name: Build
-      uses: docker://pandoc/core:2.9
       run: sphinx-build docs/src docs_build
 
 #    - name: Deploy
