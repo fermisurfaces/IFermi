@@ -25,6 +25,7 @@ except ImportError:
 
 try:
     from crystal_toolkit.core.scene import Lines, Scene, Spheres, Surface
+
     crystal_toolkit = True
 except ImportError:
     crystal_toolkit = False
@@ -94,7 +95,8 @@ class FermiSurfacePlotter(MSONable):
 
     @staticmethod
     def get_symmetry_points(
-        fermi_surface: FermiSurface, symprec: float = 1e-3,
+        fermi_surface: FermiSurface,
+        symprec: float = 1e-3,
     ) -> Tuple[np.ndarray, List[str]]:
         """
         Get the high symmetry k-points and labels for the Fermi surface.
@@ -596,6 +598,7 @@ def show_plot(plot):
         plot.show()
     elif plot_type == "plotly":
         from plotly.offline import plot as show_plotly
+
         show_plotly(plot, include_mathjax="cdn", filename="fermi-surface.html")
     elif plot_type == "mayavi":
         plot.show()
@@ -616,6 +619,7 @@ def save_plot(plot: Any, filename: Union[Path, str]):
         plot.savefig(filename, dpi=300)
     elif plot_type == "plotly":
         from plotly.io import write_image
+
         write_image(plot, filename, width=600, height=600, scale=5)
     elif plot_type == "mayavi":
         plot.savefig(filename, figure=plot.gcf())
@@ -700,7 +704,10 @@ def _get_random_colors(
     return colors
 
 
-def _get_plotly_colors(objects: Dict[Spin, List[Any]], spins: List[Spin],) -> Any:
+def _get_plotly_colors(
+    objects: Dict[Spin, List[Any]],
+    spins: List[Spin],
+) -> Any:
     import plotly.express as px
 
     n_objects = sum([len(objects[spin]) for spin in spins])

@@ -2,8 +2,7 @@
 IFermi: Fermi surface plotting tool from DFT output files.
 """
 
-from setuptools import setup, find_packages
-
+from setuptools import find_packages, setup
 
 with open("README.md", "r") as file:
     long_description = file.read()
@@ -63,7 +62,7 @@ setup(
         ],
         "dev": ["black"],
         "tests": ["nose", "coverage", "coveralls"],
-        ':python_version < "3.7"': ["dataclasses>=0.6"]
+        ':python_version < "3.7"': ["dataclasses>=0.6"],
     },
     data_files=["LICENSE"],
     entry_points={"console_scripts": ["ifermi = ifermi.cli:main"]},

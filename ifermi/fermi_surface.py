@@ -8,11 +8,10 @@ import itertools
 import warnings
 from copy import deepcopy
 from dataclasses import dataclass
-
-from monty.dev import requires
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Optional, Tuple
 
 import numpy as np
+from monty.dev import requires
 from monty.json import MSONable
 from pymatgen import Spin, Structure
 from pymatgen.electronic_structure.bandstructure import BandStructure
@@ -157,9 +156,13 @@ class FermiSurface(MSONable):
 
         kpoint_dim = tuple(kpoint_dim.astype(int))
         isosurfaces = compute_isosurfaces(
-            bands, kpoint_dim, fermi_level, reciprocal_space,
-            decimate_factor=decimate_factor, decimate_method=decimate_method,
-            smooth=smooth
+            bands,
+            kpoint_dim,
+            fermi_level,
+            reciprocal_space,
+            decimate_factor=decimate_factor,
+            decimate_method=decimate_method,
+            smooth=smooth,
         )
 
         return cls(isosurfaces, reciprocal_space, structure)

@@ -3,9 +3,9 @@ from pathlib import Path
 
 import numpy as np
 from monty.serialization import loadfn
+from pymatgen import Spin
 
 from ifermi.fermi_surface import FermiSurface
-from pymatgen import Spin
 
 test_dir = Path(__file__).resolve().parent
 

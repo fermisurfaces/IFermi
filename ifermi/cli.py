@@ -59,11 +59,16 @@ def ifermi(
     Returns:
         The filename written to disk.
     """
+    from pymatgen.io.vasp.outputs import Vasprun
+
     from ifermi.fermi_surface import FermiSurface
     from ifermi.interpolator import Interpolater
-    from ifermi.plotter import FermiSurfacePlotter
-    from pymatgen.io.vasp.outputs import Vasprun
-    from ifermi.plotter import FermiSlicePlotter, show_plot, save_plot
+    from ifermi.plotter import (
+        FermiSlicePlotter,
+        FermiSurfacePlotter,
+        save_plot,
+        show_plot,
+    )
 
     if not filename:
         filename = find_vasprun_file()
@@ -75,8 +80,12 @@ def ifermi(
     interp_bs, kpoint_dim = interpolater.interpolate_bands(interpolate_factor)
 
     fs = FermiSurface.from_band_structure(
-        interp_bs, kpoint_dim, mu=mu, wigner_seitz=wigner_seitz,
-        decimate_factor=decimate_factor, smooth=smooth
+        interp_bs,
+        kpoint_dim,
+        mu=mu,
+        wigner_seitz=wigner_seitz,
+        decimate_factor=decimate_factor,
+        smooth=smooth,
     )
     if slice_info:
         plane_normal = slice_info[:3]
@@ -182,7 +191,7 @@ def _get_fs_parser():
         dest="decimate_factor",
         metavar="N",
         help="factor by which to decimate Fermi surfaces (i.e., 0.8 gives 20 %% fewer "
-             "faces)",
+        "faces)",
     )
     parser.add_argument(
         "--dpi", type=int, default=400, help="pixel density for image file"
