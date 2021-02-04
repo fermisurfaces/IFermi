@@ -2,21 +2,23 @@
   <img alt="IFermi logo" src="https://raw.githubusercontent.com/ajsearle97/IFermi/master/docs/src/_static/logo-01.png" height="190px">
 </p>
 
-IFermi is a package for plotting Fermi surfaces and from *ab initio* calculation outputs. 
-IFermi can also visualise slices of three-dimensional Fermi surfaces along a specified 
-plane. The main features include:
+<p align="center">
+    📖📖 <a href="https://ajsearle97.github.io/IFermi/contributors.html">Online Documentation</a> 📖📖
+</p>
 
-1. Plotting of three-dimensional Fermi surfaces, with interactive plotting
-   supported by [mayavi](https://docs.enthought.com/mayavi/mayavi/), [plotly](https://plot.ly/) and [matplotlib](https://matplotlib.org) (see recommended 
-   libraries below).
-2. Fermi slices of three-dimensional Fermi surface along a specified  plane.
+IFermi is a package for plotting Fermi surfaces and from *ab initio* calculation outputs. 
+The main features include:
+
+1. Plotting three-dimensional Fermi surfaces, with interactive plotting
+   supported by [mayavi](https://docs.enthought.com/mayavi/mayavi/), [plotly](https://plot.ly/) and [matplotlib](https://matplotlib.org).
+2. Plotting slices of three-dimensional Fermi surfaces along a specified plane.
 
 IFermi currently only supports VASP calculations but support for additional DFT packages 
 will be added in the future.
 
 ## Example
 
-An example of the Fermi surface and Fermi slice for MgB<sub>2</sub> is shown below:
+An example of the Fermi surface and a two-dimensional slice for MgB<sub>2</sub> is shown below:
 
 ![MgB2](https://raw.githubusercontent.com/ajsearle97/IFermi/master/docs/src/_static/fermi_surface_example-01.png)
 
@@ -46,10 +48,10 @@ The core classes in IFermi are:
 
 - `Inerpolator`: to take a band structure on a uniform k-point mesh and interpolate it
   onto a denser mesh.
-- `FermiSurface`: to stores isosurfaces and reciprocal lattice information.
+- `FermiSurface`: to store isosurfaces and reciprocal lattice information.
 - `FermiSurfacePlotter`: to plot a Fermi surface from a `FermiSurface` object.
 
-A minimal working example for plotting the Fermi surface from a `vasprun.xml` file is:
+A minimal working example to plot the Fermi surface from a `vasprun.xml` file is:
 
 ```python
 from pymatgen.io.vasp.outputs import Vasprun
@@ -92,7 +94,7 @@ Track changes to IFermi through the
 
 ## Contributing
 
-We greatly appreciate any contributions. Please send any contributions by submitting a Pull Request.
+We greatly appreciate any contributions in the form of Pull Request.
 We maintain a list of all contributors [here](https://ajsearle97.github.io/IFermi/contributors.html).
 
 ## License
