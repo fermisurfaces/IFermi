@@ -3,23 +3,15 @@
 
 """
 A script to plot Fermi surfaces
-
-TODO:
- - A lot
 """
 
+
 import argparse
-import logging
 import os
 import sys
 import warnings
 from pathlib import Path
 from typing import Optional, Tuple, Union
-
-from pymatgen import Spin
-from pymatgen.io.vasp.outputs import Vasprun
-
-from ifermi.plotter import FermiSlicePlotter
 
 __author__ = "Amy Searle"
 __version__ = "0.1.0"
@@ -34,13 +26,11 @@ def ifermi(
     decimate_factor: Optional[float] = None,
     mu: float = 0.0,
     wigner_seitz: bool = True,
-    spin: Optional[Spin] = None,
+    spin: Optional["Spin"] = None,
+    smooth: bool = False,
     plot_type: str = "plotly",
-    interactive: bool = True,
     slice_info: Optional[Tuple[float, float, float, float]] = None,
-    prefix: Optional[str] = None,
-    directory: Optional[Union[Path, str]] = None,
-    image_format: str = "png",
+    output_filename: Optional[str] = None,
     dpi: float = 400,
 ):
     """Plot Fermi surfaces from a vasprun.xml file.
@@ -48,21 +38,22 @@ def ifermi(
     Args:
         filename: Path to input vasprun file.
         interpolate_factor: The factor by which to interpolate the bands.
+        output_filename: The output file name. This will prevent the plot from being
+            interactive.
         decimate_factor: Scaling factor by which to reduce the number of faces.
         mu: The level above the Fermi energy at which the isosurfaces are to be plotted.
         wigner_seitz: Controls whether the cell is the Wigner-Seitz cell or the
             reciprocal unit cell parallelepiped.
-        spin: The spin channel to plot. By default plots both spin channels.
+        spin: The spin channel to plot. By default plots both spin channels. Should be
+            a pymatgen ``Spin`` object.
+        smooth: If True, will smooth FermiSurface. Requires PyMCubes. See
+            ``compute_isosurfaces`` for more information.
         plot_type: Method used for plotting. Valid options are: "matplotlib", "plotly",
             "mayavi".
-        interactive: Whether to enable interactive plots.
-        prefix: Prefix for file names.
         slice_info: Slice through the Brillouin zone. Given as the plane normal and
             distance form the plane in fractional coordinates: E.g., ``[1, 0, 0, 0.2]``
             where ``(1, 0, 0)`` are the miller indices and ``0.2`` is the distance from
             the Gamma point.
-        directory: The directory in which to save files.
-        image_format: The image file format.
         dpi: The dots-per-inch (pixel density) for the image.
 
     Returns:
@@ -71,6 +62,8 @@ def ifermi(
     from ifermi.fermi_surface import FermiSurface
     from ifermi.interpolator import Interpolater
     from ifermi.plotter import FermiSurfacePlotter
+    from pymatgen.io.vasp.outputs import Vasprun
+    from ifermi.plotter import FermiSlicePlotter, show_plot, save_plot
 
     if not filename:
         filename = find_vasprun_file()
@@ -79,16 +72,12 @@ def ifermi(
     bs = vr.get_band_structure()
 
     interpolater = Interpolater(bs)
-
     interp_bs, kpoint_dim = interpolater.interpolate_bands(interpolate_factor)
+
     fs = FermiSurface.from_band_structure(
         interp_bs, kpoint_dim, mu=mu, wigner_seitz=wigner_seitz,
-        decimate_factor=decimate_factor
+        decimate_factor=decimate_factor, smooth=smooth
     )
-
-    directory = directory if directory else "."
-    prefix = "{}_".format(prefix) if prefix else ""
-
     if slice_info:
         plane_normal = slice_info[:3]
         distance = slice_info[3]
@@ -96,20 +85,16 @@ def ifermi(
         fermi_slice = fs.get_fermi_slice(plane_normal, distance)
         plotter = FermiSlicePlotter(fermi_slice)
 
-        output_filename = "{}fermi_slice.{}".format(prefix, image_format)
-        output_filename = Path(directory) / output_filename
-        plotter.plot(filename=output_filename, spin=spin)
+        plot = plotter.get_plot(spin)
     else:
         plotter = FermiSurfacePlotter(fs)
+        plot = plotter.get_plot(plot_type=plot_type, spin=spin)
 
-        output_filename = "{}fermi_surface.{}".format(prefix, image_format)
-        output_filename = Path(directory) / output_filename
-        plotter.plot(
-            plot_type=plot_type,
-            interactive=interactive,
-            filename=output_filename,
-            spin=spin,
-        )
+    if output_filename is None:
+        show_plot(plot)
+    else:
+        print("Saving plot to {}".format(output_filename))
+        save_plot(plot, output_filename)
 
 
 def find_vasprun_file():
@@ -138,10 +123,10 @@ def _get_fs_parser():
     )
 
     parser.add_argument(
-        "-f", "--filename", default=None, metavar="F", help="A vasprun.xml file to plot"
+        "-f", "--filename", default=None, metavar="F", help="vasprun.xml file to plot"
     )
     parser.add_argument(
-        "-p", "--prefix", metavar="P", help="prefix for the files generated"
+        "-o", "--output", dest="output_filename", metavar="O", help="output filename"
     )
     parser.add_argument(
         "-m",
@@ -149,12 +134,6 @@ def _get_fs_parser():
         default=0.0,
         type=float,
         help="offset from the Fermi level at which to calculate Fermi surface",
-    )
-    parser.add_argument(
-        "-d", "--directory", metavar="D", help="output directory for files"
-    )
-    parser.add_argument(
-        "-s", "--static", dest="interactive", action="store_false", help="generate static plots"
     )
     parser.add_argument(
         "-r",
@@ -168,6 +147,11 @@ def _get_fs_parser():
         type=string_to_spin,
         default=None,
         help="select spin channel (options: up, 1; down, -1)",
+    )
+    parser.add_argument(
+        "--smooth",
+        action="store_true",
+        help="smooth the Fermi surface",
     )
     parser.add_argument(
         "-t",
@@ -201,14 +185,6 @@ def _get_fs_parser():
              "faces)",
     )
     parser.add_argument(
-        "--format",
-        type=str,
-        default="png",
-        dest="image_format",
-        metavar="FORMAT",
-        help="image file format (options: pdf, svg, jpg, png)",
-    )
-    parser.add_argument(
         "--dpi", type=int, default=400, help="pixel density for image file"
     )
     return parser
@@ -228,18 +204,18 @@ def main():
         mu=args.mu,
         plot_type=args.plot_type,
         spin=args.spin,
-        interactive=args.interactive,
+        smooth=args.smooth,
         wigner_seitz=args.wigner_seitz,
         slice_info=args.slice,
-        prefix=args.prefix,
-        directory=args.directory,
-        image_format=args.image_format,
+        output_filename=args.output_filename,
         dpi=args.dpi,
     )
 
 
 def string_to_spin(spin_string):
     """Function to convert 'spin' cli argument to pymatgen Spin object"""
+    from pymatgen import Spin
+
     if spin_string in ["up", "Up", "1", "+1"]:
         return Spin.up
 
