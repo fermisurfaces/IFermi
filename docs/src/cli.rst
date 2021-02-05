@@ -3,7 +3,7 @@
 
 IFermi can be used on the command-line through the ``ifermi``
 command. All of the options provided in the command-line are also accessible using the
-`Python API <plotting_using_python>`_.
+`Python API <plotting_using_python.html>`_.
 
 IFermi works in 4 stages:
 
@@ -141,6 +141,29 @@ level:
 .. code-block:: bash
 
     ifermi --mu 1
+
+Changing the viewpoint
+~~~~~~~~~~~~~~~~~~~~~~
+
+The viewpoint (camera angle) can be changed using the ``--azimuth`` (``-a``) and
+``--elevation`` (``-e``) options. This will change both the initial viewpoint
+for interactive plots, and the final viewpoint for static plots. To summarize:
+
+- The azimuth is the angle subtended by the viewpoint position vector on a sphere
+  projected onto the x-y plane in degrees. The default is 45°.
+- The elevation (or zenith) is the angle subtended by the viewpoint position vector and
+  the z-axis. The default is 35°.
+
+The viewpoint always directed to the center of the the Fermi surface (position [0 0 0]).
+As an example, the viewpoint could be changed using:
+
+.. code-block:: bash
+
+    ifermi --azimuth 120 --elevation 5
+
+.. image:: _static/fs-viewpoint.jpg
+    :height: 250px
+    :align: center
 
 Reciprocal space
 ~~~~~~~~~~~~~~~~

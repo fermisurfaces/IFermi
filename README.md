@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-    📖📖 <a href="https://ajsearle97.github.io/IFermi/contributors.html">Online Documentation</a> 📖📖
+    📖📖 <a href="https://ajsearle97.github.io/IFermi">Online Documentation</a> 📖📖
 </p>
 
 IFermi is a package for plotting Fermi surfaces and from *ab initio* calculation outputs. 
@@ -25,8 +25,9 @@ An example of the Fermi surface and a two-dimensional slice for MgB<sub>2</sub> 
 
 ## Usage
 
-The documentation available at xyz.com provides a full description of the available options.
-To summarise, three-dimensional Fermi surfaces can be plotted from a `vasprun.xml` file using:
+The [online documentation](https://ajsearle97.github.io/IFermi/cli.html) provides a full 
+description of the available options. To summarise, three-dimensional Fermi surfaces can
+be plotted from a `vasprun.xml` file using:
 
 ```bash
 ifermi
@@ -42,7 +43,7 @@ ifermi --slice A B C d
 ### Python interface
 
 Alternatively, IFermi can be controlled using the Python API. A full summary of the API
-is given in the API introduction page in the documentation.
+is given in the [API introduction page](https://ajsearle97.github.io/IFermi/plotting_using_python.html) in the documentation.
 
 The core classes in IFermi are:
 
@@ -108,5 +109,5 @@ IFermi is made available under the MIT License.
 
 ## Acknowledgements
 
-Alex Ganose for help developing/improving code.
+Alex Ganose for developing/improving code and documentation.
 Sinead Griffin for suggesting the project.
