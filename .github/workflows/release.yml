@@ -20,7 +20,7 @@ jobs:
         run: |
           echo "pypi" ${{ secrets.PYPI_PASSWORD }}
           echo "pypy" ${{ secrets.PYPY_PASSWORD }}
-          echo "pypi2" ${{ secrets."PYPI_PASSWORD" }}
+          echo "pypi2" ${{ secrets.PYPI_PASSWORD }}
 
       - name: Install dependencies
         run: |
