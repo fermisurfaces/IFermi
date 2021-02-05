@@ -82,8 +82,9 @@ _mayavi_rs_style = {
     "tube_radius": 0.005,
     "representation": "surface",
 }
-_default_azimuth = 45.
-_default_elevation = 35.
+_default_azimuth = 45.0
+_default_elevation = 35.0
+
 
 class FermiSurfacePlotter(MSONable):
     """
@@ -239,7 +240,7 @@ class FermiSurfacePlotter(MSONable):
         from mpl_toolkits.mplot3d.art3d import Line3DCollection
 
         fig = plt.figure(figsize=(6, 6))
-        ax = fig.add_subplot(111, projection="3d", proj_type='persp')
+        ax = fig.add_subplot(111, projection="3d", proj_type="persp")
 
         isosurfaces, colors = self.get_isosurfaces_and_colors(
             spin=spin, colors=colors, plot_type="matplotlib"
@@ -336,9 +337,7 @@ class FermiSurfacePlotter(MSONable):
 
         # Specify plot parameters
         layout = go.Layout(
-            scene=scene,
-            showlegend=False,
-            margin=go.layout.Margin(l=0, r=0, b=0, t=0)
+            scene=scene, showlegend=False, margin=go.layout.Margin(l=0, r=0, b=0, t=0)
         )
         fig = go.Figure(data=meshes, layout=layout)
         fig.update_layout(scene_camera=_get_plotly_camera(azimuth, elevation))
@@ -628,6 +627,7 @@ def show_plot(plot: Any):
         plot.show()
     elif plot_type == "plotly":
         from plotly.offline import plot as show_plotly
+
         show_plotly(plot, include_mathjax="cdn", filename="fermi-surface.html")
     elif plot_type == "mayavi":
         plot.show()
@@ -676,9 +676,7 @@ def _get_plotly_camera(azimuth: float, elevation: float) -> Dict[str, Dict[str, 
     y = np.cos(azimuth) * np.cos(elevation) * norm
     z = np.sin(elevation) * norm
     return dict(
-        up=dict(x=0, y=0, z=1),
-        center=dict(x=0, y=0, z=0),
-        eye=dict(x=x, y=y, z=z)
+        up=dict(x=0, y=0, z=1), center=dict(x=0, y=0, z=0), eye=dict(x=x, y=y, z=z)
     )
 
 

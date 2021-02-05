@@ -25,8 +25,8 @@ def ifermi(
     interpolation_factor: int = 8,
     decimate_factor: Optional[float] = None,
     mu: float = 0.0,
-    azimuth: float = 45.,
-    elevation: float = 35.,
+    azimuth: float = 45.0,
+    elevation: float = 35.0,
     wigner_seitz: bool = True,
     spin: Optional["Spin"] = None,
     smooth: bool = False,
@@ -114,7 +114,10 @@ def ifermi(
     else:
         plotter = FermiSurfacePlotter(fs)
         plot = plotter.get_plot(
-            plot_type=plot_type, spin=spin, azimuth=azimuth, elevation=elevation,
+            plot_type=plot_type,
+            spin=spin,
+            azimuth=azimuth,
+            elevation=elevation,
         )
 
     if output_filename is None:
@@ -188,7 +191,7 @@ def _get_fs_parser():
         "-a",
         "--azimuth",
         type=float,
-        default=45.,
+        default=45.0,
         metavar="A",
         help="viewpoint azmith angle in degrees (default: 45)",
     )
@@ -196,7 +199,7 @@ def _get_fs_parser():
         "-e",
         "--elevation",
         type=float,
-        default=35.,
+        default=35.0,
         metavar="E",
         help="viewpoint elevation (zenith) angle in degrees (default: 35)",
     )

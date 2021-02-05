@@ -53,7 +53,7 @@ extensions = [
     "sphinx.ext.todo",
     "m2r2",
     "nbsphinx",
-    "nbsphinx_link"
+    "nbsphinx_link",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -102,7 +102,7 @@ html_theme = "sphinx_rtd_theme"
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
 
-html_css_files = ['custom.css']
+html_css_files = ["custom.css"]
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
