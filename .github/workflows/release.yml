@@ -35,7 +35,7 @@ jobs:
           python setup.py sdist bdist_wheel
 
       - name: Remove newline from github secret
-        run: echo "PYPI_PASSWORD=$(echo -n ${{ secrets.GITHUB_TOKEN }})" >> $GITHUB_ENV
+        run: echo "PYPI_PASSWORD=$(echo -n ${{ secrets.PYPI_PASSWORD }})" >> $GITHUB_ENV
 
       - name: Publish
         uses: pypa/gh-action-pypi-publish@master
