@@ -31,7 +31,6 @@ setup(
         "Operating System :: OS Independent",
     ],
     keywords="fermi-surface pymatgen dft vasp band materials-science",
-    test_suite="nose.collector",
     packages=find_packages(),
     install_requires=[
         "numpy",

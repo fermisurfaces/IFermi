@@ -47,7 +47,7 @@ is given in the [API introduction page](https://ajsearle97.github.io/IFermi/plot
 
 The core classes in IFermi are:
 
-- `Inerpolator`: to take a band structure on a uniform k-point mesh and interpolate it
+- `Interpolator`: to take a band structure on a uniform k-point mesh and interpolate it
   onto a denser mesh.
 - `FermiSurface`: to store isosurfaces and reciprocal lattice information.
 - `FermiSurfacePlotter`: to plot a Fermi surface from a `FermiSurface` object.

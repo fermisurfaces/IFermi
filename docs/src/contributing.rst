@@ -73,4 +73,3 @@ We have a few tips for writing good PRs that are accepted into the main repo:
 When you submit your PR, our CI service will automatically run your tests.
 We welcome good discussion on the best ways to write your code, and the comments
 on your PR are an excellent area for discussion.
-
