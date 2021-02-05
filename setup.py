@@ -9,7 +9,7 @@ with open("README.md", "r") as file:
 
 setup(
     name="ifermi",
-    version="0.1.2",
+    version="0.0.4",
     description="Fermi surface plotting tool from DFT output",
     url="https://github.com/asearle13/IFermi",
     author="Amy Searle",
@@ -47,6 +47,7 @@ setup(
         "spglib",
         "plotly",
         "pyfftw",
+        "psutil",
     ],
     extras_require={
         "mayavi": ["mayavi", "mlabtex", "vtk"],
