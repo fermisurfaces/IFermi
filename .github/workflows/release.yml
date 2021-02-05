@@ -16,12 +16,6 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: Test
-        run: |
-          echo "pypi" ${{ secrets.PYPI_PASSWORD }}
-          echo "pypy" ${{ secrets.PYPY_PASSWORD }}
-          echo "pypi2" ${{ secrets.PYPI_PASSWORD }}
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -40,11 +34,14 @@ jobs:
           pip install setuptools setuptools_scm wheel
           python setup.py sdist bdist_wheel
 
+      - name: Remove newline from github secret
+        run: echo "PYPI_PASSWORD=$(echo -n ${{ secrets.GITHUB_TOKEN }})" >> $GITHUB_ENV
+
       - name: Publish
         uses: pypa/gh-action-pypi-publish@master
         with:
           user: __token__
-          password: ${{ secrets.PYPI_PASSWORD }}
+          password: ${{ env.PYPI_PASSWORD }}
 
       - name: Write release info
         run: |
