@@ -402,6 +402,8 @@ class FermiSurfacePlotter(MSONable):
         spin: Optional[Spin] = None,
         colors: Optional[Union[str, dict, list]] = None,
         opacity: float = 1.0,
+        azimuth: float = _default_azimuth,
+        elevation: float = _default_elevation,
     ) -> "Scene":
         """
         Get a crystal toolkit Scene showing the Fermi surface. The Scene can be
@@ -416,6 +418,10 @@ class FermiSurfacePlotter(MSONable):
                 available options.
             opacity: Opacity of surface. Note that due to limitations of WebGL,
                 overlapping semi-transparent surfaces might result in visual artefacts.
+            azimuth: The azimuth of the viewpoint in degrees. i.e. the angle subtended
+                by the position vector on a sphere projected on to the x-y plane.
+            elevation: The zenith angle of the viewpoint in degrees, i.e. the angle
+                subtended by the position vector and the z-axis.
 
         Returns:
             Crystal-toolkit scene.
@@ -539,7 +545,7 @@ class FermiSlicePlotter(object):
         import matplotlib.pyplot as plt
         from matplotlib.collections import LineCollection
 
-        fig = plt.figure(figsize=(4, 4))
+        fig = plt.figure(figsize=(5, 5))
         ax = fig.add_subplot(111)
 
         # get a rotation matrix that will align the longest slice length along the
