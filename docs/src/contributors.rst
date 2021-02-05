@@ -31,6 +31,7 @@ Additional contributions have been provided by:
 | **Matthew Horton** |mkhorton| |0000-0001-7777-8871|
 | Project Scientist, Persson Group
 | Lawrence Berkeley National Laboratory
+
 .. |mkhorton| image:: https://cdnjs.cloudflare.com/ajax/libs/octicons/8.5.0/svg/mark-github.svg
    :target: https://github.com/mkhorton
    :width: 16
@@ -46,6 +47,7 @@ Additional contributions have been provided by:
 | **Mariano Forti** |mdforti| |0000-0001-7366-3372|
 | Postdoctoral Researcher
 | Interdisciplinary Centre for Advanced Materials Simulation
+
 .. |mdforti| image:: https://cdnjs.cloudflare.com/ajax/libs/octicons/8.5.0/svg/mark-github.svg
    :target: https://github.com/mdforti
    :width: 16
