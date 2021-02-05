@@ -1,0 +1,1028 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifermi.plotter &mdash; IFermi 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+
+  
+  
+  
+  
+    <link rel="canonical" href="https://github.com/ajsearle97/IFermi_modules/ifermi/plotter.html"/>
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> IFermi
+          
+
+          
+            
+            <img src="../../_static/logo-docs-01.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Usage Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command-line interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../plotting_using_python.html">Plotting using Python</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Information</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing to IFermi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/ajsearle97/IFermi">See project on GitHub</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Function Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Index</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">IFermi</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content style-external-links">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifermi.plotter</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifermi.plotter</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module implements plotters for Fermi surfaces and Fermi slices.</span>
+
+<span class="sd">TODO:</span>
+<span class="sd">- Projections onto arbitrary surface</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">cm</span>
+<span class="kn">from</span> <span class="nn">monty.dev</span> <span class="kn">import</span> <span class="n">requires</span>
+<span class="kn">from</span> <span class="nn">monty.json</span> <span class="kn">import</span> <span class="n">MSONable</span>
+<span class="kn">from</span> <span class="nn">pymatgen</span> <span class="kn">import</span> <span class="n">Spin</span>
+<span class="kn">from</span> <span class="nn">pymatgen.symmetry.bandstructure</span> <span class="kn">import</span> <span class="n">HighSymmKpath</span>
+<span class="kn">from</span> <span class="nn">trimesh</span> <span class="kn">import</span> <span class="n">transform_points</span>
+
+<span class="kn">from</span> <span class="nn">ifermi.brillouin_zone</span> <span class="kn">import</span> <span class="n">ReciprocalCell</span><span class="p">,</span> <span class="n">ReciprocalSlice</span>
+<span class="kn">from</span> <span class="nn">ifermi.fermi_surface</span> <span class="kn">import</span> <span class="n">FermiSlice</span><span class="p">,</span> <span class="n">FermiSurface</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">mayavi.mlab</span> <span class="k">as</span> <span class="nn">mlab</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">mlab</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">kaleido</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">kaleido</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">crystal_toolkit.core.scene</span> <span class="kn">import</span> <span class="n">Lines</span><span class="p">,</span> <span class="n">Scene</span><span class="p">,</span> <span class="n">Spheres</span><span class="p">,</span> <span class="n">Surface</span>
+
+    <span class="n">crystal_toolkit</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">crystal_toolkit</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="n">_plotly_scene</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">xaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">backgroundcolor</span><span class="o">=</span><span class="s2">&quot;rgb(255, 255, 255)&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">showgrid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">zeroline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">showline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">ticks</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">showticklabels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">yaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">backgroundcolor</span><span class="o">=</span><span class="s2">&quot;rgb(255, 255, 255)&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">showgrid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">zeroline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">showline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">ticks</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">showticklabels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">zaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">backgroundcolor</span><span class="o">=</span><span class="s2">&quot;rgb(255, 255, 255)&quot;</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">showgrid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">zeroline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">showline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">ticks</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">showticklabels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">aspectmode</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">_plotly_label_style</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">xshift</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">yshift</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">showarrow</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="n">_mayavi_high_sym_label_style</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s2">&quot;scale&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="s2">&quot;orientation&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">90.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="n">_mayavi_rs_style</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+    <span class="s2">&quot;tube_radius&quot;</span><span class="p">:</span> <span class="mf">0.005</span><span class="p">,</span>
+    <span class="s2">&quot;representation&quot;</span><span class="p">:</span> <span class="s2">&quot;surface&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">_default_azimuth</span> <span class="o">=</span> <span class="mf">45.0</span>
+<span class="n">_default_elevation</span> <span class="o">=</span> <span class="mf">35.0</span>
+
+
+<div class="viewcode-block" id="FermiSurfacePlotter"><a class="viewcode-back" href="../../ifermi.html#ifermi.plotter.FermiSurfacePlotter">[docs]</a><span class="k">class</span> <span class="nc">FermiSurfacePlotter</span><span class="p">(</span><span class="n">MSONable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to plot a FermiSurface.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fermi_surface</span><span class="p">:</span> <span class="n">FermiSurface</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            fermi_surface: A FermiSurface object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fermi_surface</span> <span class="o">=</span> <span class="n">fermi_surface</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reciprocal_space</span> <span class="o">=</span> <span class="n">fermi_surface</span><span class="o">.</span><span class="n">reciprocal_space</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rlat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reciprocal_space</span><span class="o">.</span><span class="n">reciprocal_lattice</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_symmetry_pts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_symmetry_points</span><span class="p">(</span><span class="n">fermi_surface</span><span class="p">)</span>
+
+<div class="viewcode-block" id="FermiSurfacePlotter.get_symmetry_points"><a class="viewcode-back" href="../../ifermi.html#ifermi.plotter.FermiSurfacePlotter.get_symmetry_points">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_symmetry_points</span><span class="p">(</span>
+        <span class="n">fermi_surface</span><span class="p">:</span> <span class="n">FermiSurface</span><span class="p">,</span>
+        <span class="n">symprec</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-3</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the high symmetry k-points and labels for the Fermi surface.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fermi_surface: A fermi surface.</span>
+<span class="sd">            symprec: The symmetry precision in Angstrom.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The high symmetry k-points and labels.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">hskp</span> <span class="o">=</span> <span class="n">HighSymmKpath</span><span class="p">(</span><span class="n">fermi_surface</span><span class="o">.</span><span class="n">structure</span><span class="p">,</span> <span class="n">symprec</span><span class="o">=</span><span class="n">symprec</span><span class="p">)</span>
+        <span class="n">labels</span><span class="p">,</span> <span class="n">kpoints</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">hskp</span><span class="o">.</span><span class="n">kpath</span><span class="p">[</span><span class="s2">&quot;kpoints&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fermi_surface</span><span class="o">.</span><span class="n">reciprocal_space</span><span class="p">,</span> <span class="n">ReciprocalCell</span><span class="p">):</span>
+            <span class="n">kpoints</span> <span class="o">=</span> <span class="n">kpoints_to_first_bz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">kpoints</span><span class="p">))</span>
+
+        <span class="n">kpoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">kpoints</span><span class="p">,</span> <span class="n">fermi_surface</span><span class="o">.</span><span class="n">reciprocal_space</span><span class="o">.</span><span class="n">reciprocal_lattice</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">kpoints</span><span class="p">,</span> <span class="n">labels</span></div>
+
+<div class="viewcode-block" id="FermiSurfacePlotter.get_plot"><a class="viewcode-back" href="../../ifermi.html#ifermi.plotter.FermiSurfacePlotter.get_plot">[docs]</a>    <span class="k">def</span> <span class="nf">get_plot</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">plot_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;plotly&quot;</span><span class="p">,</span>
+        <span class="n">spin</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Spin</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">azimuth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_default_azimuth</span><span class="p">,</span>
+        <span class="n">elevation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_default_elevation</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">plot_kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot the Fermi surface.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            plot_type: Method used for plotting. Valid options are: &quot;matplotlib&quot;,</span>
+<span class="sd">                &quot;plotly&quot;, &quot;mayavi&quot;, &quot;crystal_toolkit&quot;.</span>
+<span class="sd">            spin: Which spin channel to plot. By default plot both spin channels if</span>
+<span class="sd">                available.</span>
+<span class="sd">            colors: See the docstring for ``get_isosurfaces_and_colors()`` for the</span>
+<span class="sd">                available options.</span>
+<span class="sd">            azimuth: The azimuth of the viewpoint in degrees. i.e. the angle subtended</span>
+<span class="sd">                by the position vector on a sphere projected on to the x-y plane.</span>
+<span class="sd">            elevation: The zenith angle of the viewpoint in degrees, i.e. the angle</span>
+<span class="sd">                subtended by the position vector and the z-axis.</span>
+<span class="sd">            **plot_kwargs: Other keyword arguments supported by the individual plotting</span>
+<span class="sd">                methods.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">plot_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="p">{</span><span class="s2">&quot;colors&quot;</span><span class="p">:</span> <span class="n">colors</span><span class="p">,</span> <span class="s2">&quot;spin&quot;</span><span class="p">:</span> <span class="n">spin</span><span class="p">,</span> <span class="s2">&quot;azimuth&quot;</span><span class="p">:</span> <span class="n">azimuth</span><span class="p">,</span> <span class="s2">&quot;elevation&quot;</span><span class="p">:</span> <span class="n">elevation</span><span class="p">}</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">&quot;matplotlib&quot;</span><span class="p">:</span>
+            <span class="n">plot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_matplotlib_plot</span><span class="p">(</span><span class="o">**</span><span class="n">plot_kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">&quot;plotly&quot;</span><span class="p">:</span>
+            <span class="n">plot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plotly_plot</span><span class="p">(</span><span class="o">**</span><span class="n">plot_kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">&quot;mayavi&quot;</span><span class="p">:</span>
+            <span class="n">plot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_mayavi_plot</span><span class="p">(</span><span class="o">**</span><span class="n">plot_kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">&quot;crystal_toolkit&quot;</span><span class="p">:</span>
+            <span class="n">plot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_crystal_toolkit_plot</span><span class="p">(</span><span class="o">**</span><span class="n">plot_kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;matplotlib&quot;</span><span class="p">,</span> <span class="s2">&quot;plotly&quot;</span><span class="p">,</span> <span class="s2">&quot;mayavi&quot;</span><span class="p">,</span> <span class="s2">&quot;crystal_toolkit&quot;</span><span class="p">]</span>
+            <span class="n">error_msg</span> <span class="o">=</span> <span class="s2">&quot;Plot type not recognised, valid options: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">types</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">plot</span></div>
+
+<div class="viewcode-block" id="FermiSurfacePlotter.get_isosurfaces_and_colors"><a class="viewcode-back" href="../../ifermi.html#ifermi.plotter.FermiSurfacePlotter.get_isosurfaces_and_colors">[docs]</a>    <span class="k">def</span> <span class="nf">get_isosurfaces_and_colors</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">plot_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;plotly&quot;</span><span class="p">,</span>
+        <span class="n">spin</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Spin</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the isosurfaces and colors to plot.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            plot_type: Method used for plotting. Valid options are: &quot;matplotlib&quot;,</span>
+<span class="sd">                &quot;plotly&quot;, &quot;mayavi&quot;, &quot;crystal_toolkit&quot;.</span>
+<span class="sd">            spin: Which spin channel to select. By default will return the isosurfaces</span>
+<span class="sd">                for both spin channels if available.</span>
+<span class="sd">            colors: The color specification. Valid options are:</span>
+
+<span class="sd">                - A list of colors.</span>
+<span class="sd">                - A dictionary of ``{Spin.up: color1, Spin.down: color2}``.</span>
+<span class="sd">                - A string specifying which matplotlib colormap to use. See</span>
+<span class="sd">                  https://matplotlib.org/tutorials/colors/colormaps.html for more</span>
+<span class="sd">                  information.</span>
+<span class="sd">                - ``None``, in which case the colors will be chosen randomly.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The isosurfaces and colors as a tuple.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">spin</span><span class="p">:</span>
+            <span class="n">spin</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fermi_surface</span><span class="o">.</span><span class="n">isosurfaces</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spin</span><span class="p">,</span> <span class="n">Spin</span><span class="p">):</span>
+            <span class="n">spin</span> <span class="o">=</span> <span class="p">[</span><span class="n">spin</span><span class="p">]</span>
+
+        <span class="n">isosurfaces</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">spin</span><span class="p">:</span>
+            <span class="n">isosurfaces</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fermi_surface</span><span class="o">.</span><span class="n">isosurfaces</span><span class="p">[</span><span class="n">s</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">colors</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">&quot;plotly&quot;</span><span class="p">:</span>
+            <span class="n">colors</span> <span class="o">=</span> <span class="n">_get_plotly_colors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fermi_surface</span><span class="o">.</span><span class="n">isosurfaces</span><span class="p">,</span> <span class="n">spin</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">colors</span> <span class="o">=</span> <span class="n">_get_random_colors</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fermi_surface</span><span class="o">.</span><span class="n">isosurfaces</span><span class="p">,</span> <span class="n">spin</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">isosurfaces</span><span class="p">,</span> <span class="n">colors</span></div>
+
+<div class="viewcode-block" id="FermiSurfacePlotter.get_matplotlib_plot"><a class="viewcode-back" href="../../ifermi.html#ifermi.plotter.FermiSurfacePlotter.get_matplotlib_plot">[docs]</a>    <span class="k">def</span> <span class="nf">get_matplotlib_plot</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">bz_linewidth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.9</span><span class="p">,</span>
+        <span class="n">spin</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Spin</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">azimuth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_default_azimuth</span><span class="p">,</span>
+        <span class="n">elevation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_default_elevation</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot the Fermi surface using matplotlib.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            bz_linewidth: Brillouin zone line width.</span>
+<span class="sd">            spin: Which spin channel to plot. By default plot both spin channels if</span>
+<span class="sd">                available.</span>
+<span class="sd">            colors: See the docstring for ``get_isosurfaces_and_colors()`` for the</span>
+<span class="sd">                available options.</span>
+<span class="sd">            azimuth: The azimuth of the viewpoint in degrees. i.e. the angle subtended</span>
+<span class="sd">                by the position vector on a sphere projected on to the x-y plane.</span>
+<span class="sd">            elevation: The zenith angle of the viewpoint in degrees, i.e. the angle</span>
+<span class="sd">                subtended by the position vector and the z-axis.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            matplotlib pyplot object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+        <span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d.art3d</span> <span class="kn">import</span> <span class="n">Line3DCollection</span>
+
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">,</span> <span class="n">proj_type</span><span class="o">=</span><span class="s2">&quot;persp&quot;</span><span class="p">)</span>
+
+        <span class="n">isosurfaces</span><span class="p">,</span> <span class="n">colors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_isosurfaces_and_colors</span><span class="p">(</span>
+            <span class="n">spin</span><span class="o">=</span><span class="n">spin</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">plot_type</span><span class="o">=</span><span class="s2">&quot;matplotlib&quot;</span>
+        <span class="p">)</span>
+
+        <span class="c1"># create a mesh for each electron band which has an isosurfaces at the Fermi</span>
+        <span class="c1"># energy mesh data is generated by a marching cubes algorithm when the</span>
+        <span class="c1"># FermiSurface object is created.</span>
+        <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="p">(</span><span class="n">verts</span><span class="p">,</span> <span class="n">faces</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">isosurfaces</span><span class="p">):</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">verts</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot_trisurf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">faces</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># add the cell outline to the plot</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">Line3DCollection</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reciprocal_space</span><span class="o">.</span><span class="n">lines</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="n">bz_linewidth</span>
+        <span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_collection3d</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">coords</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_symmetry_pts</span><span class="p">):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">coords</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">*</span><span class="n">coords</span><span class="p">,</span> <span class="s2">&quot;$</span><span class="si">{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+        <span class="n">xlim</span><span class="p">,</span> <span class="n">ylim</span><span class="p">,</span> <span class="n">zlim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rlat</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">xlim</span><span class="p">,</span> <span class="n">xlim</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">ylim</span><span class="p">,</span> <span class="n">ylim</span><span class="p">),</span> <span class="n">zlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">zlim</span><span class="p">,</span> <span class="n">zlim</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="n">elev</span><span class="o">=</span><span class="n">elevation</span><span class="p">,</span> <span class="n">azim</span><span class="o">=</span><span class="n">azimuth</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">plt</span></div>
+
+<div class="viewcode-block" id="FermiSurfacePlotter.get_plotly_plot"><a class="viewcode-back" href="../../ifermi.html#ifermi.plotter.FermiSurfacePlotter.get_plotly_plot">[docs]</a>    <span class="k">def</span> <span class="nf">get_plotly_plot</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">spin</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Spin</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">azimuth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_default_azimuth</span><span class="p">,</span>
+        <span class="n">elevation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_default_elevation</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot the Fermi surface using plotly.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            spin: Which spin channel to plot. By default plot both spin channels if</span>
+<span class="sd">                available.</span>
+<span class="sd">            colors: See the docstring for ``get_isosurfaces_and_colors()`` for the</span>
+<span class="sd">                available options.</span>
+<span class="sd">            azimuth: The azimuth of the viewpoint in degrees. i.e. the angle subtended</span>
+<span class="sd">                by the position vector on a sphere projected on to the x-y plane.</span>
+<span class="sd">            elevation: The zenith angle of the viewpoint in degrees, i.e. the angle</span>
+<span class="sd">                subtended by the position vector and the z-axis.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Plotly figure object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="k">as</span> <span class="nn">go</span>
+        <span class="kn">from</span> <span class="nn">plotly.offline</span> <span class="kn">import</span> <span class="n">init_notebook_mode</span>
+
+        <span class="n">init_notebook_mode</span><span class="p">(</span><span class="n">connected</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">isosurfaces</span><span class="p">,</span> <span class="n">colors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_isosurfaces_and_colors</span><span class="p">(</span><span class="n">spin</span><span class="o">=</span><span class="n">spin</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">colors</span> <span class="o">=</span> <span class="p">(</span><span class="n">colors</span> <span class="o">*</span> <span class="mi">255</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+            <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;rgb(</span><span class="si">{}</span><span class="s2">,</span><span class="si">{}</span><span class="s2">,</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">]</span>
+
+        <span class="c1"># create a mesh for each electron band which has an isosurfaces at the Fermi</span>
+        <span class="c1"># energy mesh data is generated by a marching cubes algorithm when the</span>
+        <span class="c1"># FermiSurface object is created.</span>
+        <span class="n">meshes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="p">(</span><span class="n">verts</span><span class="p">,</span> <span class="n">faces</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">isosurfaces</span><span class="p">):</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">verts</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">faces</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">trace</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Mesh3d</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">=</span><span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+            <span class="n">meshes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+
+        <span class="c1"># add the cell outline to the plot</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">reciprocal_space</span><span class="o">.</span><span class="n">lines</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">line_style</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+            <span class="n">trace</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Scatter3d</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;lines&quot;</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="n">line_style</span><span class="p">)</span>
+            <span class="n">meshes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+
+        <span class="c1"># plot high symmetry labels</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;$</span><span class="si">{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_symmetry_pts</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_symmetry_pts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">marker_style</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+        <span class="n">trace</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Scatter3d</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;markers&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">marker_style</span><span class="p">)</span>
+        <span class="n">meshes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+
+        <span class="n">annotations</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_symmetry_pts</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="c1"># annotations always appear on top of the plot</span>
+            <span class="n">annotations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="o">**</span><span class="n">_plotly_label_style</span><span class="p">))</span>
+        <span class="n">scene</span> <span class="o">=</span> <span class="n">_plotly_scene</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">scene</span><span class="p">[</span><span class="s2">&quot;annotations&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annotations</span>
+
+        <span class="c1"># Specify plot parameters</span>
+        <span class="n">layout</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span>
+            <span class="n">scene</span><span class="o">=</span><span class="n">scene</span><span class="p">,</span> <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="n">go</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">Margin</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">meshes</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">scene_camera</span><span class="o">=</span><span class="n">_get_plotly_camera</span><span class="p">(</span><span class="n">azimuth</span><span class="p">,</span> <span class="n">elevation</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">fig</span></div>
+
+<div class="viewcode-block" id="FermiSurfacePlotter.get_mayavi_plot"><a class="viewcode-back" href="../../ifermi.html#ifermi.plotter.FermiSurfacePlotter.get_mayavi_plot">[docs]</a>    <span class="nd">@requires</span><span class="p">(</span><span class="n">mlab</span><span class="p">,</span> <span class="s2">&quot;mayavi option requires mayavi to be installed.&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">get_mayavi_plot</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">spin</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Spin</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">azimuth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_default_azimuth</span><span class="p">,</span>
+        <span class="n">elevation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_default_elevation</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot the Fermi surface using mayavi.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            spin: Which spin channel to plot. By default plot both spin channels if</span>
+<span class="sd">                available.</span>
+<span class="sd">            colors: See the docstring for ``get_isosurfaces_and_colors()`` for the</span>
+<span class="sd">                available options.</span>
+<span class="sd">            azimuth: The azimuth of the viewpoint in degrees. i.e. the angle subtended</span>
+<span class="sd">                by the position vector on a sphere projected on to the x-y plane.</span>
+<span class="sd">            elevation: The zenith angle of the viewpoint in degrees, i.e. the angle</span>
+<span class="sd">                subtended by the position vector and the z-axis.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            mlab figure object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">mlabtex</span> <span class="kn">import</span> <span class="n">mlabtex</span>
+
+        <span class="n">mlab</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figure</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bgcolor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">800</span><span class="p">))</span>
+        <span class="n">isosurfaces</span><span class="p">,</span> <span class="n">colors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_isosurfaces_and_colors</span><span class="p">(</span>
+            <span class="n">spin</span><span class="o">=</span><span class="n">spin</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">plot_type</span><span class="o">=</span><span class="s2">&quot;mayavi&quot;</span>
+        <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">reciprocal_space</span><span class="o">.</span><span class="n">lines</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">mlab</span><span class="o">.</span><span class="n">plot3d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="o">**</span><span class="n">_mayavi_rs_style</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="p">(</span><span class="n">verts</span><span class="p">,</span> <span class="n">faces</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">isosurfaces</span><span class="p">):</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">verts</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">mlab</span><span class="o">.</span><span class="n">triangular_mesh</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">faces</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+
+        <span class="c1"># latexify labels</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;$</span><span class="si">{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_symmetry_pts</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="k">for</span> <span class="n">coords</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_symmetry_pts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">labels</span><span class="p">):</span>
+            <span class="n">mlabtex</span><span class="p">(</span><span class="o">*</span><span class="n">coords</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="o">**</span><span class="n">_mayavi_high_sym_label_style</span><span class="p">)</span>
+
+        <span class="n">mlab</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">azimuth</span><span class="o">=</span><span class="n">azimuth</span> <span class="o">-</span> <span class="mi">180</span><span class="p">,</span> <span class="n">elevation</span><span class="o">=</span><span class="n">elevation</span> <span class="o">-</span> <span class="mi">90</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">mlab</span></div>
+
+<div class="viewcode-block" id="FermiSurfacePlotter.get_crystal_toolkit_plot"><a class="viewcode-back" href="../../ifermi.html#ifermi.plotter.FermiSurfacePlotter.get_crystal_toolkit_plot">[docs]</a>    <span class="nd">@requires</span><span class="p">(</span>
+        <span class="n">crystal_toolkit</span><span class="p">,</span>
+        <span class="s2">&quot;crystal_toolkit option requires crystal_toolkit to be installed.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">get_crystal_toolkit_plot</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">spin</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Spin</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">opacity</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">azimuth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_default_azimuth</span><span class="p">,</span>
+        <span class="n">elevation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">_default_elevation</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Scene&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a crystal toolkit Scene showing the Fermi surface. The Scene can be</span>
+<span class="sd">        displayed in an interactive web app using Crystal Toolkit, can be shown</span>
+<span class="sd">        interactively in Jupyter Lab using the crystal-toolkit lab extension, or</span>
+<span class="sd">        can be converted to JSON to store for future use.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            spin: Which spin channel to plot. By default plot both spin channels if</span>
+<span class="sd">                available.</span>
+<span class="sd">            colors: See the docstring for ``get_isosurfaces_and_colors()`` for the</span>
+<span class="sd">                available options.</span>
+<span class="sd">            opacity: Opacity of surface. Note that due to limitations of WebGL,</span>
+<span class="sd">                overlapping semi-transparent surfaces might result in visual artefacts.</span>
+<span class="sd">            azimuth: The azimuth of the viewpoint in degrees. i.e. the angle subtended</span>
+<span class="sd">                by the position vector on a sphere projected on to the x-y plane.</span>
+<span class="sd">            elevation: The zenith angle of the viewpoint in degrees, i.e. the angle</span>
+<span class="sd">                subtended by the position vector and the z-axis.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Crystal-toolkit scene.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># The implementation here is very similar to the plotly implementation, except</span>
+        <span class="c1"># the crystal toolkit scene is constructed using the scene primitives from</span>
+        <span class="c1"># crystal toolkit (Spheres, Surface, Lines, etc.)</span>
+
+        <span class="n">scene_contents</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">isosurfaces</span><span class="p">,</span> <span class="n">colors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_isosurfaces_and_colors</span><span class="p">(</span><span class="n">spin</span><span class="o">=</span><span class="n">spin</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">colors</span> <span class="o">=</span> <span class="p">(</span><span class="n">colors</span> <span class="o">*</span> <span class="mi">255</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+            <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;rgb(</span><span class="si">{}</span><span class="s2">,</span><span class="si">{}</span><span class="s2">,</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">]</span>
+
+        <span class="c1"># create a mesh for each electron band which has an isosurfaces at the Fermi</span>
+        <span class="c1"># energy mesh data is generated by a marching cubes algorithm when the</span>
+        <span class="c1"># FermiSurface object is created.</span>
+        <span class="n">surfaces</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="p">(</span><span class="n">verts</span><span class="p">,</span> <span class="n">faces</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">isosurfaces</span><span class="p">):</span>
+            <span class="n">positions</span> <span class="o">=</span> <span class="n">verts</span><span class="p">[</span><span class="n">faces</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="n">surface</span> <span class="o">=</span> <span class="n">Surface</span><span class="p">(</span><span class="n">positions</span><span class="o">=</span><span class="n">positions</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="n">opacity</span><span class="p">)</span>
+            <span class="n">surfaces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">surface</span><span class="p">)</span>
+        <span class="n">fermi_surface</span> <span class="o">=</span> <span class="n">Scene</span><span class="p">(</span><span class="s2">&quot;fermi_surface&quot;</span><span class="p">,</span> <span class="n">contents</span><span class="o">=</span><span class="n">surfaces</span><span class="p">)</span>
+        <span class="n">scene_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fermi_surface</span><span class="p">)</span>
+
+        <span class="c1"># add the cell outline to the plot</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">Lines</span><span class="p">(</span><span class="n">positions</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reciprocal_space</span><span class="o">.</span><span class="n">lines</span><span class="o">.</span><span class="n">flatten</span><span class="p">()))</span>
+        <span class="c1"># alternatively,</span>
+        <span class="c1"># cylinders have finite width and are lighted, but no strong reason to choose</span>
+        <span class="c1"># one over the other</span>
+        <span class="c1"># cylinders = Cylinders(positionPairs=self.reciprocal_space.lines.tolist(),</span>
+        <span class="c1">#                       radius=0.01, color=&quot;rgb(0,0,0)&quot;)</span>
+        <span class="n">scene_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+
+        <span class="n">spheres</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">position</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_symmetry_pts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_symmetry_pts</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="n">sphere</span> <span class="o">=</span> <span class="n">Spheres</span><span class="p">(</span>
+                <span class="n">positions</span><span class="o">=</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">position</span><span class="p">)],</span>
+                <span class="n">tooltip</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                <span class="n">radius</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&quot;rgb(0, 0, 0)&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">spheres</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sphere</span><span class="p">)</span>
+        <span class="n">label_scene</span> <span class="o">=</span> <span class="n">Scene</span><span class="p">(</span><span class="s2">&quot;labels&quot;</span><span class="p">,</span> <span class="n">contents</span><span class="o">=</span><span class="n">spheres</span><span class="p">)</span>
+        <span class="n">scene_contents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">label_scene</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Scene</span><span class="p">(</span><span class="s2">&quot;ifermi&quot;</span><span class="p">,</span> <span class="n">contents</span><span class="o">=</span><span class="n">scene_contents</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="FermiSlicePlotter"><a class="viewcode-back" href="../../ifermi.html#ifermi.plotter.FermiSlicePlotter">[docs]</a><span class="k">class</span> <span class="nc">FermiSlicePlotter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to plot 2D slices through a FermiSurface.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fermi_slice</span><span class="p">:</span> <span class="n">FermiSlice</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a FermiSurfacePlotter.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fermi_slice: A slice through a Fermi surface.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fermi_slice</span> <span class="o">=</span> <span class="n">fermi_slice</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reciprocal_slice</span> <span class="o">=</span> <span class="n">fermi_slice</span><span class="o">.</span><span class="n">reciprocal_slice</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_symmetry_pts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_symmetry_points</span><span class="p">(</span><span class="n">fermi_slice</span><span class="p">)</span>
+
+<div class="viewcode-block" id="FermiSlicePlotter.get_symmetry_points"><a class="viewcode-back" href="../../ifermi.html#ifermi.plotter.FermiSlicePlotter.get_symmetry_points">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_symmetry_points</span><span class="p">(</span><span class="n">fermi_slice</span><span class="p">:</span> <span class="n">FermiSlice</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the high symmetry k-points and labels for the Fermi slice.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fermi_slice: A fermi slice.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The high symmetry k-points and labels for points that lie on the slice.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">hskp</span> <span class="o">=</span> <span class="n">HighSymmKpath</span><span class="p">(</span><span class="n">fermi_slice</span><span class="o">.</span><span class="n">structure</span><span class="p">)</span>
+        <span class="n">labels</span><span class="p">,</span> <span class="n">kpoints</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">hskp</span><span class="o">.</span><span class="n">kpath</span><span class="p">[</span><span class="s2">&quot;kpoints&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fermi_slice</span><span class="o">.</span><span class="n">reciprocal_slice</span><span class="o">.</span><span class="n">reciprocal_space</span><span class="p">,</span> <span class="n">ReciprocalCell</span><span class="p">):</span>
+            <span class="n">kpoints</span> <span class="o">=</span> <span class="n">kpoints_to_first_bz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">kpoints</span><span class="p">))</span>
+
+        <span class="n">kpoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+            <span class="n">kpoints</span><span class="p">,</span> <span class="n">fermi_slice</span><span class="o">.</span><span class="n">reciprocal_slice</span><span class="o">.</span><span class="n">reciprocal_space</span><span class="o">.</span><span class="n">reciprocal_lattice</span>
+        <span class="p">)</span>
+        <span class="n">kpoints</span> <span class="o">=</span> <span class="n">transform_points</span><span class="p">(</span><span class="n">kpoints</span><span class="p">,</span> <span class="n">fermi_slice</span><span class="o">.</span><span class="n">reciprocal_slice</span><span class="o">.</span><span class="n">transformation</span><span class="p">)</span>
+
+        <span class="c1"># filter points that do not lie very close to the plane</span>
+        <span class="n">on_plane</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">kpoints</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mf">1e-4</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">kpoints</span> <span class="o">=</span> <span class="n">kpoints</span><span class="p">[</span><span class="n">on_plane</span><span class="p">]</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">on_plane</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">kpoints</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">],</span> <span class="n">labels</span></div>
+
+<div class="viewcode-block" id="FermiSlicePlotter.get_plot"><a class="viewcode-back" href="../../ifermi.html#ifermi.plotter.FermiSlicePlotter.get_plot">[docs]</a>    <span class="k">def</span> <span class="nf">get_plot</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">spin</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Spin</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;viridis&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot the Fermi slice.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            spin: Which spin channel to plot. By default plot both spin channels if</span>
+<span class="sd">                available.</span>
+<span class="sd">            colors: The color specification. Valid options are:</span>
+
+<span class="sd">                - A list of colors.</span>
+<span class="sd">                - A dictionary of ``{Spin.up: color1, Spin.down: color2}``.</span>
+<span class="sd">                - A string specifying which matplotlib colormap to use. See</span>
+<span class="sd">                  https://matplotlib.org/tutorials/colors/colormaps.html for more</span>
+<span class="sd">                  information.</span>
+<span class="sd">                - ``None``, in which case the colors will be chosen randomly.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            matplotlib pyplot object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+        <span class="kn">from</span> <span class="nn">matplotlib.collections</span> <span class="kn">import</span> <span class="n">LineCollection</span>
+
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+
+        <span class="c1"># get a rotation matrix that will align the longest slice length along the</span>
+        <span class="c1"># x-axis</span>
+        <span class="n">rotation</span> <span class="o">=</span> <span class="n">_get_rotation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fermi_slice</span><span class="o">.</span><span class="n">reciprocal_slice</span><span class="p">)</span>
+
+        <span class="n">slices</span><span class="p">,</span> <span class="n">colors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_slices_and_colors</span><span class="p">(</span><span class="n">spin</span><span class="o">=</span><span class="n">spin</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">)</span>
+
+        <span class="c1"># create a mesh for each electron band which has an isosurfaces at the Fermi</span>
+        <span class="c1"># energy mesh data is generated by a marching cubes algorithm when the</span>
+        <span class="c1"># FermiSurface object is created.</span>
+        <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">a_slice</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">slices</span><span class="p">):</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">LineCollection</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a_slice</span><span class="p">,</span> <span class="n">rotation</span><span class="p">),</span> <span class="n">colors</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_collection</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+
+        <span class="c1"># add the cell outline to the plot</span>
+        <span class="n">rotated_lines</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reciprocal_slice</span><span class="o">.</span><span class="n">lines</span><span class="p">,</span> <span class="n">rotation</span><span class="p">)</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">LineCollection</span><span class="p">(</span><span class="n">rotated_lines</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_collection</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">coords</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_symmetry_pts</span><span class="p">):</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">rotation</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">coords</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\Gamma&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$\Gamma$&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">*</span><span class="n">coords</span><span class="p">,</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">label</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">autoscale</span><span class="p">(</span><span class="n">enable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">plt</span></div>
+
+<div class="viewcode-block" id="FermiSlicePlotter.get_slices_and_colors"><a class="viewcode-back" href="../../ifermi.html#ifermi.plotter.FermiSlicePlotter.get_slices_and_colors">[docs]</a>    <span class="k">def</span> <span class="nf">get_slices_and_colors</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">spin</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Spin</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the isosurfaces and colors to plot.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            spin: Which spin channel to select. By default will return the slices</span>
+<span class="sd">                for both spin channels if available.</span>
+<span class="sd">            colors: The color specification. Valid options are:</span>
+
+<span class="sd">                - A list of colors.</span>
+<span class="sd">                - A dictionary of ``{Spin.up: color1, Spin.down: color2}``.</span>
+<span class="sd">                - A string specifying which matplotlib colormap to use. See</span>
+<span class="sd">                  https://matplotlib.org/tutorials/colors/colormaps.html for more</span>
+<span class="sd">                  information.</span>
+<span class="sd">                - ``None``, in which case the colors will be chosen randomly.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The isosurfaces and colors as a tuple.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">spin</span><span class="p">:</span>
+            <span class="n">spin</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fermi_slice</span><span class="o">.</span><span class="n">slices</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spin</span><span class="p">,</span> <span class="n">Spin</span><span class="p">):</span>
+            <span class="n">spin</span> <span class="o">=</span> <span class="p">[</span><span class="n">spin</span><span class="p">]</span>
+
+        <span class="n">slices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">spin</span><span class="p">:</span>
+            <span class="n">slices</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fermi_slice</span><span class="o">.</span><span class="n">slices</span><span class="p">[</span><span class="n">s</span><span class="p">])</span>
+
+        <span class="n">colors</span> <span class="o">=</span> <span class="n">_get_random_colors</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fermi_slice</span><span class="o">.</span><span class="n">slices</span><span class="p">,</span> <span class="n">spin</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">slices</span><span class="p">,</span> <span class="n">colors</span></div></div>
+
+
+<div class="viewcode-block" id="show_plot"><a class="viewcode-back" href="../../ifermi.html#ifermi.plotter.show_plot">[docs]</a><span class="k">def</span> <span class="nf">show_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Display a plot.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        plot: A plot object from ``FermiSurfacePlotter.get_plot()``. Supports matplotlib</span>
+<span class="sd">            pyplot objects, plotly figure objects, and mlab figure objects.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plot_type</span> <span class="o">=</span> <span class="n">get_plot_type</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">&quot;matplotlib&quot;</span><span class="p">:</span>
+        <span class="n">plot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">&quot;plotly&quot;</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">plotly.offline</span> <span class="kn">import</span> <span class="n">plot</span> <span class="k">as</span> <span class="n">show_plotly</span>
+
+        <span class="n">show_plotly</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="n">include_mathjax</span><span class="o">=</span><span class="s2">&quot;cdn&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;fermi-surface.html&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">&quot;mayavi&quot;</span><span class="p">:</span>
+        <span class="n">plot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="save_plot"><a class="viewcode-back" href="../../ifermi.html#ifermi.plotter.save_plot">[docs]</a><span class="k">def</span> <span class="nf">save_plot</span><span class="p">(</span>
+    <span class="n">plot</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="n">filename</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+    <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Save a plot to file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        plot: A plot object from ``FermiSurfacePlotter.get_plot()``. Supports matplotlib</span>
+<span class="sd">            pyplot objects, plotly figure objects, and mlab figure objects.</span>
+<span class="sd">        filename: The output filename.</span>
+<span class="sd">        scale: Scale for the figure size. Increases resolution but does not change the</span>
+<span class="sd">            relative size of the figure and text.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plot_type</span> <span class="o">=</span> <span class="n">get_plot_type</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">&quot;matplotlib&quot;</span><span class="p">:</span>
+        <span class="c1"># default dpi is ~100</span>
+        <span class="n">plot</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="n">scale</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">&quot;plotly&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">kaleido</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;kaleido package required to save static ploty images</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;please install it using:</span><span class="se">\n</span><span class="s2">pip install kaleido&quot;</span>
+            <span class="p">)</span>
+        <span class="n">plot</span><span class="o">.</span><span class="n">write_image</span><span class="p">(</span>
+            <span class="n">filename</span><span class="p">,</span>
+            <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;kaleido&quot;</span><span class="p">,</span>
+            <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">&quot;mayavi&quot;</span><span class="p">:</span>
+        <span class="n">plot</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">magnification</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_get_plotly_camera</span><span class="p">(</span><span class="n">azimuth</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">elevation</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;Get plotly viewpoint from azimuth and elevation.&quot;&quot;&quot;</span>
+    <span class="n">azimuth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">azimuth</span><span class="p">)</span>
+    <span class="n">elevation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">elevation</span><span class="p">)</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">([</span><span class="mf">1.25</span><span class="p">,</span> <span class="mf">1.25</span><span class="p">,</span> <span class="mf">1.25</span><span class="p">])</span>  <span class="c1"># default plotly vector distance</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">azimuth</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">elevation</span><span class="p">)</span> <span class="o">*</span> <span class="n">norm</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">azimuth</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">elevation</span><span class="p">)</span> <span class="o">*</span> <span class="n">norm</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">elevation</span><span class="p">)</span> <span class="o">*</span> <span class="n">norm</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">up</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">center</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">eye</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">)</span>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="get_plot_type"><a class="viewcode-back" href="../../ifermi.html#ifermi.plotter.get_plot_type">[docs]</a><span class="k">def</span> <span class="nf">get_plot_type</span><span class="p">(</span><span class="n">plot</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Gets the plot type.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        plot: A plot object from ``FermiSurfacePlotter.get_plot()``. Supports matplotlib</span>
+<span class="sd">            pyplot objects, plotly figure objects, and mlab figure objects.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The plot type. Current options are &quot;matplotlib&quot;, &quot;mayavi&quot;, and &quot;plotly&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">plotly.graph_objs</span> <span class="kn">import</span> <span class="n">Figure</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="n">Figure</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;plotly&quot;</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="s2">&quot;__name__&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">&quot;matplotlib&quot;</span> <span class="ow">in</span> <span class="n">plot</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;matplotlib&quot;</span>
+        <span class="k">elif</span> <span class="s2">&quot;mayavi&quot;</span> <span class="ow">in</span> <span class="n">plot</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;mayavi&quot;</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unrecognised plot type.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="kpoints_to_first_bz"><a class="viewcode-back" href="../../ifermi.html#ifermi.plotter.kpoints_to_first_bz">[docs]</a><span class="k">def</span> <span class="nf">kpoints_to_first_bz</span><span class="p">(</span><span class="n">kpoints</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Translate fractional k-points to the first Brillouin zone.</span>
+
+<span class="sd">    I.e. all k-points will have fractional coordinates:</span>
+<span class="sd">        -0.5 &lt;= fractional coordinates &lt; 0.5</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        kpoints: The k-points in fractional coordinates.</span>
+<span class="sd">        tol: Numerical tolerance.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The translated k-points.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">kp</span> <span class="o">=</span> <span class="n">kpoints</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">kpoints</span><span class="p">)</span>
+
+    <span class="c1"># account for small rounding errors for 0.5</span>
+    <span class="n">round_dp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">tol</span><span class="p">))</span>
+    <span class="n">krounded</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">kp</span><span class="p">,</span> <span class="n">round_dp</span><span class="p">)</span>
+
+    <span class="n">kp</span><span class="p">[</span><span class="n">krounded</span> <span class="o">==</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="k">return</span> <span class="n">kp</span></div>
+
+
+<span class="k">def</span> <span class="nf">_get_random_colors</span><span class="p">(</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">]],</span>
+    <span class="n">objects</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span>
+    <span class="n">spins</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Spin</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot the Fermi surface using matplotlib.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        colors: See the docstring for ``get_isosurfaces_and_colors()`` for the</span>
+<span class="sd">            available options.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n_objects</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">objects</span><span class="p">[</span><span class="n">spin</span><span class="p">])</span> <span class="k">for</span> <span class="n">spin</span> <span class="ow">in</span> <span class="n">spins</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">spins</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;colors dictionary should have the same number of spin channels as&quot;</span>
+                <span class="s2">&quot;spins to plot&quot;</span>
+            <span class="p">)</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">spins</span><span class="p">:</span>
+            <span class="n">colors</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">colors</span><span class="p">[</span><span class="n">s</span><span class="p">]]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">objects</span><span class="p">[</span><span class="n">s</span><span class="p">]))</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">cmap</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_objects</span><span class="p">))</span>
+
+    <span class="k">elif</span> <span class="n">colors</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">n_objects</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">colors</span>
+
+
+<span class="k">def</span> <span class="nf">_get_plotly_colors</span><span class="p">(</span>
+    <span class="n">objects</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]],</span>
+    <span class="n">spins</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Spin</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+
+    <span class="n">n_objects</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">objects</span><span class="p">[</span><span class="n">spin</span><span class="p">])</span> <span class="k">for</span> <span class="n">spin</span> <span class="ow">in</span> <span class="n">spins</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">n_objects</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">px</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">qualitative</span><span class="o">.</span><span class="n">Prism</span><span class="p">):</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">qualitative</span><span class="o">.</span><span class="n">Prism</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">n_objects</span> <span class="o">//</span> <span class="nb">len</span><span class="p">(</span><span class="n">px</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">qualitative</span><span class="o">.</span><span class="n">Prism</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+            <span class="n">colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">px</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">qualitative</span><span class="o">.</span><span class="n">Prism</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">colors</span>
+
+
+<span class="k">def</span> <span class="nf">_get_rotation</span><span class="p">(</span><span class="n">reciprocal_slice</span><span class="p">:</span> <span class="n">ReciprocalSlice</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get a rotation matrix that aligns the longest slice length along the x axis.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        reciprocal_slice: A reciprocal slice.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The transformation matrix as 2x2 array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">line_vectors</span> <span class="o">=</span> <span class="n">reciprocal_slice</span><span class="o">.</span><span class="n">lines</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">reciprocal_slice</span><span class="o">.</span><span class="n">lines</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">line_lengths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">line_vectors</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">longest_line</span> <span class="o">=</span> <span class="n">line_vectors</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">line_lengths</span><span class="p">)]</span>
+
+    <span class="n">longest_line_norm</span> <span class="o">=</span> <span class="n">longest_line</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">longest_line</span><span class="p">)</span>
+    <span class="n">dotp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">longest_line_norm</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">dotp</span><span class="p">)</span>
+
+    <span class="n">cos_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+    <span class="n">sin_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+    <span class="n">rotation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">cos_angle</span><span class="p">,</span> <span class="o">-</span><span class="n">sin_angle</span><span class="p">],</span> <span class="p">[</span><span class="n">sin_angle</span><span class="p">,</span> <span class="n">cos_angle</span><span class="p">]])</span>
+    <span class="k">return</span> <span class="n">rotation</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2021, Amy Searle and Alex Ganose
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

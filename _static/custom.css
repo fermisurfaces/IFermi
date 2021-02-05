@@ -1,0 +1,4 @@
+/* Hide nbsphinx prompt numbers */
+.prompt {
+    display: none;
+}

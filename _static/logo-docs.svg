@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 216.1 80.6" style="enable-background:new 0 0 216.1 80.6;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;}
+	.st1{fill:none;stroke:#FFFFFF;stroke-width:2;stroke-miterlimit:10;}
+	.st2{font-family:'ArnoPro-Caption';}
+	.st3{font-size:52px;}
+	.st4{fill:none;stroke:#FFFFFF;stroke-width:4;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st5{fill:none;stroke:#232323;stroke-width:1.5;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st6{fill:none;stroke:#5FABA2;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st7{fill:#5FABA2;}
+	.st8{fill:none;stroke:#232323;stroke-width:0.25;stroke-miterlimit:10;}
+	.st9{fill:#D4447E;}
+</style>
+<g>
+	<path class="st0" d="M202.7,80.6H13.4C6,80.6,0,74.6,0,67.3V13.4C0,6,6,0,13.4,0h189.3c7.3,0,13.4,6,13.4,13.4v53.9
+		C216.1,74.6,210.1,80.6,202.7,80.6z"/>
+</g>
+<g>
+	<polygon class="st0" points="30.1,8.7 39.7,10.8 59.5,9.8 50.1,7.7 	"/>
+	<polyline class="st0" points="74.9,57.3 60.6,71.9 40.4,73.2 	"/>
+	<polyline class="st0" points="74.9,57.3 79.8,39.8 74.6,25.9 69.8,43.5 74.6,25.9 59.5,9.8 30.1,8.7 15,23.7 10.3,41 15.4,55.2 
+		30.4,70.9 40.4,73.2 	"/>
+</g>
+<text transform="matrix(1 0 0 1 83.24 58.3752)" class="st1 st2 st3">Fermi</text>
+<g>
+	<g>
+		<polygon class="st4" points="30.1,8.7 39.7,10.8 59.5,9.8 50.1,7.7 		"/>
+		<polygon class="st4" points="39.7,10.8 35.1,28.1 20.2,43.1 10.3,41 15,23.7 30.1,8.7 		"/>
+		<polygon class="st4" points="10.3,41 15.4,55.2 30.4,70.9 40.4,73.2 35.4,59.5 20.2,43.1 		"/>
+		<polyline class="st4" points="35.1,28.1 50,44.2 35.4,59.5 		"/>
+		<polyline class="st4" points="40.4,73.2 60.6,71.9 74.9,57.3 69.8,43.5 50,44.2 		"/>
+		<polyline class="st4" points="74.9,57.3 79.8,39.8 74.6,25.9 69.8,43.5 		"/>
+		<line class="st4" x1="74.6" y1="25.9" x2="59.5" y2="9.8"/>
+	</g>
+</g>
+<text transform="matrix(1 0 0 1 49.9825 58.0336)" class="st1 st2 st3">I</text>
+<g>
+	<g>
+		<polygon class="st5" points="30.1,8.7 39.7,10.8 59.5,9.8 50.1,7.7 		"/>
+		<polygon class="st5" points="39.7,10.8 35.1,28.1 20.2,43.1 10.3,41 15,23.7 30.1,8.7 		"/>
+		<polygon class="st5" points="10.3,41 15.4,55.2 30.4,70.9 40.4,73.2 35.4,59.5 20.2,43.1 		"/>
+		<polyline class="st5" points="35.1,28.1 50,44.2 35.4,59.5 		"/>
+		<polyline class="st5" points="40.4,73.2 60.6,71.9 74.9,57.3 69.8,43.5 50,44.2 		"/>
+		<polyline class="st5" points="74.9,57.3 79.8,39.8 74.6,25.9 69.8,43.5 		"/>
+		<line class="st5" x1="74.6" y1="25.9" x2="59.5" y2="9.8"/>
+	</g>
+</g>
+<g>
+	<polygon class="st6" points="30.1,8.7 39.7,10.8 59.5,9.8 50.1,7.7 	"/>
+	<polygon class="st6" points="39.7,10.8 35.1,28.1 20.2,43.1 10.3,41 15,23.7 30.1,8.7 	"/>
+	<polygon class="st6" points="10.3,41 15.4,55.2 30.4,70.9 40.4,73.2 35.4,59.5 20.2,43.1 	"/>
+	<polyline class="st6" points="35.1,28.1 50,44.2 35.4,59.5 	"/>
+	<polyline class="st6" points="40.4,73.2 60.6,71.9 74.9,57.3 69.8,43.5 50,44.2 	"/>
+	<polyline class="st6" points="74.9,57.3 79.8,39.8 74.6,25.9 69.8,43.5 	"/>
+	<line class="st6" x1="74.6" y1="25.9" x2="59.5" y2="9.8"/>
+</g>
+<text transform="matrix(1 0 0 1 49.9825 58.0336)" class="st7 st2 st3">I</text>
+<text transform="matrix(1 0 0 1 49.9825 58.0336)" class="st8 st2 st3">I</text>
+<text transform="matrix(1 0 0 1 83.24 58.3752)" class="st9 st2 st3">Fermi</text>
+<text transform="matrix(1 0 0 1 83.24 58.3752)" class="st8 st2 st3">Fermi</text>
+</svg>

@@ -1,0 +1,366 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction &mdash; IFermi 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+
+  
+  
+  
+  
+    <link rel="canonical" href="https://github.com/ajsearle97/IFermiintroduction.html"/>
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ifermi program" href="cli.html" />
+    <link rel="prev" title="Introduction" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> IFermi
+          
+
+          
+            
+            <img src="_static/logo-docs-01.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Usage Guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#example">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#python-interface">Python interface</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#whats-new">What’s new?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contributing">Contributing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#acknowledgements">Acknowledgements</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command-line interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plotting_using_python.html">Plotting using Python</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Information</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to IFermi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/ajsearle97/IFermi">See project on GitHub</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Function Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">IFermi</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content style-external-links">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Introduction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ajsearle97/IFermi/blob/master/docs_rst/introduction.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>IFermi is a package for plotting Fermi surfaces and from <em>ab initio</em> calculation outputs.
+The main features include:</p>
+<ol class="arabic simple">
+<li><p>Plotting three-dimensional Fermi surfaces, with interactive plotting
+supported by <a class="reference external" href="https://docs.enthought.com/mayavi/mayavi/">mayavi</a>, <a class="reference external" href="https://plot.ly/">plotly</a> and <a class="reference external" href="https://matplotlib.org">matplotlib</a>.</p></li>
+<li><p>Plotting slices of three-dimensional Fermi surfaces along a specified plane.</p></li>
+</ol>
+<p>IFermi currently only supports VASP calculations but support for additional DFT packages
+will be added in the future.</p>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<p>An example of the Fermi surface and a two-dimensional slice for MgB<span class="raw-html-m2r"><sub>2</sub></span> is shown below:</p>
+<a class="reference external image-reference" href="https://raw.githubusercontent.com/ajsearle97/IFermi/master/docs/src/_static/fermi_surface_example-01.png"><img alt="MgB2" src="https://raw.githubusercontent.com/ajsearle97/IFermi/master/docs/src/_static/fermi_surface_example-01.png" /></a>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference external" href="https://ajsearle97.github.io/IFermi/cli.html">online documentation</a> provides a full
+description of the available options. To summarise, three-dimensional Fermi surfaces can
+be plotted from a <code class="docutils literal notranslate"><span class="pre">vasprun.xml</span></code> file using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi
+</pre></div>
+</div>
+<p>The two-dimensional slice of a Fermi slices along the plane specified by the miller
+indices (A B C) and distance d can be plotted from a <code class="docutils literal notranslate"><span class="pre">vasprun.xml</span></code> file using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi --slice A B C d
+</pre></div>
+</div>
+<div class="section" id="python-interface">
+<h3>Python interface<a class="headerlink" href="#python-interface" title="Permalink to this headline">¶</a></h3>
+<p>Alternatively, IFermi can be controlled using the Python API. A full summary of the API
+is given in the <a class="reference external" href="https://ajsearle97.github.io/IFermi/plotting_using_python.html">API introduction page</a> in the documentation.</p>
+<p>The core classes in IFermi are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Inerpolator</span></code>: to take a band structure on a uniform k-point mesh and interpolate it
+onto a denser mesh.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FermiSurface</span></code>: to store isosurfaces and reciprocal lattice information.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FermiSurfacePlotter</span></code>: to plot a Fermi surface from a <code class="docutils literal notranslate"><span class="pre">FermiSurface</span></code> object.</p></li>
+</ul>
+<p>A minimal working example to plot the Fermi surface from a <code class="docutils literal notranslate"><span class="pre">vasprun.xml</span></code> file is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pymatgen.io.vasp.outputs</span> <span class="kn">import</span> <span class="n">Vasprun</span>
+<span class="kn">from</span> <span class="nn">ifermi.fermi_surface</span> <span class="kn">import</span> <span class="n">FermiSurface</span>
+<span class="kn">from</span> <span class="nn">ifermi.interpolator</span> <span class="kn">import</span> <span class="n">Interpolator</span>
+<span class="kn">from</span> <span class="nn">ifermi.plotter</span> <span class="kn">import</span> <span class="n">FermiSurfacePlotter</span><span class="p">,</span> <span class="n">show_plot</span><span class="p">,</span> <span class="n">save_plot</span>
+
+
+<span class="n">vr</span> <span class="o">=</span> <span class="n">Vasprun</span><span class="p">(</span><span class="s2">&quot;vasprun.xml&quot;</span><span class="p">)</span>
+<span class="n">bs</span> <span class="o">=</span> <span class="n">vr</span><span class="o">.</span><span class="n">get_band_structure</span><span class="p">()</span>
+
+<span class="c1"># interpolate the energies to a finer k-point mesh</span>
+<span class="n">interpolator</span> <span class="o">=</span> <span class="n">Interpolator</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span>
+<span class="n">dense_bs</span><span class="p">,</span> <span class="n">kmesh</span> <span class="o">=</span> <span class="n">interpolator</span><span class="o">.</span><span class="n">interpolate_bands</span><span class="p">(</span><span class="n">interpolation_factor</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">fs</span> <span class="o">=</span> <span class="n">FermiSurface</span><span class="o">.</span><span class="n">from_band_structure</span><span class="p">(</span><span class="n">dense_bs</span><span class="p">,</span> <span class="n">kmesh</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">wigner_seitz</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plotter</span> <span class="o">=</span> <span class="n">FermiSurfacePlotter</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
+<span class="n">plot</span> <span class="o">=</span> <span class="n">plotter</span><span class="o">.</span><span class="n">get_plot</span><span class="p">(</span><span class="n">plot_type</span><span class="o">=</span><span class="s1">&#39;plotly&#39;</span><span class="p">)</span>
+
+<span class="n">save_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="s2">&quot;fermi-surface.png&quot;</span><span class="p">)</span>  <span class="c1"># saves the plot to a file</span>
+<span class="n">show_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span>  <span class="c1"># displays an interactive plot</span>
+</pre></div>
+</div>
+<p>Note, if you’re not running the example in a notebook then it must be proceeded by <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span> <span class="pre">'__main__':</span></code>.</p>
+</div>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>IFermi can be installed with the command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install ifermi
+</pre></div>
+</div>
+<p>IFermi is currently compatible with Python 3.5+ and relies on a number of
+open-source python packages, specifically:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://pymatgen.org">pymatgen</a> for parsing VASP calculation output.</p></li>
+<li><p><a class="reference external" href="https://gitlab.com/sousaw/BoltzTraP2">BoltzTrap2</a> for band structure interpolation.</p></li>
+<li><p><a class="reference external" href="https://matplotlib.org">matplotlib</a>, <a class="reference external" href="https://docs.enthought.com/mayavi/mayavi/">mayavi</a>, and <a class="reference external" href="https://plot.ly/">plotly</a> for three-dimensional plotting.</p></li>
+</ul>
+</div>
+<div class="section" id="whats-new">
+<h2>What’s new?<a class="headerlink" href="#whats-new" title="Permalink to this headline">¶</a></h2>
+<p>Track changes to IFermi through the
+<a class="reference external" href="https://ajsearle97.github.io/IFermi/changelog.html">changelog</a>.</p>
+</div>
+<div class="section" id="contributing">
+<h2>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h2>
+<p>We greatly appreciate any contributions in the form of Pull Request.
+We maintain a list of all contributors <a class="reference external" href="https://ajsearle97.github.io/IFermi/contributors.html">here</a>.</p>
+</div>
+<div class="section" id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>IFermi is made available under the MIT License.</p>
+</div>
+<div class="section" id="acknowledgements">
+<h2>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permalink to this headline">¶</a></h2>
+<p>Alex Ganose for developing/improving code and documentation.
+Sinead Griffin for suggesting the project.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2021, Amy Searle and Alex Ganose
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
