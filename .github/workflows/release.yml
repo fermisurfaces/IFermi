@@ -16,6 +16,12 @@ jobs:
         with:
           python-version: 3.8
 
+      - name: Test
+        run: |
+          echo "pypi" ${{ secrets.PYPI_PASSWORD }}
+          echo "pypy" ${{ secrets.PYPY_PASSWORD }}
+          echo "pypi2" ${{ secrets."PYPI_PASSWORD" }}
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -31,7 +37,7 @@ jobs:
 
       - name: Build packages
         run: |
-          pip install wheel
+          pip install setuptools setuptools_scm wheel
           python setup.py sdist bdist_wheel
 
       - name: Publish

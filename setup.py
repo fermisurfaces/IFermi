@@ -1,15 +1,15 @@
 """"
 IFermi: Fermi surface plotting tool from DFT output files.
 """
-
 from setuptools import find_packages, setup
+from ifermi import __version__
 
 with open("README.md", "r") as file:
     long_description = file.read()
 
 setup(
     name="ifermi",
-    version="0.0.4",
+    version=__version__,
     description="Fermi surface plotting tool from DFT output",
     url="https://github.com/asearle13/IFermi",
     author="Amy Searle",
