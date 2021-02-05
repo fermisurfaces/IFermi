@@ -22,7 +22,7 @@ __date__ = "Sept 18, 2019"
 
 def ifermi(
     filename: Optional[Union[Path, str]] = None,
-    interpolate_factor: int = 8,
+    interpolation_factor: int = 8,
     decimate_factor: Optional[float] = None,
     mu: float = 0.0,
     wigner_seitz: bool = True,
@@ -37,7 +37,7 @@ def ifermi(
 
     Args:
         filename: Path to input vasprun file.
-        interpolate_factor: The factor by which to interpolate the bands.
+        interpolation_factor: The factor by which to interpolate the bands.
         output_filename: The output file name. This will prevent the plot from being
             interactive.
         decimate_factor: Scaling factor by which to reduce the number of faces.
@@ -70,6 +70,15 @@ def ifermi(
         show_plot,
     )
 
+    try:
+        import mayavi.mlab as mlab
+    except ImportError:
+        mlab = False
+
+    if mlab and plot_type == "mayavi" and output_filename is not None:
+        # handle mlab non interactive plots
+        mlab.options.offscreen = True
+
     if not filename:
         filename = find_vasprun_file()
 
@@ -77,7 +86,7 @@ def ifermi(
     bs = vr.get_band_structure()
 
     interpolator = Interpolator(bs)
-    interp_bs, kpoint_dim = interpolator.interpolate_bands(interpolate_factor)
+    interp_bs, kpoint_dim = interpolator.interpolate_bands(interpolation_factor)
 
     fs = FermiSurface.from_band_structure(
         interp_bs,
@@ -145,6 +154,15 @@ def _get_fs_parser():
         help="offset from the Fermi level at which to calculate Fermi surface",
     )
     parser.add_argument(
+        "-i",
+        "--interpolation-factor",
+        type=int,
+        default=8,
+        dest="interpolation_factor",
+        metavar="N",
+        help="interpolation factor for band structure (default: 8)",
+    )
+    parser.add_argument(
         "-r",
         "--reciprocal-cell",
         dest="wigner_seitz",
@@ -177,14 +195,6 @@ def _get_fs_parser():
         help="slice through the Brillouin zone (format: j k l distance)",
     )
     parser.add_argument(
-        "--interpolate-factor",
-        type=int,
-        default=8,
-        dest="interpolate_factor",
-        metavar="N",
-        help="interpolate factor for band structure " "projections (default: 4)",
-    )
-    parser.add_argument(
         "--decimate-factor",
         type=float,
         default=None,
@@ -208,7 +218,7 @@ def main():
 
     ifermi(
         filename=args.filename,
-        interpolate_factor=args.interpolate_factor,
+        interpolation_factor=args.interpolation_factor,
         decimate_factor=args.decimate_factor,
         mu=args.mu,
         plot_type=args.plot_type,

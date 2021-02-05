@@ -4,6 +4,7 @@ This module implements plotters for Fermi surfaces and Fermi slices.
 TODO:
 - Projections onto arbitrary surface
 """
+
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
@@ -22,6 +23,11 @@ try:
     import mayavi.mlab as mlab
 except ImportError:
     mlab = False
+
+try:
+    import kaleido
+except ImportError:
+    kaleido = False
 
 try:
     from crystal_toolkit.core.scene import Lines, Scene, Spheres, Surface
@@ -603,24 +609,44 @@ def show_plot(plot):
         plot.show()
 
 
-def save_plot(plot: Any, filename: Union[Path, str]):
+def save_plot(
+    plot: Any,
+    filename: Union[Path, str],
+    width: float = 6,
+    height: float = 6,
+    dpi: float = 400,
+):
     """Save a plot to file.
 
     Args:
         plot: A plot object from ``FermiSurfacePlotter.get_plot()``. Supports matplotlib
             pyplot objects, plotly figure objects, and mlab figure objects.
         filename: The output filename.
+        width: Image width.
+        height: Image height.
+        dpi: Dots per inch controlling image resolution.
     """
     plot_type = get_plot_type(plot)
     filename = str(filename)
 
     if plot_type == "matplotlib":
-        plot.savefig(filename, dpi=300)
+        plot.savefig(filename, dpi=dpi, width=width, height=height)
     elif plot_type == "plotly":
-        from plotly.io import write_image
-        write_image(plot, filename, width=600, height=600, scale=5)
+        if kaleido is None:
+            raise ValueError(
+                "kaleido package required to save static ploty images\n"
+                "please install it using:\npip install kaleido"
+            )
+        plot.write_image(
+            filename,
+            engine="kaleido",
+            scale=dpi/100,
+            width=width * 100,
+            height=height * 100
+        )
+
     elif plot_type == "mayavi":
-        plot.savefig(filename, figure=plot.gcf())
+        plot.savefig(filename, magnification=dpi/100, size=(width * 100, height * 100))
 
 
 def get_plot_type(plot) -> str:
