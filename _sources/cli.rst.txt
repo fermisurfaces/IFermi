@@ -113,7 +113,7 @@ Selecting spin channels
 
 In the plot above, the spins are degenerate (the Hamiltonian does not differentiate
 between the up and down spins). This is why the surface looks dappled, IFermi
-is plotting two redundant sufaces. To stop it from doing this, we can specify that
+is plotting two redundant surfaces. To stop it from doing this, we can specify that
 only one spin component should be plotted using the ``--spin`` option. The default
 is to plot both spins but a single spin channel can be selected through the names
 "up" and "down". For example:

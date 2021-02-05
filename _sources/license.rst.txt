@@ -4,9 +4,9 @@ License
 IFermi is developed under an MIT License (an open-source license), reproduced
 below::
 
-    MIT License
+    The MIT License
 
-    Copyright (c) 2021 Amy Searle
+    Copyright (c) 2019-2021 Amy Searle
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
