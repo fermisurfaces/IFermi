@@ -82,7 +82,8 @@ _mayavi_rs_style = {
     "tube_radius": 0.005,
     "representation": "surface",
 }
-
+_default_azimuth = 45.
+_default_elevation = 35.
 
 class FermiSurfacePlotter(MSONable):
     """
@@ -129,6 +130,8 @@ class FermiSurfacePlotter(MSONable):
         plot_type: str = "plotly",
         spin: Optional[Spin] = None,
         colors: Optional[Union[str, dict, list]] = None,
+        azimuth: float = _default_azimuth,
+        elevation: float = _default_elevation,
         **plot_kwargs,
     ):
         """
@@ -141,10 +144,16 @@ class FermiSurfacePlotter(MSONable):
                 available.
             colors: See the docstring for ``get_isosurfaces_and_colors()`` for the
                 available options.
+            azimuth: The azimuth of the viewpoint in degrees. i.e. the angle subtended
+                by the position vector on a sphere projected on to the x-y plane.
+            elevation: The zenith angle of the viewpoint in degrees, i.e. the angle
+                subtended by the position vector and the z-axis.
             **plot_kwargs: Other keyword arguments supported by the individual plotting
                 methods.
         """
-        plot_kwargs.update({"colors": colors, "spin": spin})
+        plot_kwargs.update(
+            {"colors": colors, "spin": spin, "azimuth": azimuth, "elevation": elevation}
+        )
         if plot_type == "matplotlib":
             plot = self.get_matplotlib_plot(**plot_kwargs)
         elif plot_type == "plotly":
@@ -196,7 +205,6 @@ class FermiSurfacePlotter(MSONable):
 
         if colors is None and plot_type == "plotly":
             colors = _get_plotly_colors(self.fermi_surface.isosurfaces, spin)
-
         else:
             colors = _get_random_colors(colors, self.fermi_surface.isosurfaces, spin)
 
@@ -207,7 +215,8 @@ class FermiSurfacePlotter(MSONable):
         bz_linewidth: float = 0.9,
         spin: Optional[Spin] = None,
         colors: Optional[Union[str, dict, list]] = None,
-        title: str = None,
+        azimuth: float = _default_azimuth,
+        elevation: float = _default_elevation,
     ):
         """
         Plot the Fermi surface using matplotlib.
@@ -218,7 +227,10 @@ class FermiSurfacePlotter(MSONable):
                 available.
             colors: See the docstring for ``get_isosurfaces_and_colors()`` for the
                 available options.
-            title: The title of the plot.
+            azimuth: The azimuth of the viewpoint in degrees. i.e. the angle subtended
+                by the position vector on a sphere projected on to the x-y plane.
+            elevation: The zenith angle of the viewpoint in degrees, i.e. the angle
+                subtended by the position vector and the z-axis.
 
         Returns:
             matplotlib pyplot object.
@@ -226,8 +238,8 @@ class FermiSurfacePlotter(MSONable):
         import matplotlib.pyplot as plt
         from mpl_toolkits.mplot3d.art3d import Line3DCollection
 
-        fig = plt.figure(figsize=(10, 10))
-        ax = fig.add_subplot(111, projection="3d")
+        fig = plt.figure(figsize=(6, 6))
+        ax = fig.add_subplot(111, projection="3d", proj_type='persp')
 
         isosurfaces, colors = self.get_isosurfaces_and_colors(
             spin=spin, colors=colors, plot_type="matplotlib"
@@ -247,15 +259,12 @@ class FermiSurfacePlotter(MSONable):
         ax.add_collection3d(lines)
 
         for coords, label in zip(*self._symmetry_pts):
-            ax.scatter(*coords, s=10, c="k")
-            ax.text(*coords, "${}$".format(label), size=15, zorder=1)
-
-        if title is not None:
-            plt.title(title)
+            ax.scatter(*coords, s=20, c="k", zorder=20)
+            ax.text(*coords, "${}$".format(label), size=18, zorder=20)
 
         xlim, ylim, zlim = np.linalg.norm(self.rlat, axis=1) / 2
         ax.set(xlim=(-xlim, xlim), ylim=(-ylim, ylim), zlim=(-zlim, zlim))
-
+        ax.view_init(elev=elevation, azim=azimuth)
         ax.axis("off")
         plt.tight_layout()
 
@@ -265,6 +274,8 @@ class FermiSurfacePlotter(MSONable):
         self,
         spin: Optional[Spin] = None,
         colors: Optional[Union[str, dict, list]] = None,
+        azimuth: float = _default_azimuth,
+        elevation: float = _default_elevation,
     ):
         """
         Plot the Fermi surface using plotly.
@@ -274,6 +285,10 @@ class FermiSurfacePlotter(MSONable):
                 available.
             colors: See the docstring for ``get_isosurfaces_and_colors()`` for the
                 available options.
+            azimuth: The azimuth of the viewpoint in degrees. i.e. the angle subtended
+                by the position vector on a sphere projected on to the x-y plane.
+            elevation: The zenith angle of the viewpoint in degrees, i.e. the angle
+                subtended by the position vector and the z-axis.
 
         Returns:
             Plotly figure object.
@@ -306,7 +321,6 @@ class FermiSurfacePlotter(MSONable):
             meshes.append(trace)
 
         # plot high symmetry labels
-        # labels = [i.replace(r"\Gamma", "\u0393") for i in self._symmetry_pts[1]]
         labels = ["${}$".format(i) for i in self._symmetry_pts[1]]
         x, y, z = self._symmetry_pts[0].T
         marker_style = dict(size=5, color="black")
@@ -327,6 +341,7 @@ class FermiSurfacePlotter(MSONable):
             margin=go.layout.Margin(l=0, r=0, b=0, t=0)
         )
         fig = go.Figure(data=meshes, layout=layout)
+        fig.update_layout(scene_camera=_get_plotly_camera(azimuth, elevation))
 
         return fig
 
@@ -335,6 +350,8 @@ class FermiSurfacePlotter(MSONable):
         self,
         spin: Optional[Spin] = None,
         colors: Optional[Union[str, dict, list]] = None,
+        azimuth: float = _default_azimuth,
+        elevation: float = _default_elevation,
     ):
         """
         Plot the Fermi surface using mayavi.
@@ -344,6 +361,10 @@ class FermiSurfacePlotter(MSONable):
                 available.
             colors: See the docstring for ``get_isosurfaces_and_colors()`` for the
                 available options.
+            azimuth: The azimuth of the viewpoint in degrees. i.e. the angle subtended
+                by the position vector on a sphere projected on to the x-y plane.
+            elevation: The zenith angle of the viewpoint in degrees, i.e. the angle
+                subtended by the position vector and the z-axis.
 
         Returns:
             mlab figure object.
@@ -368,10 +389,7 @@ class FermiSurfacePlotter(MSONable):
         for coords, label in zip(self._symmetry_pts[0], labels):
             mlabtex(*coords, label, **_mayavi_high_sym_label_style)
 
-        if isinstance(self.reciprocal_space, ReciprocalCell):
-            mlab.view(azimuth=0, elevation=60, distance=8)
-        else:
-            mlab.view(azimuth=235, elevation=60, distance=8)
+        mlab.view(azimuth=azimuth - 180, elevation=elevation - 90, distance="auto")
 
         return mlab
 
@@ -501,7 +519,7 @@ class FermiSlicePlotter(object):
         colors: Optional[Union[str, dict, list]] = "viridis",
     ):
         """
-        Plot the Fermi surface.
+        Plot the Fermi slice.
 
         Args:
             spin: Which spin channel to plot. By default plot both spin channels if
@@ -521,7 +539,7 @@ class FermiSlicePlotter(object):
         import matplotlib.pyplot as plt
         from matplotlib.collections import LineCollection
 
-        fig = plt.figure(figsize=(6, 6))
+        fig = plt.figure(figsize=(4, 4))
         ax = fig.add_subplot(111)
 
         # get a rotation matrix that will align the longest slice length along the
@@ -544,9 +562,9 @@ class FermiSlicePlotter(object):
 
         for coords, label in zip(*self._symmetry_pts):
             coords = np.dot(coords, rotation)
-            ax.scatter(*coords, s=10, c="k")
+            ax.scatter(*coords, s=20, c="k")
             label = label.replace(r"\Gamma", r"$\Gamma$")
-            ax.text(*coords, " " + label, size=15, zorder=1)
+            ax.text(*coords, " " + label, size=18, zorder=10)
 
         ax.autoscale(enable=True)
         ax.axis("equal")
@@ -591,7 +609,7 @@ class FermiSlicePlotter(object):
         return slices, colors
 
 
-def show_plot(plot):
+def show_plot(plot: Any):
     """Display a plot.
 
     Args:
@@ -612,9 +630,7 @@ def show_plot(plot):
 def save_plot(
     plot: Any,
     filename: Union[Path, str],
-    width: float = 6,
-    height: float = 6,
-    dpi: float = 400,
+    scale: float = 4,
 ):
     """Save a plot to file.
 
@@ -622,15 +638,14 @@ def save_plot(
         plot: A plot object from ``FermiSurfacePlotter.get_plot()``. Supports matplotlib
             pyplot objects, plotly figure objects, and mlab figure objects.
         filename: The output filename.
-        width: Image width.
-        height: Image height.
-        dpi: Dots per inch controlling image resolution.
+        scale: Scale for the figure size. Increases resolution but does not change the
+            relative size of the figure and text.
     """
     plot_type = get_plot_type(plot)
     filename = str(filename)
-
     if plot_type == "matplotlib":
-        plot.savefig(filename, dpi=dpi, width=width, height=height)
+        # default dpi is ~100
+        plot.savefig(filename, dpi=scale * 100, bbox_inches="tight")
     elif plot_type == "plotly":
         if kaleido is None:
             raise ValueError(
@@ -640,16 +655,28 @@ def save_plot(
         plot.write_image(
             filename,
             engine="kaleido",
-            scale=dpi/100,
-            width=width * 100,
-            height=height * 100
+            scale=scale,
         )
-
     elif plot_type == "mayavi":
-        plot.savefig(filename, magnification=dpi/100, size=(width * 100, height * 100))
+        plot.savefig(filename, magnification=scale)
 
 
-def get_plot_type(plot) -> str:
+def _get_plotly_camera(azimuth: float, elevation: float) -> Dict[str, Dict[str, float]]:
+    """Get plotly viewpoint from azimuth and elevation."""
+    azimuth = np.radians(azimuth)
+    elevation = np.radians(elevation)
+    norm = np.linalg.norm([1.25, 1.25, 1.25])  # default plotly vector distance
+    x = np.sin(azimuth) * np.cos(elevation) * norm
+    y = np.cos(azimuth) * np.cos(elevation) * norm
+    z = np.sin(elevation) * norm
+    return dict(
+        up=dict(x=0, y=0, z=1),
+        center=dict(x=0, y=0, z=0),
+        eye=dict(x=x, y=y, z=z)
+    )
+
+
+def get_plot_type(plot: Any) -> str:
     """Gets the plot type.
 
     Args:

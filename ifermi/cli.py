@@ -25,13 +25,15 @@ def ifermi(
     interpolation_factor: int = 8,
     decimate_factor: Optional[float] = None,
     mu: float = 0.0,
+    azimuth: float = 45.,
+    elevation: float = 35.,
     wigner_seitz: bool = True,
     spin: Optional["Spin"] = None,
     smooth: bool = False,
     plot_type: str = "plotly",
     slice_info: Optional[Tuple[float, float, float, float]] = None,
     output_filename: Optional[str] = None,
-    dpi: float = 400,
+    scale: float = 4,
 ):
     """Plot Fermi surfaces from a vasprun.xml file.
 
@@ -42,6 +44,10 @@ def ifermi(
             interactive.
         decimate_factor: Scaling factor by which to reduce the number of faces.
         mu: The level above the Fermi energy at which the isosurfaces are to be plotted.
+        azimuth: The azimuth of the viewpoint in degrees. i.e. the angle subtended
+            by the position vector on a sphere projected on to the x-y plane.
+        elevation: The zenith angle of the viewpoint in degrees, i.e. the angle
+            subtended by the position vector and the z-axis.
         wigner_seitz: Controls whether the cell is the Wigner-Seitz cell or the
             reciprocal unit cell parallelepiped.
         spin: The spin channel to plot. By default plots both spin channels. Should be
@@ -54,7 +60,8 @@ def ifermi(
             distance form the plane in fractional coordinates: E.g., ``[1, 0, 0, 0.2]``
             where ``(1, 0, 0)`` are the miller indices and ``0.2`` is the distance from
             the Gamma point.
-        dpi: The dots-per-inch (pixel density) for the image.
+        scale: Scale for the figure size. Increases resolution but does not change the
+            relative size of the figure and text.
 
     Returns:
         The filename written to disk.
@@ -106,13 +113,15 @@ def ifermi(
         plot = plotter.get_plot(spin)
     else:
         plotter = FermiSurfacePlotter(fs)
-        plot = plotter.get_plot(plot_type=plot_type, spin=spin)
+        plot = plotter.get_plot(
+            plot_type=plot_type, spin=spin, azimuth=azimuth, elevation=elevation,
+        )
 
     if output_filename is None:
         show_plot(plot)
     else:
         print("Saving plot to {}".format(output_filename))
-        save_plot(plot, output_filename)
+        save_plot(plot, output_filename, scale=scale)
 
 
 def find_vasprun_file():
@@ -176,6 +185,22 @@ def _get_fs_parser():
         help="select spin channel (options: up, 1; down, -1)",
     )
     parser.add_argument(
+        "-a",
+        "--azimuth",
+        type=float,
+        default=45.,
+        metavar="A",
+        help="viewpoint azmith angle in degrees (default: 45)",
+    )
+    parser.add_argument(
+        "-e",
+        "--elevation",
+        type=float,
+        default=35.,
+        metavar="E",
+        help="viewpoint elevation (zenith) angle in degrees (default: 35)",
+    )
+    parser.add_argument(
         "--smooth",
         action="store_true",
         help="smooth the Fermi surface",
@@ -204,7 +229,7 @@ def _get_fs_parser():
         "faces)",
     )
     parser.add_argument(
-        "--dpi", type=int, default=400, help="pixel density for image file"
+        "--scale", type=float, default=4, help="scale for image resolution (default: 4)"
     )
     return parser
 
@@ -222,12 +247,14 @@ def main():
         decimate_factor=args.decimate_factor,
         mu=args.mu,
         plot_type=args.plot_type,
+        azimuth=args.azimuth,
+        elevation=args.elevation,
         spin=args.spin,
         smooth=args.smooth,
         wigner_seitz=args.wigner_seitz,
         slice_info=args.slice,
         output_filename=args.output_filename,
-        dpi=args.dpi,
+        scale=args.scale,
     )
 
 
