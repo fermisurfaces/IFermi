@@ -13,6 +13,9 @@ from typing import Dict, List, Optional, Tuple
 import numpy as np
 from monty.dev import requires
 from monty.json import MSONable
+
+from ifermi.kpoints import get_kpoint_spacing, get_kpoint_mesh_dim, \
+    get_kpoints_from_bandstructure
 from pymatgen import Spin, Structure
 from pymatgen.electronic_structure.bandstructure import BandStructure
 from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
@@ -92,7 +95,6 @@ class FermiSurface(MSONable):
     def from_band_structure(
         cls,
         band_structure: BandStructure,
-        kpoint_dim: np.ndarray,
         mu: float = 0.0,
         wigner_seitz: bool = False,
         symprec: float = 0.001,
@@ -106,8 +108,6 @@ class FermiSurface(MSONable):
                 Brillouin zone (i.e., not just be the irreducible mesh). Use
                 the ``ifermi.interpolator.Interpolator`` class to expand the k-points to
                 the full Brillouin zone if required.
-            kpoint_dim: The dimension of the grid in reciprocal space on which the
-                energy eigenvalues are defined.
             mu: Energy offset from the Fermi energy at which the iso-surface is
                 calculated.
             wigner_seitz: Controls whether the cell is the Wigner-Seitz cell
@@ -123,7 +123,15 @@ class FermiSurface(MSONable):
             smooth: If True, will smooth resulting isosurface. Requires PyMCubes. See
                 compute_isosurfaces for more information.
         """
-        if np.product(kpoint_dim) != len(band_structure.kpoints):
+        band_structure = deepcopy(band_structure)  # prevent data getting overwritten
+
+        structure = band_structure.structure
+        fermi_level = band_structure.efermi + mu
+        bands = band_structure.bands
+        kpoints = get_kpoints_from_bandstructure(band_structure)
+
+        kpoint_dim = get_kpoint_mesh_dim(kpoints)
+        if np.product(kpoint_dim) != len(kpoints):
             raise ValueError(
                 "Number of k-points ({}) in band structure does not match number of "
                 "k-points expected from mesh dimensions ({})".format(
@@ -131,33 +139,24 @@ class FermiSurface(MSONable):
                 )
             )
 
-        band_structure = deepcopy(band_structure)  # prevent data getting overwritten
-
-        structure = band_structure.structure
-        fermi_level = band_structure.efermi + mu
-        bands = band_structure.bands
-        kpoints = np.array([k.frac_coords for k in band_structure.kpoints])
-
-        # sort k-points to be in the correct order
-        order = np.lexsort((kpoints[:, 2], kpoints[:, 1], kpoints[:, 0]))
-        kpoints = kpoints[order]
-        bands = {s: b[:, order] for s, b in bands.items()}
-
         if wigner_seitz:
             prim = get_prim_structure(structure, symprec=symprec)
             if not np.allclose(prim.lattice.matrix, structure.lattice.matrix, 1e-5):
                 warnings.warn("Structure does not match expected primitive cell")
 
             reciprocal_space = WignerSeitzCell.from_structure(structure)
-            bands, kpoints, kpoint_dim = _expand_bands(bands, kpoints, kpoint_dim)
-
         else:
             reciprocal_space = ReciprocalCell.from_structure(structure)
 
-        kpoint_dim = tuple(kpoint_dim.astype(int))
+        bands, kpoints = expand_bands(
+            bands,
+            kpoints,
+            supercell_dim=(3, 3, 3),
+            center=(1, 1, 1)
+        )
         isosurfaces = compute_isosurfaces(
             bands,
-            kpoint_dim,
+            kpoints,
             fermi_level,
             reciprocal_space,
             decimate_factor=decimate_factor,
@@ -219,7 +218,7 @@ class FermiSurface(MSONable):
 
 def compute_isosurfaces(
     bands: Dict[Spin, np.ndarray],
-    kpoint_dim: Tuple[int, int, int],
+    kpoints: np.ndarray,
     fermi_level: float,
     reciprocal_space: ReciprocalCell,
     decimate_factor: Optional[float] = None,
@@ -232,7 +231,7 @@ def compute_isosurfaces(
     Args:
         bands: The band energies, given as a dictionary of ``{spin: energies}``, where
             energies has the shape (nbands, nkpoints).
-        kpoint_dim: The k-point mesh dimensions.
+        kpoints: The k-points in fractional coordinates.
         fermi_level: The energy at which to calculate the Fermi surface.
         reciprocal_space: The reciprocal space representation.
         decimate_factor: If method is "quadric", factor is the scaling factor by which
@@ -252,7 +251,14 @@ def compute_isosurfaces(
     """
     rlat = reciprocal_space.reciprocal_lattice
 
-    spacing = 1 / (np.array(kpoint_dim) - 1)
+    # sort k-points to be in the correct order
+    order = np.lexsort((kpoints[:, 2], kpoints[:, 1], kpoints[:, 0]))
+    kpoints = kpoints[order]
+    bands = {s: b[:, order] for s, b in bands.items()}
+
+    kpoint_dim = get_kpoint_mesh_dim(kpoints)
+    spacing = get_kpoint_spacing(kpoints)
+    reference = np.min(kpoints, axis=0)
 
     if smooth and mcubes is None:
         smooth = False
@@ -274,10 +280,9 @@ def compute_isosurfaces(
 
                 if smooth:
                     smoothed_band_data = mcubes.smooth(band_data)
-                    # and outputs embedding array with values 0 and 1
                     verts, faces = mcubes.marching_cubes(smoothed_band_data, 0)
                     # have to manually set spacing with PyMCubes
-                    verts = verts * spacing
+                    verts *= spacing
                     # comes out as np.uint64, but trimesh doesn't like this
                     faces = faces.astype(np.int32)
                 else:
@@ -288,12 +293,9 @@ def compute_isosurfaces(
                         verts, faces, decimate_factor, method=decimate_method
                     )
 
-                if isinstance(reciprocal_space, WignerSeitzCell):
-                    verts = np.dot(verts - 0.5, rlat) * 3
-                    verts, faces = _trim_surface(reciprocal_space, verts, faces)
-                else:
-                    # convert coords to cartesian
-                    verts = np.dot(verts - 0.5, rlat)
+                verts += reference
+                verts = np.dot(verts, rlat)
+                verts, faces = trim_surface(reciprocal_space, verts, faces)
 
                 spin_isosurface.append((verts, faces))
 
@@ -302,8 +304,8 @@ def compute_isosurfaces(
     return isosurfaces
 
 
-def _trim_surface(
-    wigner_seitz_cell: WignerSeitzCell, vertices: np.ndarray, faces: np.ndarray
+def trim_surface(
+    reciprocal_cell: ReciprocalCell, vertices: np.ndarray, faces: np.ndarray
 ) -> Tuple[np.ndarray, np.ndarray]:
     """
     Trim the surface to remove parts outside the cell boundaries.
@@ -312,59 +314,50 @@ def _trim_surface(
     surface.
 
     Args:
-        wigner_seitz_cell: The reciprocal space object.
+        reciprocal_cell: The reciprocal space object.
         vertices: The surface vertices.
         faces: The surface faces.
 
     Returns:
         The trimmed surface as a tuple of ``(vertices, faces)``.
     """
-    for center, normal in zip(wigner_seitz_cell.centers, wigner_seitz_cell.normals):
+    for center, normal in zip(reciprocal_cell.centers, reciprocal_cell.normals):
         vertices, faces = slice_faces_plane(vertices, faces, -normal, center)
     return vertices, faces
 
 
-def _expand_bands(
-    bands: Dict[Spin, np.ndarray], frac_kpoints: np.ndarray, kpoint_dim: np.ndarray
-) -> Tuple[Dict[Spin, np.ndarray], np.ndarray, np.ndarray]:
+def expand_bands(
+    bands: Dict[Spin, np.ndarray],
+    frac_kpoints: np.ndarray,
+    supercell_dim: Tuple[int, int, int] = (3, 3, 3),
+    center: Tuple[int, int, int] = (0, 0, 0),
+) -> Tuple[Dict[Spin, np.ndarray], np.ndarray]:
     """
-    Expand the band energies and k-points with periodic boundary conditions to form a
-    3x3x3 supercell.
+    Expand the band energies and k-points with periodic boundary conditions.
 
     Args:
         bands: The band energies, given as a dictionary of ``{spin: energies}``, where
             energies has the shape (nbands, nkpoints).
         frac_kpoints: The fractional k-point coordinates.
-        kpoint_dim: The k-point mesh dimensions.
+        supercell_dim: The supercell mesh dimensions.
+        center: The cell on which the supercell is centered.
 
     Returns:
-        The expanded band energies, k-points, and k-point mesh dimensions.
+        The expanded band energies and k-points.
     """
     final_ebands = {}
-    final_kpoints = None
+    nk = len(frac_kpoints)
+    ncells = np.product(supercell_dim)
+
+    final_kpoints = np.tile(frac_kpoints, (ncells, 1))
+    for n, (i, j, k) in enumerate(np.ndindex(supercell_dim)):
+        final_kpoints[n * nk: (n + 1) * nk] += [i, j, k]
+    final_kpoints -= center
+
     for spin, ebands in bands.items():
-        super_ebands = []
-        images = (-1, 0, 1)
+        final_ebands[spin] = np.tile(ebands, (1, ncells))
 
-        super_kpoints = np.array([], dtype=np.int64).reshape(0, 3)
-        for i, j, k in itertools.product(images, images, images):
-            k_image = frac_kpoints + [i, j, k]
-            super_kpoints = np.concatenate((super_kpoints, k_image), axis=0)
-
-        sort_idx = np.lexsort(
-            (super_kpoints[:, 2], super_kpoints[:, 1], super_kpoints[:, 0])
-        )
-        final_kpoints = super_kpoints[sort_idx]
-
-        for band in ebands:
-            super_band = np.array([], dtype=np.int64)
-            for _ in range(27):
-                super_band = np.concatenate((super_band, band), axis=0)
-            super_ebands.append(super_band[sort_idx])
-
-        final_ebands[spin] = np.array(super_ebands)
-
-    return final_ebands, final_kpoints, kpoint_dim * 3
+    return final_ebands, final_kpoints
 
 
 def get_prim_structure(structure, symprec=0.01) -> Structure:

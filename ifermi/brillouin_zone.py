@@ -63,6 +63,8 @@ class ReciprocalCell(MSONable):
     reciprocal_lattice: np.ndarray
     vertices: np.ndarray
     faces: List[List[int]]
+    centers: np.ndarray
+    normals: np.ndarray
     _edges: Optional[List[Tuple[int, int]]] = field(default=None, init=False)
 
     @classmethod
@@ -96,7 +98,29 @@ class ReciprocalCell(MSONable):
             [1, 5, 7, 3],
         ]
         vertices = np.dot(np.array(vertices) - 0.5, reciprocal_lattice)
-        return cls(reciprocal_lattice, vertices, faces)
+
+        # get the center normals for all faces
+        centers = []
+        normals = []
+        for face in faces:
+            face_verts = vertices[face]
+            center = face_verts.mean(axis=0)
+
+            v1 = face_verts[0] - center
+            for v2 in face_verts[1:]:
+                normal = np.cross(v1, v2 - center)
+                if not np.allclose(normal, 0.0):
+                    break
+
+            if np.dot(center, normal) < 0.0:
+                normal = -normal
+
+            centers.append(center)
+            normals.append(normal)
+
+        centers = np.array(centers)
+        normals = np.array(normals)
+        return cls(reciprocal_lattice, vertices, faces, centers, normals)
 
     @property
     def edges(self) -> List[Tuple[int, int]]:
@@ -168,9 +192,6 @@ class WignerSeitzCell(ReciprocalCell):
         centers: The centers of the faces with the shape ``(n_faces, 3)``.
         normals: The normal vectors to each face with the shape ``(n_faces, 3)``.
     """
-
-    centers: np.ndarray
-    normals: np.ndarray
 
     @classmethod
     def from_structure(cls, structure: Structure) -> "WignerSeitzCell":

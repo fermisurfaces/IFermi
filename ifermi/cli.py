@@ -93,11 +93,10 @@ def ifermi(
     bs = vr.get_band_structure()
 
     interpolator = Interpolator(bs)
-    interp_bs, kpoint_dim = interpolator.interpolate_bands(interpolation_factor)
+    interp_bs = interpolator.interpolate_bands(interpolation_factor)
 
     fs = FermiSurface.from_band_structure(
         interp_bs,
-        kpoint_dim,
         mu=mu,
         wigner_seitz=wigner_seitz,
         decimate_factor=decimate_factor,
