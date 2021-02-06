@@ -12,6 +12,8 @@ import numpy as np
 from matplotlib import cm
 from monty.dev import requires
 from monty.json import MSONable
+
+from ifermi.kpoints import kpoints_to_first_bz
 from pymatgen import Spin
 from pymatgen.symmetry.bandstructure import HighSymmKpath
 from trimesh import transform_points
@@ -700,29 +702,6 @@ def get_plot_type(plot: Any) -> str:
         elif "mayavi" in plot.__name__:
             return "mayavi"
     raise ValueError("Unrecognised plot type.")
-
-
-def kpoints_to_first_bz(kpoints: np.ndarray, tol: float = 1e-5) -> np.ndarray:
-    """Translate fractional k-points to the first Brillouin zone.
-
-    I.e. all k-points will have fractional coordinates:
-        -0.5 <= fractional coordinates < 0.5
-
-    Args:
-        kpoints: The k-points in fractional coordinates.
-        tol: Numerical tolerance.
-
-    Returns:
-        The translated k-points.
-    """
-    kp = kpoints - np.round(kpoints)
-
-    # account for small rounding errors for 0.5
-    round_dp = int(np.log10(1 / tol))
-    krounded = np.round(kp, round_dp)
-
-    kp[krounded == -0.5] = 0.5
-    return kp
 
 
 def _get_random_colors(
