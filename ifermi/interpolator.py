@@ -12,6 +12,8 @@ import numpy as np
 from BoltzTraP2 import fite, sphere
 from BoltzTraP2.units import Angstrom, eV
 from monty.json import MSONable
+
+from ifermi.kpoints import sort_boltztrap_to_spglib
 from pymatgen.electronic_structure.bandstructure import BandStructure
 from pymatgen.io.ase import AseAtomsAdaptor
 from spglib import spglib
@@ -121,7 +123,6 @@ class Interpolator(MSONable):
             )
 
         energies = {}
-        new_vb_idx = {}
         for spin in self._spins:
             ibands = np.any(
                 (self._band_structure.bands[spin] > min_e)
@@ -138,18 +139,6 @@ class Interpolator(MSONable):
 
             # boltztrap2 gives energies in Rydberg, convert to eV
             energies[spin] /= eV
-
-            if not is_metal:
-                vb_energy = self._band_structure.get_vbm()["energy"]
-                spin_bands = self._band_structure.bands[spin]
-                below_vbm = np.any(spin_bands < vb_energy, axis=1)
-                spin_vb_idx = np.max(np.where(below_vbm)[0])
-
-                # need to know the index of the valence band after discounting
-                # bands during the interpolation. As ibands is just a list of
-                # True/False, we can count the number of Trues up to
-                # and including the VBM to get the new number of valence bands
-                new_vb_idx[spin] = sum(ibands[: spin_vb_idx + 1]) - 1
 
         efermi = self._band_structure.efermi
 
@@ -168,7 +157,7 @@ class Interpolator(MSONable):
             kpoints, energies, rlat, efermi, structure=self._structure
         )
 
-        return interp_band_structure, interpolation_mesh
+        return interp_band_structure
 
 
 class DFTData(object):
@@ -201,27 +190,3 @@ class DFTData(object):
         return self.lattice_matrix
 
 
-def sort_boltztrap_to_spglib(kpoints):
-    sort_idx = np.lexsort(
-        (
-            kpoints[:, 2],
-            kpoints[:, 2] < 0,
-            kpoints[:, 1],
-            kpoints[:, 1] < 0,
-            kpoints[:, 0],
-            kpoints[:, 0] < 0,
-        )
-    )
-    boltztrap_kpoints = kpoints[sort_idx]
-
-    sort_idx = np.lexsort(
-        (
-            boltztrap_kpoints[:, 0],
-            boltztrap_kpoints[:, 0] < 0,
-            boltztrap_kpoints[:, 1],
-            boltztrap_kpoints[:, 1] < 0,
-            boltztrap_kpoints[:, 2],
-            boltztrap_kpoints[:, 2] < 0,
-        )
-    )
-    return sort_idx
