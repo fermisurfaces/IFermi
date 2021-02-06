@@ -60,15 +60,17 @@ from ifermi.fermi_surface import FermiSurface
 from ifermi.interpolator import Interpolator
 from ifermi.plotter import FermiSurfacePlotter, show_plot, save_plot
 
-
 vr = Vasprun("vasprun.xml")
 bs = vr.get_band_structure()
 
 # interpolate the energies to a finer k-point mesh
 interpolator = Interpolator(bs)
-dense_bs, kmesh = interpolator.interpolate_bands(interpolation_factor=10)
-    
-fs = FermiSurface.from_band_structure(dense_bs, kmesh, mu=0.0, wigner_seitz=True)
+dense_bs = interpolator.interpolate_bands(interpolation_factor=10)
+
+# generate the Fermi surface
+fs = FermiSurface.from_band_structure(dense_bs, mu=0.0, wigner_seitz=True)
+
+# plot the Fermi surface
 plotter = FermiSurfacePlotter(fs)
 plot = plotter.get_plot(plot_type='plotly')
 
