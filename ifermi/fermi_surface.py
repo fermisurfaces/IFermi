@@ -43,15 +43,15 @@ class FermiSlice(MSONable):
 
     Args:
         slices: The slices for each spin channel. Given as a dictionary of
-            ``{spin: spin_slices}`` where spin_slices is a List of numpy arrays, each
-            with the shape ``(n_lines, 2, 2)``.
+            ``{spin: (spin_slices, band_idx)}`` where spin_slices is a List of numpy
+            arrays, each with the shape ``(n_lines, 2, 2)``.
         reciprocal_slice: The reciprocal slice defining the intersection of the
             plane with the Brillouin zone edges.
         structure: The structure.
 
     """
 
-    slices: Dict[Spin, List[np.ndarray]]
+    slices: Dict[Spin, List[Tuple[np.ndarray, int]]]
     reciprocal_slice: ReciprocalSlice
     structure: Structure
 
@@ -77,13 +77,13 @@ class FermiSurface(MSONable):
 
     Args:
         isosurfaces: A dictionary containing a list of isosurfaces as ``(vertices,
-            faces)`` for each spin channel.
+            faces, band_idx)`` for each spin channel.
         reciprocal_space: The reciprocal space associated with the Fermi surface.
         structure: The structure.
 
     """
 
-    isosurfaces: Dict[Spin, List[Tuple[np.ndarray, np.ndarray]]]
+    isosurfaces: Dict[Spin, List[Tuple[np.ndarray, np.ndarray, int]]]
     reciprocal_space: ReciprocalCell
     structure: Structure
 
@@ -101,6 +101,7 @@ class FermiSurface(MSONable):
         decimate_factor: Optional[float] = None,
         decimate_method: str = "quadric",
         smooth: bool = False,
+        projection: Optional[Dict[Spin, np.ndarray]] = None,
     ) -> "FermiSurface":
         """
         Args:
@@ -122,6 +123,11 @@ class FermiSurface(MSONable):
                 or "cluster".
             smooth: If True, will smooth resulting isosurface. Requires PyMCubes. See
                 compute_isosurfaces for more information.
+            projection: A property to project onto the Fermi surface. It should be
+                given as a dict of ``{spin: projection}``, where projection is numpy
+                array with shape (nbands, nkpoints, ...). The number of bands should
+                equal the number of bands in the band structure but the k-point mesh
+                can be different.
         """
         band_structure = deepcopy(band_structure)  # prevent data getting overwritten
 
@@ -189,10 +195,10 @@ class FermiSurface(MSONable):
         for spin, spin_isosurfaces in self.isosurfaces.items():
             spin_slices = []
 
-            for verts, faces in spin_isosurfaces:
+            for verts, faces, band_idx in spin_isosurfaces:
                 mesh = Trimesh(vertices=verts, faces=faces)
                 lines = mesh_multiplane(mesh, cart_origin, cart_normal, [0])[0][0]
-                spin_slices.append(lines)
+                spin_slices.append((lines, band_idx))
 
             slices[spin] = spin_slices
 
@@ -224,7 +230,7 @@ def compute_isosurfaces(
     decimate_factor: Optional[float] = None,
     decimate_method: str = "quadric",
     smooth: bool = False,
-) -> Dict[Spin, List[Tuple[np.ndarray, np.ndarray]]]:
+) -> Dict[Spin, List[Tuple[np.ndarray, np.ndarray, int]]]:
     """
     Compute the isosurfaces at a particular energy level.
 
@@ -246,8 +252,8 @@ def compute_isosurfaces(
             Gaussian filter.
 
     Returns:
-        A dictionary containing a list of isosurfaces as ``(vertices, faces)`` for
-        each spin channel.
+        A dictionary containing a list of isosurfaces as ``(vertices, faces, band_idx)``
+        for each spin channel.
     """
     rlat = reciprocal_space.reciprocal_lattice
 
@@ -273,31 +279,33 @@ def compute_isosurfaces(
         ebands -= fermi_level
         spin_isosurface = []
 
-        for band in ebands:
-            # check if band crosses fermi level
-            if np.nanmax(band) > 0 > np.nanmin(band):
-                band_data = band.reshape(kpoint_dim)
+        for band_idx, band in enumerate(ebands):
+            if not np.nanmax(band) > 0 > np.nanmin(band):
+                # if band doesn't cross the Fermi level then skip it
+                continue
 
-                if smooth:
-                    smoothed_band_data = mcubes.smooth(band_data)
-                    verts, faces = mcubes.marching_cubes(smoothed_band_data, 0)
-                    # have to manually set spacing with PyMCubes
-                    verts *= spacing
-                    # comes out as np.uint64, but trimesh doesn't like this
-                    faces = faces.astype(np.int32)
-                else:
-                    verts, faces, _, _ = marching_cubes(band_data, 0, spacing=spacing)
+            band_data = band.reshape(kpoint_dim)
 
-                if decimate_factor:
-                    verts, faces = decimate_mesh(
-                        verts, faces, decimate_factor, method=decimate_method
-                    )
+            if smooth:
+                smoothed_band_data = mcubes.smooth(band_data)
+                verts, faces = mcubes.marching_cubes(smoothed_band_data, 0)
+                # have to manually set spacing with PyMCubes
+                verts *= spacing
+                # comes out as np.uint64, but trimesh doesn't like this
+                faces = faces.astype(np.int32)
+            else:
+                verts, faces, _, _ = marching_cubes(band_data, 0, spacing=spacing)
 
-                verts += reference
-                verts = np.dot(verts, rlat)
-                verts, faces = trim_surface(reciprocal_space, verts, faces)
+            if decimate_factor:
+                verts, faces = decimate_mesh(
+                    verts, faces, decimate_factor, method=decimate_method
+                )
 
-                spin_isosurface.append((verts, faces))
+            verts += reference
+            verts = np.dot(verts, rlat)
+            verts, faces = trim_surface(reciprocal_space, verts, faces)
+
+            spin_isosurface.append((verts, faces, band_idx))
 
         isosurfaces[spin] = spin_isosurface
 
