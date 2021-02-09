@@ -1,9 +1,9 @@
 <p align="center">
-  <img alt="IFermi logo" src="https://raw.githubusercontent.com/ajsearle97/IFermi/master/docs/src/_static/logo-01.png" height="190px">
+  <img alt="IFermi logo" src="https://raw.githubusercontent.com/fermisurfaces/IFermi/master/docs/src/_static/logo-01.png" height="190px">
 </p>
 
 <p align="center">
-    📖📖 <a href="https://ajsearle97.github.io/IFermi">Online Documentation</a> 📖📖
+    📖📖 <a href="https://fermisurfaces.github.io/IFermi">Online Documentation</a> 📖📖
 </p>
 
 IFermi is a package for plotting Fermi surfaces and from *ab initio* calculation outputs. 
@@ -20,12 +20,12 @@ will be added in the future.
 
 An example of the Fermi surface and a two-dimensional slice for MgB<sub>2</sub> is shown below:
 
-![MgB2](https://raw.githubusercontent.com/ajsearle97/IFermi/master/docs/src/_static/fermi_surface_example-01.png)
+![MgB2](https://raw.githubusercontent.com/fermisurfaces/IFermi/master/docs/src/_static/fermi_surface_example-01.png)
 
 
 ## Usage
 
-The [online documentation](https://ajsearle97.github.io/IFermi/cli.html) provides a full 
+The [online documentation](https://fermisurfaces.github.io/IFermi/cli.html) provides a full 
 description of the available options. To summarise, three-dimensional Fermi surfaces can
 be plotted from a `vasprun.xml` file using:
 
@@ -43,7 +43,7 @@ ifermi --slice A B C d
 ### Python interface
 
 Alternatively, IFermi can be controlled using the Python API. A full summary of the API
-is given in the [API introduction page](https://ajsearle97.github.io/IFermi/plotting_using_python.html) in the documentation.
+is given in the [API introduction page](https://fermisurfaces.github.io/IFermi/plotting_using_python.html) in the documentation.
 
 The core classes in IFermi are:
 
@@ -96,12 +96,12 @@ open-source python packages, specifically:
 ## What’s new?
 
 Track changes to IFermi through the
-[changelog](https://ajsearle97.github.io/IFermi/changelog.html).
+[changelog](https://fermisurfaces.github.io/IFermi/changelog.html).
 
 ## Contributing
 
 We greatly appreciate any contributions in the form of Pull Request.
-We maintain a list of all contributors [here](https://ajsearle97.github.io/IFermi/contributors.html).
+We maintain a list of all contributors [here](https://fermisurfaces.github.io/IFermi/contributors.html).
 
 ## License
 
