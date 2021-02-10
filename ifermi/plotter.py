@@ -1,14 +1,14 @@
 """
 This module implements plotters for Fermi surfaces and Fermi slices.
 """
+import warnings
 from dataclasses import dataclass
-
-from matplotlib.colors import Colormap
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from matplotlib import cm
+from matplotlib.colors import Colormap, Normalize
 from monty.dev import requires
 from monty.json import MSONable
 from pymatgen import Spin
@@ -16,6 +16,7 @@ from pymatgen.symmetry.bandstructure import HighSymmKpath
 from trimesh import transform_points
 
 from ifermi.brillouin_zone import ReciprocalCell, ReciprocalSlice
+from ifermi.defaults import AZIMUTH, COLORMAP, ELEVATION, SCALE, SYMPREC, VECTOR_SPACING
 from ifermi.fermi_surface import FermiSlice, FermiSurface
 from ifermi.kpoints import kpoints_to_first_bz
 
@@ -82,10 +83,6 @@ _mayavi_rs_style = {
     "tube_radius": 0.005,
     "representation": "surface",
 }
-_default_azimuth = 45.0
-_default_elevation = 35.0
-_default_vector_spacing = 0.2
-_default_colormap = "viridis"
 
 
 @dataclass
@@ -107,19 +104,21 @@ class FermiSurfacePlotter(MSONable):
     Class to plot a FermiSurface.
     """
 
-    def __init__(self, fermi_surface: FermiSurface):
+    def __init__(self, fermi_surface: FermiSurface, symprec: float = SYMPREC):
         """
         Args:
             fermi_surface: A FermiSurface object.
+            symprec: The symmetry precision in Angstrom for determining the high
+                symmetry k-point labels.
         """
         self.fermi_surface = fermi_surface
         self.reciprocal_space = fermi_surface.reciprocal_space
         self.rlat = self.reciprocal_space.reciprocal_lattice
-        self._symmetry_pts = self.get_symmetry_points(fermi_surface)
+        self._symmetry_pts = self.get_symmetry_points(fermi_surface, symprec=symprec)
 
     @staticmethod
     def get_symmetry_points(
-        fermi_surface: FermiSurface, symprec: float = 1e-3
+        fermi_surface: FermiSurface, symprec: float = SYMPREC
     ) -> Tuple[np.ndarray, List[str]]:
         """
         Get the high symmetry k-points and labels for the Fermi surface.
@@ -134,6 +133,11 @@ class FermiSurfacePlotter(MSONable):
         hskp = HighSymmKpath(fermi_surface.structure, symprec=symprec)
         labels, kpoints = list(zip(*hskp.kpath["kpoints"].items()))
 
+        if not np.allclose(
+            hskp.prim.lattice.matrix, fermi_surface.structure.lattice.matrix, 1e-5
+        ):
+            warnings.warn("Structure does not match expected primitive cell")
+
         if isinstance(fermi_surface.reciprocal_space, ReciprocalCell):
             kpoints = kpoints_to_first_bz(np.array(kpoints))
 
@@ -146,12 +150,12 @@ class FermiSurfacePlotter(MSONable):
         plot_type: str = "plotly",
         spin: Optional[Spin] = None,
         colors: Optional[Union[str, dict, list]] = None,
-        azimuth: float = _default_azimuth,
-        elevation: float = _default_elevation,
+        azimuth: float = AZIMUTH,
+        elevation: float = ELEVATION,
         color_projection: Union[str, bool] = True,
         vector_projection: Union[str, bool] = False,
         projection_axis: Optional[Tuple[int, int, int]] = None,
-        vector_spacing: float = _default_vector_spacing,
+        vector_spacing: float = VECTOR_SPACING,
         cmin: Optional[float] = None,
         cmax: Optional[float] = None,
         vnorm: Optional[float] = None,
@@ -244,7 +248,7 @@ class FermiSurfacePlotter(MSONable):
         if plot_type == "matplotlib":
             plot = self.get_matplotlib_plot(plot_data, **plot_kwargs)
         elif plot_type == "plotly":
-            plot = self.get_plotly_plot(plot_data, **plot_kwargs)
+            plot = self.get_plotly_plot(plot_data)
         elif plot_type == "mayavi":
             plot = self.get_mayavi_plot(plot_data, **plot_kwargs)
         elif plot_type == "crystal_toolkit":
@@ -258,13 +262,13 @@ class FermiSurfacePlotter(MSONable):
     def _get_plot_data(
         self,
         spin: Optional[Spin] = None,
-        azimuth: float = _default_azimuth,
-        elevation: float = _default_elevation,
+        azimuth: float = AZIMUTH,
+        elevation: float = ELEVATION,
         colors: Optional[Union[str, dict, list]] = None,
         color_projection: Union[str, bool] = True,
         vector_projection: Union[str, bool] = False,
         projection_axis: Optional[Tuple[int, int, int]] = None,
-        vector_spacing: float = _default_vector_spacing,
+        vector_spacing: float = VECTOR_SPACING,
         cmin: Optional[float] = None,
         cmax: Optional[float] = None,
         vnorm: Optional[float] = None,
@@ -295,37 +299,36 @@ class FermiSurfacePlotter(MSONable):
             # cmin and cmax. These are also be used for arrows and it is critical that
             # cmin and cmax are the same for projections and arrow color scales (even
             # if the colormap used is different)
-            projections, projection_colormap = _get_face_projections(
-                self.fermi_surface, spin, projection_axis=projection_axis
+            projections = _get_face_projections(
+                self.fermi_surface, spin, projection_axis
             )
             if isinstance(color_projection, str):
                 projection_colormap = cm.get_cmap(color_projection)
             else:
-                projection_colormap = cm.get_cmap(_default_colormap)
-            cmin, cmax = get_projection_limits(projections)
+                projection_colormap = cm.get_cmap(COLORMAP)
+            cmin, cmax = _get_projection_limits(projections, cmin, cmax)
 
-        if not color_projection:
+        colors = None
+        if not color_projection or self.fermi_surface.projections is None:
             colors = get_isosurface_colors(colors, self.fermi_surface.isosurfaces, spin)
             projections = []
             cmin = None
             cmax = None
-        else:
-            colors = None
 
         arrows = []
         arrow_colormap = None
-        if vector_projection is not None and self.fermi_surface.projections is not None:
+        if vector_projection and self.fermi_surface.projections is not None:
             arrows = _get_arrows(
                 self.fermi_surface,
                 spin,
-                projection_axis=projection_axis,
-                vector_spacing=vector_spacing,
-                vnorm=vnorm,
+                vector_spacing,
+                vnorm,
+                projection_axis,
             )
             if isinstance(vector_projection, str):
                 arrow_colormap = cm.get_cmap(vector_projection)
             else:
-                arrow_colormap = cm.get_cmap(_default_colormap)
+                arrow_colormap = cm.get_cmap(COLORMAP)
 
         return FermiSurfacePlotData(
             isosurfaces=isosurfaces,
@@ -341,9 +344,7 @@ class FermiSurfacePlotter(MSONable):
         )
 
     def get_matplotlib_plot(
-        self,
-        plot_data: FermiSurfacePlotData,
-        bz_linewidth: float = 0.9,
+        self, plot_data: FermiSurfacePlotData, bz_linewidth: float = 0.9,
     ):
         """
         Plot the Fermi surface using matplotlib.
@@ -403,19 +404,14 @@ class FermiSurfacePlotter(MSONable):
         import plotly.graph_objs as go
         from plotly.offline import init_notebook_mode
 
-        init_notebook_mode(connected=True)
+        # init_notebook_mode(connected=True)
 
-        if isinstance(colors, np.ndarray):
-            colors = (colors * 255).astype(int)
-            colors = ["rgb({},{},{})".format(*c) for c in colors]
-
-        # create a mesh for each electron band which has an isosurfaces at the Fermi
-        # energy mesh data is generated by a marching cubes algorithm when the
-        # FermiSurface object is created.
         meshes = []
         if plot_data.projections:
-            cmin, cmax = get_projection_limits(plot_data.projections)
-            for (verts, faces, _), face_projections in zip(plot_data.isosurfaces, plot_data.projections):
+            colorscale = cmap_to_plotly(plot_data.projection_colormap)
+            for (verts, faces, _), proj in zip(
+                plot_data.isosurfaces, plot_data.projections
+            ):
                 x, y, z = verts.T
                 i, j, k = faces.T
                 trace = go.Mesh3d(
@@ -426,23 +422,29 @@ class FermiSurfacePlotter(MSONable):
                     i=i,
                     j=j,
                     k=k,
-                    intensity=face_projections,
-                    colorscale=colors,
-                    intensitymode='cell',
-                    cmin=cmin,
-                    cmax=cmax
+                    intensity=proj,
+                    colorscale=colorscale,
+                    intensitymode="cell",
+                    cmin=plot_data.cmin,
+                    cmax=plot_data.cmax,
                 )
                 meshes.append(trace)
         else:
-            for c, (verts, faces, band_idx) in zip(colors, plot_data.isosurfaces):
+            for c, (verts, faces, band_idx) in zip(
+                plot_data.colors, plot_data.isosurfaces
+            ):
+                c = rgb_to_plotly(c)
                 x, y, z = verts.T
                 i, j, k = faces.T
                 trace = go.Mesh3d(x=x, y=y, z=z, color=c, opacity=1, i=i, j=j, k=k)
                 meshes.append(trace)
 
-        for starts, ends, arrow_colors in plot_data.arrows:
-            for start, end, arrow_color in zip(starts, ends, arrow_colors):
-                meshes.extend(plotly_arrow(start, end, arrow_color))
+        if plot_data.arrows is not None:
+            norm = Normalize(vmin=plot_data.cmin, vmax=plot_data.cmax)
+            for starts, ends, intensities in plot_data.arrows:
+                arrow_colors = plot_data.arrow_colormap(norm(intensities))
+                for start, end, color in zip(starts, ends, arrow_colors):
+                    meshes.extend(plotly_arrow(start, end, color[:3]))
 
         # add the cell outline to the plot
         for line in self.reciprocal_space.lines:
@@ -476,13 +478,7 @@ class FermiSurfacePlotter(MSONable):
         return fig
 
     @requires(mlab, "mayavi option requires mayavi to be installed.")
-    def get_mayavi_plot(
-        self,
-        spin: Optional[Spin] = None,
-        colors: Optional[Union[str, dict, list]] = None,
-        azimuth: float = _default_azimuth,
-        elevation: float = _default_elevation,
-    ):
+    def get_mayavi_plot(self, plot_data: FermiSurfacePlotData):
         """
         Plot the Fermi surface using mayavi.
 
@@ -531,8 +527,6 @@ class FermiSurfacePlotter(MSONable):
         spin: Optional[Spin] = None,
         colors: Optional[Union[str, dict, list]] = None,
         opacity: float = 1.0,
-        azimuth: float = _default_azimuth,
-        elevation: float = _default_elevation,
     ) -> "Scene":
         """
         Get a crystal toolkit Scene showing the Fermi surface. The Scene can be
@@ -561,9 +555,7 @@ class FermiSurfacePlotter(MSONable):
 
         scene_contents = []
 
-        isosurfaces, colors = self._get_plot_data(
-            spin=spin, colors=colors
-        )
+        isosurfaces, colors = self._get_plot_data(spin=spin, colors=colors)
 
         if isinstance(colors, np.ndarray):
             colors = (colors * 255).astype(int)
@@ -609,30 +601,40 @@ class FermiSlicePlotter(object):
     Class to plot 2D slices through a FermiSurface.
     """
 
-    def __init__(self, fermi_slice: FermiSlice):
+    def __init__(self, fermi_slice: FermiSlice, symprec: float = SYMPREC):
         """
         Initialize a FermiSurfacePlotter.
 
         Args:
             fermi_slice: A slice through a Fermi surface.
+            symprec: The symmetry precision in Angstrom for determining the high
+                symmetry k-point labels.
         """
         self.fermi_slice = fermi_slice
         self.reciprocal_slice = fermi_slice.reciprocal_slice
-        self._symmetry_pts = self.get_symmetry_points(fermi_slice)
+        self._symmetry_pts = self.get_symmetry_points(fermi_slice, symprec=symprec)
 
     @staticmethod
-    def get_symmetry_points(fermi_slice: FermiSlice) -> Tuple[np.ndarray, List[str]]:
+    def get_symmetry_points(
+        fermi_slice: FermiSlice, symprec: float = SYMPREC
+    ) -> Tuple[np.ndarray, List[str]]:
         """
         Get the high symmetry k-points and labels for the Fermi slice.
 
         Args:
             fermi_slice: A fermi slice.
+            symprec: The symmetry precision in Angstrom.
 
         Returns:
             The high symmetry k-points and labels for points that lie on the slice.
         """
-        hskp = HighSymmKpath(fermi_slice.structure)
+        hskp = HighSymmKpath(fermi_slice.structure, symprec=symprec)
         labels, kpoints = list(zip(*hskp.kpath["kpoints"].items()))
+
+        if not np.allclose(
+            hskp.prim.lattice.matrix, fermi_slice.structure.lattice.matrix, 1e-5
+        ):
+            warnings.warn("Structure does not match expected primitive cell")
 
         if isinstance(fermi_slice.reciprocal_slice.reciprocal_space, ReciprocalCell):
             kpoints = kpoints_to_first_bz(np.array(kpoints))
@@ -652,7 +654,7 @@ class FermiSlicePlotter(object):
     def get_plot(
         self,
         spin: Optional[Spin] = None,
-        colors: Optional[Union[str, dict, list]] = _default_colormap,
+        colors: Optional[Union[str, dict, list]] = COLORMAP,
     ):
         """
         Plot the Fermi slice.
@@ -761,7 +763,7 @@ def show_plot(plot: Any):
         plot.show()
 
 
-def save_plot(plot: Any, filename: Union[Path, str], scale: float = 4):
+def save_plot(plot: Any, filename: Union[Path, str], scale: float = SCALE):
     """Save a plot to file.
 
     Args:
@@ -785,19 +787,6 @@ def save_plot(plot: Any, filename: Union[Path, str], scale: float = 4):
         plot.write_image(filename, engine="kaleido", scale=scale)
     elif plot_type == "mayavi":
         plot.savefig(filename, magnification=scale)
-
-
-def _get_plotly_camera(azimuth: float, elevation: float) -> Dict[str, Dict[str, float]]:
-    """Get plotly viewpoint from azimuth and elevation."""
-    azimuth = np.radians(azimuth)
-    elevation = np.radians(elevation)
-    norm = np.linalg.norm([1.25, 1.25, 1.25])  # default plotly vector distance
-    x = np.sin(azimuth) * np.cos(elevation) * norm
-    y = np.cos(azimuth) * np.cos(elevation) * norm
-    z = np.sin(elevation) * norm
-    return dict(
-        up=dict(x=0, y=0, z=1), center=dict(x=0, y=0, z=0), eye=dict(x=x, y=y, z=z)
-    )
 
 
 def get_plot_type(plot: Any) -> str:
@@ -874,52 +863,45 @@ def get_isosurface_colors(
         return [i[:3] for i in cm.get_cmap(colors)(np.linspace(0, 1, n_objects))]
 
     else:
-        from plotly.colors import qualitative, unlabel_rgb, unconvert_from_RGB_255
+        from plotly.colors import qualitative, unconvert_from_RGB_255, unlabel_rgb
+
         cc = qualitative.Prism * (len(qualitative.Prism) // n_objects + 1)
         return [unconvert_from_RGB_255(unlabel_rgb(c)) for c in cc[:n_objects]]
 
 
-def plotly_arrow(start: np.ndarray, stop: np.ndarray, color: np.ndarray) -> Tuple[Any, Any]:
-    import plotly.graph_objs as go
-    cone_length = 0.08
+def resample_mesh(
+    vertices: np.ndarray, faces: np.ndarray, grid_size: float
+) -> np.ndarray:
+    """
+    Resample the mesh uniformly.
 
-    vector = stop - start
-    vector /= np.linalg.norm(vector)
+    The algorithm is a custom approach that:
 
-    color = color_to_plotly(color)
-    colorscale = [[0, color], [1, color]]
+    1. Splits the mesh into a uniform grid with block sizes determined by ``grid_size``.
+    2. For each cell in the grid, finds wether the center of any faces falls within the
+       cell.
+    3. If multiple face centers fall within the cell, it picks the closest one to the
+       center of the cell. If no face centers fall within the cell then the cell is
+       ignored.
+    4. Returns the indices of all the faces that have been selected.
 
-    line = go.Scatter3d(
-        x=[start[0], stop[0]],
-        y=[start[1], stop[1]],
-        z=[start[2], stop[2]],
-        mode="lines",
-        line={"width": 6, "color": color},
-        showlegend=False
-    )
-    cone = go.Cone(
-        x=[stop[0]],
-        y=[stop[1]],
-        z=[stop[2]],
-        u=[vector[0]],
-        v=[vector[1]],
-        w=[vector[2]],
-        showscale=False,
-        colorscale=colorscale,
-        sizemode="absolute",
-        sizeref=cone_length,
-        anchor="cm"
-    )
-    return line, cone
+    This algorithm is not well optimised for small grid sizes.
 
+    Args:
+        vertices: The mesh vertices.
+        faces: The mesh faces.
+        grid_size: The grid size.
 
-def resample_mesh(vertices: np.ndarray, faces: np.ndarray, grid_size: float):
+    Returns:
+        The indices of the faces that are uniformly spaced.
+    """
+
     face_verts = vertices[faces]
     centers = face_verts.mean(axis=1)
     min_coords = np.min(centers, axis=0)
     max_coords = np.max(centers, axis=0)
 
-    lengths = (max_coords - min_coords)
+    lengths = max_coords - min_coords
     min_coords -= lengths * 0.2
     max_coords += lengths * 0.2
 
@@ -933,7 +915,7 @@ def resample_mesh(vertices: np.ndarray, faces: np.ndarray, grid_size: float):
         cell_min = min_coords + cell_image * grid_size
         cell_max = min_coords + (cell_image + 1) * grid_size
 
-        # find centers that fall within the
+        # find centers that fall within the cell
         within = np.all(centers > cell_min, axis=1) & np.all(centers < cell_max, axis=1)
 
         if not np.any(within):
@@ -954,7 +936,7 @@ def resample_mesh(vertices: np.ndarray, faces: np.ndarray, grid_size: float):
 def _get_face_projections(
     fermi_surface: FermiSurface,
     spins: List[Spin],
-    projection_axis: Optional[np.ndarray] = None,
+    projection_axis: Optional[np.ndarray],
 ) -> List[np.ndarray]:
     """
     Get projections and projections colormap.
@@ -990,9 +972,9 @@ def _get_face_projections(
 def _get_arrows(
     fermi_surface: FermiSurface,
     spins: List[Spin],
-    vector_spacing: float = _default_vector_spacing,
-    vnorm: Optional[float] = None,
-    projection_axis: Optional[np.ndarray] = None,
+    vector_spacing,
+    vnorm: Optional[float],
+    projection_axis: Optional[np.ndarray],
 ) -> List[Tuple[np.ndarray, np.ndarray, np.ndarray]]:
     """
     Get arrows from vector projections.
@@ -1026,8 +1008,7 @@ def _get_arrows(
     vectors = []
     for spin in spins:
         for (vertices, faces, _), iso_projections in zip(
-            fermi_surface.isosurfaces[spin],
-            fermi_surface.projections[spin]
+            fermi_surface.isosurfaces[spin], fermi_surface.projections[spin]
         ):
             if iso_projections.ndim != 2:
                 continue
@@ -1066,11 +1047,22 @@ def _get_arrows(
     return arrows
 
 
-def get_projection_limits(
+def _get_projection_limits(
     projections: List[np.ndarray],
-    cmin: Optional[float] = None,
-    cmax: Optional[float] = None
+    cmin: Optional[float],
+    cmax: Optional[float],
 ) -> Tuple[float, float]:
+    """
+    Get the min and max projections if they are not already set.
+
+    Args:
+        projections: The projections for each Fermi surface as a list of numpy arrays.
+        cmin: A minimum value that overrides the one extracted from the projections.
+        cmax: A maximum value that overrides the one extracted from the projections.
+
+    Returns:
+        The projection limits as a tuple of (min, max).
+    """
     if cmax is None:
         cmax = np.max([np.max(x) for x in projections])
 
@@ -1080,10 +1072,92 @@ def get_projection_limits(
     return cmin, cmax
 
 
-def color_to_plotly(color):
-    if isinstance(color, (tuple, list)):
-        color = "rgb({},{},{})".format(*(np.array(color) * 255).astype(int))
-    return color
+def _get_plotly_camera(azimuth: float, elevation: float) -> Dict[str, Dict[str, float]]:
+    """Get plotly viewpoint from azimuth and elevation."""
+    azimuth = np.radians(azimuth)
+    elevation = np.radians(elevation)
+    norm = np.linalg.norm([1.25, 1.25, 1.25])  # default plotly vector distance
+    x = np.sin(azimuth) * np.cos(elevation) * norm
+    y = np.cos(azimuth) * np.cos(elevation) * norm
+    z = np.sin(elevation) * norm
+    return dict(
+        up=dict(x=0, y=0, z=1), center=dict(x=0, y=0, z=0), eye=dict(x=x, y=y, z=z)
+    )
+
+
+def plotly_arrow(
+    start: np.ndarray, stop: np.ndarray, color: Tuple[float, float, float]
+) -> Tuple[Any, Any]:
+    """
+    Create an arrow object.
+
+    Args:
+        start: The starting coordinates.
+        stop: The ending coordinates.
+        color: The arrow color in rgb format as a tuple of floats from 0 to 1.
+
+    Returns:
+        The arrow, formed by a line and cone.
+    """
+    import plotly.graph_objs as go
+
+    cone_length = 0.08  # magic cone length
+    vector = (stop - start) / np.linalg.norm(stop - start)
+    color = rgb_to_plotly(color)
+
+    line = go.Scatter3d(
+        x=[start[0], stop[0]],
+        y=[start[1], stop[1]],
+        z=[start[2], stop[2]],
+        mode="lines",
+        line={"width": 6, "color": color},
+        showlegend=False,
+    )
+    cone = go.Cone(
+        x=[stop[0]],
+        y=[stop[1]],
+        z=[stop[2]],
+        u=[vector[0]],
+        v=[vector[1]],
+        w=[vector[2]],
+        showscale=False,
+        colorscale=[[0, color], [1, color]],
+        sizemode="absolute",
+        sizeref=cone_length,
+        anchor="cm",
+    )
+    return line, cone
+
+
+def rgb_to_plotly(color: Tuple[float, float, float]) -> str:
+    """
+    Gets a plotly formatted color from rgb values.
+
+    Args:
+        color: The color in rgb format as a tuple of three floats from 0 to 1.
+
+    Returns:
+        The plotly formatted color.
+    """
+    from plotly.colors import convert_to_RGB_255, label_rgb
+
+    return label_rgb(convert_to_RGB_255(color))
+
+
+def cmap_to_plotly(colormap: Colormap) -> List[str]:
+    """
+    Convert a matplotlib colormap to plotly colorscale format.
+
+    Args:
+        colormap: A matplotlib colormap object.
+
+    Returns:
+        The equivalent plotly colorscale.
+    """
+    from plotly.colors import make_colorscale
+
+    rgb_colors = colormap(np.linspace(0, 1, 255))[:, :3]
+    return make_colorscale([rgb_to_plotly(color) for color in rgb_colors])
 
 
 def _get_rotation(reciprocal_slice: ReciprocalSlice) -> np.ndarray:
