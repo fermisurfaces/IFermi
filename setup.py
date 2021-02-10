@@ -48,6 +48,7 @@ setup(
         "plotly",
         "pyfftw",
         "psutil",
+        "click",
     ],
     extras_require={
         "mayavi": ["mayavi", "mlabtex", "vtk"],
@@ -69,5 +70,5 @@ setup(
         ':python_version < "3.7"': ["dataclasses>=0.6"],
     },
     data_files=["LICENSE"],
-    entry_points={"console_scripts": ["ifermi = ifermi.cli:main"]},
+    entry_points={"console_scripts": ["ifermi = ifermi.cli:cli"]},
 )
