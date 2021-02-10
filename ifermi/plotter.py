@@ -1081,7 +1081,6 @@ def _get_arrows(
                 # get projections intensity from projections of the vector onto axis
                 intensity.append(np.dot(iso_projections, projection_axis))
 
-    # get vector norm
     if vnorm is None:
         vnorm = np.max([np.max(x) for x in norms])
 
@@ -1090,7 +1089,6 @@ def _get_arrows(
         face_vectors *= 0.14 / vnorm  # 0.14 is magic scaling factor for vector length
         start = face_centers - face_vectors / 2
         stop = start + face_vectors
-        # color = cmap((face_intensity - cmin) / (cmax - cmin))
         arrows.append((start, stop, face_intensity))
 
     return arrows
