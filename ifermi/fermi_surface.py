@@ -4,7 +4,6 @@ from Pymatgen bandstrucutre objects. The iso-surfaces are found using the
 Scikit-image package.
 """
 
-import itertools
 import warnings
 from copy import deepcopy
 from dataclasses import dataclass
@@ -13,9 +12,6 @@ from typing import Dict, List, Optional, Tuple
 import numpy as np
 from monty.dev import requires
 from monty.json import MSONable
-
-from ifermi.kpoints import get_kpoint_spacing, get_kpoint_mesh_dim, \
-    get_kpoints_from_bandstructure
 from pymatgen import Spin, Structure
 from pymatgen.electronic_structure.bandstructure import BandStructure
 from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
@@ -24,6 +20,13 @@ from trimesh import Trimesh
 from trimesh.intersections import mesh_multiplane, slice_faces_plane
 
 from ifermi.brillouin_zone import ReciprocalCell, ReciprocalSlice, WignerSeitzCell
+from ifermi.interpolator import PeriodicLinearInterpolator
+from ifermi.kpoints import (
+    get_kpoint_mesh_dim,
+    get_kpoint_spacing,
+    get_kpoints_from_bandstructure,
+    kpoints_to_first_bz,
+)
 
 try:
     import mcubes
@@ -80,12 +83,18 @@ class FermiSurface(MSONable):
             faces, band_idx)`` for each spin channel.
         reciprocal_space: The reciprocal space associated with the Fermi surface.
         structure: The structure.
+        projections: A property projected onto the surface. The projections is given
+            for each face of the Fermi surface. It should be provided as a dict of
+            ``{spin: projections}``, where projections is a list of numpy arrays with the
+            shape (nfaces, ...), for each surface in ``isosurfaces`. The projections can
+            be a scalar or vector property.
 
     """
 
     isosurfaces: Dict[Spin, List[Tuple[np.ndarray, np.ndarray, int]]]
     reciprocal_space: ReciprocalCell
     structure: Structure
+    projections: Optional[Dict[Spin, List[np.ndarray]]] = None
 
     @property
     def n_surfaces(self) -> int:
@@ -101,7 +110,8 @@ class FermiSurface(MSONable):
         decimate_factor: Optional[float] = None,
         decimate_method: str = "quadric",
         smooth: bool = False,
-        projection: Optional[Dict[Spin, np.ndarray]] = None,
+        projection_data: Optional[Dict[Spin, np.ndarray]] = None,
+        projection_kpoints: Optional[np.ndarray] = None,
     ) -> "FermiSurface":
         """
         Args:
@@ -123,11 +133,14 @@ class FermiSurface(MSONable):
                 or "cluster".
             smooth: If True, will smooth resulting isosurface. Requires PyMCubes. See
                 compute_isosurfaces for more information.
-            projection: A property to project onto the Fermi surface. It should be
-                given as a dict of ``{spin: projection}``, where projection is numpy
+            projection_data: A property to project onto the Fermi surface. It should be
+                given as a dict of ``{spin: projections}``, where projections is numpy
                 array with shape (nbands, nkpoints, ...). The number of bands should
                 equal the number of bands in the band structure but the k-point mesh
-                can be different.
+                can be different. Must be used in combination with
+                ``kpoints``.
+            projection_kpoints: The k-points on which the data is generated.
+                Must be used in combination with ``data``.
         """
         band_structure = deepcopy(band_structure)  # prevent data getting overwritten
 
@@ -155,10 +168,7 @@ class FermiSurface(MSONable):
             reciprocal_space = ReciprocalCell.from_structure(structure)
 
         bands, kpoints = expand_bands(
-            bands,
-            kpoints,
-            supercell_dim=(3, 3, 3),
-            center=(1, 1, 1)
+            bands, kpoints, supercell_dim=(3, 3, 3), center=(1, 1, 1)
         )
         isosurfaces = compute_isosurfaces(
             bands,
@@ -170,7 +180,18 @@ class FermiSurface(MSONable):
             smooth=smooth,
         )
 
-        return cls(isosurfaces, reciprocal_space, structure)
+        face_projections = None
+        if projection_data is not None and projection_kpoints is not None:
+            face_projections = get_fermi_surface_projection(
+                projection_data,
+                projection_kpoints,
+                isosurfaces,
+                band_structure.structure,
+            )
+        elif projection_data or projection_kpoints:
+            raise ValueError("Both data and kpoints must be specified.")
+
+        return cls(isosurfaces, reciprocal_space, structure, face_projections)
 
     def get_fermi_slice(
         self, plane_normal: Tuple[int, int, int], distance: float = 0
@@ -213,12 +234,20 @@ class FermiSurface(MSONable):
         """Returns FermiSurface object from dict."""
         fs = super().from_dict(d)
         fs.isosurfaces = {Spin(int(k)): v for k, v in fs.isosurfaces.items()}
+
+        if fs.projections:
+            fs.projections = {Spin(int(k)): v for k, v in fs.projections.items()}
+
         return fs
 
     def as_dict(self) -> dict:
         """Get a json-serializable dict representation of FermiSurface."""
         d = super().as_dict()
         d["isosurfaces"] = {str(spin): iso for spin, iso in self.isosurfaces.items()}
+
+        if self.projections:
+            d["projections"] = {str(k): v for k, v in self.projections.items()}
+
         return d
 
 
@@ -359,7 +388,7 @@ def expand_bands(
 
     final_kpoints = np.tile(frac_kpoints, (ncells, 1))
     for n, (i, j, k) in enumerate(np.ndindex(supercell_dim)):
-        final_kpoints[n * nk: (n + 1) * nk] += [i, j, k]
+        final_kpoints[n * nk : (n + 1) * nk] += [i, j, k]
     final_kpoints -= center
 
     for spin, ebands in bands.items():
@@ -381,6 +410,55 @@ def get_prim_structure(structure, symprec=0.01) -> Structure:
     """
     analyzer = SpacegroupAnalyzer(structure, symprec=symprec)
     return analyzer.get_primitive_standard_structure()
+
+
+def get_fermi_surface_projection(
+    data: Dict[Spin, np.ndarray],
+    kpoints: np.ndarray,
+    isosurfaces: Dict[Spin, List[Tuple[np.ndarray, np.ndarray, int]]],
+    structure: Structure,
+) -> Dict[Spin, List[np.ndarray]]:
+    """
+    Interpolate projections data onto the Fermi surfaces.
+
+    Args:
+        data: A property to project onto the Fermi surface. It should be
+            given as a dict of ``{spin: projections}``, where projections is numpy
+            array with shape (nbands, nkpoints, ...). The number of bands should
+            equal the number of bands used to generate the isosurfaces and the number
+            of k-points must match ``projection_kpoints``. The projections can be a
+            scalar or multidimensional property.
+        kpoints: The k-points on which the projection_data is generated.
+        isosurfaces: A dictionary containing a list of isosurfaces as ``(vertices,
+            faces, band_idx)`` for each spin channel.
+        structure: The structure associated with the isosurface.
+
+    Returns:
+        The projections data interpolated onto the surface. The projections is given
+        for each face of the Fermi surface. The format is a dict of
+        ``{spin: projections}``, where projections is a list of numpy arrays with the
+        shape (nfaces, ...), for each surface in ``isosurfaces`.
+    """
+    rlat = structure.lattice.reciprocal_lattice
+    interpolator = PeriodicLinearInterpolator(kpoints, data)
+    projection = {}
+    for spin, spin_isosurfaces in isosurfaces.items():
+        spin_projections = []
+        for vertices, faces, band_idx in spin_isosurfaces:
+            # get the center of each of face in cartesian coords
+            face_verts = vertices[faces]
+            centers = face_verts.mean(axis=1)
+
+            # convert to fractional coords in 1st BZ
+            centers = kpoints_to_first_bz(rlat.get_fractional_coords(centers))
+
+            # get interpolated projections at center of faces
+            band_idxs = np.full(len(centers), band_idx)
+            face_projections = interpolator.interpolate(spin, band_idxs, centers)
+
+            spin_projections.append(face_projections)
+        projection[spin] = spin_projections
+    return projection
 
 
 @requires(open3d, "open3d package is required for mesh decimation")
