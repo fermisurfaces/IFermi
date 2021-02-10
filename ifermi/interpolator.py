@@ -1,7 +1,6 @@
 """
-This module implements a class to perform band structure interpolation using
-BolzTraP2. Developed by Alex Ganose
-(https://gist.github.com/utf/160118f74d8a58fc9abf9c1c3f52a384).
+This module implements classes to perform Fourier and Linear interpolation.
+Developed by Alex Ganose.
 """
 
 import multiprocessing
@@ -12,12 +11,18 @@ import numpy as np
 from BoltzTraP2 import fite, sphere
 from BoltzTraP2.units import Angstrom, eV
 from monty.json import MSONable
-
-from ifermi.boltztrap import get_bands_fft
-from ifermi.kpoints import sort_boltztrap_to_spglib, get_kpoints_from_bandstructure
 from pymatgen.electronic_structure.bandstructure import BandStructure
 from pymatgen.io.ase import AseAtomsAdaptor
+from scipy.interpolate import RegularGridInterpolator
 from spglib import spglib
+
+from ifermi.boltztrap import get_bands_fft
+from ifermi.kpoints import (
+    get_kpoint_mesh_dim,
+    get_kpoints_from_bandstructure,
+    kpoints_to_first_bz,
+    sort_boltztrap_to_spglib,
+)
 
 
 class Interpolator(MSONable):
@@ -171,3 +176,104 @@ class DFTData:
         return self.lattice_matrix
 
 
+class PeriodicLinearInterpolator(object):
+    def __init__(self, kpoints, data):
+        """
+        Create an interpolator that can handle periodic boundary conditions.
+
+        Args:
+            kpoints: The k-points in fractional coordinations as a numpy array.
+                with the shape (nkpoints, 3). Note, the k-points must cover
+                the full Brillouin zone, not just the irredicible part.
+            data: The data to interpolate. Should be given for spin up
+                and spin down bands. If the system is not spin polarized
+                then only spin up should be set. The data for each spin
+                channel should be a numpy array with the shape
+                (nbands, nkpoints, ...). The values to interpolate can be scalar
+                or multidimensional.
+        """
+        grid_kpoints, mesh_dim, sort_idx = self._grid_kpoints(kpoints)
+        self._setup_interpolators(data, grid_kpoints, mesh_dim, sort_idx)
+
+    def interpolate(self, spin, bands, kpoints):
+        """
+        Get the interpolated data for a spin channel and series of bands and k-points.
+
+        Args:
+            spin: The spin channel.
+            bands: A list of bands at which to interpolate.
+            kpoints: A list of k-points at which to interpolate. The number of
+                k-points must equal the number of bands.
+
+        Returns:
+            A list of interpolated values.
+        """
+        v = np.concatenate([np.asarray(bands)[:, None], np.asarray(kpoints)], axis=1)
+        interp_data = self.interpolators[spin](v)
+        return interp_data
+
+    def _setup_interpolators(self, data, grid_kpoints, mesh_dim, sort_idx):
+        x = grid_kpoints[:, 0, 0, 0]
+        y = grid_kpoints[0, :, 0, 1]
+        z = grid_kpoints[0, 0, :, 2]
+
+        self.nbands = {s: c.shape[0] for s, c in data.items()}
+        self.interpolators = {}
+        for spin, spin_data in data.items():
+            data_shape = spin_data.shape[2:]
+            nbands = self.nbands[spin]
+            self.data_shape = data_shape
+
+            # sort the data then reshape them into the grid. The data
+            # can now be indexed as data[iband][ikx][iky][ikz]
+            sorted_data = spin_data[:, sort_idx]
+            grid_shape = (nbands,) + mesh_dim + data_shape
+            grid_data = sorted_data.reshape(grid_shape)
+
+            # wrap the data to account for PBC
+            pad_size = ((0, 0), (1, 1), (1, 1), (1, 1)) + ((0, 0),) * len(data_shape)
+            grid_data = np.pad(grid_data, pad_size, mode="wrap")
+
+            if nbands == 1:
+                # this can cause a bug in RegularGridInterpolator. Have to fake
+                # having at least two bands
+                nbands = 2
+                grid_data = np.tile(grid_data, (2, 1, 1, 1) + (1,) * len(data_shape))
+
+            interp_range = (np.arange(nbands), x, y, z)
+
+            self.interpolators[spin] = RegularGridInterpolator(
+                interp_range,
+                grid_data,
+                bounds_error=False,
+                fill_value=None,  # , method="nearest"
+            )
+
+    @staticmethod
+    def _grid_kpoints(kpoints):
+        # k-points has to cover the full BZ
+        kpoints = kpoints_to_first_bz(kpoints)
+        mesh_dim = get_kpoint_mesh_dim(kpoints)
+        if np.product(mesh_dim) != len(kpoints):
+            raise ValueError("k-points do not cover full Brillouin zone.")
+
+        kpoints = np.around(kpoints, 5)
+
+        # get the indices to sort the k-points on the Z, then Y, then X columns
+        sort_idx = np.lexsort((kpoints[:, 2], kpoints[:, 1], kpoints[:, 0]))
+
+        # put the kpoints into a 3D grid so that they can be indexed as
+        # kpoints[ikx][iky][ikz] = [kx, ky, kz]
+        grid_kpoints = kpoints[sort_idx].reshape(mesh_dim + (3,))
+
+        # Expand the k-point mesh to account for periodic boundary conditions
+        grid_kpoints = np.pad(
+            grid_kpoints, ((1, 1), (1, 1), (1, 1), (0, 0)), mode="wrap"
+        )
+        grid_kpoints[0, :, :] -= [1, 0, 0]
+        grid_kpoints[:, 0, :] -= [0, 1, 0]
+        grid_kpoints[:, :, 0] -= [0, 0, 1]
+        grid_kpoints[-1, :, :] += [1, 0, 0]
+        grid_kpoints[:, -1, :] += [0, 1, 0]
+        grid_kpoints[:, :, -1] += [0, 0, 1]
+        return grid_kpoints, mesh_dim, sort_idx
