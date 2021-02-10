@@ -106,7 +106,6 @@ class FermiSurface(MSONable):
         band_structure: BandStructure,
         mu: float = 0.0,
         wigner_seitz: bool = False,
-        symprec: float = 0.001,
         decimate_factor: Optional[float] = None,
         decimate_method: str = "quadric",
         smooth: bool = False,
@@ -123,8 +122,6 @@ class FermiSurface(MSONable):
                 calculated.
             wigner_seitz: Controls whether the cell is the Wigner-Seitz cell
                 or the reciprocal unit cell parallelepiped.
-            symprec: Symmetry precision for determining whether the structure is the
-                standard primitive unit cell.
             decimate_factor: If method is "quadric", factor is the scaling factor by
                 which to reduce the number of faces. I.e., final # faces = initial
                 # faces * factor. If method is "cluster", factor is the voxel size in
@@ -159,10 +156,6 @@ class FermiSurface(MSONable):
             )
 
         if wigner_seitz:
-            prim = get_prim_structure(structure, symprec=symprec)
-            if not np.allclose(prim.lattice.matrix, structure.lattice.matrix, 1e-5):
-                warnings.warn("Structure does not match expected primitive cell")
-
             reciprocal_space = WignerSeitzCell.from_structure(structure)
         else:
             reciprocal_space = ReciprocalCell.from_structure(structure)
