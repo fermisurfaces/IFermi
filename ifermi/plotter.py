@@ -367,7 +367,7 @@ class FermiSurfacePlotter(MSONable):
                 plot_data.isosurfaces, plot_data.projections
             ):
                 x, y, z = verts.T
-                polyc = ax.plot_trisurf(x, y, faces, z, lw=1, cmap=plot_data.projection_colormap)
+                polyc = ax.plot_trisurf(x, y, faces, z, cmap=plot_data.projection_colormap)
                 polyc.set_array(proj)
                 polyc.set_clim(plot_data.cmin, plot_data.cmax)
             if polyc:
@@ -495,38 +495,79 @@ class FermiSurfacePlotter(MSONable):
         Plot the Fermi surface using mayavi.
 
         Args:
-            spin: Which spin channel to plot. By default plot both spin channels if
-                available.
-            colors: See the docstring for ``_get_plot_data()`` for the available options.
-            azimuth: The azimuth of the viewpoint in degrees. i.e. the angle subtended
-                by the position vector on a sphere projected on to the x-y plane.
-            elevation: The zenith angle of the viewpoint in degrees, i.e. the angle
-                subtended by the position vector and the z-axis.
+            plot_data: The data to plot.
 
         Returns:
             mlab figure object.
         """
         from mlabtex import mlabtex
 
-        mlab.figure(figure=None, bgcolor=(1, 1, 1), size=(800, 800))
-        isosurfaces, colors = self._get_plot_data(
-            spin=spin, colors=colors, plot_type="mayavi"
-        )
+        mlab.figure(figure=None, bgcolor=(1, 1, 1), size=(800, 800), fgcolor=(0, 0, 0))
+
+        if plot_data.projections:
+            cmap = cmap_to_mayavi(plot_data.projection_colormap)
+            for (verts, faces, _), proj in zip(
+                plot_data.isosurfaces, plot_data.projections
+            ):
+                from tvtk.api import tvtk
+                polydata = tvtk.PolyData(points=verts, polys=faces)
+                polydata.cell_data.scalars = proj
+                polydata.cell_data.scalars.name = "celldata"
+                mesh = mlab.pipeline.surface(
+                    polydata, vmin=plot_data.cmin, vmax=plot_data.cmax, opacity=0.8
+                )
+                mesh.module_manager.scalar_lut_manager.lut.table = cmap
+                cb = mlab.colorbar(object=mesh, orientation="vertical", nb_labels=5)
+                cb.label_text_property.bold = 0
+                cb.label_text_property.italic = 0
+        else:
+            for c, (verts, faces, _) in zip(plot_data.colors, plot_data.isosurfaces):
+                x, y, z = verts.T
+                mlab.triangular_mesh(x, y, z, faces, color=tuple(c), opacity=0.8)
+
+        if plot_data.arrows is not None:
+            cmap = cmap_to_mayavi(plot_data.arrow_colormap)
+            for starts, stops, intensities in plot_data.arrows:
+                centers = (stops + starts) / 2
+                vectors = stops - starts
+                x, y, z = (centers - (vectors * 0.8)).T  # leave room for arrow tip
+                u, v, w = vectors.T
+                pnts = mlab.quiver3d(
+                    x,
+                    y,
+                    z,
+                    u,
+                    v,
+                    w,
+                    line_width=4.5,
+                    mode="arrow",
+                    resolution=25,
+                    scale_mode="vector",
+                    scale_factor=2,
+                    scalars=intensities,
+                    vmin=plot_data.cmin,
+                    vmax=plot_data.cmax,
+                )
+                pnts.module_manager.scalar_lut_manager.lut.table = cmap
+                pnts.glyph.color_mode = 'color_by_scalar'
+                pnts.glyph.glyph_source.glyph_source.shaft_radius = 0.035
+                pnts.glyph.glyph_source.glyph_source.tip_length = 0.3
 
         for line in self.reciprocal_space.lines:
             x, y, z = line.T
             mlab.plot3d(x, y, z, **_mayavi_rs_style)
-
-        for c, (verts, faces, band_idx) in zip(colors, isosurfaces):
-            x, y, z = verts.T
-            mlab.triangular_mesh(x, y, z, faces, color=tuple(c), opacity=0.7)
 
         # latexify labels
         labels = ["${}$".format(i) for i in self._symmetry_pts[1]]
         for coords, label in zip(self._symmetry_pts[0], labels):
             mlabtex(*coords, label, **_mayavi_high_sym_label_style)
 
-        mlab.view(azimuth=azimuth - 180, elevation=elevation - 90, distance="auto")
+        mlab.gcf().scene._lift()  # required to be able to set view
+        mlab.view(
+            azimuth=plot_data.azimuth - 180,
+            elevation=plot_data.elevation - 90,
+            distance="auto"
+        )
 
         return mlab
 
@@ -536,8 +577,7 @@ class FermiSurfacePlotter(MSONable):
     )
     def get_crystal_toolkit_plot(
         self,
-        spin: Optional[Spin] = None,
-        colors: Optional[Union[str, dict, list]] = None,
+        plot_data: FermiSurfacePlotData,
         opacity: float = 1.0,
     ) -> "Scene":
         """
@@ -547,38 +587,29 @@ class FermiSurfacePlotter(MSONable):
         can be converted to JSON to store for future use.
 
         Args:
-            spin: Which spin channel to plot. By default plot both spin channels if
-                available.
-            colors: See the docstring for ``_get_plot_data()`` for the available options.
+            plot_data: The data to plot.
             opacity: Opacity of surface. Note that due to limitations of WebGL,
                 overlapping semi-transparent surfaces might result in visual artefacts.
-            azimuth: The azimuth of the viewpoint in degrees. i.e. the angle subtended
-                by the position vector on a sphere projected on to the x-y plane.
-            elevation: The zenith angle of the viewpoint in degrees, i.e. the angle
-                subtended by the position vector and the z-axis.
 
         Returns:
             Crystal-toolkit scene.
         """
         from crystal_toolkit.core.scene import Lines, Scene, Spheres, Surface
 
+        if plot_data.projections is not None or plot_data.arrows is not None:
+            warnings.warn("crystal_toolkit plot does not support projections or arrows")
+
         # The implementation here is very similar to the plotly implementation, except
         # the crystal toolkit scene is constructed using the scene primitives from
         # crystal toolkit (Spheres, Surface, Lines, etc.)
-
         scene_contents = []
-
-        isosurfaces, colors = self._get_plot_data(spin=spin, colors=colors)
-
-        if isinstance(colors, np.ndarray):
-            colors = (colors * 255).astype(int)
-            colors = ["rgb({},{},{})".format(*c) for c in colors]
 
         # create a mesh for each electron band which has an isosurfaces at the Fermi
         # energy mesh data is generated by a marching cubes algorithm when the
         # FermiSurface object is created.
         surfaces = []
-        for c, (verts, faces, band_idx) in zip(colors, isosurfaces):
+        for c, (verts, faces, band_idx) in zip(plot_data.colors, plot_data.isosurfaces):
+            c = rgb_to_plotly(c)
             positions = verts[faces].reshape(-1, 3).tolist()
             surface = Surface(positions=positions, color=c, opacity=opacity)
             surfaces.append(surface)
@@ -1181,6 +1212,19 @@ def cmap_to_plotly(colormap: Colormap) -> List[str]:
 
     rgb_colors = colormap(np.linspace(0, 1, 255))[:, :3]
     return make_colorscale([rgb_to_plotly(color) for color in rgb_colors])
+
+
+def cmap_to_mayavi(colormap: Colormap) -> np.ndarray:
+    """
+    Convert a matplotlib colormap to mayavi format.
+
+    Args:
+        colormap: A matplotlib colormap object.
+
+    Returns:
+        The equivalent mayavi colormap, as a (255, 4) numpy array.
+    """
+    return (colormap(np.linspace(0, 1, 255)) * 255).astype(int)
 
 
 def _get_rotation(reciprocal_slice: ReciprocalSlice) -> np.ndarray:
