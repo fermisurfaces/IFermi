@@ -2,7 +2,6 @@
 This module implements plotters for Fermi surfaces and Fermi slices.
 """
 import os
-
 import warnings
 from dataclasses import dataclass
 from pathlib import Path
@@ -343,7 +342,9 @@ class FermiSurfacePlotter(MSONable):
         )
 
     def get_matplotlib_plot(
-        self, plot_data: FermiSurfacePlotData, bz_linewidth: float = 0.9,
+        self,
+        plot_data: FermiSurfacePlotData,
+        bz_linewidth: float = 0.9,
     ):
         """
         Plot the Fermi surface using matplotlib.
@@ -367,7 +368,9 @@ class FermiSurfacePlotter(MSONable):
                 plot_data.isosurfaces, plot_data.projections
             ):
                 x, y, z = verts.T
-                polyc = ax.plot_trisurf(x, y, faces, z, cmap=plot_data.projection_colormap)
+                polyc = ax.plot_trisurf(
+                    x, y, faces, z, cmap=plot_data.projection_colormap
+                )
                 polyc.set_array(proj)
                 polyc.set_clim(plot_data.cmin, plot_data.cmax)
             if polyc:
@@ -417,6 +420,7 @@ class FermiSurfacePlotter(MSONable):
 
         if _is_notebook():
             from plotly.offline import init_notebook_mode
+
             init_notebook_mode(connected=True)
 
         meshes = []
@@ -510,6 +514,7 @@ class FermiSurfacePlotter(MSONable):
                 plot_data.isosurfaces, plot_data.projections
             ):
                 from tvtk.api import tvtk
+
                 polydata = tvtk.PolyData(points=verts, polys=faces)
                 polydata.cell_data.scalars = proj
                 polydata.cell_data.scalars.name = "celldata"
@@ -549,7 +554,7 @@ class FermiSurfacePlotter(MSONable):
                     vmax=plot_data.cmax,
                 )
                 pnts.module_manager.scalar_lut_manager.lut.table = cmap
-                pnts.glyph.color_mode = 'color_by_scalar'
+                pnts.glyph.color_mode = "color_by_scalar"
                 pnts.glyph.glyph_source.glyph_source.shaft_radius = 0.035
                 pnts.glyph.glyph_source.glyph_source.tip_length = 0.3
 
@@ -566,7 +571,7 @@ class FermiSurfacePlotter(MSONable):
         mlab.view(
             azimuth=plot_data.azimuth - 180,
             elevation=plot_data.elevation - 90,
-            distance="auto"
+            distance="auto",
         )
 
         return mlab
@@ -1178,8 +1183,16 @@ def matplotlib_arrow(
 ):
     vector = (stop - start) / np.linalg.norm(stop - start)
     ax.quiver(
-        start[0], start[1], start[2], vector[0], vector[1], vector[2], length=0.08,
-        normalize=False, pivot="mid", color=color
+        start[0],
+        start[1],
+        start[2],
+        vector[0],
+        vector[1],
+        vector[2],
+        length=0.08,
+        normalize=False,
+        pivot="mid",
+        color=color,
     )
 
 
