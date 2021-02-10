@@ -8,12 +8,7 @@ import numpy as np
 from BoltzTraP2.fite import FFTev
 
 
-def get_bands_fft(
-    equiv,
-    coeffs,
-    lattvec,
-    nworkers=1,
-):
+def get_bands_fft(equiv, coeffs, lattvec, nworkers=1):
     """Rebuild the full energy bands from the interpolation coefficients.
 
     Adapted from BoltzTraP2.
@@ -67,9 +62,7 @@ def get_bands_fft(
     return eband.real, vband.transpose(0, 2, 1)
 
 
-def worker(
-    equivalences, sallvec, dims, iqueue, oqueue
-):
+def worker(equivalences, sallvec, dims, iqueue, oqueue):
     """Thin wrapper around FFTev and FFTc to be used as a worker function.
 
     Adapted from BoltzTraP2.
