@@ -30,6 +30,10 @@ def ifermi(
     wigner_seitz: bool = True,
     spin: Optional["Spin"] = None,
     smooth: bool = False,
+    projection: Optional[str] = None,
+    color_projection: bool = True,
+    vector_projection: bool = False,
+    hide_surface: bool = False,
     plot_type: str = "plotly",
     slice_info: Optional[Tuple[float, float, float, float]] = None,
     output_filename: Optional[str] = None,
@@ -54,6 +58,12 @@ def ifermi(
             a pymatgen ``Spin`` object.
         smooth: If True, will smooth FermiSurface. Requires PyMCubes. See
             ``compute_isosurfaces`` for more information.
+        projection: Projection type, can be "velocity", "spin" or None.
+        color_projection: Whether to use the projections to color the Fermi surface. If
+            the projections is a vector then the norm of the projections will be used.
+        vector_projection: Whether to plot arrows for vector projections.
+        hide_surface: Whether to hide the Fermi surface. Only recommended in combination
+            with the vector_projection option.
         plot_type: Method used for plotting. Valid options are: "matplotlib", "plotly",
             "mayavi".
         slice_info: Slice through the Brillouin zone. Given as the plane normal and
@@ -70,6 +80,7 @@ def ifermi(
 
     from ifermi.fermi_surface import FermiSurface
     from ifermi.interpolator import Interpolator
+    from ifermi.kpoints import get_kpoints_from_bandstructure
     from ifermi.plotter import (
         FermiSlicePlotter,
         FermiSurfacePlotter,
@@ -93,7 +104,16 @@ def ifermi(
     bs = vr.get_band_structure()
 
     interpolator = Interpolator(bs)
-    interp_bs = interpolator.interpolate_bands(interpolation_factor)
+
+    if projection == "velocity":
+        interp_bs, projection_data = interpolator.interpolate_bands(
+            interpolation_factor, return_velocities=True
+        )
+        projection_kpoints = get_kpoints_from_bandstructure(interp_bs)
+    else:
+        interp_bs = interpolator.interpolate_bands(interpolation_factor)
+        projection_data = None
+        projection_kpoints = None
 
     fs = FermiSurface.from_band_structure(
         interp_bs,
@@ -101,6 +121,8 @@ def ifermi(
         wigner_seitz=wigner_seitz,
         decimate_factor=decimate_factor,
         smooth=smooth,
+        projection_data=projection_data,
+        projection_kpoints=projection_kpoints,
     )
     if slice_info:
         plane_normal = slice_info[:3]
@@ -117,6 +139,9 @@ def ifermi(
             spin=spin,
             azimuth=azimuth,
             elevation=elevation,
+            color_projection=color_projection,
+            vector_projection=vector_projection,
+            hide_surface=hide_surface,
         )
 
     if output_filename is None:
@@ -203,9 +228,7 @@ def _get_fs_parser():
         help="viewpoint elevation (zenith) angle in degrees (default: 35)",
     )
     parser.add_argument(
-        "--smooth",
-        action="store_true",
-        help="smooth the Fermi surface",
+        "--smooth", action="store_true", help="smooth the Fermi surface"
     )
     parser.add_argument(
         "-t",
