@@ -1,8 +1,8 @@
 import warnings
 from typing import Tuple
 
-from pymatgen.electronic_structure.bandstructure import BandStructure
 import numpy as np
+from pymatgen.electronic_structure.bandstructure import BandStructure
 
 ktol = 1e-5
 
@@ -105,9 +105,9 @@ def get_kpoint_spacing(kpoints: np.ndarray) -> np.ndarray:
     diff_c = np.diff(unique_c)
 
     if not (
-        np.allclose(diff_a - diff_a[0], 0, atol=1e-7) and
-        np.allclose(diff_b - diff_b[0], 0, atol=1e-7) and
-        np.allclose(diff_c - diff_c[0], 0, atol=1e-7)
+        np.allclose(diff_a - diff_a[0], 0, atol=1e-7)
+        and np.allclose(diff_b - diff_b[0], 0, atol=1e-7)
+        and np.allclose(diff_c - diff_c[0], 0, atol=1e-7)
     ):
         warnings.warn("k-point mesh is not uniform")
 
@@ -115,8 +115,7 @@ def get_kpoint_spacing(kpoints: np.ndarray) -> np.ndarray:
 
 
 def get_kpoints_from_bandstructure(
-    bandstructure: BandStructure,
-    cartesian: bool = False,
+    bandstructure: BandStructure, cartesian: bool = False
 ) -> np.ndarray:
     """
     Extracts the k-points from a band structure.
