@@ -1,10 +1,9 @@
 """
 This module implements plotters for Fermi surfaces and Fermi slices.
-
-TODO:
-- Projections onto arbitrary surface
 """
+from dataclasses import dataclass
 
+from matplotlib.colors import Colormap
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
@@ -12,14 +11,13 @@ import numpy as np
 from matplotlib import cm
 from monty.dev import requires
 from monty.json import MSONable
-
-from ifermi.kpoints import kpoints_to_first_bz
 from pymatgen import Spin
 from pymatgen.symmetry.bandstructure import HighSymmKpath
 from trimesh import transform_points
 
 from ifermi.brillouin_zone import ReciprocalCell, ReciprocalSlice
 from ifermi.fermi_surface import FermiSlice, FermiSurface
+from ifermi.kpoints import kpoints_to_first_bz
 
 try:
     import mayavi.mlab as mlab
@@ -86,6 +84,22 @@ _mayavi_rs_style = {
 }
 _default_azimuth = 45.0
 _default_elevation = 35.0
+_default_vector_spacing = 0.2
+_default_colormap = "viridis"
+
+
+@dataclass
+class FermiSurfacePlotData:
+    isosurfaces: List[Tuple[np.ndarray, np.ndarray, int]]
+    azimuth: float
+    elevation: float
+    colors: Optional[List[Tuple[int, int, int]]]
+    projections: List[np.ndarray]
+    arrows: List[Tuple[np.ndarray, np.ndarray, np.ndarray]]
+    projection_colormap: Optional[Colormap]
+    arrow_colormap: Optional[Colormap]
+    cmin: Optional[float]
+    cmax: Optional[float]
 
 
 class FermiSurfacePlotter(MSONable):
@@ -105,8 +119,7 @@ class FermiSurfacePlotter(MSONable):
 
     @staticmethod
     def get_symmetry_points(
-        fermi_surface: FermiSurface,
-        symprec: float = 1e-3,
+        fermi_surface: FermiSurface, symprec: float = 1e-3
     ) -> Tuple[np.ndarray, List[str]]:
         """
         Get the high symmetry k-points and labels for the Fermi surface.
@@ -135,6 +148,14 @@ class FermiSurfacePlotter(MSONable):
         colors: Optional[Union[str, dict, list]] = None,
         azimuth: float = _default_azimuth,
         elevation: float = _default_elevation,
+        color_projection: Union[str, bool] = True,
+        vector_projection: Union[str, bool] = False,
+        projection_axis: Optional[Tuple[int, int, int]] = None,
+        vector_spacing: float = _default_vector_spacing,
+        cmin: Optional[float] = None,
+        cmax: Optional[float] = None,
+        vnorm: Optional[float] = None,
+        hide_surface: bool = False,
         **plot_kwargs,
     ):
         """
@@ -145,57 +166,117 @@ class FermiSurfacePlotter(MSONable):
                 "plotly", "mayavi", "crystal_toolkit".
             spin: Which spin channel to plot. By default plot both spin channels if
                 available.
-            colors: See the docstring for ``get_isosurfaces_and_colors()`` for the
-                available options.
             azimuth: The azimuth of the viewpoint in degrees. i.e. the angle subtended
                 by the position vector on a sphere projected on to the x-y plane.
             elevation: The zenith angle of the viewpoint in degrees, i.e. the angle
                 subtended by the position vector and the z-axis.
+            colors: The color specification for the iso-surfaces. Valid options are:
+
+                - A single color to use for all Fermi surfaces, specified as a tuple of
+                  rgb values from 0 to 1. E.g., red would be ``(1, 0, 0)``.
+                - A list of colors, specified as above.
+                - A dictionary of ``{Spin.up: color1, Spin.down: color2}``, where the
+                  colors are specified as above.
+                - A string specifying which matplotlib colormap to use. See
+                  https://matplotlib.org/tutorials/colors/colormaps.html for more
+                  information.
+                - ``None``, in which case the default colors will be used.
+
+            color_projection: Whether to use the projections to color the Fermi surface.
+                If the projections is a vector then the norm of the projections will be
+                used. Note, this will only take effect if the Fermi surface has
+                projections. If set to True, the viridis colormap will be used.
+                Alternative colormaps can be selected by setting ``vector_projection``
+                to a matplotlib colormap name. This setting will override the ``colors``
+                option. For vector projections, the arrows are colored according to the
+                norm of the projections by default. If used in combination with the
+                ``projection_axis`` option, the color will be determined by the dot
+                product of the projections with the projections axis.
+            vector_projection: Whether to plot arrows for vector projections. Note, this
+                will only take effect if the Fermi surface has vector projections. If
+                set to True, the viridis colormap will be used. Alternative colormaps
+                can be selected by setting ``vector_projection`` to a matplotlib
+                colormap name. By default, the arrows are colored according to the norm
+                of the projections. If used in combination with the ``projection_axis``
+                option, the color will be determined by the dot product of the
+                projections with the projections axis.
+            projection_axis: Projection axis that can be used to calculate the color of
+                vector projects. If None, the norm of the projections will be used,
+                otherwise the color will be determined by the dot product of the
+                projections with the projections axis. Only has an effect when used with
+                the ``vector_projection`` option.
+            vector_spacing: The rough spacing between arrows. Uses a custom algorithm
+                for resampling the Fermi surface to ensure that arrows are not too close
+                together. Only has an effect when used with the ``vector_projection``
+                option.
+            cmin: Minimum intensity for normalising projection colors (including
+                projection vector colors).Only has an effect when used with
+                ``color_projection`` or ``vector_projection`` options.
+            cmax: Maximum intensity for normalising projection colors (including
+                projection vector colors). Only has an effect when used with
+                ``color_projection`` or ``vector_projection`` options.
+            vnorm: The value by which to normalize the vector lengths. For example,
+                spin projections should typically have a norm of 1 whereas group
+                velocity projections can have larger or smaller norms depending on the
+                structure. By changing this number, the size of the vectors will be
+                scaled. Note that the projections of two materials can only be compared
+                quantitatively if a fixed values is used for both plots. Only has an
+                effect when used with the ``vector_projection`` option.
+            hide_surface: Whether to hide the Fermi surface. Only recommended in
+                combination with the ``vector_projection`` option.
             **plot_kwargs: Other keyword arguments supported by the individual plotting
                 methods.
         """
-        plot_kwargs.update(
-            {"colors": colors, "spin": spin, "azimuth": azimuth, "elevation": elevation}
+        plot_data = self._get_plot_data(
+            spin=spin,
+            azimuth=azimuth,
+            elevation=elevation,
+            colors=colors,
+            color_projection=color_projection,
+            vector_projection=vector_projection,
+            projection_axis=projection_axis,
+            vector_spacing=vector_spacing,
+            cmin=cmin,
+            cmax=cmax,
+            vnorm=vnorm,
+            hide_surface=hide_surface,
         )
         if plot_type == "matplotlib":
-            plot = self.get_matplotlib_plot(**plot_kwargs)
+            plot = self.get_matplotlib_plot(plot_data, **plot_kwargs)
         elif plot_type == "plotly":
-            plot = self.get_plotly_plot(**plot_kwargs)
+            plot = self.get_plotly_plot(plot_data, **plot_kwargs)
         elif plot_type == "mayavi":
-            plot = self.get_mayavi_plot(**plot_kwargs)
+            plot = self.get_mayavi_plot(plot_data, **plot_kwargs)
         elif plot_type == "crystal_toolkit":
-            plot = self.get_crystal_toolkit_plot(**plot_kwargs)
+            plot = self.get_crystal_toolkit_plot(plot_data, **plot_kwargs)
         else:
             types = ["matplotlib", "plotly", "mayavi", "crystal_toolkit"]
             error_msg = "Plot type not recognised, valid options: {}".format(types)
             raise ValueError(error_msg)
         return plot
 
-    def get_isosurfaces_and_colors(
+    def _get_plot_data(
         self,
-        plot_type: str = "plotly",
         spin: Optional[Spin] = None,
+        azimuth: float = _default_azimuth,
+        elevation: float = _default_elevation,
         colors: Optional[Union[str, dict, list]] = None,
-    ) -> Tuple[List[Tuple[np.ndarray, np.ndarray, int]], Any]:
+        color_projection: Union[str, bool] = True,
+        vector_projection: Union[str, bool] = False,
+        projection_axis: Optional[Tuple[int, int, int]] = None,
+        vector_spacing: float = _default_vector_spacing,
+        cmin: Optional[float] = None,
+        cmax: Optional[float] = None,
+        vnorm: Optional[float] = None,
+        hide_surface: bool = False,
+    ) -> FermiSurfacePlotData:
         """
-        Get the isosurfaces and colors to plot.
+        Get the the Fermi surface plot data.
 
-        Args:
-            plot_type: Method used for plotting. Valid options are: "matplotlib",
-                "plotly", "mayavi", "crystal_toolkit".
-            spin: Which spin channel to select. By default will return the isosurfaces
-                for both spin channels if available.
-            colors: The color specification. Valid options are:
-
-                - A list of colors.
-                - A dictionary of ``{Spin.up: color1, Spin.down: color2}``.
-                - A string specifying which matplotlib colormap to use. See
-                  https://matplotlib.org/tutorials/colors/colormaps.html for more
-                  information.
-                - ``None``, in which case the colors will be chosen randomly.
+        See ``FermiSurfacePlotter.get_plot()`` for more details.
 
         Returns:
-            The isosurfaces and colors as a tuple.
+            The Fermi surface plot data.
         """
         if not spin:
             spin = list(self.fermi_surface.isosurfaces.keys())
@@ -203,37 +284,73 @@ class FermiSurfacePlotter(MSONable):
             spin = [spin]
 
         isosurfaces = []
-        for s in spin:
-            isosurfaces.extend(self.fermi_surface.isosurfaces[s])
+        if not hide_surface:
+            for s in spin:
+                isosurfaces.extend(self.fermi_surface.isosurfaces[s])
 
-        if colors is None and plot_type == "plotly":
-            colors = _get_plotly_colors(self.fermi_surface.isosurfaces, spin)
+        projections = []
+        projection_colormap = None
+        if self.fermi_surface.projections is not None:
+            # always calculate projections if they are present so we can determine
+            # cmin and cmax. These are also be used for arrows and it is critical that
+            # cmin and cmax are the same for projections and arrow color scales (even
+            # if the colormap used is different)
+            projections, projection_colormap = _get_face_projections(
+                self.fermi_surface, spin, projection_axis=projection_axis
+            )
+            if isinstance(color_projection, str):
+                projection_colormap = cm.get_cmap(color_projection)
+            else:
+                projection_colormap = cm.get_cmap(_default_colormap)
+            cmin, cmax = get_projection_limits(projections)
+
+        if not color_projection:
+            colors = get_isosurface_colors(colors, self.fermi_surface.isosurfaces, spin)
+            projections = []
+            cmin = None
+            cmax = None
         else:
-            colors = _get_random_colors(colors, self.fermi_surface.isosurfaces, spin)
+            colors = None
 
-        return isosurfaces, colors
+        arrows = []
+        arrow_colormap = None
+        if vector_projection is not None and self.fermi_surface.projections is not None:
+            arrows = _get_arrows(
+                self.fermi_surface,
+                spin,
+                projection_axis=projection_axis,
+                vector_spacing=vector_spacing,
+                vnorm=vnorm,
+            )
+            if isinstance(vector_projection, str):
+                arrow_colormap = cm.get_cmap(vector_projection)
+            else:
+                arrow_colormap = cm.get_cmap(_default_colormap)
+
+        return FermiSurfacePlotData(
+            isosurfaces=isosurfaces,
+            azimuth=azimuth,
+            elevation=elevation,
+            colors=colors,
+            projections=projections,
+            arrows=arrows,
+            projection_colormap=projection_colormap,
+            arrow_colormap=arrow_colormap,
+            cmin=cmin,
+            cmax=cmax,
+        )
 
     def get_matplotlib_plot(
         self,
+        plot_data: FermiSurfacePlotData,
         bz_linewidth: float = 0.9,
-        spin: Optional[Spin] = None,
-        colors: Optional[Union[str, dict, list]] = None,
-        azimuth: float = _default_azimuth,
-        elevation: float = _default_elevation,
     ):
         """
         Plot the Fermi surface using matplotlib.
 
         Args:
+            plot_data: The plot data.
             bz_linewidth: Brillouin zone line width.
-            spin: Which spin channel to plot. By default plot both spin channels if
-                available.
-            colors: See the docstring for ``get_isosurfaces_and_colors()`` for the
-                available options.
-            azimuth: The azimuth of the viewpoint in degrees. i.e. the angle subtended
-                by the position vector on a sphere projected on to the x-y plane.
-            elevation: The zenith angle of the viewpoint in degrees, i.e. the angle
-                subtended by the position vector and the z-axis.
 
         Returns:
             matplotlib pyplot object.
@@ -244,7 +361,7 @@ class FermiSurfacePlotter(MSONable):
         fig = plt.figure(figsize=(6, 6))
         ax = fig.add_subplot(111, projection="3d", proj_type="persp")
 
-        isosurfaces, colors = self.get_isosurfaces_and_colors(
+        isosurfaces, colors = self._get_plot_data(
             spin=spin, colors=colors, plot_type="matplotlib"
         )
 
@@ -273,25 +390,12 @@ class FermiSurfacePlotter(MSONable):
 
         return plt
 
-    def get_plotly_plot(
-        self,
-        spin: Optional[Spin] = None,
-        colors: Optional[Union[str, dict, list]] = None,
-        azimuth: float = _default_azimuth,
-        elevation: float = _default_elevation,
-    ):
+    def get_plotly_plot(self, plot_data: FermiSurfacePlotData):
         """
         Plot the Fermi surface using plotly.
 
         Args:
-            spin: Which spin channel to plot. By default plot both spin channels if
-                available.
-            colors: See the docstring for ``get_isosurfaces_and_colors()`` for the
-                available options.
-            azimuth: The azimuth of the viewpoint in degrees. i.e. the angle subtended
-                by the position vector on a sphere projected on to the x-y plane.
-            elevation: The zenith angle of the viewpoint in degrees, i.e. the angle
-                subtended by the position vector and the z-axis.
+            plot_data: The data to plot.
 
         Returns:
             Plotly figure object.
@@ -300,7 +404,6 @@ class FermiSurfacePlotter(MSONable):
         from plotly.offline import init_notebook_mode
 
         init_notebook_mode(connected=True)
-        isosurfaces, colors = self.get_isosurfaces_and_colors(spin=spin, colors=colors)
 
         if isinstance(colors, np.ndarray):
             colors = (colors * 255).astype(int)
@@ -310,11 +413,36 @@ class FermiSurfacePlotter(MSONable):
         # energy mesh data is generated by a marching cubes algorithm when the
         # FermiSurface object is created.
         meshes = []
-        for c, (verts, faces, band_idx) in zip(colors, isosurfaces):
-            x, y, z = verts.T
-            i, j, k = faces.T
-            trace = go.Mesh3d(x=x, y=y, z=z, color=c, opacity=1, i=i, j=j, k=k)
-            meshes.append(trace)
+        if plot_data.projections:
+            cmin, cmax = get_projection_limits(plot_data.projections)
+            for (verts, faces, _), face_projections in zip(plot_data.isosurfaces, plot_data.projections):
+                x, y, z = verts.T
+                i, j, k = faces.T
+                trace = go.Mesh3d(
+                    x=x,
+                    y=y,
+                    z=z,
+                    opacity=1,
+                    i=i,
+                    j=j,
+                    k=k,
+                    intensity=face_projections,
+                    colorscale=colors,
+                    intensitymode='cell',
+                    cmin=cmin,
+                    cmax=cmax
+                )
+                meshes.append(trace)
+        else:
+            for c, (verts, faces, band_idx) in zip(colors, plot_data.isosurfaces):
+                x, y, z = verts.T
+                i, j, k = faces.T
+                trace = go.Mesh3d(x=x, y=y, z=z, color=c, opacity=1, i=i, j=j, k=k)
+                meshes.append(trace)
+
+        for starts, ends, arrow_colors in plot_data.arrows:
+            for start, end, arrow_color in zip(starts, ends, arrow_colors):
+                meshes.extend(plotly_arrow(start, end, arrow_color))
 
         # add the cell outline to the plot
         for line in self.reciprocal_space.lines:
@@ -342,7 +470,8 @@ class FermiSurfacePlotter(MSONable):
             scene=scene, showlegend=False, margin=go.layout.Margin(l=0, r=0, b=0, t=0)
         )
         fig = go.Figure(data=meshes, layout=layout)
-        fig.update_layout(scene_camera=_get_plotly_camera(azimuth, elevation))
+        camera = _get_plotly_camera(plot_data.azimuth, plot_data.elevation)
+        fig.update_layout(scene_camera=camera)
 
         return fig
 
@@ -360,8 +489,7 @@ class FermiSurfacePlotter(MSONable):
         Args:
             spin: Which spin channel to plot. By default plot both spin channels if
                 available.
-            colors: See the docstring for ``get_isosurfaces_and_colors()`` for the
-                available options.
+            colors: See the docstring for ``_get_plot_data()`` for the available options.
             azimuth: The azimuth of the viewpoint in degrees. i.e. the angle subtended
                 by the position vector on a sphere projected on to the x-y plane.
             elevation: The zenith angle of the viewpoint in degrees, i.e. the angle
@@ -373,7 +501,7 @@ class FermiSurfacePlotter(MSONable):
         from mlabtex import mlabtex
 
         mlab.figure(figure=None, bgcolor=(1, 1, 1), size=(800, 800))
-        isosurfaces, colors = self.get_isosurfaces_and_colors(
+        isosurfaces, colors = self._get_plot_data(
             spin=spin, colors=colors, plot_type="mayavi"
         )
 
@@ -415,8 +543,7 @@ class FermiSurfacePlotter(MSONable):
         Args:
             spin: Which spin channel to plot. By default plot both spin channels if
                 available.
-            colors: See the docstring for ``get_isosurfaces_and_colors()`` for the
-                available options.
+            colors: See the docstring for ``_get_plot_data()`` for the available options.
             opacity: Opacity of surface. Note that due to limitations of WebGL,
                 overlapping semi-transparent surfaces might result in visual artefacts.
             azimuth: The azimuth of the viewpoint in degrees. i.e. the angle subtended
@@ -434,7 +561,9 @@ class FermiSurfacePlotter(MSONable):
 
         scene_contents = []
 
-        isosurfaces, colors = self.get_isosurfaces_and_colors(spin=spin, colors=colors)
+        isosurfaces, colors = self._get_plot_data(
+            spin=spin, colors=colors
+        )
 
         if isinstance(colors, np.ndarray):
             colors = (colors * 255).astype(int)
@@ -523,7 +652,7 @@ class FermiSlicePlotter(object):
     def get_plot(
         self,
         spin: Optional[Spin] = None,
-        colors: Optional[Union[str, dict, list]] = "viridis",
+        colors: Optional[Union[str, dict, list]] = _default_colormap,
     ):
         """
         Plot the Fermi slice.
@@ -608,7 +737,7 @@ class FermiSlicePlotter(object):
         for s in spin:
             slices.extend(self.fermi_slice.slices[s])
 
-        colors = _get_random_colors(colors, self.fermi_slice.slices, spin)
+        colors = get_isosurface_colors(colors, self.fermi_slice.slices, spin)
 
         return slices, colors
 
@@ -632,11 +761,7 @@ def show_plot(plot: Any):
         plot.show()
 
 
-def save_plot(
-    plot: Any,
-    filename: Union[Path, str],
-    scale: float = 4,
-):
+def save_plot(plot: Any, filename: Union[Path, str], scale: float = 4):
     """Save a plot to file.
 
     Args:
@@ -657,11 +782,7 @@ def save_plot(
                 "kaleido package required to save static ploty images\n"
                 "please install it using:\npip install kaleido"
             )
-        plot.write_image(
-            filename,
-            engine="kaleido",
-            scale=scale,
-        )
+        plot.write_image(filename, engine="kaleido", scale=scale)
     elif plot_type == "mayavi":
         plot.savefig(filename, magnification=scale)
 
@@ -701,57 +822,268 @@ def get_plot_type(plot: Any) -> str:
     raise ValueError("Unrecognised plot type.")
 
 
-def _get_random_colors(
+def get_isosurface_colors(
     colors: Optional[Union[str, dict, list]],
     objects: Dict[Spin, List[Any]],
     spins: List[Spin],
-) -> Any:
+) -> List[Tuple[float, float, float]]:
     """
-    Plot the Fermi surface using matplotlib.
+    Get colors for each Fermi surface.
 
     Args:
-        colors: See the docstring for ``get_isosurfaces_and_colors()`` for the
-            available options.
+        colors: The color specification. Valid options are:
+
+            - A single color to use for all Fermi surfaces, specified as a tuple of rgb
+              values from 0 to 1. E.g., red would be ``(1, 0, 0)``.
+            - A list of colors, specified as above.
+            - A dictionary of ``{Spin.up: color1, Spin.down: color2}``, where the colors
+              are specified as above.
+            - A string specifying which matplotlib colormap to use. See
+              https://matplotlib.org/tutorials/colors/colormaps.html for more
+              information.
+            - ``None``, in which case the default colors will be used.
+        objects: The iso-surfaces or 2d slices for which colors will be generated.
+            Should be specified as a dict of ``{spin: spin_objects}`` where
+            spin_objects is a list of objects.
+        spins: A list of spins for which colors will be generated.
+
+    Returns:
+        The colors as a list of tuples, where each color is specified as the rgb values
+        from 0 to 1. E.g., red would be ``(1, 0, 0)``.
     """
     n_objects = sum([len(objects[spin]) for spin in spins])
 
-    if isinstance(colors, dict):
+    if isinstance(colors, (tuple, list, np.ndarray)):
+        if isinstance(colors[0], (tuple, list, np.ndarray)):
+            # colors is a list of colors
+            cc = list(colors) * (len(colors) // n_objects + 1)
+            return cc[:n_objects]
+        else:
+            # colors is a single color specification
+            return [colors] * n_objects
+
+    elif isinstance(colors, dict):
         if len(colors) < len(spins):
             raise ValueError(
-                "colors dictionary should have the same number of spin channels as"
-                "spins to plot"
+                "colors dict must have same number of spin channels as spins to plot"
             )
-        colors = []
-        for s in spins:
-            colors.extend([colors[s]] * len(objects[s]))
+        return [colors[s] for s in spins for _ in objects[s]]
 
     elif isinstance(colors, str):
-        cmap = cm.get_cmap(colors)
-        colors = cmap(np.linspace(0, 1, n_objects))
+        # get rid of alpha channel
+        return [i[:3] for i in cm.get_cmap(colors)(np.linspace(0, 1, n_objects))]
 
-    elif colors is None:
-        colors = np.random.random((n_objects, 3))
-
-    return colors
-
-
-def _get_plotly_colors(
-    objects: Dict[Spin, List[Any]],
-    spins: List[Spin],
-) -> Any:
-    import plotly.express as px
-
-    n_objects = sum([len(objects[spin]) for spin in spins])
-
-    if n_objects < len(px.colors.qualitative.Prism):
-        colors = px.colors.qualitative.Prism
     else:
-        colors = []
-        i = n_objects // len(px.colors.qualitative.Prism) + 1
-        for count in range(i):
-            colors.append(px.colors.qualitative.Prism)
+        from plotly.colors import qualitative, unlabel_rgb, unconvert_from_RGB_255
+        cc = qualitative.Prism * (len(qualitative.Prism) // n_objects + 1)
+        return [unconvert_from_RGB_255(unlabel_rgb(c)) for c in cc[:n_objects]]
 
-    return colors
+
+def plotly_arrow(start: np.ndarray, stop: np.ndarray, color: np.ndarray) -> Tuple[Any, Any]:
+    import plotly.graph_objs as go
+    cone_length = 0.08
+
+    vector = stop - start
+    vector /= np.linalg.norm(vector)
+
+    color = color_to_plotly(color)
+    colorscale = [[0, color], [1, color]]
+
+    line = go.Scatter3d(
+        x=[start[0], stop[0]],
+        y=[start[1], stop[1]],
+        z=[start[2], stop[2]],
+        mode="lines",
+        line={"width": 6, "color": color},
+        showlegend=False
+    )
+    cone = go.Cone(
+        x=[stop[0]],
+        y=[stop[1]],
+        z=[stop[2]],
+        u=[vector[0]],
+        v=[vector[1]],
+        w=[vector[2]],
+        showscale=False,
+        colorscale=colorscale,
+        sizemode="absolute",
+        sizeref=cone_length,
+        anchor="cm"
+    )
+    return line, cone
+
+
+def resample_mesh(vertices: np.ndarray, faces: np.ndarray, grid_size: float):
+    face_verts = vertices[faces]
+    centers = face_verts.mean(axis=1)
+    min_coords = np.min(centers, axis=0)
+    max_coords = np.max(centers, axis=0)
+
+    lengths = (max_coords - min_coords)
+    min_coords -= lengths * 0.2
+    max_coords += lengths * 0.2
+
+    n_grid = np.ceil((max_coords - min_coords) / grid_size).astype(int)
+
+    center_idxs = np.arange(len(centers))
+
+    selected_faces = []
+    for cell_image in np.ndindex(tuple(n_grid)):
+        cell_image = np.array(cell_image)
+        cell_min = min_coords + cell_image * grid_size
+        cell_max = min_coords + (cell_image + 1) * grid_size
+
+        # find centers that fall within the
+        within = np.all(centers > cell_min, axis=1) & np.all(centers < cell_max, axis=1)
+
+        if not np.any(within):
+            continue
+
+        # get the indexes of those centers
+        within_idx = center_idxs[within]
+
+        # of these, find the center that is closest to the center of the cell
+        distances = np.linalg.norm((cell_max + cell_min) / 2 - centers[within], axis=1)
+        select_idx = within_idx[np.argmin(distances)]
+
+        selected_faces.append(select_idx)
+
+    return np.array(selected_faces)
+
+
+def _get_face_projections(
+    fermi_surface: FermiSurface,
+    spins: List[Spin],
+    projection_axis: Optional[np.ndarray] = None,
+) -> List[np.ndarray]:
+    """
+    Get projections and projections colormap.
+
+    Args:
+        fermi_surface: The fermi surface containing the isosurfaces and projections.
+        spins: A list of spins to extract the projections for.
+        projection_axis: Projection axis that can be used to calculate the color of
+            vector projects. If None, the norm of the projections will be used,
+            otherwise the color will be determined by the dot product of the projections
+            with the projections axis.
+
+    Returns:
+        The projections as a list of numpy arrays (one array for each isosurface), where
+        the shape of the array is (nfaces, ).
+    """
+    face_projections = []
+    for spin in spins:
+        for iso_projections in fermi_surface.projections[spin]:
+            if iso_projections.ndim == 2:
+                if projection_axis is None:
+                    # color projections by the norm of the projections
+                    iso_projections = np.linalg.norm(iso_projections, axis=1)
+                else:
+                    # color projections by projecting the vector onto axis
+                    iso_projections = np.dot(iso_projections, projection_axis)
+
+            face_projections.append(iso_projections)
+
+    return face_projections
+
+
+def _get_arrows(
+    fermi_surface: FermiSurface,
+    spins: List[Spin],
+    vector_spacing: float = _default_vector_spacing,
+    vnorm: Optional[float] = None,
+    projection_axis: Optional[np.ndarray] = None,
+) -> List[Tuple[np.ndarray, np.ndarray, np.ndarray]]:
+    """
+    Get arrows from vector projections.
+
+    Args:
+        fermi_surface: The fermi surface containing the isosurfaces and projections.
+        spins: Spin channels from which to extract arrows.
+        vector_spacing: The rough spacing between arrows. Uses a custom algorithm for
+            resampling the Fermi surface to ensure that arrows are not too close
+            together.
+        vnorm: The value by which to normalize the vector lengths. For example,
+            spin projections should typically have a norm of 1 whereas group velocity
+            projections can have larger or smaller norms depending on the structure.
+            By changing this number, the size of the vectors will be scaled. Note that
+            the projections of two materials can only be compared quantitatively if a
+            fixed values is used for both plots.
+        projection_axis: Projection axis that can be used to calculate the color of
+            vector projects. If None, the norm of the projections will be used,
+            otherwise the color will be determined by the dot product of the projections
+            with the projections axis.
+
+    Returns:
+        The arrows, as a list of (starts, stops, intenties) for each face. The
+        starts and stops are numpy arrays with the shape (narrows, 3) and intensities
+        is a numpy array with the shape (narrows, ). The intensities are used
+        to color the arrows during plotting.
+    """
+    norms = []
+    centers = []
+    intensity = []
+    vectors = []
+    for spin in spins:
+        for (vertices, faces, _), iso_projections in zip(
+            fermi_surface.isosurfaces[spin],
+            fermi_surface.projections[spin]
+        ):
+            if iso_projections.ndim != 2:
+                continue
+
+            face_idx = resample_mesh(vertices, faces, vector_spacing)
+
+            faces = faces[face_idx]
+            iso_projections = iso_projections[face_idx]
+
+            # get the center of each of face in cartesian coords
+            face_verts = vertices[faces]
+            centers.append(face_verts.mean(axis=1))
+
+            vectors.append(iso_projections)
+            norms.append(np.linalg.norm(iso_projections, axis=1))
+
+            if projection_axis is None:
+                # projections intensity is the norm of the projections
+                intensity.append(norms[-1])
+            else:
+                # get projections intensity from projections of the vector onto axis
+                intensity.append(np.dot(iso_projections, projection_axis))
+
+    # get vector norm
+    if vnorm is None:
+        vnorm = np.max([np.max(x) for x in norms])
+
+    arrows = []
+    for face_vectors, face_centers, face_intensity in zip(vectors, centers, intensity):
+        face_vectors *= 0.14 / vnorm  # 0.14 is magic scaling factor for vector length
+        start = face_centers - face_vectors / 2
+        stop = start + face_vectors
+        # color = cmap((face_intensity - cmin) / (cmax - cmin))
+        arrows.append((start, stop, face_intensity))
+
+    return arrows
+
+
+def get_projection_limits(
+    projections: List[np.ndarray],
+    cmin: Optional[float] = None,
+    cmax: Optional[float] = None
+) -> Tuple[float, float]:
+    if cmax is None:
+        cmax = np.max([np.max(x) for x in projections])
+
+    if cmin is None:
+        cmin = np.min([np.min(x) for x in projections])
+
+    return cmin, cmax
+
+
+def color_to_plotly(color):
+    if isinstance(color, (tuple, list)):
+        color = "rgb({},{},{})".format(*(np.array(color) * 255).astype(int))
+    return color
 
 
 def _get_rotation(reciprocal_slice: ReciprocalSlice) -> np.ndarray:
