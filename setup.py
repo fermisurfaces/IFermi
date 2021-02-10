@@ -2,6 +2,7 @@
 IFermi: Fermi surface plotting tool from DFT output files.
 """
 from setuptools import find_packages, setup
+
 from ifermi import __version__
 
 with open("README.md", "r") as file:
