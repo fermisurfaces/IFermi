@@ -51,24 +51,38 @@ class FermiSlice(MSONable):
         reciprocal_slice: The reciprocal slice defining the intersection of the
             plane with the Brillouin zone edges.
         structure: The structure.
+        projections: A property projected onto the slice. The projections are given
+            for each line. They should be provided as a dict of
+            ``{spin: projections}``, where projections is a list of numpy arrays with
+            the shape (n_lines, ...), for each slice in ``slices`. The projections
+            can scalar or vector properties.
 
     """
 
     slices: Dict[Spin, List[Tuple[np.ndarray, int]]]
     reciprocal_slice: ReciprocalSlice
     structure: Structure
+    projections: Optional[Dict[Spin, List[np.ndarray]]] = None
 
     @classmethod
     def from_dict(cls, d) -> "FermiSlice":
         """Returns FermiSurface object from dict."""
         fs = super().from_dict(d)
         fs.slices = {Spin(int(k)): v for k, v in fs.slices.items()}
+
+        if fs.projections:
+            fs.projections = {Spin(int(k)): v for k, v in fs.projections.items()}
+
         return fs
 
     def as_dict(self) -> dict:
         """Get a json-serializable dict representation of FermiSurface."""
         d = super().as_dict()
         d["slices"] = {str(spin): iso for spin, iso in self.slices.items()}
+
+        if self.projections:
+            d["projections"] = {str(k): v for k, v in self.projections.items()}
+
         return d
 
 
@@ -83,11 +97,11 @@ class FermiSurface(MSONable):
             faces, band_idx)`` for each spin channel.
         reciprocal_space: The reciprocal space associated with the Fermi surface.
         structure: The structure.
-        projections: A property projected onto the surface. The projections is given
-            for each face of the Fermi surface. It should be provided as a dict of
-            ``{spin: projections}``, where projections is a list of numpy arrays with the
-            shape (nfaces, ...), for each surface in ``isosurfaces`. The projections can
-            be a scalar or vector property.
+        projections: A property projected onto the surface. The projections are given
+            for each face of the Fermi surface. They should be provided as a dict of
+            ``{spin: projections}``, where projections is a list of numpy arrays with
+            the shape (nfaces, ...), for each surface in ``isosurfaces`. The projections
+            can scalar or vector properties.
 
     """
 
@@ -206,21 +220,31 @@ class FermiSurface(MSONable):
         cart_origin = cart_normal * distance
 
         slices = {}
+        projections = {}
         for spin, spin_isosurfaces in self.isosurfaces.items():
             spin_slices = []
+            spin_projections = []
 
-            for verts, faces, band_idx in spin_isosurfaces:
+            for i, (verts, faces, band_idx) in enumerate(spin_isosurfaces):
                 mesh = Trimesh(vertices=verts, faces=faces)
-                lines = mesh_multiplane(mesh, cart_origin, cart_normal, [0])[0][0]
-                spin_slices.append((lines, band_idx))
+                lines, face_idxs = mesh_multiplane(mesh, cart_origin, cart_normal, [0])
+
+                # only provided one mesh, so get the lines and faces for that
+                spin_slices.append((lines[0], band_idx))
+
+                if self.projections:
+                    face_idxs = face_idxs[0]
+                    spin_projections.append(self.projections[spin][i][face_idxs])
 
             slices[spin] = spin_slices
+            if self.projections:
+                projections[spin] = spin_projections
 
         reciprocal_slice = self.reciprocal_space.get_reciprocal_slice(
             plane_normal, distance
         )
 
-        return FermiSlice(slices, reciprocal_slice, self.structure)
+        return FermiSlice(slices, reciprocal_slice, self.structure, projections)
 
     @classmethod
     def from_dict(cls, d) -> "FermiSurface":
@@ -388,21 +412,6 @@ def expand_bands(
         final_ebands[spin] = np.tile(ebands, (1, ncells))
 
     return final_ebands, final_kpoints
-
-
-def get_prim_structure(structure, symprec=0.01) -> Structure:
-    """
-    Get the primitive structure.
-
-    Args:
-        structure: The structure.
-        symprec: The symmetry precision in Angstrom.
-
-    Returns:
-       The primitive cell as a pymatgen Structure object.
-    """
-    analyzer = SpacegroupAnalyzer(structure, symprec=symprec)
-    return analyzer.get_primitive_standard_structure()
 
 
 def get_fermi_surface_projection(
