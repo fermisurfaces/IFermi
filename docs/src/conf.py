@@ -165,7 +165,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, "ifermi.tex", "IFermi Documentation", "Amy Searle", "manual"),
+    (master_doc, "ifermi.tex", "IFermi Documentation", "Amy Searle", "manual")
 ]
 
 
@@ -189,7 +189,7 @@ texinfo_documents = [
         author,
         "IFermi",
         "Plotting of Fermi surfaces and slices",
-    ),
+    )
 ]
 
 
