@@ -53,6 +53,7 @@ setup(
     extras_require={
         "mayavi": ["mayavi", "mlabtex", "vtk"],
         "crystal-toolkit": ["crystal-toolkit"],
+        "plotly-static": ["kaleido"],
         "decimation": ["open3d"],
         "smooth": ["PyMCubes"],
         "docs": [
