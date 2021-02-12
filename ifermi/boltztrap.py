@@ -1,11 +1,12 @@
 """
-This module contains functions modified from BoltzTraP2 so that they also return the
-group velocities.
+This module contains functions modified from BoltzTraP2 to return the group velocities.
 """
+
 import multiprocessing as mp
 
 import numpy as np
-from BoltzTraP2.fite import FFTev
+
+__all__ = ["get_bands_fft", "worker"]
 
 
 def get_bands_fft(equiv, coeffs, lattvec, nworkers=1):
@@ -82,6 +83,8 @@ def worker(equivalences, sallvec, dims, iqueue, oqueue):
     Returns:
         None. The results of the calculation are put in oqueue.
     """
+    from BoltzTraP2.fite import FFTev
+
     allvec = np.frombuffer(sallvec)
     allvec.shape = (-1, 3)
 

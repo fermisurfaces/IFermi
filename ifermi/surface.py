@@ -1,9 +1,8 @@
 """
 This module contains the classes and methods for creating iso-surface structures
-from Pymatgen bandstrucutre objects. The iso-surfaces are found using the
+from Pymatgen structure objects. The iso-surfaces are found using the
 Scikit-image package.
 """
-
 import warnings
 from copy import deepcopy
 from dataclasses import dataclass
@@ -14,7 +13,6 @@ from monty.dev import requires
 from monty.json import MSONable
 from pymatgen import Spin, Structure
 from pymatgen.electronic_structure.bandstructure import BandStructure
-from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
 from skimage.measure import marching_cubes
 from trimesh import Trimesh
 from trimesh.intersections import mesh_multiplane, slice_faces_plane
@@ -227,18 +225,28 @@ class FermiSurface(MSONable):
 
             for i, (verts, faces, band_idx) in enumerate(spin_isosurfaces):
                 mesh = Trimesh(vertices=verts, faces=faces)
-                lines, face_idxs = mesh_multiplane(mesh, cart_origin, cart_normal, [0])
+                lines, _, face_idxs = mesh_multiplane(mesh, cart_origin, cart_normal, [0])
 
-                # only provided one mesh, so get the lines and faces for that
-                spin_slices.append((lines[0], band_idx))
+                # only provided one mesh, so get the segments and faces for that
+                segments = lines[0]
+                face_idxs = face_idxs[0]
 
-                if self.projections:
-                    face_idxs = face_idxs[0]
-                    spin_projections.append(self.projections[spin][i][face_idxs])
+                if len(segments) == 0:
+                    # plane did not intersect surface
+                    continue
+
+                paths = process_lines(segments, face_idxs)
+
+                for path_segments, path_faces in zip(paths):
+                    spin_slices.append((path_segments, band_idx))
+                    if self.projections:
+                        spin_projections.append(self.projections[spin][i][path_faces])
 
             slices[spin] = spin_slices
             if self.projections:
                 projections[spin] = spin_projections
+            else:
+                projections = None
 
         reciprocal_slice = self.reciprocal_space.get_reciprocal_slice(
             plane_normal, distance
@@ -491,3 +499,162 @@ def decimate_mesh(vertices: np.ndarray, faces: np.ndarray, factor, method="quadr
         o3d_new_mesh = o3d_mesh.simplify_vertex_clustering(factor, cluster_type)
 
     return np.array(o3d_new_mesh.vertices), np.array(o3d_new_mesh.triangles)
+
+
+def process_lines(
+    segments: np.ndarray, face_idxs: np.ndarray
+) -> List[Tuple[np.ndarray, np.ndarray]]:
+    """
+    Process segments and face_idxs from mesh_multiplane.
+
+    The key issue is that the segments from mesh_multiplane do not correspond to
+    individual lines, nor are they sorted in a continuous order. Instead they are just
+    a list of randomly ordered segments. This causes trouble later on when trying
+    to add equally spaced arrows to the lines.
+
+    The goal of this function is to identify the separate paths in the segments (a path
+    is a collection of segments that are connected together), and return these
+    segments in the order that they are connected. By looping through each segment, you
+    will be proceeding along the line in a certain direction.
+
+    Because the original segments may contain multiple paths, a list of segments
+    and their corresponding face indices are returned.
+
+    Lastly, note that there is no guarantee that all of the original segments will be
+    used in the processed segments. This is because some of the original segments are
+    very small and will be filtered out.
+
+    Args:
+        segments: The segments from mesh_multiplane as an array with the shape
+            (nsegments, 2, 2).
+        face_idxs: The face indices that each segment belongs to.
+
+    Returns:
+        A list of segments and faces for each path.
+    """
+
+    # turn the segments with the shape (nsegments, 2, 2), into a list of vertices
+    # with the shape (nsegments * 2, 2)
+    vertices = segments.reshape(-1, 2)
+
+    # create edges that correspond to the original segments, i.e., [(0, 1), (2, 3), ...]
+    edges = np.arange(0, len(vertices)).reshape(len(segments), 2)
+
+    # merge vertices that are close together and get an equivalence mapping
+    mapping = get_equivalent_vertices(vertices)
+
+    # get the indices of the unique vertices
+    unique_vertices_idx = np.unique(mapping)
+
+    # use only equivalent vertices for the edges
+    edges = mapping[edges]
+
+    # some of the edges may now be duplicates, and some even may be edges between
+    # the same vertex; filter these duplicates/self edges but keep track of the index
+    # of the unique edges in the original edges array. We keep this information as this
+    # index is used to identify the face that each segment belongs to
+    unique_edges, unique_edge_idxs = np.unique(edges, axis=0, return_index=True)
+
+    # filter self edges
+    non_self_edges = unique_edges[:, 0] != unique_edges[:, 1]
+
+    # these are the unique/non-self edges
+    unique_edges = unique_edges[non_self_edges]
+
+    # these are the indices of the unique edges in the original edges array
+    unique_edge_idxs = unique_edge_idxs[non_self_edges]
+
+    # create a mapping from the edge data to the original edge index
+    edge_mapping = {(u, v): idx for (u, v), idx in zip(unique_edges, unique_edge_idxs)}
+
+    # get the longest paths for each subgraph
+    paths = get_longest_simple_paths(unique_vertices_idx, unique_edges)
+
+    # get the new segments and corresponding face indices for each path
+    path_data = []
+    for path in paths:
+        pair_path = np.array(list(_pairwise(path)))
+        new_segments = vertices[pair_path]
+
+        edge_idxs = np.array([edge_mapping[(u, v)] for u, v in pair_path])
+        new_faces = face_idxs[edge_idxs]
+
+        path_data.append((new_segments, new_faces))
+
+    return path_data
+
+
+def get_equivalent_vertices(vertices: np.ndarray, tol: float = 1e-4):
+    from scipy import spatial
+
+    tree = spatial.cKDTree(vertices)
+    to_merge = tree.query_ball_tree(tree, tol)
+
+    merge_mapping = {}
+    seen = set()
+    for i, merge_set in enumerate(to_merge):
+        if i in merge_mapping or i in seen:
+            continue
+
+        merge_mapping[i] = {i}
+        seen.add(i)
+        queue = list(merge_set)
+        for idx in queue:
+            if idx in seen:
+                continue
+
+            merge_mapping[i].add(idx)
+            seen.add(idx)
+            queue += list(to_merge[i])
+
+    inverse_mapping = {}
+    for k, v in merge_mapping.items():
+        inverse_mapping.update(dict(zip(list(v), len(v) * [k])))
+
+    return np.array([inverse_mapping[i] for i in range(len(vertices))])
+
+
+def get_longest_simple_paths(vertices, edges):
+    import networkx as nx
+
+    graph = nx.Graph()
+    graph.add_nodes_from(vertices)
+    graph.add_edges_from(edges)
+
+    subgraphs = [graph.subgraph(c) for c in nx.connected_components(graph)]
+
+    paths = []
+    for subgraph in subgraphs:
+        cycles = list(nx.cycle_basis(subgraph))
+
+        if len(cycles) > 0:
+            # path contains a cycle, i.e., the path does not hit a periodic boundary
+            # there should be only one cycle, but just in case we take the longest one
+            longest_path = sorted(cycles, key=lambda x: len(x))[-1]
+
+        else:
+            # graph does not have cycles, i.e., it his the periodic boundary condition
+            # twice; find the nodes with only one edge and use these as the start
+            # and end points for the path
+            ends = [v for v, d in subgraph.degree if d == 1]
+            if len(ends) != 2:
+                raise ValueError("Path is not unique; valued to find path")
+
+            start, end = ends
+            simple_paths = list(nx.all_simple_paths(subgraph, start, end))
+            longest_path = sorted(simple_paths, key=lambda x: len(x))[-1]
+
+        if len(longest_path) != len(graph.nodes):
+            raise ValueError("Path does not cover all nodes.")
+
+        paths.append(longest_path)
+
+    return paths
+
+
+def _pairwise(iterable):
+    """s -> (s0,s1), (s1,s2), (s2, s3), ..."""
+    from itertools import tee
+    a, b = tee(iterable)
+    next(b, None)
+    return zip(a, b)
