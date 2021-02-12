@@ -1,6 +1,3 @@
-# Copyright (c) Amy Searle
-# Distributed under the terms of the MIT License.
-
 """
 This modules defines command line tools for generating and plotting Fermi surfaces.
 """
@@ -13,12 +10,6 @@ import click
 from click import option
 
 from ifermi.defaults import AZIMUTH, ELEVATION, SCALE, SYMPREC, VECTOR_SPACING
-
-__author__ = "Amy Searle, Alex Ganose"
-__version__ = "0.1.0"
-__maintainer__ = "Amy Searle, Alex Ganose"
-__email__ = "amyjadesearle@gmail.com"
-__date__ = "Feb 09, 2021"
 
 plot_type = click.Choice(["matplotlib", "plotly", "mayavi"], case_sensitive=False)
 spin_type = click.Choice(["up", "down"], case_sensitive=False)
@@ -95,6 +86,7 @@ def cli():
 @option("--cmax", type=float, help="maximum intensity on projection colorbar")
 @option("--vnorm", type=float, help="value by which to normalise vector lengths")
 @option("--hide-surface", is_flag=True, help="hide the Fermi surface")
+@option("--hide-labels", is_flag=True, help="hide the high-symmetry k-point labels")
 @option("--spin", type=spin_type, help="select spin channel")
 @option("--smooth", is_flag=True, help="smooth the Fermi surface")
 @option(
@@ -116,7 +108,6 @@ def plot(filename, **kwargs):
     from pymatgen.electronic_structure.core import Spin
     from pymatgen.io.vasp.outputs import Vasprun
 
-    from ifermi.fermi_surface import FermiSurface
     from ifermi.interpolator import Interpolator
     from ifermi.kpoints import get_kpoints_from_bandstructure
     from ifermi.plotter import (
@@ -125,6 +116,7 @@ def plot(filename, **kwargs):
         save_plot,
         show_plot,
     )
+    from ifermi.surface import FermiSurface
 
     try:
         import mayavi.mlab as mlab
@@ -173,6 +165,7 @@ def plot(filename, **kwargs):
     )
 
     spin = {"up": Spin.up, "down": Spin.down, None: None}[kwargs["spin"]]
+    projection_axis = kwargs["projection_axis"] or None
 
     if kwargs["slice"]:
         plane_normal = kwargs["slice"][:3]
@@ -180,11 +173,20 @@ def plot(filename, **kwargs):
 
         fermi_slice = fs.get_fermi_slice(plane_normal, distance)
         plotter = FermiSlicePlotter(fermi_slice, symprec=kwargs["symprec"])
-        fig = plotter.get_plot(spin)
+        fig = plotter.get_plot(
+            spin=spin,
+            color_projection=kwargs["color_projection"],
+            vector_projection=kwargs["vector_projection"],
+            projection_axis=projection_axis,
+            vector_spacing=kwargs["vector_spacing"],
+            cmin=kwargs["cmin"],
+            cmax=kwargs["cmax"],
+            vnorm=kwargs["vnorm"],
+            hide_slice=kwargs["hide_surface"],
+            hide_labels=kwargs["hide_labels"],
+        )
     else:
         plotter = FermiSurfacePlotter(fs, symprec=kwargs["symprec"])
-        projection_axis = kwargs["projection_axis"] or None
-
         fig = plotter.get_plot(
             plot_type=kwargs["plot_type"],
             spin=spin,
@@ -198,6 +200,7 @@ def plot(filename, **kwargs):
             cmax=kwargs["cmax"],
             vnorm=kwargs["vnorm"],
             hide_surface=kwargs["hide_surface"],
+            hide_labels=kwargs["hide_labels"],
         )
 
     if output_filename is None:
