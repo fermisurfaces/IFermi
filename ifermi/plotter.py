@@ -94,6 +94,15 @@ _mayavi_rs_style = {
 
 # define matplotlib default styles
 _mpl_cbar_style = {"shrink": 0.5}
+_mpl_bz_style = {"bz_linewidth": 1, "color": "k"}
+_mpl_arrow_style = {
+    "angles": "xy",
+    "scale_units": "xy",
+    "scale": 1.0,
+    "pivot": "mid",
+    "zorder": 10,
+    "units": "xy",
+}
 _mpl_sym_pt_style = {"s": 20, "c": "k", "zorder": 20}
 _mpl_sym_label_style = {"size": 18, "zorder": 20}
 
@@ -469,10 +478,10 @@ class FermiSurfacePlotter(MSONable):
                     ax.quiver(x, y, z, u, v, w, color=color, **quiver_kwargs)
 
         # add the cell outline to the plot
+        _mpl_bz_style.update(bz_kwargs)
         lines = Line3DCollection(
             self.reciprocal_space.lines,
-            colors="k",
-            **bz_kwargs,
+            **_mpl_bz_style,
         )
         ax.add_collection3d(lines)
 
@@ -839,6 +848,7 @@ class FermiSlicePlotter(object):
 
     def get_plot(
         self,
+        ax: Optional[Any] = None,
         spin: Optional[Spin] = None,
         colors: Optional[Union[str, dict, list]] = COLORMAP,
         color_projection: Union[str, bool] = True,
@@ -852,11 +862,18 @@ class FermiSlicePlotter(object):
         vnorm: Optional[float] = None,
         hide_slice: bool = False,
         hide_labels: bool = False,
+        slice_kwargs: Optional[Dict[str, Any]] = None,
+        cbar_kwargs: Optional[Dict[str, Any]] = None,
+        quiver_kwargs: Optional[Dict[str, Any]] = None,
+        bz_kwargs: Optional[Dict[str, Any]] = None,
+        sym_pt_kwargs: Optional[Dict[str, Any]] = None,
+        sym_label_kwargs: Optional[Dict[str, Any]] = None,
     ):
         """
         Plot the Fermi slice.
 
         Args:
+            ax: Matplotlib axes object on which to plot.
             spin: Which spin channel to plot. By default plot both spin channels if
                 available.
             colors: The color specification for the iso-surfaces. Valid options are:
@@ -919,12 +936,30 @@ class FermiSlicePlotter(object):
             hide_slice: Whether to hide the Fermi surface. Only recommended in
                 combination with the ``vector_projection`` option.
             hide_labels: Whether to show the high-symmetry k-point labels.
+            slice_kwargs: Optional arguments that are passed to ``LineCollection`` and
+                are used to style the iso slice.
+            cbar_kwargs: Optional arguments that are passed to ``fig.colorbar``.
+            quiver_kwargs: Optional arguments that are passed to ``ax.quiver`` and are
+                used to style the arrows.
+            bz_kwargs: Optional arguments that passed to ``LineCollection`` and used
+                to style the Brillouin zone boundary.
+            sym_pt_kwargs: Optional arguments that are passed to ``ax.scatter``
+                and are used to style the high-symmetry k-point symbols.
+            sym_label_kwargs: Optional arguments that are passed to ``ax.text`` and are
+                used to style the high-symmetry k-point labels.
 
         Returns:
             matplotlib pyplot object.
         """
         import matplotlib.pyplot as plt
         from matplotlib.collections import LineCollection
+
+        slice_kwargs = slice_kwargs or {}
+        cbar_kwargs = cbar_kwargs or {}
+        quiver_kwargs = quiver_kwargs or {}
+        bz_kwargs = bz_kwargs or {}
+        sym_pt_kwargs = sym_pt_kwargs or {}
+        sym_label_kwargs = sym_label_kwargs or {}
 
         plot_data = self._get_plot_data(
             spin=spin,
@@ -940,8 +975,11 @@ class FermiSlicePlotter(object):
             hide_labels=hide_labels,
         )
 
-        fig = plt.figure(figsize=(5, 5))
-        ax = fig.add_subplot(111)
+        if ax is None:
+            fig = plt.figure(figsize=(5, 5))
+            ax = fig.add_subplot(111)
+        else:
+            fig = plt.gcf()
 
         # get rotation matrix that will align the longest slice length along the x-axis
         rotation = _get_rotation(self.fermi_slice.reciprocal_slice)
@@ -964,59 +1002,52 @@ class FermiSlicePlotter(object):
                 # segments, projections = _interpolate_segments(
                 #     segments, proj, projection_interpolation_factor
                 # )
-
+                slice_style = {"antialiasted": True, "linewidth": linewidth}
+                slice_style.update(slice_kwargs)
                 lines = LineCollection(
                     np.dot(segments, rotation),
                     cmap=plot_data.projection_colormap,
-                    antialiaseds=True,
                     norm=norm,
-                    linewidth=linewidth,
+                    **slice_style,
                 )
                 lines.set_array(proj)  # set the values used for color mapping
                 ax.add_collection(lines)
             if lines:
-                fig.colorbar(lines, ax=ax, shrink=0.5)
+                _mpl_cbar_style.update(cbar_kwargs)
+                fig.colorbar(lines, ax=ax, **_mpl_cbar_style)
 
         else:
+            slice_style = {"antialiasted": True, "linewidth": 2}
+            slice_style.update(slice_kwargs)
             for c, (segments, band_idx) in zip(plot_data.colors, plot_data.slices):
                 lines = LineCollection(
-                    np.dot(segments, rotation), colors=c, linewidth=2
+                    np.dot(segments, rotation), colors=c, **slice_kwargs
                 )
                 ax.add_collection(lines)
 
         # add the cell outline to the plot
         rotated_lines = np.dot(self.reciprocal_slice.lines, rotation)
-        lines = LineCollection(rotated_lines, colors="k", linewidth=1)
+        _mpl_bz_style.update(bz_kwargs)
+        lines = LineCollection(rotated_lines, **_mpl_bz_style)
         ax.add_collection(lines)
 
         if not plot_data.hide_labels:
             for coords, label in zip(*self._symmetry_pts):
-                coords = np.dot(coords, rotation)
-                ax.scatter(*coords, s=20, c="k")
-                label = label.replace(r"\Gamma", r"$\Gamma$")
-                ax.text(*coords, " " + label, size=18, zorder=10)
+                _mpl_sym_pt_style.update(sym_pt_kwargs)
+                _mpl_sym_label_style.update(sym_label_kwargs)
+                ax.scatter(*coords, **_mpl_sym_pt_style)
+                ax.text(*coords, "${}$".format(label), **_mpl_sym_label_style)
 
         if plot_data.arrows is not None:
             norm = Normalize(vmin=plot_data.cmin, vmax=plot_data.cmax)
+            _mpl_arrow_style.update(quiver_kwargs)
             for starts, stops, intensities in plot_data.arrows:
                 colors = plot_data.arrow_colormap(norm(intensities))
                 starts = np.dot(starts, rotation)
                 stops = np.dot(stops, rotation)
                 u, v = (starts - stops).T
                 x, y = starts.T
-                ax.quiver(
-                    x,
-                    y,
-                    u,
-                    v,
-                    color=colors,
-                    angles="xy",
-                    scale_units="xy",
-                    scale=1.0,
-                    pivot="mid",
-                    zorder=10,
-                    units="xy",
-                )
+                ax.quiver(x, y, u, v, color=colors, **_mpl_arrow_style)
 
         ax.autoscale(enable=True)
         ax.axis("equal")
