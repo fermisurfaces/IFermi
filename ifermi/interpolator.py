@@ -1,28 +1,15 @@
 """
 This module implements classes to perform Fourier and Linear interpolation.
-Developed by Alex Ganose.
 """
 
-import multiprocessing
 from collections import defaultdict
 from typing import Optional
 
 import numpy as np
-from BoltzTraP2 import fite, sphere
-from BoltzTraP2.units import Angstrom, eV
 from monty.json import MSONable
 from pymatgen.electronic_structure.bandstructure import BandStructure
-from pymatgen.io.ase import AseAtomsAdaptor
-from scipy.interpolate import RegularGridInterpolator
-from spglib import spglib
 
-from ifermi.boltztrap import get_bands_fft
-from ifermi.kpoints import (
-    get_kpoint_mesh_dim,
-    get_kpoints_from_bandstructure,
-    kpoints_to_first_bz,
-    sort_boltztrap_to_spglib,
-)
+__all__ = ["Interpolator", "PeriodicLinearInterpolator"]
 
 
 class Interpolator(MSONable):
@@ -47,6 +34,11 @@ class Interpolator(MSONable):
         magmom: Optional[np.ndarray] = None,
         mommat: Optional[np.ndarray] = None,
     ):
+        from BoltzTraP2.units import Angstrom
+        from pymatgen.io.ase import AseAtomsAdaptor
+
+        from ifermi.kpoints import get_kpoints_from_bandstructure
+
         self._band_structure = band_structure
         self._soc = soc
         self._spins = self._band_structure.bands.keys()
@@ -87,6 +79,16 @@ class Interpolator(MSONable):
             ``{Spin: velocoties}`` where velocities is a numpy array with the
             shape (nbands, nkpoints, 3) and has units of m/s.
         """
+        import multiprocessing
+
+        from BoltzTraP2 import fite, sphere
+        from BoltzTraP2.units import eV
+        from pymatgen.io.ase import AseAtomsAdaptor
+        from spglib import spglib
+
+        from ifermi.boltztrap import get_bands_fft
+        from ifermi.kpoints import sort_boltztrap_to_spglib
+
         coefficients = {}
 
         equivalences = sphere.get_equivalences(
@@ -213,6 +215,8 @@ class PeriodicLinearInterpolator(object):
         return interp_data
 
     def _setup_interpolators(self, data, grid_kpoints, mesh_dim, sort_idx):
+        from scipy.interpolate import RegularGridInterpolator
+
         x = grid_kpoints[:, 0, 0, 0]
         y = grid_kpoints[0, :, 0, 1]
         z = grid_kpoints[0, 0, :, 2]
@@ -252,6 +256,8 @@ class PeriodicLinearInterpolator(object):
     @staticmethod
     def _grid_kpoints(kpoints):
         # k-points has to cover the full BZ
+        from ifermi.kpoints import get_kpoint_mesh_dim, kpoints_to_first_bz
+
         kpoints = kpoints_to_first_bz(kpoints)
         mesh_dim = get_kpoint_mesh_dim(kpoints)
         if np.product(mesh_dim) != len(kpoints):
