@@ -1,14 +1,12 @@
+"""This module defines Brillouin zone and slice geometries."""
+
 import itertools
 from dataclasses import dataclass, field
 from typing import List, Optional, Tuple
 
 import numpy as np
 from monty.json import MSONable
-from pymatgen import Structure
-from scipy.spatial import ConvexHull, Voronoi
-from trimesh.geometry import plane_transform
-from trimesh.intersections import plane_lines
-from trimesh.transformations import transform_points
+from pymatgen.core.structure import Structure
 
 
 @dataclass
@@ -34,6 +32,8 @@ class ReciprocalSlice(MSONable):
         """
         Get the edges of the space as a List of tuples specifying the vertex indices.
         """
+        from scipy.spatial import ConvexHull
+
         if self._edges is None:
             hull = ConvexHull(self.vertices)
             self._edges = hull.simplices
@@ -158,6 +158,10 @@ class ReciprocalCell(MSONable):
         Returns:
             The reciprocal slice.
         """
+        from trimesh import transform_points
+        from trimesh.geometry import plane_transform
+        from trimesh.intersections import plane_lines
+
         cart_normal = np.dot(plane_normal, self.reciprocal_lattice)
         cart_center = cart_normal * distance
 
@@ -204,6 +208,8 @@ class WignerSeitzCell(ReciprocalCell):
         Returns:
             An instance of the cell.
         """
+        from scipy.spatial.qhull import Voronoi
+
         reciprocal_lattice = structure.lattice.reciprocal_lattice.matrix
 
         points = []
