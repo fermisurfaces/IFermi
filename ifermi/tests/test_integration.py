@@ -4,9 +4,9 @@ from pathlib import Path
 from pymatgen import Spin
 from pymatgen.io.vasp.outputs import Vasprun
 
-from ifermi.fermi_surface import FermiSurface
 from ifermi.interpolator import Interpolator
 from ifermi.plotter import FermiSurfacePlotter, save_plot
+from ifermi.surface import FermiSurface
 
 test_dir = Path(__file__).resolve().parent
 root_dir = test_dir / "../.."
@@ -22,8 +22,8 @@ class IntegrationTest(unittest.TestCase):
 
     def test_integration_wigner_seitz(self):
         interpolator = Interpolator(self.band_structure)
-        new_bs, kpoint_dim = interpolator.interpolate_bands(1)
-        fs = FermiSurface.from_band_structure(new_bs, kpoint_dim)
+        new_bs = interpolator.interpolate_bands(1)
+        fs = FermiSurface.from_band_structure(new_bs)
         plotter = FermiSurfacePlotter(fs)
         plot = plotter.get_plot(plot_type="matplotlib")
         save_plot(plot, self.output_file)
@@ -32,8 +32,8 @@ class IntegrationTest(unittest.TestCase):
 
     def test_integration_reciprocal(self):
         interpolator = Interpolator(self.band_structure)
-        new_bs, kpoint_dim = interpolator.interpolate_bands(1)
-        fs = FermiSurface.from_band_structure(new_bs, kpoint_dim, wigner_seitz=False)
+        new_bs = interpolator.interpolate_bands(1)
+        fs = FermiSurface.from_band_structure(new_bs, wigner_seitz=False)
         plotter = FermiSurfacePlotter(fs)
         plot = plotter.get_plot(plot_type="matplotlib")
         save_plot(plot, self.output_file)
@@ -42,8 +42,8 @@ class IntegrationTest(unittest.TestCase):
 
     def test_integration_spin(self):
         interpolator = Interpolator(self.band_structure)
-        new_bs, kpoint_dim = interpolator.interpolate_bands(1)
-        fs = FermiSurface.from_band_structure(new_bs, kpoint_dim, wigner_seitz=False)
+        new_bs = interpolator.interpolate_bands(1)
+        fs = FermiSurface.from_band_structure(new_bs, wigner_seitz=False)
         plotter = FermiSurfacePlotter(fs)
         plot = plotter.get_plot(plot_type="matplotlib", spin=Spin.up)
         save_plot(plot, self.output_file)

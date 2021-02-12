@@ -5,7 +5,7 @@ import numpy as np
 from monty.serialization import loadfn
 from pymatgen import Spin
 
-from ifermi.fermi_surface import FermiSurface
+from ifermi.surface import FermiSurface
 
 test_dir = Path(__file__).resolve().parent
 
@@ -18,29 +18,28 @@ class FermiSurfaceTest(unittest.TestCase):
         # for some reason BandStructure json doesn't include the structure
         self.band_structure.structure = bs_data["structure"]
 
-        self.kpoint_dim = bs_data["dim"]
         self.ref_fs_wigner = loadfn(test_dir / "fs_BaFe2As2_wigner.json.gz")
         self.ref_fs_reciprocal = loadfn(test_dir / "fs_BaFe2As2_reciprocal.json.gz")
 
     def test_wigner_seitz_cell(self):
         fs = FermiSurface.from_band_structure(
-            self.band_structure, self.kpoint_dim, wigner_seitz=True
+            self.band_structure, wigner_seitz=True
         )
         self.assert_fs_equal(fs, self.ref_fs_wigner)
 
     def test_decimation(self):
-        fs = FermiSurface.from_band_structure(self.band_structure, self.kpoint_dim)
+        fs = FermiSurface.from_band_structure(self.band_structure)
         n_faces_orig = len(fs.isosurfaces[Spin.up][0][1])
 
         fs = FermiSurface.from_band_structure(
-            self.band_structure, self.kpoint_dim, decimate_factor=0.8
+            self.band_structure, decimate_factor=0.8
         )
         n_faces_new = len(fs.isosurfaces[Spin.up][0][1])
         self.assertLess(n_faces_new, n_faces_orig)
 
     def test_reciprocal_cell(self):
         fs = FermiSurface.from_band_structure(
-            self.band_structure, self.kpoint_dim, wigner_seitz=False
+            self.band_structure, wigner_seitz=False
         )
         self.assert_fs_equal(fs, self.ref_fs_reciprocal)
 
