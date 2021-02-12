@@ -1,13 +1,21 @@
+"""This module defines helper functions for manipulating k-points."""
 import warnings
 from typing import Tuple
 
 import numpy as np
 from pymatgen.electronic_structure.bandstructure import BandStructure
 
-ktol = 1e-5
+from ifermi.defaults import KTOL
+
+__all__ = [
+    "kpoints_to_first_bz",
+    "get_kpoints_from_bandstructure",
+    "get_kpoint_mesh_dim",
+    "get_kpoint_spacing",
+]
 
 
-def kpoints_to_first_bz(kpoints: np.ndarray, tol: float = ktol) -> np.ndarray:
+def kpoints_to_first_bz(kpoints: np.ndarray, tol: float = KTOL) -> np.ndarray:
     """Translate fractional k-points to the first Brillouin zone.
 
     I.e. all k-points will have fractional coordinates:
@@ -30,7 +38,7 @@ def kpoints_to_first_bz(kpoints: np.ndarray, tol: float = ktol) -> np.ndarray:
     return kp
 
 
-def get_kpoint_mesh_dim(kpoints: np.ndarray, tol: float = ktol) -> Tuple[int, int, int]:
+def get_kpoint_mesh_dim(kpoints: np.ndarray, tol: float = KTOL) -> Tuple[int, int, int]:
     """
     Gets the k-point mesh dimensions.
 
