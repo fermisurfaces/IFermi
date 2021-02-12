@@ -481,7 +481,7 @@ class FermiSurfacePlotter(MSONable):
                 _mpl_sym_pt_style.update(sym_pt_kwargs)
                 _mpl_sym_label_style.update(sym_label_kwargs)
                 ax.scatter(*coords, **_mpl_sym_pt_style)
-                ax.text(*coords, "${}$".format(label), _mpl_sym_label_style)
+                ax.text(*coords, "${}$".format(label), **_mpl_sym_label_style)
 
         xlim, ylim, zlim = np.linalg.norm(self.rlat, axis=1) / 2
         ax.set(xlim=(-xlim, xlim), ylim=(-ylim, ylim), zlim=(-zlim, zlim))
