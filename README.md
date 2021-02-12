@@ -56,7 +56,7 @@ A minimal working example to plot the Fermi surface from a `vasprun.xml` file is
 
 ```python
 from pymatgen.io.vasp.outputs import Vasprun
-from ifermi.fermi_surface import FermiSurface
+from ifermi.surface import FermiSurface
 from ifermi.interpolator import Interpolator
 from ifermi.plotter import FermiSurfacePlotter, show_plot, save_plot
 
