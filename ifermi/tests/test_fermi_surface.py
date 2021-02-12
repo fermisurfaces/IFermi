@@ -22,25 +22,19 @@ class FermiSurfaceTest(unittest.TestCase):
         self.ref_fs_reciprocal = loadfn(test_dir / "fs_BaFe2As2_reciprocal.json.gz")
 
     def test_wigner_seitz_cell(self):
-        fs = FermiSurface.from_band_structure(
-            self.band_structure, wigner_seitz=True
-        )
+        fs = FermiSurface.from_band_structure(self.band_structure, wigner_seitz=True)
         self.assert_fs_equal(fs, self.ref_fs_wigner)
 
     def test_decimation(self):
         fs = FermiSurface.from_band_structure(self.band_structure)
         n_faces_orig = len(fs.isosurfaces[Spin.up][0][1])
 
-        fs = FermiSurface.from_band_structure(
-            self.band_structure, decimate_factor=0.8
-        )
+        fs = FermiSurface.from_band_structure(self.band_structure, decimate_factor=0.8)
         n_faces_new = len(fs.isosurfaces[Spin.up][0][1])
         self.assertLess(n_faces_new, n_faces_orig)
 
     def test_reciprocal_cell(self):
-        fs = FermiSurface.from_band_structure(
-            self.band_structure, wigner_seitz=False
-        )
+        fs = FermiSurface.from_band_structure(self.band_structure, wigner_seitz=False)
         self.assert_fs_equal(fs, self.ref_fs_reciprocal)
 
     def assert_fs_equal(self, fs1: FermiSurface, fs2: FermiSurface):
