@@ -13,7 +13,7 @@ from ifermi.defaults import AZIMUTH, ELEVATION, SCALE, SYMPREC, VECTOR_SPACING
 
 plot_type = click.Choice(["matplotlib", "plotly", "mayavi"], case_sensitive=False)
 spin_type = click.Choice(["up", "down"], case_sensitive=False)
-projection_type = click.Choice(["velocity"], case_sensitive=False)
+projection_type = click.Choice(["velocity", "spin"], case_sensitive=False)
 
 
 @click.group(
@@ -105,6 +105,7 @@ def plot(filename, **kwargs):
     """
     Plot Fermi surfaces from a vasprun.xml file.
     """
+    import numpy as np
     from pymatgen.electronic_structure.core import Spin
     from pymatgen.io.vasp.outputs import Vasprun
 
@@ -137,7 +138,8 @@ def plot(filename, **kwargs):
     if not filename:
         filename = find_vasprun_file()
 
-    vr = Vasprun(filename)
+    parse_projections = kwargs["projection"] == "spin"
+    vr = Vasprun(filename, parse_projected_eigen=parse_projections)
     bs = vr.get_band_structure()
 
     interpolator = Interpolator(bs)
@@ -150,6 +152,25 @@ def plot(filename, **kwargs):
     if kwargs["projection"] == "velocity":
         projection_data = velocities
         projection_kpoints = get_kpoints_from_bandstructure(interp_bs)
+    elif kwargs["projection"] == "spin":
+        if vr.projected_magnetisation is not None:
+            # transpose so shape is (nbands, nkpoints, natoms, norbitals, 3)
+            projection_data = vr.projected_magnetisation.transpose(1, 0, 2, 3, 4)
+
+            # sum across all atoms and orbitals
+            projection_data = projection_data.sum(axis=(2, 3))
+            projection_data /= np.linalg.norm(projection_data, axis=-1)[..., None]
+
+            projection_data = {Spin.up: projection_data}
+            projection_kpoints = get_kpoints_from_bandstructure(bs)
+        else:
+            click.echo(
+                "ERROR: Band structure does not include spin projections.\n"
+                "Ensure calculation was run with LSORBIT or LNONCOLLINEAR = True "
+                "and LSORBIT = 11."
+            )
+            sys.exit()
+
     elif kwargs["projection"] is not None:
         click.echo("unrecognised projection type - valid options are: velocity")
         sys.exit()
