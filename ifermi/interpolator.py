@@ -21,8 +21,6 @@ class Interpolator(MSONable):
     Args:
         band_structure (BandStructure): The Bandstructure object to be
             interpolated
-        soc (bool): Whether the band structure is calculated using spin-orbit
-            coupling.
         magmom: Magnetic moments of the atoms.
         mommat: Momentum matrix, as supported by BoltzTraP2.
     """
@@ -30,7 +28,6 @@ class Interpolator(MSONable):
     def __init__(
         self,
         band_structure: BandStructure,
-        soc: bool = False,
         magmom: Optional[np.ndarray] = None,
         mommat: Optional[np.ndarray] = None,
     ):
@@ -40,7 +37,6 @@ class Interpolator(MSONable):
         from ifermi.kpoints import get_kpoints_from_bandstructure
 
         self._band_structure = band_structure
-        self._soc = soc
         self._spins = self._band_structure.bands.keys()
         self._lattice_matrix = band_structure.structure.lattice.matrix.T * Angstrom
         self._projection_coefficients = defaultdict(dict)
@@ -250,7 +246,8 @@ class PeriodicLinearInterpolator(object):
                 interp_range,
                 grid_data,
                 bounds_error=False,
-                fill_value=None,  # , method="nearest"
+                fill_value=None,
+                # method="nearest"
             )
 
     @staticmethod
