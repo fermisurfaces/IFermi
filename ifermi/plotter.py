@@ -94,15 +94,18 @@ _mayavi_rs_style = {
 
 # define matplotlib default styles
 _mpl_cbar_style = {"shrink": 0.5}
-_mpl_bz_style = {"bz_linewidth": 1, "color": "k"}
+_mpl_bz_style = {"linewidth": 1, "color": "k"}
+_mpl_bz_style = {"linewidth": 1, "color": "k"}
 _mpl_arrow_style = {
     "angles": "xy",
     "scale_units": "xy",
-    "scale": 1.0,
-    "pivot": "mid",
+    "scale": 1,
     "zorder": 10,
-    "units": "xy",
+    "units": "dots",
+    "width": 5,
+    "pivot": "tail",
 }
+
 _mpl_sym_pt_style = {"s": 20, "c": "k", "zorder": 20}
 _mpl_sym_label_style = {"size": 18, "zorder": 20}
 
@@ -533,6 +536,13 @@ class FermiSurfacePlotter(MSONable):
         """
         import plotly.graph_objs as go
 
+        mesh_kwargs = mesh_kwargs or {}
+        arrow_line_kwargs = arrow_line_kwargs or {}
+        arrow_cone_kwargs = arrow_cone_kwargs or {}
+        bz_kwargs = bz_kwargs or {}
+        sym_pt_kwargs = sym_pt_kwargs or {}
+        sym_label_kwargs = sym_label_kwargs or {}
+
         if _is_notebook():
             from plotly.offline import init_notebook_mode
 
@@ -854,7 +864,7 @@ class FermiSlicePlotter(object):
         color_projection: Union[str, bool] = True,
         vector_projection: Union[str, bool] = False,
         projection_axis: Optional[Tuple[int, int, int]] = None,
-        scale_linewidth: Union[bool, float] = True,
+        scale_linewidth: Union[bool, float] = False,
         projection_interpolation_factor: float = PROJECTION_INTERPOLATION_FACTOR,
         vector_spacing: float = VECTOR_SPACING,
         cmin: Optional[float] = None,
@@ -862,6 +872,7 @@ class FermiSlicePlotter(object):
         vnorm: Optional[float] = None,
         hide_slice: bool = False,
         hide_labels: bool = False,
+        arrow_pivot: str = "tail",
         slice_kwargs: Optional[Dict[str, Any]] = None,
         cbar_kwargs: Optional[Dict[str, Any]] = None,
         quiver_kwargs: Optional[Dict[str, Any]] = None,
@@ -936,6 +947,8 @@ class FermiSlicePlotter(object):
             hide_slice: Whether to hide the Fermi surface. Only recommended in
                 combination with the ``vector_projection`` option.
             hide_labels: Whether to show the high-symmetry k-point labels.
+            arrow_pivot: The part of the arrow that is anchored to the X, Y grid.
+                The arrow rotates about this point, options are: tail, middle, tip.
             slice_kwargs: Optional arguments that are passed to ``LineCollection`` and
                 are used to style the iso slice.
             cbar_kwargs: Optional arguments that are passed to ``fig.colorbar``.
@@ -1002,7 +1015,7 @@ class FermiSlicePlotter(object):
                 # segments, projections = _interpolate_segments(
                 #     segments, proj, projection_interpolation_factor
                 # )
-                slice_style = {"antialiasted": True, "linewidth": linewidth}
+                slice_style = {"antialiaseds": True, "linewidth": linewidth}
                 slice_style.update(slice_kwargs)
                 lines = LineCollection(
                     np.dot(segments, rotation),
@@ -1040,12 +1053,13 @@ class FermiSlicePlotter(object):
 
         if plot_data.arrows is not None:
             norm = Normalize(vmin=plot_data.cmin, vmax=plot_data.cmax)
+            _mpl_arrow_style["pivot"] = arrow_pivot
             _mpl_arrow_style.update(quiver_kwargs)
             for starts, stops, intensities in plot_data.arrows:
                 colors = plot_data.arrow_colormap(norm(intensities))
                 starts = np.dot(starts, rotation)
                 stops = np.dot(stops, rotation)
-                u, v = (starts - stops).T
+                u, v = (stops - starts).T
                 x, y = starts.T
                 ax.quiver(x, y, u, v, color=colors, **_mpl_arrow_style)
 
@@ -1332,6 +1346,8 @@ def resample_line(segments: np.ndarray, spacing: float) -> np.ndarray:
     """
     Resample a series of line segments to a consistent density.
 
+    Note: the segments must be ordered so that they are adjacent.
+
     Args:
         segments: The line segments as a numpy array with the shape (nsegments, 2, 2).
         spacing: The desired spacing.
@@ -1348,11 +1364,34 @@ def resample_line(segments: np.ndarray, spacing: float) -> np.ndarray:
     center_lengths = np.cumsum(segment_lengths) - segment_lengths / 2
 
     # find the distance of each arrow from the beginning of the line if ideally spaced
-    narrows = int(np.floor(line_length / spacing))
+    narrows = max(1, int(np.floor(line_length / spacing)))
 
-    ideal_pos = np.linspace(0, (narrows - 1) * spacing, narrows) + line_length / 2
+    # recalculate spacing so that all arrows are equally spaced
+    spacing = line_length / narrows
+
+    # shift = (line_length - (narrows * spacing)) / 2
+    ideal_pos = np.linspace(0, (narrows - 1) * spacing, narrows) + spacing / 2
 
     return np.argmin(np.abs(ideal_pos[:, None] - center_lengths[None, :]), axis=1)
+
+
+def _interpolate_segments(
+    segments: np.ndarray,  projections: np.ndarray, spacing: float
+) -> Tuple[np.ndarray, np.ndarray]:
+    """
+    Resample a series of line segments to a consistent density.
+
+    Note: the segments must be ordered so that they are adjacent.
+
+    Args:
+        segments: The line segments as a numpy array with the shape (nsegments, 2, 2).
+        projections: The line projections as an array with the shape (nsegments, ).
+        spacing: The desired spacing after interpolation.
+
+    Returns:
+        The interpolated segments and projections.
+    """
+    pass
 
 
 def _get_projections(
@@ -1482,7 +1521,7 @@ def _get_line_arrows(
         fermi_slice: The Fermi slice containing the slices and projections.
         spins: Spin channels from which to extract arrows.
         vector_spacing: The rough spacing between arrows. Uses a custom algorithm for
-            resampling the Fermi surface to ensure that arrows are not too close
+            resampling the Fermi slic to ensure that arrows are not too close
             together.
         vnorm: The value by which to normalize the vector lengths. For example,
             spin projections should typically have a norm of 1 whereas group velocity
