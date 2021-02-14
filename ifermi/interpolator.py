@@ -1,13 +1,12 @@
 """Classes to perform Fourier and Linear interpolation."""
 
 from collections import defaultdict
-from typing import Optional, Dict
+from typing import Dict, Optional
 
 import numpy as np
 from monty.json import MSONable
-
-from pymatgen.electronic_structure.core import Spin
 from pymatgen.electronic_structure.bandstructure import BandStructure
+from pymatgen.electronic_structure.core import Spin
 
 __all__ = ["Interpolator", "PeriodicLinearInterpolator"]
 
