@@ -15,15 +15,7 @@ from monty.json import MSONable
 from pymatgen import Spin
 
 from ifermi.brillouin_zone import ReciprocalCell, ReciprocalSlice
-from ifermi.defaults import (
-    AZIMUTH,
-    COLORMAP,
-    ELEVATION,
-    PROJECTION_INTERPOLATION_FACTOR,
-    SCALE,
-    SYMPREC,
-    VECTOR_SPACING,
-)
+from ifermi.defaults import AZIMUTH, COLORMAP, ELEVATION, SCALE, SYMPREC, VECTOR_SPACING
 from ifermi.slice import FermiSlice
 from ifermi.surface import FermiSurface
 

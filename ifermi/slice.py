@@ -7,7 +7,6 @@ from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 from monty.json import MSONable
-
 from pymatgen.core.structure import Structure
 from pymatgen.electronic_structure.core import Spin
 
@@ -332,7 +331,7 @@ def get_longest_simple_paths(
 
 
 def interpolate_segments(
-    segments: np.ndarray,  projections: np.ndarray, max_spacing: float
+    segments: np.ndarray, projections: np.ndarray, max_spacing: float
 ) -> Tuple[np.ndarray, np.ndarray]:
     """
     Resample a series of line segments to a consistent density.
@@ -374,7 +373,7 @@ def interpolate_segments(
         kind="quadratic",
         axis=0,
         bounds_error=False,
-        fill_value="extrapolate"
+        fill_value="extrapolate",
     )
     proj_interpolator = interp1d(
         proj_dist,
@@ -382,7 +381,7 @@ def interpolate_segments(
         kind="linear",
         axis=0,
         bounds_error=False,
-        fill_value="extrapolate"
+        fill_value="extrapolate",
     )
 
     vert_xs = np.linspace(0, length, int(np.ceil(length / max_spacing)))
