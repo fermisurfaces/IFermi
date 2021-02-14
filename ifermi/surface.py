@@ -1,7 +1,4 @@
-"""
-This module contains tools for creating iso-surface from BandStructure objects.
-Iso-surfaces are found using the Scikit-image package.
-"""
+"""Tools for creating iso-surface from BandStructure objects."""
 
 import warnings
 from copy import deepcopy
@@ -63,6 +60,7 @@ class FermiSurface(MSONable):
 
     @property
     def n_surfaces(self) -> int:
+        """Get number of iso-surfaces in the Fermi surface."""
         return sum(map(len, self.isosurfaces.values()))
 
     @classmethod
@@ -78,6 +76,8 @@ class FermiSurface(MSONable):
         projection_kpoints: Optional[np.ndarray] = None,
     ) -> "FermiSurface":
         """
+        Create a FermiSurface from a pymatgen band structure object.
+
         Args:
             band_structure: A band structure. The k-points must cover the full
                 Brillouin zone (i.e., not just be the irreducible mesh). Use
@@ -103,6 +103,9 @@ class FermiSurface(MSONable):
                 ``kpoints``.
             projection_kpoints: The k-points on which the data is generated.
                 Must be used in combination with ``data``.
+
+        Returns:
+            A Fermi surface.
         """
         from ifermi.kpoints import get_kpoint_mesh_dim, get_kpoints_from_bandstructure
 
@@ -157,8 +160,9 @@ class FermiSurface(MSONable):
         self, plane_normal: Tuple[int, int, int], distance: float = 0
     ) -> "FermiSlice":
         """
-        Get a slice through the Fermi surface, defined by the intersection of a plane
-        with the fermi surface.
+        Get a slice through the Fermi surface.
+
+        Slice defined by the intersection of a plane with the Fermi surface.
 
         Args:
             plane_normal: The plane normal in fractional indices. E.g., ``(1, 0, 0)``.
@@ -167,7 +171,6 @@ class FermiSurface(MSONable):
 
         Returns:
             The Fermi slice.
-
         """
         from ifermi.slice import FermiSlice
 
@@ -175,7 +178,7 @@ class FermiSurface(MSONable):
 
     @classmethod
     def from_dict(cls, d) -> "FermiSurface":
-        """Returns FermiSurface object from dict."""
+        """Return FermiSurface object from dict."""
         fs = super().from_dict(d)
         fs.isosurfaces = {Spin(int(k)): v for k, v in fs.isosurfaces.items()}
 

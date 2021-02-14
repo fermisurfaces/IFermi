@@ -1,6 +1,4 @@
-"""
-This module contains tools for creating Fermi slices from FermiSurface objects.
-"""
+"""Tools for creating Fermi slices from FermiSurface objects."""
 
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Tuple
@@ -53,9 +51,9 @@ class FermiSlice(MSONable):
         plane_normal: Tuple[int, int, int],
         distance: float = 0,
     ) -> "FermiSlice":
-        """
-        Get a slice through the Fermi surface, defined by the intersection of a plane
-        with the fermi surface.
+        """Get a slice through the Fermi surface.
+
+        The slice is defined by the intersection of a plane with the Fermi surface.
 
         Args:
             fermi_surface: A Fermi surface.
@@ -122,7 +120,7 @@ class FermiSlice(MSONable):
 
     @classmethod
     def from_dict(cls, d) -> "FermiSlice":
-        """Returns FermiSurface object from dict."""
+        """Return FermiSurface object from dict."""
         fs = super().from_dict(d)
         fs.slices = {Spin(int(k)): v for k, v in fs.slices.items()}
 
@@ -174,8 +172,7 @@ def process_lines(
         A list of segments and faces for each path.
     """
 
-    # turn the segments with the shape (nsegments, 2, 2), into a list of vertices
-    # with the shape (nsegments * 2, 2)
+    # turn segments [shape: (nsegments, 2, 2)], to vertices [shape: (nsegments * 2, 2)]
     vertices = segments.reshape(-1, 2)
 
     # create edges that correspond to the original segments, i.e., [(0, 1), (2, 3), ...]
@@ -232,7 +229,7 @@ def process_lines(
 
 def get_equivalent_vertices(vertices: np.ndarray, tol: float = 1e-4) -> np.ndarray:
     """
-    Finds vertices that are equivalent (closer than a tolerance).
+    Find vertices that are equivalent (closer than a tolerance).
 
     Note that the algorithm used is effectively recursive. If vertex a is within the
     tolerance of b, and b is within the tolerance of c, even if a and c and not within
@@ -395,7 +392,7 @@ def interpolate_segments(
 
 
 def _pairwise(iterable):
-    """s -> (s0,s1), (s1,s2), (s2, s3), ..."""
+    """Convert an iterable, s, to (s0,s1), (s1,s2), (s2, s3), ..."""
     from itertools import tee
 
     a, b = tee(iterable)

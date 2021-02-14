@@ -1,6 +1,4 @@
-"""
-This modules defines command line tools for generating and plotting Fermi surfaces.
-"""
+"""Command line tools for generating and plotting Fermi surfaces."""
 
 import os
 import sys
@@ -20,9 +18,7 @@ projection_type = click.Choice(["velocity", "spin"], case_sensitive=False)
     context_settings=dict(help_option_names=["-h", "--help"], max_content_width=120)
 )
 def cli():
-    """
-    ifermi is a tool for the generation, analysis and plotting of Fermi surfaces
-    """
+    """IFermi is a tool for the generation, analysis and plotting of Fermi surfaces."""
 
     def _warning(message, *_, **__):
         click.echo("WARNING: {}\n".format(message))
@@ -106,9 +102,7 @@ def cli():
 )
 @option("--scale", default=SCALE, help="scale for image resolution")
 def plot(filename, **kwargs):
-    """
-    Plot Fermi surfaces from a vasprun.xml file.
-    """
+    """Plot Fermi surfaces from a vasprun.xml file."""
     import numpy as np
     from pymatgen.electronic_structure.core import Spin
     from pymatgen.io.vasp.outputs import Vasprun

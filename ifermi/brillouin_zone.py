@@ -29,9 +29,7 @@ class ReciprocalSlice(MSONable):
 
     @property
     def edges(self) -> List[Tuple[int, int]]:
-        """
-        Get the edges of the space as a List of tuples specifying the vertex indices.
-        """
+        """Get edges of the space as a List of tuples specifying the vertex indices."""
         from scipy.spatial import ConvexHull
 
         if self._edges is None:
@@ -41,9 +39,7 @@ class ReciprocalSlice(MSONable):
 
     @property
     def lines(self) -> np.ndarray:
-        """
-        Get the lines defining the space as a list of two coordinates.
-        """
+        """Get the lines defining the space as a list of two coordinates."""
         return self.vertices[np.array(self.edges)]
 
 
@@ -124,9 +120,7 @@ class ReciprocalCell(MSONable):
 
     @property
     def edges(self) -> List[Tuple[int, int]]:
-        """
-        Get the edges of the space as a List of tuples specifying the vertex indices.
-        """
+        """Get edges of the space as a List of tuples specifying the vertex indices."""
         if self._edges is None:
             output = set()
             for face in self.faces:
@@ -138,17 +132,16 @@ class ReciprocalCell(MSONable):
 
     @property
     def lines(self) -> np.ndarray:
-        """
-        Get the lines defining the space as a list of two coordinates.
-        """
+        """Get the lines defining the space as a list of two coordinates."""
         return self.vertices[np.array(self.edges)]
 
     def get_reciprocal_slice(
         self, plane_normal: Tuple[int, int, int], distance: float = 0
     ) -> ReciprocalSlice:
         """
-        Get a reciprocal slice through the Brillouin zone, defined by the intersection
-        of a plane with the lattice.
+        Get a reciprocal slice through the Brillouin zone.
+
+        Reciprocal slice defined by the intersection of a plane with the lattice.
 
         Args:
             plane_normal: The plane normal in fractional indices. E.g., ``(1, 0, 0)``.

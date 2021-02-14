@@ -1,6 +1,4 @@
-"""
-This module implements plotters for Fermi surfaces and Fermi slices.
-"""
+"""Plotters for Fermi surfaces and Fermi slices."""
 
 import os
 import warnings
@@ -148,12 +146,11 @@ class _FermiSlicePlotData:
 
 
 class FermiSurfacePlotter(MSONable):
-    """
-    Class to plot a FermiSurface.
-    """
+    """Class to plot a FermiSurface."""
 
     def __init__(self, fermi_surface: FermiSurface, symprec: float = SYMPREC):
-        """
+        """Initialize a plotter object.
+
         Args:
             fermi_surface: A FermiSurface object.
             symprec: The symmetry precision in Angstrom for determining the high
@@ -735,10 +732,11 @@ class FermiSurfacePlotter(MSONable):
         opacity: float = 1.0,
     ) -> "Scene":
         """
-        Get a crystal toolkit Scene showing the Fermi surface. The Scene can be
-        displayed in an interactive web app using Crystal Toolkit, can be shown
-        interactively in Jupyter Lab using the crystal-toolkit lab extension, or
-        can be converted to JSON to store for future use.
+        Get a crystal toolkit Scene showing the Fermi surface.
+
+        The Scene can be displayed in an interactive web app using Crystal Toolkit, can
+        be shown interactively in Jupyter Lab using the crystal-toolkit lab extension,
+        or can be converted to JSON to store for future use.
 
         Args:
             plot_data: The data to plot.
@@ -796,13 +794,11 @@ class FermiSurfacePlotter(MSONable):
 
 
 class FermiSlicePlotter(object):
-    """
-    Class to plot 2D slices through a FermiSurface.
-    """
+    """Class to plot 2D slices through a FermiSurface."""
 
     def __init__(self, fermi_slice: FermiSlice, symprec: float = SYMPREC):
         """
-        Initialize a FermiSurfacePlotter.
+        Initialize class for plotting Fermi slices.
 
         Args:
             fermi_slice: A slice through a Fermi surface.
@@ -1196,7 +1192,7 @@ def save_plot(plot: Any, filename: Union[Path, str], scale: float = SCALE):
 
 
 def get_plot_type(plot: Any) -> str:
-    """Gets the plot type.
+    """Get the plot type.
 
     Args:
         plot: A plot object from ``FermiSurfacePlotter.get_plot()``. Supports matplotlib
@@ -1303,7 +1299,6 @@ def resample_mesh(
     Returns:
         The indices of the faces that are uniformly spaced.
     """
-
     face_verts = vertices[faces]
     centers = face_verts.mean(axis=1)
     min_coords = np.min(centers, axis=0)
@@ -1672,7 +1667,7 @@ def plotly_arrow(
 
 def rgb_to_plotly(color: Tuple[float, float, float]) -> str:
     """
-    Gets a plotly formatted color from rgb values.
+    Get a plotly formatted color from rgb values.
 
     Args:
         color: The color in rgb format as a tuple of three floats from 0 to 1.

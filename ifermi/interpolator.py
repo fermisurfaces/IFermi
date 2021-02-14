@@ -1,29 +1,19 @@
-"""
-This module implements classes to perform Fourier and Linear interpolation.
-"""
+"""Classes to perform Fourier and Linear interpolation."""
 
 from collections import defaultdict
-from typing import Optional
+from typing import Optional, Dict
 
 import numpy as np
 from monty.json import MSONable
+
+from pymatgen.electronic_structure.core import Spin
 from pymatgen.electronic_structure.bandstructure import BandStructure
 
 __all__ = ["Interpolator", "PeriodicLinearInterpolator"]
 
 
 class Interpolator(MSONable):
-    """Takes a pymatgen BandStructure object and interpolates the bands to
-    create a denser mesh. This is done using Boltzstrap2, a module which is able
-    to interpolate bands using Fourier coefficients. Implementation taken from
-    Alex Ganose's AMSET Interpolator class.
-
-    Args:
-        band_structure (BandStructure): The Bandstructure object to be
-            interpolated
-        magmom: Magnetic moments of the atoms.
-        mommat: Momentum matrix, as supported by BoltzTraP2.
-    """
+    """Class to perform Fourier interpolation of electronic band structures."""
 
     def __init__(
         self,
@@ -31,6 +21,15 @@ class Interpolator(MSONable):
         magmom: Optional[np.ndarray] = None,
         mommat: Optional[np.ndarray] = None,
     ):
+        """Interpolator to perform Fourier interpolation of electronic band structures.
+
+        Interpolation is performed using BoltzTraP2.
+
+        Args:
+            band_structure: The Bandstructure object to be interpolated.
+            magmom: Magnetic moments of the atoms.
+            mommat: Momentum matrix, as supported by BoltzTraP2.
+        """
         from BoltzTraP2.units import Angstrom
         from pymatgen.io.ase import AseAtomsAdaptor
 
@@ -54,7 +53,7 @@ class Interpolator(MSONable):
         return_velocities: bool = False,
         nworkers: int = -1,
     ):
-        """Gets a pymatgen band structure.
+        """Get an interpolated pymatgen band structure.
 
         Note, the interpolation mesh is determined using by ``interpolate_factor``
         option in the ``Interpolator`` constructor.
@@ -145,16 +144,7 @@ class Interpolator(MSONable):
 
 
 class DFTData:
-    """DFTData object used for BoltzTraP2 interpolation.
-
-    Note that the units used by BoltzTraP are different to those used by VASP.
-
-    Args:
-        kpoints: The k-points in fractional coordinates.
-        energies: The band energies in Hartree, formatted as (nbands, nkpoints).
-        lattice_matrix: The lattice matrix in Bohr^3.
-        mommat: The band structure derivatives.
-    """
+    """DFTData object used for BoltzTraP2 interpolation."""
 
     def __init__(
         self,
@@ -163,6 +153,16 @@ class DFTData:
         lattice_matrix: np.ndarray,
         mommat: Optional[np.ndarray] = None,
     ):
+        """Initialize DFTData object used for BoltzTraP2 interpolation.
+
+        Note that the units used by BoltzTraP are different to those used by VASP.
+
+        Args:
+            kpoints: The k-points in fractional coordinates.
+            energies: The band energies in Hartree, formatted as (nbands, nkpoints).
+            lattice_matrix: The lattice matrix in Bohr^3.
+            mommat: The band structure derivatives.
+        """
         self.kpoints = kpoints
         self.ebands = energies
         self.lattice_matrix = lattice_matrix
@@ -175,7 +175,9 @@ class DFTData:
 
 
 class PeriodicLinearInterpolator(object):
-    def __init__(self, kpoints, data):
+    """Class to perform linear interpolation of periodic properties."""
+
+    def __init__(self, kpoints: np.ndarray, data: Dict[Spin, np.ndarray]):
         """
         Create an interpolator that can handle periodic boundary conditions.
 
@@ -193,7 +195,7 @@ class PeriodicLinearInterpolator(object):
         grid_kpoints, mesh_dim, sort_idx = self._grid_kpoints(kpoints)
         self._setup_interpolators(data, grid_kpoints, mesh_dim, sort_idx)
 
-    def interpolate(self, spin, bands, kpoints):
+    def interpolate(self, spin: Spin, bands: np.ndarray, kpoints: np.ndarray):
         """
         Get the interpolated data for a spin channel and series of bands and k-points.
 

@@ -1,6 +1,4 @@
-"""
-This module contains functions modified from BoltzTraP2 to return the group velocities.
-"""
+"""Functions modified from BoltzTraP2 to return the group velocities."""
 
 import multiprocessing as mp
 

@@ -41,7 +41,7 @@ def kpoints_to_first_bz(kpoints: np.ndarray, tol: float = KTOL) -> np.ndarray:
 
 def get_kpoint_mesh_dim(kpoints: np.ndarray, tol: float = KTOL) -> Tuple[int, int, int]:
     """
-    Gets the k-point mesh dimensions.
+    Get the k-point mesh dimensions.
 
     Args:
         kpoints: The k-points.
@@ -96,7 +96,7 @@ def sort_boltztrap_to_spglib(kpoints: np.ndarray) -> np.ndarray:
 
 
 def get_kpoint_spacing(kpoints: np.ndarray) -> np.ndarray:
-    """Gets the spacing between fractional k-points.
+    """Get the spacing between fractional k-points.
 
     Args:
         kpoints: k-points in fractional coordinates.
@@ -127,7 +127,7 @@ def get_kpoints_from_bandstructure(
     bandstructure: BandStructure, cartesian: bool = False
 ) -> np.ndarray:
     """
-    Extracts the k-points from a band structure.
+    Extract the k-points from a band structure.
 
     Args:
         bandstructure: A band structure object.
