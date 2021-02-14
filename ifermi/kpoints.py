@@ -12,6 +12,7 @@ __all__ = [
     "get_kpoints_from_bandstructure",
     "get_kpoint_mesh_dim",
     "get_kpoint_spacing",
+    "sort_boltztrap_to_spglib"
 ]
 
 
