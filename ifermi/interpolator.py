@@ -37,7 +37,6 @@ class Interpolator(MSONable):
         self._band_structure = band_structure
         self._spins = self._band_structure.bands.keys()
         self._lattice_matrix = band_structure.structure.lattice.matrix.T * Angstrom
-        self._projection_coefficients = defaultdict(dict)
 
         self._kpoints = get_kpoints_from_bandstructure(band_structure)
         self._atoms = AseAtomsAdaptor.get_atoms(band_structure.structure)
