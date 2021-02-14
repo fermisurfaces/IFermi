@@ -138,6 +138,7 @@ class _FermiSurfacePlotData:
     cmin: Optional[float]
     cmax: Optional[float]
     hide_labels: bool
+    hide_cell: bool
 
 
 @dataclass
@@ -151,6 +152,7 @@ class _FermiSlicePlotData:
     cmin: Optional[float]
     cmax: Optional[float]
     hide_labels: bool
+    hide_cell: bool
 
 
 class FermiSurfacePlotter(MSONable):
@@ -219,6 +221,7 @@ class FermiSurfacePlotter(MSONable):
         vnorm: Optional[float] = None,
         hide_surface: bool = False,
         hide_labels: bool = False,
+        hide_cell: bool = False,
         **plot_kwargs,
     ):
         """
@@ -288,6 +291,7 @@ class FermiSurfacePlotter(MSONable):
             hide_surface: Whether to hide the Fermi surface. Only recommended in
                 combination with the ``vector_projection`` option.
             hide_labels: Whether to show the high-symmetry k-point labels.
+            hide_cell: Whether to show the reciprocal cell boundary.
             **plot_kwargs: Other keyword arguments supported by the individual plotting
                 methods.
         """
@@ -305,6 +309,7 @@ class FermiSurfacePlotter(MSONable):
             vnorm=vnorm,
             hide_surface=hide_surface,
             hide_labels=hide_labels,
+            hide_cell=hide_cell,
         )
         if plot_type == "matplotlib":
             plot = self._get_matplotlib_plot(plot_data, **plot_kwargs)
@@ -335,6 +340,7 @@ class FermiSurfacePlotter(MSONable):
         vnorm: Optional[float] = None,
         hide_surface: bool = False,
         hide_labels: bool = False,
+        hide_cell: bool = False,
     ) -> _FermiSurfacePlotData:
         """
         Get the the Fermi surface plot data.
@@ -403,6 +409,7 @@ class FermiSurfacePlotter(MSONable):
             cmin=cmin,
             cmax=cmax,
             hide_labels=hide_labels,
+            hide_cell=hide_cell,
         )
 
     def _get_matplotlib_plot(
@@ -865,13 +872,13 @@ class FermiSlicePlotter(object):
         vector_projection: Union[str, bool] = False,
         projection_axis: Optional[Tuple[int, int, int]] = None,
         scale_linewidth: Union[bool, float] = False,
-        projection_interpolation_factor: float = PROJECTION_INTERPOLATION_FACTOR,
         vector_spacing: float = VECTOR_SPACING,
         cmin: Optional[float] = None,
         cmax: Optional[float] = None,
         vnorm: Optional[float] = None,
         hide_slice: bool = False,
         hide_labels: bool = False,
+        hide_cell: bool = False,
         arrow_pivot: str = "tail",
         slice_kwargs: Optional[Dict[str, Any]] = None,
         cbar_kwargs: Optional[Dict[str, Any]] = None,
@@ -925,8 +932,6 @@ class FermiSlicePlotter(object):
             scale_linewidth: Scale the linewidth by the absolute value of the
                 projection. Can be true, false or a number. If a number, then this will
                 be used as the max linewidth for scaling.
-            projection_interpolation_factor: Factor by which to interpolate the
-                projections. Makes the projected Fermi slices much more smooth.
             vector_spacing: The rough spacing between arrows. Uses a custom algorithm
                 for resampling the Fermi surface to ensure that arrows are not too close
                 together. Only has an effect when used with the ``vector_projection``
@@ -947,6 +952,7 @@ class FermiSlicePlotter(object):
             hide_slice: Whether to hide the Fermi surface. Only recommended in
                 combination with the ``vector_projection`` option.
             hide_labels: Whether to show the high-symmetry k-point labels.
+            hide_cell: Whether to show the reciprocal cell boundary.
             arrow_pivot: The part of the arrow that is anchored to the X, Y grid.
                 The arrow rotates about this point, options are: tail, middle, tip.
             slice_kwargs: Optional arguments that are passed to ``LineCollection`` and
@@ -986,6 +992,7 @@ class FermiSlicePlotter(object):
             vnorm=vnorm,
             hide_slice=hide_slice,
             hide_labels=hide_labels,
+            hide_cell=hide_cell,
         )
 
         if ax is None:
@@ -1012,9 +1019,6 @@ class FermiSlicePlotter(object):
                         base_width = 4
                     linewidth = abs(proj) * base_width / reference
 
-                # segments, projections = _interpolate_segments(
-                #     segments, proj, projection_interpolation_factor
-                # )
                 slice_style = {"antialiaseds": True, "linewidth": linewidth}
                 slice_style.update(slice_kwargs)
                 lines = LineCollection(
@@ -1038,11 +1042,12 @@ class FermiSlicePlotter(object):
                 )
                 ax.add_collection(lines)
 
-        # add the cell outline to the plot
-        rotated_lines = np.dot(self.reciprocal_slice.lines, rotation)
-        _mpl_bz_style.update(bz_kwargs)
-        lines = LineCollection(rotated_lines, **_mpl_bz_style)
-        ax.add_collection(lines)
+        if not plot_data.hide_cell:
+            # add the cell outline to the plot
+            rotated_lines = np.dot(self.reciprocal_slice.lines, rotation)
+            _mpl_bz_style.update(bz_kwargs)
+            lines = LineCollection(rotated_lines, **_mpl_bz_style)
+            ax.add_collection(lines)
 
         if not plot_data.hide_labels:
             for coords, label in zip(*self._symmetry_pts):
@@ -1082,6 +1087,7 @@ class FermiSlicePlotter(object):
         vnorm: Optional[float] = None,
         hide_slice: bool = False,
         hide_labels: bool = False,
+        hide_cell: bool = False,
     ) -> _FermiSlicePlotData:
         """
         Get the the Fermi slice plot data.
@@ -1148,6 +1154,7 @@ class FermiSlicePlotter(object):
             cmin=cmin,
             cmax=cmax,
             hide_labels=hide_labels,
+            hide_cell=hide_cell,
         )
 
 
@@ -1373,25 +1380,6 @@ def resample_line(segments: np.ndarray, spacing: float) -> np.ndarray:
     ideal_pos = np.linspace(0, (narrows - 1) * spacing, narrows) + spacing / 2
 
     return np.argmin(np.abs(ideal_pos[:, None] - center_lengths[None, :]), axis=1)
-
-
-def _interpolate_segments(
-    segments: np.ndarray,  projections: np.ndarray, spacing: float
-) -> Tuple[np.ndarray, np.ndarray]:
-    """
-    Resample a series of line segments to a consistent density.
-
-    Note: the segments must be ordered so that they are adjacent.
-
-    Args:
-        segments: The line segments as a numpy array with the shape (nsegments, 2, 2).
-        projections: The line projections as an array with the shape (nsegments, ).
-        spacing: The desired spacing after interpolation.
-
-    Returns:
-        The interpolated segments and projections.
-    """
-    pass
 
 
 def _get_projections(
