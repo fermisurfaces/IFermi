@@ -7,6 +7,7 @@ from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 from monty.json import MSONable
+
 from pymatgen.core.structure import Structure
 from pymatgen.electronic_structure.core import Spin
 
@@ -17,6 +18,7 @@ __all__ = [
     "process_lines",
     "get_equivalent_vertices",
     "get_longest_simple_paths",
+    "interpolate_segments",
 ]
 
 
@@ -97,11 +99,13 @@ class FermiSlice(MSONable):
                 paths = process_lines(segments, face_idxs)
 
                 for path_segments, path_faces in paths:
+                    path_projections = fermi_surface.projections[spin][i][path_faces]
+                    path_segments, path_projections = interpolate_segments(
+                        path_segments, path_projections, 0.001
+                    )
                     spin_slices.append((path_segments, band_idx))
                     if fermi_surface.projections:
-                        spin_projections.append(
-                            fermi_surface.projections[spin][i][path_faces]
-                        )
+                        spin_projections.append(path_projections)
 
             slices[spin] = spin_slices
             if fermi_surface.projections:
@@ -325,6 +329,70 @@ def get_longest_simple_paths(
         paths.append(longest_path)
 
     return paths
+
+
+def interpolate_segments(
+    segments: np.ndarray,  projections: np.ndarray, max_spacing: float
+) -> Tuple[np.ndarray, np.ndarray]:
+    """
+    Resample a series of line segments to a consistent density.
+
+    Note: the segments must be ordered so that they are adjacent.
+
+    Args:
+        segments: The line segments as a numpy array with the shape (nsegments, 2, 2).
+        projections: The line projections as an array with the shape (nsegments, ).
+        max_spacing: The desired spacing after interpolation. Note, the spacing
+            may be slightly smaller than this value.
+
+    Returns:
+        The interpolated segments and projections.
+    """
+    from scipy.interpolate import interp1d
+
+    is_cycle = np.allclose(segments[0, 0], segments[-1, 1], atol=1e-4)
+
+    if len(segments) < 3:
+        return segments, projections
+
+    vert = np.concatenate([segments[:, 0], segments[-1, 1][None]])
+    lengths = np.linalg.norm(vert[:-1] - vert[1:], axis=1)
+    length = np.sum(lengths)
+
+    vert_dist = np.concatenate([[0], np.cumsum(lengths)])
+    proj_dist = np.concatenate([[0], (vert_dist[:-1] + vert_dist[1:]) / 2, [length]])
+
+    if is_cycle:
+        proj_start = [(projections[0] + projections[-1]) / 2]
+        projections = np.concatenate([proj_start, projections, proj_start])
+    else:
+        projections = np.concatenate([projections[0], projections, projections[-1]])
+
+    vert_interpolator = interp1d(
+        vert_dist,
+        vert,
+        kind="quadratic",
+        axis=0,
+        bounds_error=False,
+        fill_value="extrapolate"
+    )
+    proj_interpolator = interp1d(
+        proj_dist,
+        projections,
+        kind="linear",
+        axis=0,
+        bounds_error=False,
+        fill_value="extrapolate"
+    )
+
+    vert_xs = np.linspace(0, length, int(np.ceil(length / max_spacing)))
+    proj_xs = (vert_xs[:-1] + vert_xs[1:]) / 2
+
+    new_vert = vert_interpolator(vert_xs)
+    new_proj = proj_interpolator(proj_xs)
+
+    new_segments = np.array(list(_pairwise(new_vert)))
+    return new_segments, new_proj
 
 
 def _pairwise(iterable):
