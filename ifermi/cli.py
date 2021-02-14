@@ -85,8 +85,12 @@ def cli():
 @option("--cmin", type=float, help="minimum intensity on projection colorbar")
 @option("--cmax", type=float, help="maximum intensity on projection colorbar")
 @option("--vnorm", type=float, help="value by which to normalise vector lengths")
+@option(
+    "--scale-linewidth", is_flag=True, help="scale Fermi slice thickness by projection"
+)
 @option("--hide-surface", is_flag=True, help="hide the Fermi surface")
 @option("--hide-labels", is_flag=True, help="hide the high-symmetry k-point labels")
+@option("--hide-cell", is_flag=True, help="hide reciprocal cell boundary")
 @option("--spin", type=spin_type, help="select spin channel")
 @option("--smooth", is_flag=True, help="smooth the Fermi surface")
 @option(
@@ -205,6 +209,8 @@ def plot(filename, **kwargs):
             vnorm=kwargs["vnorm"],
             hide_slice=kwargs["hide_surface"],
             hide_labels=kwargs["hide_labels"],
+            hide_cell=kwargs["hide_cell"],
+            scale_linewidth=kwargs["scale_linewidth"],
         )
     else:
         plotter = FermiSurfacePlotter(fs, symprec=kwargs["symprec"])
@@ -222,6 +228,7 @@ def plot(filename, **kwargs):
             vnorm=kwargs["vnorm"],
             hide_surface=kwargs["hide_surface"],
             hide_labels=kwargs["hide_labels"],
+            hide_cell=kwargs["hide_cell"],
         )
 
     if output_filename is None:
