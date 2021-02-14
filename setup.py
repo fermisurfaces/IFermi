@@ -49,6 +49,7 @@ setup(
         "pyfftw",
         "psutil",
         "click",
+        "networkx",
     ],
     extras_require={
         "mayavi": ["mayavi", "mlabtex", "vtk"],

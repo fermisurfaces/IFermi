@@ -149,7 +149,7 @@ def process_lines(
     The key issue is that the segments from mesh_multiplane do not correspond to
     individual lines, nor are they sorted in a continuous order. Instead they are just
     a list of randomly ordered segments. This causes trouble later on when trying
-    to add equally spaced arrows to the lines.
+    to interpolate the lines or add equally spaced arrows.
 
     The goal of this function is to identify the separate paths in the segments (a path
     is a collection of segments that are connected together), and return these
