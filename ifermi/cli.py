@@ -30,7 +30,7 @@ def cli():
     warnings.filterwarnings("ignore", category=UserWarning, module="pymatgen")
 
 
-@cli.command(context_settings=dict(show_default=True))
+@cli.command()
 @option("-f", "--filename", help="vasprun.xml file to plot")
 @option("-o", "--output", "output_filename", help="output filename")
 @option(
@@ -38,35 +38,64 @@ def cli():
     "--mu",
     default=0.0,
     help="offset from the Fermi level at which to calculate Fermi surface",
+    show_default=True,
 )
 @option(
     "-i",
     "--interpolation-factor",
     default=8.0,
     help="interpolation factor for band structure",
+    show_default=True,
 )
 @option(
     "--wigner/--no-wigner",
     "wigner_seitz",
     default=True,
     help="use Wigner-Seitz cell rather than reciprocal lattice parallelepiped",
+    show_default=True,
 )
-@option("-s", "--symprec", default=SYMPREC, help="symmetry precision in Å")
-@option("-a", "--azimuth", default=AZIMUTH, help="viewpoint azimuth angle in °")
-@option("-e", "--elevation", default=ELEVATION, help="viewpoint elevation angle in °")
 @option(
-    "-t", "--type", "plot_type", default="plotly", type=plot_type, help="plotting type"
+    "-s",
+    "--symprec",
+    default=SYMPREC,
+    help="symmetry precision in Å",
+    show_default=True,
+)
+@option(
+    "-a",
+    "--azimuth",
+    default=AZIMUTH,
+    help="viewpoint azimuth angle in °",
+    show_default=True,
+)
+@option(
+    "-e",
+    "--elevation",
+    default=ELEVATION,
+    help="viewpoint elevation angle in °",
+    show_default=True,
+)
+@option(
+    "-t",
+    "--type",
+    "plot_type",
+    default="plotly",
+    type=plot_type,
+    help="plotting type",
+    show_default=True,
 )
 @option("--projection", type=projection_type, help="projection type")
 @option(
     "--color-projection/--no-color-projection",
     default=True,
     help="color Fermi surface projections",
+    show_default=True,
 )
 @option("--projection-colormap", help="matplotlib colormap name for projections")
 @option(
     "--vector-projection/--no-vector-projection",
     help="show vector projections as arrows",
+    show_default=True,
 )
 @option("--vector-colormap", help="matplotlib colormap name for vectors")
 @option(
@@ -76,19 +105,34 @@ def cli():
     help="color projection by projecting onto cartesian axis (e.g. 0 0 1)",
 )
 @option(
-    "--vector-spacing", default=VECTOR_SPACING, help="spacing between projection arrows"
+    "--vector-spacing",
+    default=VECTOR_SPACING,
+    help="spacing between projection arrows",
+    show_default=True,
 )
 @option("--cmin", type=float, help="minimum intensity on projection colorbar")
 @option("--cmax", type=float, help="maximum intensity on projection colorbar")
 @option("--vnorm", type=float, help="value by which to normalise vector lengths")
 @option(
-    "--scale-linewidth", is_flag=True, help="scale Fermi slice thickness by projection"
+    "--scale-linewidth",
+    is_flag=True,
+    help="scale Fermi slice thickness by projection",
+    show_default=True,
 )
-@option("--hide-surface", is_flag=True, help="hide the Fermi surface")
-@option("--hide-labels", is_flag=True, help="hide the high-symmetry k-point labels")
-@option("--hide-cell", is_flag=True, help="hide reciprocal cell boundary")
-@option("--spin", type=spin_type, help="select spin channel")
-@option("--smooth", is_flag=True, help="smooth the Fermi surface")
+@option(
+    "--hide-surface", is_flag=True, help="hide the Fermi surface", show_default=True
+)
+@option(
+    "--hide-labels",
+    is_flag=True,
+    help="hide the high-symmetry k-point labels",
+    show_default=True,
+)
+@option(
+    "--hide-cell", is_flag=True, help="hide reciprocal cell boundary", show_default=True
+)
+@option("--spin", type=spin_type, help="select spin channel", show_default=True)
+@option("--smooth", is_flag=True, help="smooth the Fermi surface", show_default=True)
 @option(
     "--slice",
     nargs=4,
@@ -98,9 +142,9 @@ def cli():
 @option(
     "--decimate-factor",
     type=float,
-    help="factor by which to decimate surfaces (i.e. 0.8 gives 20 %% fewer faces)",
+    help="factor by which to decimate surfaces (i.e. 0.8 gives 20 % fewer faces)",
 )
-@option("--scale", default=SCALE, help="scale for image resolution")
+@option("--scale", default=SCALE, help="scale for image resolution", show_default=True)
 def plot(filename, **kwargs):
     """Plot Fermi surfaces from a vasprun.xml file."""
     import numpy as np

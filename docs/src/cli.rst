@@ -197,7 +197,7 @@ For example, a slice through the (0 0 1) plane can be generated using:
 Command-line interface
 ----------------------
 
-.. argparse::
-   :module: ifermi.cli
-   :func: _get_fs_parser
-   :prog: ifermi
+.. click:: ifermi.cli:plot
+  :prog: ifermi plot
+  :nested: full
+

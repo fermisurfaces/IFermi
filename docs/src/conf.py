@@ -49,7 +49,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.napoleon",
     "sphinx_autodoc_typehints",
-    "sphinxarg.ext",
+    "sphinx_click",
     "sphinx.ext.todo",
     "m2r2",
     "nbsphinx",

@@ -4,6 +4,14 @@ ifermi package
 Submodules
 ----------
 
+ifermi.boltztrap module
+-----------------------
+
+.. automodule:: ifermi.boltztrap
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 ifermi.brillouin\_zone module
 -----------------------------
 
@@ -20,10 +28,10 @@ ifermi.cli module
    :undoc-members:
    :show-inheritance:
 
-ifermi.fermi\_surface module
-----------------------------
+ifermi.defaults module
+----------------------
 
-.. automodule:: ifermi.fermi_surface
+.. automodule:: ifermi.defaults
    :members:
    :undoc-members:
    :show-inheritance:
@@ -36,6 +44,14 @@ ifermi.interpolator module
    :undoc-members:
    :show-inheritance:
 
+ifermi.kpoints module
+---------------------
+
+.. automodule:: ifermi.kpoints
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 ifermi.plotter module
 ---------------------
 
@@ -44,6 +60,21 @@ ifermi.plotter module
    :undoc-members:
    :show-inheritance:
 
+ifermi.slice module
+-------------------
+
+.. automodule:: ifermi.slice
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ifermi.surface module
+---------------------
+
+.. automodule:: ifermi.surface
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------
