@@ -78,7 +78,8 @@ save_plot(plot, "fermi-surface.png")  # saves the plot to a file
 show_plot(plot)  # displays an interactive plot
 ```
 
-Note, if you're not running the example in a notebook then it must be proceeded by `if __name__ == '__main__':`.
+Note, if you're not running the example in a notebook then it must be proceeded by 
+`if __name__ == '__main__':`.
 
 ## Installation
 
@@ -111,5 +112,5 @@ IFermi is made available under the MIT License.
 
 ## Acknowledgements
 
-Alex Ganose for developing/improving code and documentation.
-Sinead Griffin for suggesting the project.
+Developed by Amy Searle and Alex Ganose.
+Sinead Griffin suggested the project.
