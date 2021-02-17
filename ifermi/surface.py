@@ -339,7 +339,7 @@ def compute_isosurfaces(
                 spin_properties.append(isosurface_properties(verts, faces, rlat))
 
             verts, faces = trim_surface(reciprocal_space, verts, faces)
-            spin_isosurface.append((verts, faces, and_idx))
+            spin_isosurface.append((verts, faces, band_idx))
 
         isosurfaces[spin] = spin_isosurface
         properties[spin] = spin_properties
