@@ -32,6 +32,42 @@ def cli():
 
 @cli.command()
 @option("-f", "--filename", help="vasprun.xml file to plot")
+@option(
+    "-m",
+    "--mu",
+    default=0.0,
+    help="offset from the Fermi level at which to calculate Fermi surface",
+    show_default=True,
+)
+@option(
+    "-i",
+    "--interpolation-factor",
+    default=8.0,
+    help="interpolation factor for band structure",
+    show_default=True,
+)
+@option("--projection", type=projection_type, help="projection type")
+@option(
+    "--projection-axis",
+    nargs=3,
+    type=float,
+    help="use dot product of projections onto cartesian axis (e.g. 0 0 1)",
+)
+def info(filename, **kwargs):
+    """Calculate information about the Fermi surface."""
+    fs = _get_fermi_surface(
+        filename=filename,
+        interpolation_factor=kwargs["interpolation_factor"],
+        projection=kwargs["projection"],
+        mu=kwargs["mu"],
+        decimate_factor=None,
+        smooth=False,
+        wigner_seitz=False
+    )
+
+
+@cli.command()
+@option("-f", "--filename", help="vasprun.xml file to plot")
 @option("-o", "--output", "output_filename", help="output filename")
 @option(
     "-m",
@@ -146,20 +182,14 @@ def cli():
 )
 @option("--scale", default=SCALE, help="scale for image resolution", show_default=True)
 def plot(filename, **kwargs):
-    """Plot Fermi surfaces from a vasprun.xml file."""
-    import numpy as np
+    """Plot a Fermi surface from a vasprun.xml file."""
     from pymatgen.electronic_structure.core import Spin
-    from pymatgen.io.vasp.outputs import Vasprun
-
-    from ifermi.interpolator import Interpolator
-    from ifermi.kpoints import kpoints_from_bandstructure
     from ifermi.plotter import (
         FermiSlicePlotter,
         FermiSurfacePlotter,
         save_plot,
         show_plot,
     )
-    from ifermi.surface import FermiSurface
 
     try:
         import mayavi.mlab as mlab
@@ -177,54 +207,14 @@ def plot(filename, **kwargs):
         # handle mlab non interactive plots
         mlab.options.offscreen = True
 
-    if not filename:
-        filename = find_vasprun_file()
-
-    parse_projections = kwargs["projection"] == "spin"
-    vr = Vasprun(filename, parse_projected_eigen=parse_projections)
-    bs = vr.get_band_structure()
-
-    interpolator = Interpolator(bs)
-    interp_bs, velocities = interpolator.interpolate_bands(
-        kwargs["interpolation_factor"], return_velocities=True
-    )
-
-    projection_data = None
-    projection_kpoints = None
-    if kwargs["projection"] == "velocity":
-        projection_data = velocities
-        projection_kpoints = kpoints_from_bandstructure(interp_bs)
-    elif kwargs["projection"] == "spin":
-        if vr.projected_magnetisation is not None:
-            # transpose so shape is (nbands, nkpoints, natoms, norbitals, 3)
-            projection_data = vr.projected_magnetisation.transpose(1, 0, 2, 3, 4)
-
-            # sum across all atoms and orbitals
-            projection_data = projection_data.sum(axis=(2, 3))
-            projection_data /= np.linalg.norm(projection_data, axis=-1)[..., None]
-
-            projection_data = {Spin.up: projection_data}
-            projection_kpoints = kpoints_from_bandstructure(bs)
-        else:
-            click.echo(
-                "ERROR: Band structure does not include spin projections.\n"
-                "Ensure calculation was run with LSORBIT or LNONCOLLINEAR = True "
-                "and LSORBIT = 11."
-            )
-            sys.exit()
-
-    elif kwargs["projection"] is not None:
-        click.echo("unrecognised projection type - valid options are: velocity")
-        sys.exit()
-
-    fs = FermiSurface.from_band_structure(
-        interp_bs,
+    fs = _get_fermi_surface(
+        filename=filename,
+        interpolation_factor=kwargs["interpolation_factor"],
+        projection=kwargs["projection"],
         mu=kwargs["mu"],
-        wigner_seitz=kwargs["wigner_seitz"],
         decimate_factor=kwargs["decimate_factor"],
         smooth=kwargs["smooth"],
-        projection_data=projection_data,
-        projection_kpoints=projection_kpoints,
+        wigner_seitz=kwargs["wigner_seitz"]
     )
 
     spin = {"up": Spin.up, "down": Spin.down, None: None}[kwargs["spin"]]
@@ -287,3 +277,63 @@ def find_vasprun_file():
 
     click.echo("ERROR: No vasprun.xml found in current directory")
     sys.exit()
+
+
+def _get_fermi_surface(
+    filename, interpolation_factor, projection, mu, decimate_factor, smooth, wigner_seitz
+):
+    """Common helper method to get Fermi surface"""
+    import numpy as np
+    from pymatgen.electronic_structure.core import Spin
+    from pymatgen.io.vasp.outputs import Vasprun
+
+    from ifermi.interpolator import Interpolator
+    from ifermi.kpoints import kpoints_from_bandstructure
+    from ifermi.surface import FermiSurface
+
+    if not filename:
+        filename = find_vasprun_file()
+
+    parse_projections = projection == "spin"
+    vr = Vasprun(filename, parse_projected_eigen=parse_projections)
+    bs = vr.get_band_structure()
+
+    interpolator = Interpolator(bs)
+    interp_bs, velocities = interpolator.interpolate_bands(
+        interpolation_factor, return_velocities=True
+    )
+
+    projection_data = None
+    projection_kpoints = None
+    if projection == "velocity":
+        projection_data = velocities
+        projection_kpoints = kpoints_from_bandstructure(interp_bs)
+    elif projection == "spin":
+        if vr.projected_magnetisation is not None:
+            # transpose so shape is (nbands, nkpoints, natoms, norbitals, 3)
+            projection_data = vr.projected_magnetisation.transpose(1, 0, 2, 3, 4)
+
+            # sum across all atoms and orbitals
+            projection_data = projection_data.sum(axis=(2, 3))
+            projection_data /= np.linalg.norm(projection_data, axis=-1)[..., None]
+
+            projection_data = {Spin.up: projection_data}
+            projection_kpoints = kpoints_from_bandstructure(bs)
+        else:
+            click.echo(
+                "ERROR: Band structure does not include spin projections.\n"
+                "Ensure calculation was run with LSORBIT or LNONCOLLINEAR = True "
+                "and LSORBIT = 11."
+            )
+            sys.exit()
+
+    return FermiSurface.from_band_structure(
+        interp_bs,
+        mu=mu,
+        wigner_seitz=wigner_seitz,
+        decimate_factor=decimate_factor,
+        smooth=smooth,
+        projection_data=projection_data,
+        projection_kpoints=projection_kpoints,
+    )
+

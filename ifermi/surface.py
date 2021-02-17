@@ -3,11 +3,13 @@
 import warnings
 from copy import deepcopy
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from monty.dev import requires
 from monty.json import MSONable
+
+from ifermi.analysis import SurfaceProperties
 from pymatgen.core.structure import Structure
 from pymatgen.electronic_structure.bandstructure import BandStructure
 from pymatgen.electronic_structure.core import Spin
@@ -34,6 +36,13 @@ __all__ = [
 ]
 
 
+# @dataclass
+# class Isosurface(MSONable):
+#     vertices: np.ndarray
+#
+#
+
+
 @dataclass
 class FermiSurface(MSONable):
     """An object containing Fermi Surface data.
@@ -50,18 +59,36 @@ class FermiSurface(MSONable):
             ``{spin: projections}``, where projections is a list of numpy arrays with
             the shape (nfaces, ...), for each surface in ``isosurfaces`. The projections
             can be scalar or vector properties.
-
+        properties: The properties associated with each isosurface. Multiple
+            SurfaceProperty objects can be given for a single isosurface, as the
+            properties are given for all connected sub-isosurfaces (those that
+            are connected together by faces). See the docstring for
+            ``isosurface_properties`` for more details.
     """
 
     isosurfaces: Dict[Spin, List[Tuple[np.ndarray, np.ndarray, int]]]
     reciprocal_space: ReciprocalCell
     structure: Structure
     projections: Optional[Dict[Spin, List[np.ndarray]]] = None
+    properties: Optional[Dict[Spin, List[List[SurfaceProperties]]]] = None
 
     @property
     def n_surfaces(self) -> int:
-        """Get number of iso-surfaces in the Fermi surface."""
+        """Number of iso-surfaces in the Fermi surface."""
         return sum(map(len, self.isosurfaces.values()))
+
+    @property
+    def area(self) -> float:
+        """Total area of all iso-surfaces in the Fermi surface."""
+        return self.area_surfaces.sum()
+
+    @property
+    def area_surfaces(self) -> np.ndarray:
+        """Area of each iso-surface in the Fermi surface."""
+        from ifermi.analysis import isosurface_area
+
+        areas = [isosurface_area(verts, faces) for verts, faces, _ in self.isosurfaces]
+        return np.array(areas)
 
     @classmethod
     def from_band_structure(
@@ -74,6 +101,7 @@ class FermiSurface(MSONable):
         smooth: bool = False,
         projection_data: Optional[Dict[Spin, np.ndarray]] = None,
         projection_kpoints: Optional[np.ndarray] = None,
+        calculate_properties: bool = False,
     ) -> "FermiSurface":
         """
         Create a FermiSurface from a pymatgen band structure object.
@@ -103,6 +131,9 @@ class FermiSurface(MSONable):
                 ``kpoints``.
             projection_kpoints: The k-points on which the data is generated.
                 Must be used in combination with ``data``.
+            calculate_properties: Whether to calculate additional Fermi surface
+                properties such as the connectivity and orientation of connected
+                sub-surfaces.
 
         Returns:
             A Fermi surface.
@@ -141,7 +172,12 @@ class FermiSurface(MSONable):
             decimate_factor=decimate_factor,
             decimate_method=decimate_method,
             smooth=smooth,
+            calculate_properties=calculate_properties
         )
+
+        properties = None
+        if calculate_properties:
+            isosurfaces, properties = isosurfaces
 
         face_projections = None
         if projection_data is not None and projection_kpoints is not None:
@@ -154,7 +190,9 @@ class FermiSurface(MSONable):
         elif projection_data or projection_kpoints:
             raise ValueError("Both data and kpoints must be specified.")
 
-        return cls(isosurfaces, reciprocal_space, structure, face_projections)
+        return cls(
+            isosurfaces, reciprocal_space, structure, face_projections, properties
+        )
 
     def get_fermi_slice(
         self, plane_normal: Tuple[int, int, int], distance: float = 0
@@ -206,7 +244,12 @@ def compute_isosurfaces(
     decimate_factor: Optional[float] = None,
     decimate_method: str = "quadric",
     smooth: bool = False,
-) -> Dict[Spin, List[Tuple[np.ndarray, np.ndarray, int]]]:
+    calculate_properties: bool = False,
+) -> Union[
+     Dict[Spin, List[Tuple[np.ndarray, np.ndarray, int]]],
+     Tuple[Dict[Spin, List[Tuple[np.ndarray, np.ndarray, int]]],
+           Dict[Spin, List[List[SurfaceProperties]]]]
+]:
     """
     Compute the isosurfaces at a particular energy level.
 
@@ -226,13 +269,19 @@ def compute_isosurfaces(
             algorithm will use constrained smoothing algorithm to preserve fine details
             if input dimension is lower than (500, 500, 500), otherwise will apply a
             Gaussian filter.
+        calculate_properties: Whether to calculate additional Fermi surface
+            properties such as the connectivity and orientation of connected
+            sub-surfaces.
 
     Returns:
         A dictionary containing a list of isosurfaces as ``(vertices, faces, band_idx)``
-        for each spin channel.
+        for each spin channel. If ``calculate_properties``, is True, a list of
+        SurfaceProperty objects will be returned for each isosurface in each spin
+        channel. See the documentation for ``isosurface_properties`` for more details.
     """
     from skimage.measure import marching_cubes
 
+    from ifermi.analysis import isosurface_properties
     from ifermi.kpoints import get_kpoint_mesh_dim, get_kpoint_spacing
 
     rlat = reciprocal_space.reciprocal_lattice
@@ -255,9 +304,11 @@ def compute_isosurfaces(
         warnings.warn("Decimation disabled, install open3d to enable decimation.")
 
     isosurfaces = {}
+    properties = {}
     for spin, ebands in bands.items():
         ebands -= fermi_level
         spin_isosurface = []
+        spin_properties = []
 
         for band_idx, band in enumerate(ebands):
             if not np.nanmax(band) > 0 > np.nanmin(band):
@@ -284,11 +335,17 @@ def compute_isosurfaces(
             verts += reference
             verts = np.dot(verts, rlat)
 
-            verts, faces = trim_surface(reciprocal_space, verts, faces)
+            if calculate_properties:
+                spin_properties.append(isosurface_properties(verts, faces, rlat))
 
-            spin_isosurface.append((verts, faces, band_idx))
+            verts, faces = trim_surface(reciprocal_space, verts, faces)
+            spin_isosurface.append((verts, faces, and_idx))
 
         isosurfaces[spin] = spin_isosurface
+        properties[spin] = spin_properties
+
+    if calculate_properties:
+        return isosurfaces, properties
 
     return isosurfaces
 

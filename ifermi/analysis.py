@@ -11,12 +11,13 @@ __all__ = [
     "line_orientation",
     "plane_orientation",
     "connected_images",
+    "SurfaceProperties"
 ]
 
 
 def isosurface_area(vertices: np.ndarray, faces: np.ndarray) -> float:
     """
-    Calculate the area of the iso-surface.
+    Calculate the area of an iso-surface.
 
     Args:
         vertices: The vertices in the iso-surface as a numpy array with the shape
@@ -37,7 +38,7 @@ def average_projections(
     vertices: np.ndarray, faces: np.ndarray, projections: np.ndarray, norm: bool = False
 ) -> Union[float, np.ndarray]:
     """
-    Average projections across a iso-surface.
+    Average projections across an iso-surface.
 
     Args:
         vertices: The vertices in the iso-surface as a numpy array with the shape
