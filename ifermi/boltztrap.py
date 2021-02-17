@@ -1,13 +1,11 @@
 """Functions modified from BoltzTraP2 to return the group velocities."""
 
-import multiprocessing as mp
-
 import numpy as np
 
-__all__ = ["get_bands_fft", "worker"]
+__all__ = ["bands_fft", "worker"]
 
 
-def get_bands_fft(equiv, coeffs, lattvec, nworkers=1):
+def bands_fft(equiv, coeffs, lattvec, nworkers=1):
     """Rebuild the full energy bands from the interpolation coefficients.
 
     Adapted from BoltzTraP2.
@@ -23,6 +21,8 @@ def get_bands_fft(equiv, coeffs, lattvec, nworkers=1):
         The shapes of those arrays are (nbands, nkpoints), (nbands, 3, nkpoints)
         where nkpoints is the total number of k points on the grid.
     """
+    import multiprocessing as mp
+
     dallvec = np.vstack(equiv)
     sallvec = mp.sharedctypes.RawArray("d", dallvec.shape[0] * 3)
     allvec = np.frombuffer(sallvec)

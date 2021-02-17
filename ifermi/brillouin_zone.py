@@ -54,6 +54,8 @@ class ReciprocalCell(MSONable):
             ``(n_vertices, 3)``.
         faces: The faces of the reciprocal cell given as in terms of vertex indices as
             a list with shape ``(n_faces, n_vertices_in_face)``.
+        centers: The centers of the faces with the shape ``(n_faces, 3)``.
+        normals: The normal vectors to each face with the shape ``(n_faces, 3)``.
     """
 
     reciprocal_lattice: np.ndarray

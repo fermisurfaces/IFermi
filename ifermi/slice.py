@@ -13,8 +13,8 @@ from ifermi.brillouin_zone import ReciprocalSlice
 __all__ = [
     "FermiSlice",
     "process_lines",
-    "get_equivalent_vertices",
-    "get_longest_simple_paths",
+    "equivalent_vertices",
+    "longest_simple_paths",
     "interpolate_segments",
 ]
 
@@ -120,7 +120,7 @@ class FermiSlice(MSONable):
 
     @classmethod
     def from_dict(cls, d) -> "FermiSlice":
-        """Return FermiSurface object from dict."""
+        """Return FermiSlice object from a dict."""
         fs = super().from_dict(d)
         fs.slices = {Spin(int(k)): v for k, v in fs.slices.items()}
 
@@ -130,7 +130,7 @@ class FermiSlice(MSONable):
         return fs
 
     def as_dict(self) -> dict:
-        """Get a json-serializable dict representation of FermiSurface."""
+        """Get a json-serializable dict representation of a FermiSlice."""
         d = super().as_dict()
         d["slices"] = {str(spin): iso for spin, iso in self.slices.items()}
 
@@ -179,7 +179,7 @@ def process_lines(
     edges = np.arange(0, len(vertices)).reshape(len(segments), 2)
 
     # merge vertices that are close together and get an equivalence mapping
-    mapping = get_equivalent_vertices(vertices)
+    mapping = equivalent_vertices(vertices)
 
     # get the indices of the unique vertices
     unique_vertices_idx = np.unique(mapping)
@@ -209,7 +209,7 @@ def process_lines(
     }
 
     # get the longest paths for each subgraph
-    paths = get_longest_simple_paths(unique_vertices_idx, unique_edges)
+    paths = longest_simple_paths(unique_vertices_idx, unique_edges)
 
     # get the new segments and corresponding face indices for each path
     path_data = []
@@ -227,7 +227,7 @@ def process_lines(
     return path_data
 
 
-def get_equivalent_vertices(vertices: np.ndarray, tol: float = 1e-4) -> np.ndarray:
+def equivalent_vertices(vertices: np.ndarray, tol: float = 1e-4) -> np.ndarray:
     """
     Find vertices that are equivalent (closer than a tolerance).
 
@@ -272,9 +272,7 @@ def get_equivalent_vertices(vertices: np.ndarray, tol: float = 1e-4) -> np.ndarr
     return np.array([inverse_mapping[i] for i in range(len(vertices))])
 
 
-def get_longest_simple_paths(
-    vertices: np.ndarray, edges: np.ndarray
-) -> List[np.ndarray]:
+def longest_simple_paths(vertices: np.ndarray, edges: np.ndarray) -> List[np.ndarray]:
     """
     Find the shortest paths that go through all nodes.
 

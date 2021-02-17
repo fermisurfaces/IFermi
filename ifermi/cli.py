@@ -152,7 +152,7 @@ def plot(filename, **kwargs):
     from pymatgen.io.vasp.outputs import Vasprun
 
     from ifermi.interpolator import Interpolator
-    from ifermi.kpoints import get_kpoints_from_bandstructure
+    from ifermi.kpoints import kpoints_from_bandstructure
     from ifermi.plotter import (
         FermiSlicePlotter,
         FermiSurfacePlotter,
@@ -193,7 +193,7 @@ def plot(filename, **kwargs):
     projection_kpoints = None
     if kwargs["projection"] == "velocity":
         projection_data = velocities
-        projection_kpoints = get_kpoints_from_bandstructure(interp_bs)
+        projection_kpoints = kpoints_from_bandstructure(interp_bs)
     elif kwargs["projection"] == "spin":
         if vr.projected_magnetisation is not None:
             # transpose so shape is (nbands, nkpoints, natoms, norbitals, 3)
@@ -204,7 +204,7 @@ def plot(filename, **kwargs):
             projection_data /= np.linalg.norm(projection_data, axis=-1)[..., None]
 
             projection_data = {Spin.up: projection_data}
-            projection_kpoints = get_kpoints_from_bandstructure(bs)
+            projection_kpoints = kpoints_from_bandstructure(bs)
         else:
             click.echo(
                 "ERROR: Band structure does not include spin projections.\n"

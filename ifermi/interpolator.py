@@ -32,13 +32,13 @@ class Interpolator(MSONable):
         from BoltzTraP2.units import Angstrom
         from pymatgen.io.ase import AseAtomsAdaptor
 
-        from ifermi.kpoints import get_kpoints_from_bandstructure
+        from ifermi.kpoints import kpoints_from_bandstructure
 
         self._band_structure = band_structure
         self._spins = self._band_structure.bands.keys()
         self._lattice_matrix = band_structure.structure.lattice.matrix.T * Angstrom
 
-        self._kpoints = get_kpoints_from_bandstructure(band_structure)
+        self._kpoints = kpoints_from_bandstructure(band_structure)
         self._atoms = AseAtomsAdaptor.get_atoms(band_structure.structure)
 
         self._magmom = magmom
@@ -79,7 +79,7 @@ class Interpolator(MSONable):
         from pymatgen.io.ase import AseAtomsAdaptor
         from spglib import spglib
 
-        from ifermi.boltztrap import get_bands_fft
+        from ifermi.boltztrap import bands_fft
         from ifermi.kpoints import sort_boltztrap_to_spglib
 
         coefficients = {}
@@ -105,7 +105,7 @@ class Interpolator(MSONable):
         energies = {}
         velocities = {}
         for spin in self._spins:
-            energies[spin], velocities[spin] = get_bands_fft(
+            energies[spin], velocities[spin] = bands_fft(
                 equivalences,
                 coefficients[spin],
                 self._lattice_matrix,

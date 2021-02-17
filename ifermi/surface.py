@@ -49,7 +49,7 @@ class FermiSurface(MSONable):
             for each face of the Fermi surface. They should be provided as a dict of
             ``{spin: projections}``, where projections is a list of numpy arrays with
             the shape (nfaces, ...), for each surface in ``isosurfaces`. The projections
-            can scalar or vector properties.
+            can be scalar or vector properties.
 
     """
 
@@ -107,14 +107,14 @@ class FermiSurface(MSONable):
         Returns:
             A Fermi surface.
         """
-        from ifermi.kpoints import get_kpoint_mesh_dim, get_kpoints_from_bandstructure
+        from ifermi.kpoints import get_kpoint_mesh_dim, kpoints_from_bandstructure
 
         band_structure = deepcopy(band_structure)  # prevent data getting overwritten
 
         structure = band_structure.structure
         fermi_level = band_structure.efermi + mu
         bands = band_structure.bands
-        kpoints = get_kpoints_from_bandstructure(band_structure)
+        kpoints = kpoints_from_bandstructure(band_structure)
 
         kpoint_dim = get_kpoint_mesh_dim(kpoints)
         if np.product(kpoint_dim) != len(kpoints):
@@ -283,6 +283,7 @@ def compute_isosurfaces(
 
             verts += reference
             verts = np.dot(verts, rlat)
+
             verts, faces = trim_surface(reciprocal_space, verts, faces)
 
             spin_isosurface.append((verts, faces, band_idx))

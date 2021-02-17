@@ -9,7 +9,7 @@ from ifermi.defaults import KTOL
 
 __all__ = [
     "kpoints_to_first_bz",
-    "get_kpoints_from_bandstructure",
+    "kpoints_from_bandstructure",
     "get_kpoint_mesh_dim",
     "get_kpoint_spacing",
     "sort_boltztrap_to_spglib",
@@ -123,7 +123,7 @@ def get_kpoint_spacing(kpoints: np.ndarray) -> np.ndarray:
     return np.array([diff_a[0], diff_b[0], diff_c[0]])
 
 
-def get_kpoints_from_bandstructure(
+def kpoints_from_bandstructure(
     bandstructure: BandStructure, cartesian: bool = False
 ) -> np.ndarray:
     """
