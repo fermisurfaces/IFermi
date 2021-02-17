@@ -4,7 +4,7 @@ Contributors
 IFermi was developed by **Amy Searle** |ajsearle| and
 **Alex Ganose** |utf| |0000-0002-4486-3321|.
 The project was designed and led by **Sinéad Griffin** |0000-0002-9943-4866| at Lawrence
-Berkeley National Lab.
+Berkeley National Laboratory.
 
 
 .. |ajsearle| image:: https://cdnjs.cloudflare.com/ajax/libs/octicons/8.5.0/svg/mark-github.svg
