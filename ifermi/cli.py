@@ -51,7 +51,7 @@ def cli():
     "--projection-axis",
     nargs=3,
     type=float,
-    help="use dot product of projections onto cartesian axis (e.g. 0 0 1)",
+    help="use dot product of properties onto cartesian axis (e.g. 0 0 1)",
 )
 def info(filename, **kwargs):
     """Calculate information about the Fermi surface."""
@@ -62,7 +62,7 @@ def info(filename, **kwargs):
         mu=kwargs["mu"],
         decimate_factor=None,
         smooth=False,
-        wigner_seitz=False
+        wigner_seitz=False,
     )
 
 
@@ -124,13 +124,13 @@ def info(filename, **kwargs):
 @option(
     "--color-projection/--no-color-projection",
     default=True,
-    help="color Fermi surface projections",
+    help="color Fermi surface properties",
     show_default=True,
 )
-@option("--projection-colormap", help="matplotlib colormap name for projections")
+@option("--projection-colormap", help="matplotlib colormap name for properties")
 @option(
     "--vector-projection/--no-vector-projection",
-    help="show vector projections as arrows",
+    help="show vector properties as arrows",
     show_default=True,
 )
 @option("--vector-colormap", help="matplotlib colormap name for vectors")
@@ -184,6 +184,7 @@ def info(filename, **kwargs):
 def plot(filename, **kwargs):
     """Plot a Fermi surface from a vasprun.xml file."""
     from pymatgen.electronic_structure.core import Spin
+
     from ifermi.plotter import (
         FermiSlicePlotter,
         FermiSurfacePlotter,
@@ -214,7 +215,7 @@ def plot(filename, **kwargs):
         mu=kwargs["mu"],
         decimate_factor=kwargs["decimate_factor"],
         smooth=kwargs["smooth"],
-        wigner_seitz=kwargs["wigner_seitz"]
+        wigner_seitz=kwargs["wigner_seitz"],
     )
 
     spin = {"up": Spin.up, "down": Spin.down, None: None}[kwargs["spin"]]
@@ -280,7 +281,13 @@ def find_vasprun_file():
 
 
 def _get_fermi_surface(
-    filename, interpolation_factor, projection, mu, decimate_factor, smooth, wigner_seitz
+    filename,
+    interpolation_factor,
+    projection,
+    mu,
+    decimate_factor,
+    smooth,
+    wigner_seitz,
 ):
     """Common helper method to get Fermi surface"""
     import numpy as np
@@ -321,7 +328,7 @@ def _get_fermi_surface(
             projection_kpoints = kpoints_from_bandstructure(bs)
         else:
             click.echo(
-                "ERROR: Band structure does not include spin projections.\n"
+                "ERROR: Band structure does not include spin properties.\n"
                 "Ensure calculation was run with LSORBIT or LNONCOLLINEAR = True "
                 "and LSORBIT = 11."
             )
@@ -336,4 +343,3 @@ def _get_fermi_surface(
         projection_data=projection_data,
         projection_kpoints=projection_kpoints,
     )
-
