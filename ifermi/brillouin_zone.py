@@ -1,4 +1,8 @@
-"""This module defines Brillouin zone and slice geometries."""
+"""
+==================================
+Brillouin zon and slice geometries
+==================================
+"""
 
 import itertools
 from dataclasses import dataclass, field
@@ -14,22 +18,22 @@ class ReciprocalSlice(MSONable):
     """
     A slice along a pane in reciprocal space.
 
-    Args:
+    Attributes:
         reciprocal_space: The reciprocal space that the slice belongs to.
-        vertices: The vertices as 2D coordinates for the intersection of the plane with
-            the Brillouin zone boundaries.
-        transformation: The transformation that maps points in the 3D Brillouin zone
-            to points on the reciprocal slice.
+        vertices: A (n, 2) float array of the vertices defining the intersection of the
+            slice with the Brillouin zone.
+        transformation: (n, 4, 4) float array of the transformation that maps points in
+            the 3D Brillouin zone to points on the 2D slice.
     """
 
     reciprocal_space: "ReciprocalCell"
     vertices: np.ndarray
     transformation: np.ndarray
-    _edges: Optional[List[Tuple[int, int]]] = field(default=None, init=False)
+    _edges: Optional[np.ndarray] = field(default=None, init=False)
 
     @property
-    def edges(self) -> List[Tuple[int, int]]:
-        """Get edges of the space as a List of tuples specifying the vertex indices."""
+    def edges(self) -> np.ndarray:
+        """A (n, 2) int array defining the cell edges."""
         from scipy.spatial import ConvexHull
 
         if self._edges is None:
@@ -39,8 +43,8 @@ class ReciprocalSlice(MSONable):
 
     @property
     def lines(self) -> np.ndarray:
-        """Get the lines defining the space as a list of two coordinates."""
-        return self.vertices[np.array(self.edges)]
+        """A (n, 2, 2) float array defining the cell boundaries."""
+        return self.vertices[self.edges]
 
 
 @dataclass
@@ -49,13 +53,11 @@ class ReciprocalCell(MSONable):
     A parallelepiped reciprocal lattice cell.
 
     Args:
-        reciprocal_lattice: The reciprocal lattice vectors.
-        vertices: The vertices of the Brillouin zone edges as an array with shape
-            ``(n_vertices, 3)``.
-        faces: The faces of the reciprocal cell given as in terms of vertex indices as
-            a list with shape ``(n_faces, n_vertices_in_face)``.
-        centers: The centers of the faces with the shape ``(n_faces, 3)``.
-        normals: The normal vectors to each face with the shape ``(n_faces, 3)``.
+        reciprocal_lattice: A (3, 3) float array of the reciprocal lattice vectors.
+        vertices: A (n, 3) float array of the vertices of the Brillouin zone edges.
+        faces: A (m, 3) int array of the faces of the Brillouin zone.
+        centers: A (m, 3) float array of the face centers.
+        normals: A (m, 3) float array of the face normal.
     """
 
     reciprocal_lattice: np.ndarray
@@ -63,7 +65,7 @@ class ReciprocalCell(MSONable):
     faces: List[List[int]]
     centers: np.ndarray
     normals: np.ndarray
-    _edges: Optional[List[Tuple[int, int]]] = field(default=None, init=False)
+    _edges: Optional[np.ndarray] = field(default=None, init=False)
 
     @classmethod
     def from_structure(cls, structure: Structure) -> "ReciprocalCell":
@@ -74,7 +76,7 @@ class ReciprocalCell(MSONable):
             structure: A structure.
 
         Returns:
-            An instance of the class.
+            The reciprocal cell.
         """
         reciprocal_lattice = structure.lattice.reciprocal_lattice.matrix
         vertices = [
@@ -121,21 +123,21 @@ class ReciprocalCell(MSONable):
         return cls(reciprocal_lattice, vertices, faces, centers, normals)
 
     @property
-    def edges(self) -> List[Tuple[int, int]]:
-        """Get edges of the space as a List of tuples specifying the vertex indices."""
+    def edges(self) -> np.ndarray:
+        """A (n, 2) int array defining the cell edges."""
         if self._edges is None:
             output = set()
             for face in self.faces:
                 for i in range(len(face)):
                     edge = tuple(sorted([face[i], face[i - 1]]))
                     output.add(edge)
-            self._edges = list(set(output))
+            self._edges = np.array(list(set(output)))
         return self._edges
 
     @property
     def lines(self) -> np.ndarray:
-        """Get the lines defining the space as a list of two coordinates."""
-        return self.vertices[np.array(self.edges)]
+        """A (n, 2, 3) float array defining the cell boundaries."""
+        return self.vertices[self.edges]
 
     def get_reciprocal_slice(
         self, plane_normal: Tuple[int, int, int], distance: float = 0
@@ -146,9 +148,8 @@ class ReciprocalCell(MSONable):
         Reciprocal slice defined by the intersection of a plane with the lattice.
 
         Args:
-            plane_normal: The plane normal in fractional indices. E.g., ``(1, 0, 0)``.
-            distance: The distance from the center of the Brillouin zone (the Gamma
-                point).
+            plane_normal: (3, ) int array of the plane normal in fractional indices.
+            distance: The distance from the center of the Brillouin zone (Γ-point).
 
         Returns:
             The reciprocal slice.
@@ -178,18 +179,14 @@ class ReciprocalCell(MSONable):
 @dataclass
 class WignerSeitzCell(ReciprocalCell):
     """
-    The first Brillioun Zone information.
-
-    This is the Wigner–Seitz cell of the reciprocal lattice.
+    WignerSeitz cell of the reciprocal lattice.
 
     Args:
-        reciprocal_lattice: The reciprocal lattice vectors.
-        vertices: The vertices of the Brillouin zone edges as an array with shape
-            ``(n_vertices, 3)``.
-        faces: The faces of the reciprocal cell given as in terms of vertex indices as
-            a list with shape ``(n_faces, n_vertices_in_face)``.
-        centers: The centers of the faces with the shape ``(n_faces, 3)``.
-        normals: The normal vectors to each face with the shape ``(n_faces, 3)``.
+        reciprocal_lattice: A (3, 3) float array of the reciprocal lattice vectors.
+        vertices: A (n, 3) float array of the vertices of the Brillouin zone edges.
+        faces: A (m, 3) int array of the faces of the Brillouin zone.
+        centers: A (m, 3) float array of the face centers.
+        normals: A (m, 3) float array of the face normal.
     """
 
     @classmethod
