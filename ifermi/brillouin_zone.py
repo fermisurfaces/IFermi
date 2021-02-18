@@ -52,7 +52,7 @@ class ReciprocalCell(MSONable):
     """
     A parallelepiped reciprocal lattice cell.
 
-    Args:
+    Attributes:
         reciprocal_lattice: A (3, 3) float array of the reciprocal lattice vectors.
         vertices: A (n, 3) float array of the vertices of the Brillouin zone edges.
         faces: A (m, 3) int array of the faces of the Brillouin zone.
@@ -181,7 +181,7 @@ class WignerSeitzCell(ReciprocalCell):
     """
     WignerSeitz cell of the reciprocal lattice.
 
-    Args:
+    Attributes:
         reciprocal_lattice: A (3, 3) float array of the reciprocal lattice vectors.
         vertices: A (n, 3) float array of the vertices of the Brillouin zone edges.
         faces: A (m, 3) int array of the faces of the Brillouin zone.

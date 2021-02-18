@@ -188,7 +188,7 @@ texinfo_documents = [
         "IFermi Documentation",
         author,
         "IFermi",
-        "Plotting of Fermi surfaces and slices",
+        "Generation, analysis, and plotting of Fermi surfaces and slices",
     )
 ]
 
