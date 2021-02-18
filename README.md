@@ -4,77 +4,153 @@
 [📖 **Online Documentation** 📖](https://fermisurfaces.github.io/IFermi)
  
 
-IFermi is a package for plotting Fermi surfaces and from *ab initio* calculation outputs. 
-The main features include:
+IFermi is a Python (3.6+) library and command-line tools the generation, 
+analysis, and visualisation of Fermi surfaces and Fermi slices. The goal of the library 
+is to provide full featured FermiSurface and FermiSlice objects which allow for easy 
+manipulation and analysis. The main features include:
 
-1. Plotting three-dimensional Fermi surfaces, with interactive plotting
-   supported by [mayavi](https://docs.enthought.com/mayavi/mayavi/), [plotly](https://plot.ly/) and [matplotlib](https://matplotlib.org).
-2. Plotting slices of three-dimensional Fermi surfaces along a specified plane.
+1. Interpolation of electronic band structures onto dense k-point meshes.
+2. Extraction of FermiSurfaces and FermiSlices from electronic band structures.
+3. Projection of arbitrary properties on to Fermi surfaces and Fermi slices.
+4. Tools to calculate Fermi surface dimensionality, orientation, and averaged projections.
+5. Interactive visualisation of Fermi surfaces and slices, with support for
+   [mayavi](https://docs.enthought.com/mayavi/mayavi/), [plotly](https://plot.ly/) and 
+   [matplotlib](https://matplotlib.org).
+6. Generation and visualisation of spin-texture.
 
-IFermi currently only supports VASP calculations but support for additional DFT packages 
+IFermi currently only works with VASP calculations but support for additional DFT packages 
 will be added in the future.
-
-## Example
-
-An example of the Fermi surface and a two-dimensional slice for MgB<sub>2</sub> is shown below:
 
 ![MgB2](https://raw.githubusercontent.com/fermisurfaces/IFermi/master/docs/src/_static/fermi_surface_example-01.png)
 
-
-## Usage
+## Quick start
 
 The [online documentation](https://fermisurfaces.github.io/IFermi/cli.html) provides a full 
-description of the available options. To summarise, three-dimensional Fermi surfaces can
-be plotted from a `vasprun.xml` file using:
+description of the available options. 
+
+### Analysis
+
+Fermi surface properties, including dimensionality and orientation can be extracted 
+from a vasprun.xml file using.
 
 ```bash
-ifermi
+ifermi info
 ```
 
-The two-dimensional slice of a Fermi slices along the plane specified by the miller 
-indices (A B C) and distance d can be plotted from a `vasprun.xml` file using:
+```
+Fermi Surface Summary
+=====================
+
+  # surfaces: 10
+  Area: 32.745 Å⁻²
+
+Isosurfaces:
+~~~~~~~~~~~~
+
+    Band    Area [Å⁻²]   Dimensionality    Orientation
+  ------  ------------  ----------------  -------------
+       6         1.944         2D           (0, 0, 1)
+       7         4.370         1D           (0, 0, 1)
+       7         2.961         2D           (0, 0, 1)
+       8         3.549         1D           (0, 0, 1)
+       8         3.549         1D           (0, 0, 1)
+```
+
+### Visualisation
+
+Three-dimensional Fermi surfaces can be visualized from a `vasprun.xml` file using:
 
 ```bash
-ifermi --slice A B C d
+ifermi plot
 ```
 
-### Python interface
+The two-dimensional slice of a Fermi surface along the plane specified by the miller 
+indices (j k l) and distance d can be plotted from a `vasprun.xml` file using:
 
-Alternatively, IFermi can be controlled using the Python API. A full summary of the API
-is given in the [API introduction page](https://fermisurfaces.github.io/IFermi/plotting_using_python.html) in the documentation.
+```bash
+ifermi --slice j k l d
+```
 
-The core classes in IFermi are:
+### Python library
 
-- `Interpolator`: to take a band structure on a uniform k-point mesh and interpolate it
-  onto a denser mesh.
-- `FermiSurface`: to store isosurfaces and reciprocal lattice information.
-- `FermiSurfacePlotter`: to plot a Fermi surface from a `FermiSurface` object.
-
-A minimal working example to plot the Fermi surface from a `vasprun.xml` file is:
+The `ifermi` command line tools are build on the IFermi Python library. Here is an
+example of how to load DFT calculation outputs, interpolate the energies onto a dense mesh, 
+generate a Fermi surface, calculate Fermi surface properties, and visualise the surface.
+A more complete summary of the API is given in the [API introduction page](https://fermisurfaces.github.io/IFermi/plotting_using_python.html)
+and in the [API Reference page](https://fermisurfaces.github.io/IFermi/ifermi.html) in the documentation.
 
 ```python
 from pymatgen.io.vasp.outputs import Vasprun
-from ifermi.fermi_surface import FermiSurface
-from ifermi.interpolator import Interpolator
-from ifermi.plotter import FermiSurfacePlotter, show_plot, save_plot
+import ifermi
 
-
+# load VASP calculation outputs
 vr = Vasprun("vasprun.xml")
 bs = vr.get_band_structure()
 
-# interpolate the energies to a finer k-point mesh
-interpolator = Interpolator(bs)
-dense_bs, kmesh = interpolator.interpolate_bands(interpolation_factor=10)
-    
-fs = FermiSurface.from_band_structure(dense_bs, kmesh, mu=0.0, wigner_seitz=True)
-plotter = FermiSurfacePlotter(fs)
-plot = plotter.get_plot(plot_type='plotly')
+# interpolate the energies onto a dense k-point mesh
+interpolator = ifermi.interpolate.Interpolator(bs)
+dense_bs = interpolator.interpolate_bands()
 
-save_plot(plot, "fermi-surface.png")  # saves the plot to a file
-show_plot(plot)  # displays an interactive plot
+# generate the Fermi surface and calculate the dimensionality
+fs = ifermi.surface.FermiSurface.from_band_structure(
+    dense_bs, mu=0.0, wigner_seitz=True, calculate_dimensionality=True
+)
+
+# number of isosurfaces in the Fermi surface
+fs.n_surfaces
+
+# number of isosurfaces for each Spin channel
+fs.n_surfaces_per_spin
+
+# the total area of the Fermi surface
+fs.area
+
+# the area of each isosurface
+fs.area_surfaces
+
+# loop over all isosurfaces and check their properties
+# the isosurfaces are given as a list for each spin channel
+for spin, isosurfaces in fs.isosurfaces.items():
+    for isosurface in isosurfaces:
+        
+        # the dimensionality (does the surface cross periodic boundaries)
+        isosurface.dimensionality
+        
+        # what is the orientation
+        isosurface.orientation
+        
+        # does the surface have face properties
+        isosurface.has_properties
+        
+        # calculate the norms of the properties
+        isosurface.properties_norms
+        
+        # calculate scalar projection of properties on to [0 0 1] vector
+        isosurface.scalar_projection((0, 0, 1))
+        
+        # uniformly sample the surface faces to a consistent density
+        isosurface.sample_uniform(0.1)
+
+# plot the Fermi surface
+fs_plotter = ifermi.plot.FermiSurfacePlotter(fs)
+plot = fs_plotter.get_plot()
+
+# generate Fermi slice along the (0 0 1) plane going through the Γ-point.
+slice = fs.get_fermi_slice((0, 0, 1)
+
+# number of isolines in the slice
+slice.n_lines
+
+# do the lines have segment properties
+slice.has_properties
+
+# plot slice
+slice_plotter = ifermi.plot.FermiSurfacePlotter(slice)
+plot = slice_plotter.get_plot()
+
+ifermi.plot.save_plot(plot, "fermi-surface.png")  # saves the plot to a file
+ifermi.plot.show_plot(plot)  # displays an interactive plot
 ```
-
-Note, if you're not running the example in a notebook then it must be proceeded by `if __name__ == '__main__':`.
 
 ## Installation
 
@@ -84,11 +160,12 @@ IFermi can be installed with the command:
 pip install ifermi
 ```
 
-IFermi is currently compatible with Python 3.5+ and relies on a number of
+IFermi is currently compatible with Python 3.6+ and relies on a number of
 open-source python packages, specifically:
 
-- [pymatgen](http://pymatgen.org) for parsing VASP calculation output.
+- [pymatgen](http://pymatgen.org) for parsing DFT calculation output.
 - [BoltzTrap2](https://gitlab.com/sousaw/BoltzTraP2) for band structure interpolation.
+- [trimesh](https://trimsh.org/) for manipulating isosurfaces.
 - [matplotlib](https://matplotlib.org), [mayavi](https://docs.enthought.com/mayavi/mayavi/), and [plotly](https://plot.ly/) for three-dimensional plotting.
 
 ## What’s new?
@@ -107,5 +184,5 @@ IFermi is made available under the MIT License.
 
 ## Acknowledgements
 
-Alex Ganose for developing/improving code and documentation.
-Sinead Griffin for suggesting the project.
+Developed by Amy Searle and Alex Ganose.
+Sinead Griffin designed and led the project.
