@@ -68,7 +68,7 @@ The two-dimensional slice of a Fermi surface along the plane specified by the mi
 indices (j k l) and distance d can be plotted from a `vasprun.xml` file using:
 
 ```bash
-ifermi --slice j k l d
+ifermi plot --slice j k l d
 ```
 
 ### Python library
