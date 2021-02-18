@@ -197,11 +197,11 @@ def plot(filename, **kwargs):
     except ImportError:
         mlab = False
 
-    if kwargs["projection_colormap"]:
-        kwargs["color_projection"] = kwargs["projection_colormap"]
+    if kwargs["properties_colormap"]:
+        kwargs["color_properties"] = kwargs["properties_colormap"]
 
     if kwargs["vector_colormap"]:
-        kwargs["vector_projection"] = kwargs["vector_colormap"]
+        kwargs["vector_properties"] = kwargs["vector_colormap"]
 
     output_filename = kwargs["output_filename"]
     if mlab and kwargs["plot_type"] == "mayavi" and output_filename is not None:
@@ -229,8 +229,8 @@ def plot(filename, **kwargs):
         plotter = FermiSlicePlotter(fermi_slice, symprec=kwargs["symprec"])
         fig = plotter.get_plot(
             spin=spin,
-            color_projection=kwargs["color_projection"],
-            vector_projection=kwargs["vector_projection"],
+            color_properties=kwargs["color_properties"],
+            vector_properties=kwargs["vector_properties"],
             projection_axis=projection_axis,
             vector_spacing=kwargs["vector_spacing"],
             cmin=kwargs["cmin"],
@@ -248,8 +248,8 @@ def plot(filename, **kwargs):
             spin=spin,
             azimuth=kwargs["azimuth"],
             elevation=kwargs["elevation"],
-            color_projection=kwargs["color_projection"],
-            vector_projection=kwargs["vector_projection"],
+            color_properties=kwargs["color_properties"],
+            vector_properties=kwargs["vector_properties"],
             projection_axis=projection_axis,
             vector_spacing=kwargs["vector_spacing"],
             cmin=kwargs["cmin"],

@@ -1,4 +1,4 @@
-"""Plotters for Fermi surfaces and Fermi slices."""
+"""Plotters for Fermi surfaces and Fermi isolines."""
 
 import os
 import warnings
@@ -15,7 +15,7 @@ from pymatgen import Spin
 from ifermi.analysis import sample_line_uniform, sample_surface_uniform
 from ifermi.brillouin_zone import ReciprocalCell, ReciprocalSlice
 from ifermi.defaults import AZIMUTH, COLORMAP, ELEVATION, SCALE, SYMPREC, VECTOR_SPACING
-from ifermi.slice import FermiSlice, Isoslice
+from ifermi.slice import FermiSlice, Isoline
 from ifermi.surface import FermiSurface, Isosurface
 
 try:
@@ -119,9 +119,9 @@ class _FermiSurfacePlotData:
     azimuth: float
     elevation: float
     colors: List[Tuple[int, int, int]]
-    projections: List[np.ndarray]
+    properties: List[np.ndarray]
     arrows: List[Tuple[np.ndarray, np.ndarray, np.ndarray]]
-    projection_colormap: Optional[Colormap]
+    properties_colormap: Optional[Colormap]
     arrow_colormap: Optional[Colormap]
     cmin: Optional[float]
     cmax: Optional[float]
@@ -133,9 +133,9 @@ class _FermiSurfacePlotData:
 class _FermiSlicePlotData:
     slices: List[np.ndarray]
     colors: List[Tuple[int, int, int]]
-    projections: List[np.ndarray]
+    properties: List[np.ndarray]
     arrows: List[Tuple[np.ndarray, np.ndarray, np.ndarray]]
-    projection_colormap: Optional[Colormap]
+    properties_colormap: Optional[Colormap]
     arrow_colormap: Optional[Colormap]
     cmin: Optional[float]
     cmax: Optional[float]
@@ -199,8 +199,8 @@ class FermiSurfacePlotter(MSONable):
         colors: Optional[Union[str, dict, list]] = None,
         azimuth: float = AZIMUTH,
         elevation: float = ELEVATION,
-        color_projection: Union[str, bool] = True,
-        vector_projection: Union[str, bool] = False,
+        color_properties: Union[str, bool] = True,
+        vector_properties: Union[str, bool] = False,
         projection_axis: Optional[Tuple[int, int, int]] = None,
         vector_spacing: float = VECTOR_SPACING,
         cmin: Optional[float] = None,
@@ -235,48 +235,48 @@ class FermiSurfacePlotter(MSONable):
                   information.
                 - ``None``, in which case the default colors will be used.
 
-            color_projection: Whether to use the properties to color the Fermi surface.
+            color_properties: Whether to use the properties to color the Fermi surface.
                 If the properties is a vector then the norm of the properties will be
                 used. Note, this will only take effect if the Fermi surface has
                 properties. If set to True, the viridis colormap will be used.
-                Alternative colormaps can be selected by setting ``color_projection``
+                Alternative colormaps can be selected by setting ``color_properties``
                 to a matplotlib colormap name. This setting will override the ``colors``
                 option. For vector properties, the arrows are colored according to the
                 norm of the properties by default. If used in combination with the
                 ``projection_axis`` option, the color will be determined by the dot
-                product of the properties with the properties axis.
-            vector_projection: Whether to plot arrows for vector properties. Note, this
+                product of the properties with the projection axis.
+            vector_properties: Whether to plot arrows for vector properties. Note, this
                 will only take effect if the Fermi surface has vector properties. If
                 set to True, the viridis colormap will be used. Alternative colormaps
-                can be selected by setting ``vector_projection`` to a matplotlib
+                can be selected by setting ``vector_properties`` to a matplotlib
                 colormap name. By default, the arrows are colored according to the norm
                 of the properties. If used in combination with the ``projection_axis``
                 option, the color will be determined by the dot product of the
-                properties with the properties axis.
+                properties with the projection axis.
             projection_axis: Projection axis that can be used to calculate the color of
-                vector projects. If None, the norm of the properties will be used,
+                vector properties. If None, the norm of the properties will be used,
                 otherwise the color will be determined by the dot product of the
-                properties with the properties axis. Only has an effect when used with
-                the ``vector_projection`` option.
+                properties with the projection axis. Only has an effect when used with
+                the ``vector_properties`` option.
             vector_spacing: The rough spacing between arrows. Uses a custom algorithm
                 for resampling the Fermi surface to ensure that arrows are not too close
-                together. Only has an effect when used with the ``vector_projection``
+                together. Only has an effect when used with the ``vector_properties``
                 option.
-            cmin: Minimum intensity for normalising projection colors (including
-                projection vector colors).Only has an effect when used with
-                ``color_projection`` or ``vector_projection`` options.
-            cmax: Maximum intensity for normalising projection colors (including
-                projection vector colors). Only has an effect when used with
-                ``color_projection`` or ``vector_projection`` options.
+            cmin: Minimum intensity for normalising properties colors (including
+                vector colors). Only has an effect when used with
+                ``color_properties`` or ``vector_properties`` options.
+            cmax: Maximum intensity for normalising properties colors (including
+                vector colors). Only has an effect when used with
+                ``color_properties`` or ``vector_properties`` options.
             vnorm: The value by which to normalize the vector lengths. For example,
                 spin properties should typically have a norm of 1 whereas group
                 velocity properties can have larger or smaller norms depending on the
                 structure. By changing this number, the size of the vectors will be
                 scaled. Note that the properties of two materials can only be compared
                 quantitatively if a fixed values is used for both plots. Only has an
-                effect when used with the ``vector_projection`` option.
+                effect when used with the ``vector_properties`` option.
             hide_surface: Whether to hide the Fermi surface. Only recommended in
-                combination with the ``vector_projection`` option.
+                combination with the ``vector_properties`` option.
             hide_labels: Whether to show the high-symmetry k-point labels.
             hide_cell: Whether to show the reciprocal cell boundary.
             **plot_kwargs: Other keyword arguments supported by the individual plotting
@@ -287,8 +287,8 @@ class FermiSurfacePlotter(MSONable):
             azimuth=azimuth,
             elevation=elevation,
             colors=colors,
-            color_projection=color_projection,
-            vector_projection=vector_projection,
+            color_properties=color_properties,
+            vector_properties=vector_properties,
             projection_axis=projection_axis,
             vector_spacing=vector_spacing,
             cmin=cmin,
@@ -318,8 +318,8 @@ class FermiSurfacePlotter(MSONable):
         azimuth: float = AZIMUTH,
         elevation: float = ELEVATION,
         colors: Optional[Union[str, dict, list]] = None,
-        color_projection: Union[str, bool] = True,
-        vector_projection: Union[str, bool] = False,
+        color_properties: Union[str, bool] = True,
+        vector_properties: Union[str, bool] = False,
         projection_axis: Optional[Tuple[int, int, int]] = None,
         vector_spacing: float = VECTOR_SPACING,
         cmin: Optional[float] = None,
@@ -340,50 +340,49 @@ class FermiSurfacePlotter(MSONable):
         from matplotlib.cm import get_cmap
 
         if not spin:
-            spin = list(self.fermi_surface.isosurfaces.keys())
+            spin = self.fermi_surface.spins
         elif isinstance(spin, Spin):
             spin = [spin]
 
         isosurfaces = []
         if not hide_surface:
-            for s in spin:
-                for isosurface in self.fermi_surface.isosurfaces[s]:
-                    isosurfaces.append((isosurface.vertices, isosurface.faces))
+            isosurfaces = self.fermi_surface.all_vertices_faces(spins=spin)
 
-        projections = []
-        projection_colormap = None
+        properties = []
+        properties_colormap = None
         if self.fermi_surface.has_properties:
             # always calculate properties if they are present so we can determine
             # cmin and cmax. These are also be used for arrows and it is critical that
             # cmin and cmax are the same for properties and arrow color scales (even
             # if the colormap used is different)
-            projections = _get_projections(
-                self.fermi_surface.isosurfaces, spin, projection_axis
+            norm = self.fermi_surface.properties_ndim == 2
+            properties = self.fermi_surface.all_properties(
+                spins=spin, projection_axis=projection_axis, norm=norm
             )
-            if isinstance(color_projection, str):
-                projection_colormap = get_cmap(color_projection)
+            if isinstance(color_properties, str):
+                properties_colormap = get_cmap(color_properties)
             else:
-                projection_colormap = get_cmap(COLORMAP)
-            cmin, cmax = _get_projection_limits(projections, cmin, cmax)
+                properties_colormap = get_cmap(COLORMAP)
+            cmin, cmax = _get_properties_limits(properties, cmin, cmax)
 
-        if not color_projection or not self.fermi_surface.has_properties:
-            colors = get_isosurface_colors(colors, self.fermi_surface.isosurfaces, spin)
-            projections = []
+        if not color_properties or not self.fermi_surface.has_properties:
+            colors = get_isosurface_colors(colors, self.fermi_surface, spin)
+            properties = []
             cmin = None
             cmax = None
 
         arrows = []
         arrow_colormap = None
-        if vector_projection and self.fermi_surface.has_properties:
-            arrows = _get_face_arrows(
+        if vector_properties and self.fermi_surface.has_properties:
+            arrows = get_face_arrows(
                 self.fermi_surface,
                 spin,
                 vector_spacing,
                 vnorm,
                 projection_axis,
             )
-            if isinstance(vector_projection, str):
-                arrow_colormap = get_cmap(vector_projection)
+            if isinstance(vector_properties, str):
+                arrow_colormap = get_cmap(vector_properties)
             else:
                 arrow_colormap = get_cmap(COLORMAP)
 
@@ -392,9 +391,9 @@ class FermiSurfacePlotter(MSONable):
             azimuth=azimuth,
             elevation=elevation,
             colors=colors,
-            projections=projections,
+            properties=properties,
             arrows=arrows,
-            projection_colormap=projection_colormap,
+            properties_colormap=properties_colormap,
             arrow_colormap=arrow_colormap,
             cmin=cmin,
             cmax=cmax,
@@ -450,14 +449,14 @@ class FermiSurfacePlotter(MSONable):
         else:
             fig = plt.gcf()
 
-        if plot_data.projections:
+        if plot_data.properties:
             polyc = None
             for (verts, faces), proj in zip(
-                plot_data.isosurfaces, plot_data.projections
+                plot_data.isosurfaces, plot_data.properties
             ):
                 x, y, z = verts.T
                 polyc = ax.plot_trisurf(
-                    x, y, faces, z, cmap=plot_data.projection_colormap, **trisurf_kwargs
+                    x, y, faces, z, cmap=plot_data.properties_colormap, **trisurf_kwargs
                 )
                 polyc.set_array(proj)
                 polyc.set_clim(plot_data.cmin, plot_data.cmax)
@@ -546,11 +545,11 @@ class FermiSurfacePlotter(MSONable):
             init_notebook_mode(connected=True)
 
         meshes = []
-        if plot_data.projections:
+        if plot_data.properties:
             # plot mesh with colored properties
-            colors = cmap_to_plotly(plot_data.projection_colormap)
+            colors = cmap_to_plotly(plot_data.properties_colormap)
             for (verts, faces), proj in zip(
-                plot_data.isosurfaces, plot_data.projections
+                plot_data.isosurfaces, plot_data.properties
             ):
                 x, y, z = verts.T
                 i, j, k = faces.T
@@ -652,10 +651,10 @@ class FermiSurfacePlotter(MSONable):
 
         mlab.figure(figure=None, bgcolor=(1, 1, 1), size=(800, 800), fgcolor=(0, 0, 0))
 
-        if plot_data.projections:
-            cmap = cmap_to_mayavi(plot_data.projection_colormap)
+        if plot_data.properties:
+            cmap = cmap_to_mayavi(plot_data.properties_colormap)
             for (verts, faces), proj in zip(
-                plot_data.isosurfaces, plot_data.projections
+                plot_data.isosurfaces, plot_data.properties
             ):
                 from tvtk.api import tvtk
 
@@ -747,7 +746,7 @@ class FermiSurfacePlotter(MSONable):
         """
         from crystal_toolkit.core.scene import Lines, Scene, Spheres, Surface
 
-        if plot_data.projections is not None or plot_data.arrows is not None:
+        if plot_data.properties is not None or plot_data.arrows is not None:
             warnings.warn("crystal_toolkit plot does not support properties or arrows")
 
         # The implementation here is very similar to the plotly implementation, except
@@ -793,11 +792,11 @@ class FermiSurfacePlotter(MSONable):
 
 
 class FermiSlicePlotter(object):
-    """Class to plot 2D slices through a FermiSurface."""
+    """Class to plot 2D isolines through a FermiSurface."""
 
     def __init__(self, fermi_slice: FermiSlice, symprec: float = SYMPREC):
         """
-        Initialize class for plotting Fermi slices.
+        Initialize class for plotting Fermi isolines.
 
         Args:
             fermi_slice: A slice through a Fermi surface.
@@ -855,8 +854,8 @@ class FermiSlicePlotter(object):
         ax: Optional[Any] = None,
         spin: Optional[Spin] = None,
         colors: Optional[Union[str, dict, list]] = COLORMAP,
-        color_projection: Union[str, bool] = True,
-        vector_projection: Union[str, bool] = False,
+        color_properties: Union[str, bool] = True,
+        vector_properties: Union[str, bool] = False,
         projection_axis: Optional[Tuple[int, int, int]] = None,
         scale_linewidth: Union[bool, float] = False,
         vector_spacing: float = VECTOR_SPACING,
@@ -883,7 +882,7 @@ class FermiSlicePlotter(object):
                 available.
             colors: The color specification for the iso-surfaces. Valid options are:
 
-                - A single color to use for all Fermi slices, specified as a tuple of
+                - A single color to use for all Fermi isolines, specified as a tuple of
                   rgb values from 0 to 1. E.g., red would be ``(1, 0, 0)``.
                 - A list of colors, specified as above.
                 - A dictionary of ``{Spin.up: color1, Spin.down: color2}``, where the
@@ -893,51 +892,51 @@ class FermiSlicePlotter(object):
                   information.
                 - ``None``, in which case the default colors will be used.
 
-            color_projection: Whether to use the properties to color the Fermi slices.
+            color_properties: Whether to use the properties to color the Fermi isolines.
                 If the properties is a vector then the norm of the properties will be
                 used. Note, this will only take effect if the Fermi slice has
                 properties. If set to True, the viridis colormap will be used.
-                Alternative colormaps can be selected by setting ``color_projection``
+                Alternative colormaps can be selected by setting ``color_properties``
                 to a matplotlib colormap name. This setting will override the ``colors``
                 option. For vector properties, the arrows are colored according to the
                 norm of the properties by default. If used in combination with the
                 ``projection_axis`` option, the color will be determined by the dot
-                product of the properties with the properties axis.
-            vector_projection: Whether to plot arrows for vector properties. Note, this
+                product of the properties with the projection axis.
+            vector_properties: Whether to plot arrows for vector properties. Note, this
                 will only take effect if the Fermi slice has vector properties. If
                 set to True, the viridis colormap will be used. Alternative colormaps
-                can be selected by setting ``vector_projection`` to a matplotlib
+                can be selected by setting ``vector_properties`` to a matplotlib
                 colormap name. By default, the arrows are colored according to the norm
                 of the properties. If used in combination with the ``projection_axis``
                 option, the color will be determined by the dot product of the
-                properties with the properties axis.
+                properties with the projection axis.
             projection_axis: Projection axis that can be used to calculate the color of
-                vector projects. If None, the norm of the properties will be used,
+                vector properties. If None, the norm of the properties will be used,
                 otherwise the color will be determined by the dot product of the
-                properties with the properties axis. Only has an effect when used with
-                the ``vector_projection`` option.
+                properties with the projection axis. Only has an effect when used with
+                the ``vector_properties`` option.
             scale_linewidth: Scale the linewidth by the absolute value of the
-                projection. Can be true, false or a number. If a number, then this will
-                be used as the max linewidth for scaling.
+                segment properties. Can be true, false or a number. If a number, then
+                this will be used as the max linewidth for scaling.
             vector_spacing: The rough spacing between arrows. Uses a custom algorithm
                 for resampling the Fermi surface to ensure that arrows are not too close
-                together. Only has an effect when used with the ``vector_projection``
+                together. Only has an effect when used with the ``vector_properties``
                 option.
-            cmin: Minimum intensity for normalising projection colors (including
-                projection vector colors).Only has an effect when used with
-                ``color_projection`` or ``vector_projection`` options.
-            cmax: Maximum intensity for normalising projection colors (including
-                projection vector colors). Only has an effect when used with
-                ``color_projection`` or ``vector_projection`` options.
+            cmin: Minimum intensity for normalising properties colors (including
+                vector colors). Only has an effect when used with
+                ``color_properties`` or ``vector_properties`` options.
+            cmax: Maximum intensity for normalising properties colors (including
+                vector colors). Only has an effect when used with
+                ``color_properties`` or ``vector_properties`` options.
             vnorm: The value by which to normalize the vector lengths. For example,
                 spin properties should typically have a norm of 1 whereas group
                 velocity properties can have larger or smaller norms depending on the
                 structure. By changing this number, the size of the vectors will be
                 scaled. Note that the properties of two materials can only be compared
                 quantitatively if a fixed values is used for both plots. Only has an
-                effect when used with the ``vector_projection`` option.
+                effect when used with the ``vector_properties`` option.
             hide_slice: Whether to hide the Fermi surface. Only recommended in
-                combination with the ``vector_projection`` option.
+                combination with the ``vector_properties`` option.
             hide_labels: Whether to show the high-symmetry k-point labels.
             hide_cell: Whether to show the reciprocal cell boundary.
             arrow_pivot: The part of the arrow that is anchored to the X, Y grid.
@@ -970,8 +969,8 @@ class FermiSlicePlotter(object):
         plot_data = self._get_plot_data(
             spin=spin,
             colors=colors,
-            color_projection=color_projection,
-            vector_projection=vector_projection,
+            color_properties=color_properties,
+            vector_properties=vector_properties,
             projection_axis=projection_axis,
             vector_spacing=vector_spacing,
             cmin=cmin,
@@ -991,12 +990,12 @@ class FermiSlicePlotter(object):
         # get rotation matrix that will align the longest slice length along the x-axis
         rotation = _get_rotation(self.fermi_slice.reciprocal_slice)
 
-        if plot_data.projections:
+        if plot_data.properties:
             norm = Normalize(vmin=plot_data.cmin, vmax=plot_data.cmax)
             reference = max(abs(plot_data.cmax), abs(plot_data.cmin))
 
             lines = None
-            for (segments, _), proj in zip(plot_data.slices, plot_data.projections):
+            for (segments, _), proj in zip(plot_data.slices, plot_data.properties):
                 if scale_linewidth is False:
                     linewidth = 2
                 else:
@@ -1010,7 +1009,7 @@ class FermiSlicePlotter(object):
                 slice_style.update(slice_kwargs)
                 lines = LineCollection(
                     np.dot(segments, rotation),
-                    cmap=plot_data.projection_colormap,
+                    cmap=plot_data.properties_colormap,
                     norm=norm,
                     **slice_style,
                 )
@@ -1065,8 +1064,8 @@ class FermiSlicePlotter(object):
         self,
         spin: Optional[Spin] = None,
         colors: Optional[Union[str, dict, list]] = None,
-        color_projection: Union[str, bool] = True,
-        vector_projection: Union[str, bool] = False,
+        color_properties: Union[str, bool] = True,
+        vector_properties: Union[str, bool] = False,
         projection_axis: Optional[Tuple[int, int, int]] = None,
         vector_spacing: float = VECTOR_SPACING,
         cmin: Optional[float] = None,
@@ -1087,56 +1086,56 @@ class FermiSlicePlotter(object):
         from matplotlib.cm import get_cmap
 
         if not spin:
-            spin = list(self.fermi_slice.slices.keys())
+            spin = list(self.fermi_slice.isolines.keys())
         elif isinstance(spin, Spin):
             spin = [spin]
 
         slices = []
         if not hide_slice:
             for s in spin:
-                slices.extend(self.fermi_slice.slices[s])
+                slices.extend(self.fermi_slice.isolines[s])
 
-        projections = []
-        projection_colormap = None
+        properties = []
+        properties_colormap = None
         if self.fermi_slice.projections is not None:
             # always calculate properties if they are present so we can determine
             # cmin and cmax. These are also be used for arrows and it is critical that
             # cmin and cmax are the same for properties and arrow color scales (even
             # if the colormap used is different)
-            projections = _get_projections(self.fermi_slice, spin, projection_axis)
-            if isinstance(color_projection, str):
-                projection_colormap = get_cmap(color_projection)
+            properties = _get_projections(self.fermi_slice, spin, projection_axis)
+            if isinstance(color_properties, str):
+                properties_colormap = get_cmap(color_properties)
             else:
-                projection_colormap = get_cmap(COLORMAP)
-            cmin, cmax = _get_projection_limits(projections, cmin, cmax)
+                properties_colormap = get_cmap(COLORMAP)
+            cmin, cmax = _get_properties_limits(properties, cmin, cmax)
 
-        if not color_projection or self.fermi_slice.projections is None:
-            colors = get_isosurface_colors(colors, self.fermi_slice.slices, spin)
-            projections = []
+        if not color_properties or self.fermi_slice.projections is None:
+            colors = get_isosurface_colors(colors, self.fermi_slice.isolines, spin)
+            properties = []
             cmin = None
             cmax = None
 
         arrows = []
         arrow_colormap = None
-        if vector_projection and self.fermi_slice.projections is not None:
-            arrows = _get_line_arrows(
+        if vector_properties and self.fermi_slice.projections is not None:
+            arrows = get_segment_arrows(
                 self.fermi_slice,
                 spin,
                 vector_spacing,
                 vnorm,
                 projection_axis,
             )
-            if isinstance(vector_projection, str):
-                arrow_colormap = get_cmap(vector_projection)
+            if isinstance(vector_properties, str):
+                arrow_colormap = get_cmap(vector_properties)
             else:
                 arrow_colormap = get_cmap(COLORMAP)
 
         return _FermiSlicePlotData(
             slices=slices,
             colors=colors,
-            projections=projections,
+            properties=properties,
             arrows=arrows,
-            projection_colormap=projection_colormap,
+            properties_colormap=properties_colormap,
             arrow_colormap=arrow_colormap,
             cmin=cmin,
             cmax=cmax,
@@ -1214,7 +1213,7 @@ def get_plot_type(plot: Any) -> str:
 
 def get_isosurface_colors(
     colors: Optional[Union[str, dict, list]],
-    iso_objects: Dict[Spin, List[Any]],
+    fermi_object: Union[FermiSurface, FermiSlice],
     spins: List[Spin],
 ) -> List[Tuple[float, float, float]]:
     """
@@ -1232,9 +1231,7 @@ def get_isosurface_colors(
               https://matplotlib.org/tutorials/colors/colormaps.html for more
               information.
             - ``None``, in which case the default colors will be used.
-        iso_objects: The iso-surfaces or 2d slices for which colors will be generated.
-            Should be specified as a dict of ``{spin: spin_objects}`` where
-            spin_objects is a list of objects.
+        fermi_object: A Fermi surface or Fermi slice object.
         spins: A list of spins for which colors will be generated.
 
     Returns:
@@ -1245,13 +1242,17 @@ def get_isosurface_colors(
 
     from matplotlib.cm import get_cmap
 
-    n_surfaces_per_band = []
-    for spin in spins:
-        n_band_surfaces = Counter([i.band_idx for i in iso_objects[spin]])
-        for band_idx in sorted(list(n_band_surfaces.keys())):
-            n_surfaces_per_band.append(n_band_surfaces[band_idx])
+    if isinstance(fermi_object, FermiSurface):
+        n_objects_per_band = fermi_object.n_surfaces_per_band
+    else:
+        n_objects_per_band = fermi_object.n_lines_per_band
 
-    n_objects = len(n_surfaces_per_band)
+    surface_multiplicity = []
+    for spin in spins:
+        for band_idx in sorted(list(n_objects_per_band[spin].keys())):
+            surface_multiplicity.append(n_objects_per_band[spin][band_idx])
+
+    n_objects = len(surface_multiplicity)
 
     if isinstance(colors, (tuple, list, np.ndarray)):
         if isinstance(colors[0], (tuple, list, np.ndarray)):
@@ -1267,7 +1268,9 @@ def get_isosurface_colors(
             raise ValueError(
                 "colors dict must have same number of spin channels as spins to plot"
             )
-        return [colors[s] for s in spins for _ in iso_objects[s]]
+        return [
+            colors[s] for s in spins for _ in range(fermi_object.n_surfaces_per_spin[s])
+        ]
 
     elif isinstance(colors, str):
         # get rid of alpha channel
@@ -1279,55 +1282,18 @@ def get_isosurface_colors(
         cc = qualitative.Prism * (len(qualitative.Prism) // n_objects + 1)
         color_list = [unconvert_from_RGB_255(unlabel_rgb(c)) for c in cc[:n_objects]]
 
-    return [c for c, n in zip(color_list, n_surfaces_per_band) for _ in range(n)]
+    return [c for c, n in zip(color_list, surface_multiplicity) for _ in range(n)]
 
 
-def _get_projections(
-    iso_objects: Dict[Spin, List[Union[Isosurface, Isoslice]]],
-    spins: List[Spin],
-    projection_axis: Optional[np.ndarray],
-) -> List[np.ndarray]:
-    """
-    Get the properties.
-
-    Args:
-        iso_object: The isosurfaces (or isoslices) containing the properties.
-        spins: A list of spins to extract the properties for.
-        projection_axis: Projection axis that can be used to calculate the color of
-            vector projects. If None, the norm of the properties will be used,
-            otherwise the color will be determined by the dot product of the properties
-            with the properties axis.
-
-    Returns:
-        The properties as a list of numpy arrays (one array for each isosurface or
-        slice), where the shape of the array is (nfaces, ) or (nsegments, ).
-    """
-    projections = []
-    for spin in spins:
-        for iso_object in iso_objects[spin]:
-            iso_projections = iso_object.properties
-            if iso_projections.ndim == 2:
-                if projection_axis is None:
-                    # color properties by the norm of the properties
-                    iso_projections = np.linalg.norm(iso_projections, axis=1)
-                else:
-                    # color properties by projecting the vector onto axis
-                    iso_projections = np.dot(iso_projections, projection_axis)
-
-            projections.append(iso_projections)
-
-    return projections
-
-
-def _get_face_arrows(
+def get_face_arrows(
     fermi_surface: FermiSurface,
     spins: List[Spin],
     vector_spacing,
     vnorm: Optional[float],
-    projection_axis: Optional[np.ndarray],
+    projection_axis: Optional[Tuple[int, int, int]],
 ) -> List[Tuple[np.ndarray, np.ndarray, np.ndarray]]:
     """
-    Get arrows from vector properties.
+    Get face arrows from vector properties.
 
     Args:
         fermi_surface: The fermi surface containing the isosurfaces and properties.
@@ -1342,9 +1308,9 @@ def _get_face_arrows(
             the properties of two materials can only be compared quantitatively if a
             fixed values is used for both plots.
         projection_axis: Projection axis that can be used to calculate the color of
-            vector projects. If None, the norm of the properties will be used,
+            vector projections. If None, the norm of the properties will be used,
             otherwise the color will be determined by the dot product of the properties
-            with the properties axis.
+            with the projection axis.
 
     Returns:
         The arrows, as a list of (starts, stops, intensities) for each face. The
@@ -1352,38 +1318,31 @@ def _get_face_arrows(
         is a numpy array with the shape (narrows, ). The intensities are used
         to color the arrows during plotting.
     """
-    norms = []
     centers = []
     intensity = []
     vectors = []
     for spin in spins:
-        for (vertices, faces, _), iso_projections in zip(
-            fermi_surface.isosurfaces[spin], fermi_surface.projections[spin]
-        ):
-            if iso_projections.ndim != 2:
+        for isosurface in fermi_surface.isosurfaces[spin]:
+            if isosurface.properties_ndim != 2:
                 continue
 
-            face_idx = sample_surface_uniform(vertices, faces, vector_spacing)
-
-            faces = faces[face_idx]
-            iso_projections = iso_projections[face_idx]
+            face_idx = isosurface.sample_uniform(vector_spacing)
 
             # get the center of each of face in cartesian coords
-            face_verts = vertices[faces]
-            centers.append(face_verts.mean(axis=1))
+            faces = isosurface.faces[face_idx]
+            centers.append(isosurface.vertices[faces].mean(axis=1))
 
-            vectors.append(iso_projections)
-            norms.append(np.linalg.norm(iso_projections, axis=1))
-
+            vectors.append(isosurface.properties[face_idx])
             if projection_axis is None:
                 # properties intensity is the norm of the properties
-                intensity.append(norms[-1])
+                intensity.append(isosurface.properties_norms)
             else:
                 # get properties intensity from properties of the vector onto axis
-                intensity.append(np.dot(iso_projections, projection_axis))
+                intensity.append(isosurface.scalar_projection(projection_axis))
 
     if vnorm is None:
-        vnorm = np.max([np.max(x) for x in norms])
+        property_norms = fermi_surface.all_properties(spins=spins, norm=True)
+        vnorm = np.max([np.max(x) for x in property_norms])
 
     arrows = []
     for face_vectors, face_centers, face_intensity in zip(vectors, centers, intensity):
@@ -1395,7 +1354,7 @@ def _get_face_arrows(
     return arrows
 
 
-def _get_line_arrows(
+def get_segment_arrows(
     fermi_slice: FermiSlice,
     spins: List[Spin],
     vector_spacing,
@@ -1403,10 +1362,10 @@ def _get_line_arrows(
     projection_axis: Optional[np.ndarray],
 ) -> List[Tuple[np.ndarray, np.ndarray, np.ndarray]]:
     """
-    Get arrows from vector properties.
+    Get segment arrows from vector properties.
 
     Args:
-        fermi_slice: The Fermi slice containing the slices and properties.
+        fermi_slice: The Fermi slice containing the isolines and properties.
         spins: Spin channels from which to extract arrows.
         vector_spacing: The rough spacing between arrows. Uses a custom algorithm for
             resampling the Fermi slic to ensure that arrows are not too close
@@ -1436,7 +1395,7 @@ def _get_line_arrows(
     vectors = []
     for spin in spins:
         for (segments, _), segment_projections in zip(
-            fermi_slice.slices[spin], fermi_slice.projections[spin]
+            fermi_slice.isolines[spin], fermi_slice.projections[spin]
         ):
             if segment_projections.ndim != 2:
                 continue
@@ -1479,7 +1438,7 @@ def _get_line_arrows(
     return arrows
 
 
-def _get_projection_limits(
+def _get_properties_limits(
     projections: List[np.ndarray],
     cmin: Optional[float],
     cmax: Optional[float],
