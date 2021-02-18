@@ -115,9 +115,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-ifermi.analysis">ifermi.analysis module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-ifermi.boltztrap">ifermi.boltztrap module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-ifermi.brillouin_zone">ifermi.brillouin_zone module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#ifermi-interpolator-module">ifermi.interpolator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ifermi.interpolate">ifermi.interpolate module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-ifermi.kpoints">ifermi.kpoints module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#ifermi-plotter-module">ifermi.plotter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ifermi.plot">ifermi.plot module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-ifermi.slice">ifermi.slice module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-ifermi.surface">ifermi.surface module</a></li>
 </ul>
@@ -748,8 +748,94 @@ the 3D Brillouin zone to points on the 2D slice.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="ifermi-interpolator-module">
-<h2>ifermi.interpolator module<a class="headerlink" href="#ifermi-interpolator-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ifermi.interpolate">
+<span id="ifermi-interpolate-module"></span><h2>ifermi.interpolate module<a class="headerlink" href="#module-ifermi.interpolate" title="Permalink to this headline">¶</a></h2>
+<p>Tools for Fourier and linear interpolation.</p>
+<dl class="py class">
+<dt id="ifermi.interpolate.FourierInterpolator">
+<em class="property">class </em><code class="sig-prename descclassname">ifermi.interpolate.</code><code class="sig-name descname">FourierInterpolator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">band_structure</span></em>, <em class="sig-param"><span class="n">magmom</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mommat</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/interpolate.html#FourierInterpolator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.interpolate.FourierInterpolator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Class to perform Fourier interpolation of electronic band structures.</p>
+<p>Interpolation is performed using BoltzTraP2.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>band_structure</strong> (<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.bandstructure.html#pymatgen.electronic_structure.bandstructure.BandStructure" title="(in pymatgen v2021.2.16)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BandStructure</span></code></a>) – The Bandstructure object to be interpolated.</p></li>
+<li><p><strong>magmom</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]) – Magnetic moments of the atoms.</p></li>
+<li><p><strong>mommat</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]) – Momentum matrix, as supported by BoltzTraP2.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ifermi.interpolate.FourierInterpolator.interpolate_bands">
+<code class="sig-name descname">interpolate_bands</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">interpolation_factor</span><span class="o">=</span><span class="default_value">5</span></em>, <em class="sig-param"><span class="n">return_velocities</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">nworkers</span><span class="o">=</span><span class="default_value">- 1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/interpolate.html#FourierInterpolator.interpolate_bands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.interpolate.FourierInterpolator.interpolate_bands" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an interpolated pymatgen band structure.</p>
+<p>Note, the interpolation mesh is determined using by <code class="docutils literal notranslate"><span class="pre">interpolate_factor</span></code>
+option in the <code class="docutils literal notranslate"><span class="pre">FourierInterpolator</span></code> constructor.</p>
+<p>The degree of parallelization is controlled by the <code class="docutils literal notranslate"><span class="pre">nworkers</span></code> option.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>interpolation_factor</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – The factor by which the band structure will
+be interpolated.</p></li>
+<li><p><strong>return_velocities</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether to return the group velocities.</p></li>
+<li><p><strong>nworkers</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – The number of processors used to perform the
+interpolation. If set to <code class="docutils literal notranslate"><span class="pre">-1</span></code>, the number of workers will
+be set to the number of CPU cores.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The interpolated electronic structure. If <code class="docutils literal notranslate"><span class="pre">return_velocities</span></code> is True,
+the group velocities will also be returned as a  dict of
+<code class="docutils literal notranslate"><span class="pre">{Spin:</span> <span class="pre">velocities}</span></code> where velocities is a numpy array with the
+shape (nbands, nkpoints, 3) and has units of m/s.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ifermi.interpolate.LinearInterpolator">
+<em class="property">class </em><code class="sig-prename descclassname">ifermi.interpolate.</code><code class="sig-name descname">LinearInterpolator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">kpoints</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/interpolate.html#LinearInterpolator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.interpolate.LinearInterpolator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Class to perform linear interpolation of periodic properties.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kpoints</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – The k-points in fractional coordinates as a numpy array.
+with the shape (nkpoints, 3). Note, the k-points must cover
+the full Brillouin zone, not just the irreducible part.</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.core.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2021.2.16)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]) – The data to interpolate. Should be given for spin up
+and spin down bands. If the system is not spin polarized
+then only spin up should be set. The data for each spin
+channel should be a numpy array with the shape
+(nbands, nkpoints, …). The values to interpolate can be scalar
+or multidimensional.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ifermi.interpolate.LinearInterpolator.interpolate">
+<code class="sig-name descname">interpolate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spin</span></em>, <em class="sig-param"><span class="n">bands</span></em>, <em class="sig-param"><span class="n">kpoints</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/interpolate.html#LinearInterpolator.interpolate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.interpolate.LinearInterpolator.interpolate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the interpolated data for a spin channel and series of bands and k-points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>spin</strong> (<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.core.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2021.2.16)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>) – The spin channel.</p></li>
+<li><p><strong>bands</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – A list of bands at which to interpolate.</p></li>
+<li><p><strong>kpoints</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – A list of k-points at which to interpolate. The number of
+k-points must equal the number of bands.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of interpolated values.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-ifermi.kpoints">
 <span id="ifermi-kpoints-module"></span><h2>ifermi.kpoints module<a class="headerlink" href="#module-ifermi.kpoints" title="Permalink to this headline">¶</a></h2>
@@ -853,8 +939,480 @@ the 3D Brillouin zone to points on the 2D slice.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="ifermi-plotter-module">
-<h2>ifermi.plotter module<a class="headerlink" href="#ifermi-plotter-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ifermi.plot">
+<span id="ifermi-plot-module"></span><h2>ifermi.plot module<a class="headerlink" href="#module-ifermi.plot" title="Permalink to this headline">¶</a></h2>
+<p>Tools to plot FermiSurface and FermiSlice objects.</p>
+<dl class="py class">
+<dt id="ifermi.plot.FermiSlicePlotter">
+<em class="property">class </em><code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">FermiSlicePlotter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fermi_slice</span></em>, <em class="sig-param"><span class="n">symprec</span><span class="o">=</span><span class="default_value">0.001</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#FermiSlicePlotter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.FermiSlicePlotter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Class to plot 2D isolines through a FermiSurface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fermi_slice</strong> (<a class="reference internal" href="#ifermi.slice.FermiSlice" title="ifermi.slice.FermiSlice"><code class="xref py py-class docutils literal notranslate"><span class="pre">FermiSlice</span></code></a>) – A slice through a Fermi surface.</p></li>
+<li><p><strong>symprec</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – The symmetry precision in Angstrom for determining the high
+symmetry k-point labels.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ifermi.plot.FermiSlicePlotter.get_plot">
+<code class="sig-name descname">get_plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">spin</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">colors</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">color_properties</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">vector_properties</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">projection_axis</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">scale_linewidth</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">vector_spacing</span><span class="o">=</span><span class="default_value">0.2</span></em>, <em class="sig-param"><span class="n">cmin</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cmax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">vnorm</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">hide_slice</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">hide_labels</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">hide_cell</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">arrow_pivot</span><span class="o">=</span><span class="default_value">'tail'</span></em>, <em class="sig-param"><span class="n">slice_kwargs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cbar_kwargs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">quiver_kwargs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">bz_kwargs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">sym_pt_kwargs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">sym_label_kwargs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#FermiSlicePlotter.get_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.FermiSlicePlotter.get_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the Fermi slice.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Any" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]) – Matplotlib axes object on which to plot.</p></li>
+<li><p><strong>spin</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.core.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2021.2.16)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>]) – Which spin channel to plot. By default plot both spin channels if
+available.</p></li>
+<li><p><strong>colors</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]) – <p>The color specification for the iso-surfaces. Valid options are:</p>
+<ul>
+<li><p>A single color to use for all Fermi isolines, specified as a tuple of
+rgb values from 0 to 1. E.g., red would be <code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">0,</span> <span class="pre">0)</span></code>.</p></li>
+<li><p>A list of colors, specified as above.</p></li>
+<li><p>A dictionary of <code class="docutils literal notranslate"><span class="pre">{Spin.up:</span> <span class="pre">color1,</span> <span class="pre">Spin.down:</span> <span class="pre">color2}</span></code>, where the
+colors are specified as above.</p></li>
+<li><p>A string specifying which matplotlib colormap to use. See
+<a class="reference external" href="https://matplotlib.org/tutorials/colors/colormaps.html">https://matplotlib.org/tutorials/colors/colormaps.html</a> for more
+information.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code>, in which case the default colors will be used.</p></li>
+</ul>
+</p></li>
+<li><p><strong>color_properties</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>]) – Whether to use the properties to color the Fermi isolines.
+If the properties is a vector then the norm of the properties will be
+used. Note, this will only take effect if the Fermi slice has
+properties. If set to True, the viridis colormap will be used.
+Alternative colormaps can be selected by setting <code class="docutils literal notranslate"><span class="pre">color_properties</span></code>
+to a matplotlib colormap name. This setting will override the <code class="docutils literal notranslate"><span class="pre">colors</span></code>
+option. For vector properties, the arrows are colored according to the
+norm of the properties by default. If used in combination with the
+<code class="docutils literal notranslate"><span class="pre">projection_axis</span></code> option, the color will be determined by the dot
+product of the properties with the projection axis.</p></li>
+<li><p><strong>vector_properties</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>]) – Whether to plot arrows for vector properties. Note, this
+will only take effect if the Fermi slice has vector properties. If
+set to True, the viridis colormap will be used. Alternative colormaps
+can be selected by setting <code class="docutils literal notranslate"><span class="pre">vector_properties</span></code> to a matplotlib
+colormap name. By default, the arrows are colored according to the norm
+of the properties. If used in combination with the <code class="docutils literal notranslate"><span class="pre">projection_axis</span></code>
+option, the color will be determined by the dot product of the
+properties with the projection axis.</p></li>
+<li><p><strong>projection_axis</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Tuple" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]) – Projection axis that can be used to calculate the color of
+vector properties. If None, the norm of the properties will be used,
+otherwise the color will be determined by the dot product of the
+properties with the projection axis. Only has an effect when used with
+the <code class="docutils literal notranslate"><span class="pre">vector_properties</span></code> option.</p></li>
+<li><p><strong>scale_linewidth</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – Scale the linewidth by the absolute value of the
+segment properties. Can be true, false or a number. If a number, then
+this will be used as the max linewidth for scaling.</p></li>
+<li><p><strong>vector_spacing</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – The rough spacing between arrows. Uses a custom algorithm
+for resampling the Fermi surface to ensure that arrows are not too close
+together. Only has an effect when used with the <code class="docutils literal notranslate"><span class="pre">vector_properties</span></code>
+option.</p></li>
+<li><p><strong>cmin</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – Minimum intensity for normalising properties colors (including
+vector colors). Only has an effect when used with
+<code class="docutils literal notranslate"><span class="pre">color_properties</span></code> or <code class="docutils literal notranslate"><span class="pre">vector_properties</span></code> options.</p></li>
+<li><p><strong>cmax</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – Maximum intensity for normalising properties colors (including
+vector colors). Only has an effect when used with
+<code class="docutils literal notranslate"><span class="pre">color_properties</span></code> or <code class="docutils literal notranslate"><span class="pre">vector_properties</span></code> options.</p></li>
+<li><p><strong>vnorm</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – The value by which to normalize the vector lengths. For example,
+spin properties should typically have a norm of 1 whereas group
+velocity properties can have larger or smaller norms depending on the
+structure. By changing this number, the size of the vectors will be
+scaled. Note that the properties of two materials can only be compared
+quantitatively if a fixed values is used for both plots. Only has an
+effect when used with the <code class="docutils literal notranslate"><span class="pre">vector_properties</span></code> option.</p></li>
+<li><p><strong>hide_slice</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether to hide the Fermi surface. Only recommended in
+combination with the <code class="docutils literal notranslate"><span class="pre">vector_properties</span></code> option.</p></li>
+<li><p><strong>hide_labels</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether to show the high-symmetry k-point labels.</p></li>
+<li><p><strong>hide_cell</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether to show the reciprocal cell boundary.</p></li>
+<li><p><strong>arrow_pivot</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – The part of the arrow that is anchored to the X, Y grid.
+The arrow rotates about this point, options are: tail, middle, tip.</p></li>
+<li><p><strong>slice_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Any" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]) – Optional arguments that are passed to <code class="docutils literal notranslate"><span class="pre">LineCollection</span></code> and
+are used to style the iso slice.</p></li>
+<li><p><strong>cbar_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Any" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]) – Optional arguments that are passed to <code class="docutils literal notranslate"><span class="pre">fig.colorbar</span></code>.</p></li>
+<li><p><strong>quiver_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Any" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]) – Optional arguments that are passed to <code class="docutils literal notranslate"><span class="pre">ax.quiver</span></code> and are
+used to style the arrows.</p></li>
+<li><p><strong>bz_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Any" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]) – Optional arguments that passed to <code class="docutils literal notranslate"><span class="pre">LineCollection</span></code> and used
+to style the Brillouin zone boundary.</p></li>
+<li><p><strong>sym_pt_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Any" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]) – Optional arguments that are passed to <code class="docutils literal notranslate"><span class="pre">ax.scatter</span></code>
+and are used to style the high-symmetry k-point symbols.</p></li>
+<li><p><strong>sym_label_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Any" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]) – Optional arguments that are passed to <code class="docutils literal notranslate"><span class="pre">ax.text</span></code> and are
+used to style the high-symmetry k-point labels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>matplotlib pyplot object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ifermi.plot.FermiSlicePlotter.get_symmetry_points">
+<em class="property">static </em><code class="sig-name descname">get_symmetry_points</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fermi_slice</span></em>, <em class="sig-param"><span class="n">symprec</span><span class="o">=</span><span class="default_value">0.001</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#FermiSlicePlotter.get_symmetry_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.FermiSlicePlotter.get_symmetry_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the high symmetry k-points and labels for the Fermi slice.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fermi_slice</strong> (<a class="reference internal" href="#ifermi.slice.FermiSlice" title="ifermi.slice.FermiSlice"><code class="xref py py-class docutils literal notranslate"><span class="pre">FermiSlice</span></code></a>) – A fermi slice.</p></li>
+<li><p><strong>symprec</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – The symmetry precision in Angstrom.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Tuple" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.List" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The high symmetry k-points and labels for points that lie on the slice.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ifermi.plot.FermiSurfacePlotter">
+<em class="property">class </em><code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">FermiSurfacePlotter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fermi_surface</span></em>, <em class="sig-param"><span class="n">symprec</span><span class="o">=</span><span class="default_value">0.001</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#FermiSurfacePlotter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.FermiSurfacePlotter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Class to plot a FermiSurface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fermi_surface</strong> (<a class="reference internal" href="#ifermi.surface.FermiSurface" title="ifermi.surface.FermiSurface"><code class="xref py py-class docutils literal notranslate"><span class="pre">FermiSurface</span></code></a>) – A FermiSurface object.</p></li>
+<li><p><strong>symprec</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – The symmetry precision in Angstrom for determining the high
+symmetry k-point labels.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ifermi.plot.FermiSurfacePlotter.get_plot">
+<code class="sig-name descname">get_plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">plot_type</span><span class="o">=</span><span class="default_value">'plotly'</span></em>, <em class="sig-param"><span class="n">spin</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">colors</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">azimuth</span><span class="o">=</span><span class="default_value">45.0</span></em>, <em class="sig-param"><span class="n">elevation</span><span class="o">=</span><span class="default_value">35.0</span></em>, <em class="sig-param"><span class="n">color_properties</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">vector_properties</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">projection_axis</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">vector_spacing</span><span class="o">=</span><span class="default_value">0.2</span></em>, <em class="sig-param"><span class="n">cmin</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cmax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">vnorm</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">hide_surface</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">hide_labels</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">hide_cell</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">plot_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#FermiSurfacePlotter.get_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.FermiSurfacePlotter.get_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the Fermi surface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>plot_type</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Method used for plotting. Valid options are: “matplotlib”,
+“plotly”, “mayavi”, “crystal_toolkit”.</p></li>
+<li><p><strong>spin</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.core.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2021.2.16)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>]) – Which spin channel to plot. By default plot both spin channels if
+available.</p></li>
+<li><p><strong>azimuth</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – The azimuth of the viewpoint in degrees. i.e. the angle subtended
+by the position vector on a sphere projected on to the x-y plane.</p></li>
+<li><p><strong>elevation</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – The zenith angle of the viewpoint in degrees, i.e. the angle
+subtended by the position vector and the z-axis.</p></li>
+<li><p><strong>colors</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]) – <p>The color specification for the iso-surfaces. Valid options are:</p>
+<ul>
+<li><p>A single color to use for all Fermi surfaces, specified as a tuple of
+rgb values from 0 to 1. E.g., red would be <code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">0,</span> <span class="pre">0)</span></code>.</p></li>
+<li><p>A list of colors, specified as above.</p></li>
+<li><p>A dictionary of <code class="docutils literal notranslate"><span class="pre">{Spin.up:</span> <span class="pre">color1,</span> <span class="pre">Spin.down:</span> <span class="pre">color2}</span></code>, where the
+colors are specified as above.</p></li>
+<li><p>A string specifying which matplotlib colormap to use. See
+<a class="reference external" href="https://matplotlib.org/tutorials/colors/colormaps.html">https://matplotlib.org/tutorials/colors/colormaps.html</a> for more
+information.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code>, in which case the default colors will be used.</p></li>
+</ul>
+</p></li>
+<li><p><strong>color_properties</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>]) – Whether to use the properties to color the Fermi surface.
+If the properties is a vector then the norm of the properties will be
+used. Note, this will only take effect if the Fermi surface has
+properties. If set to True, the viridis colormap will be used.
+Alternative colormaps can be selected by setting <code class="docutils literal notranslate"><span class="pre">color_properties</span></code>
+to a matplotlib colormap name. This setting will override the <code class="docutils literal notranslate"><span class="pre">colors</span></code>
+option. For vector properties, the arrows are colored according to the
+norm of the properties by default. If used in combination with the
+<code class="docutils literal notranslate"><span class="pre">projection_axis</span></code> option, the color will be determined by the dot
+product of the properties with the projection axis.</p></li>
+<li><p><strong>vector_properties</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>]) – Whether to plot arrows for vector properties. Note, this
+will only take effect if the Fermi surface has vector properties. If
+set to True, the viridis colormap will be used. Alternative colormaps
+can be selected by setting <code class="docutils literal notranslate"><span class="pre">vector_properties</span></code> to a matplotlib
+colormap name. By default, the arrows are colored according to the norm
+of the properties. If used in combination with the <code class="docutils literal notranslate"><span class="pre">projection_axis</span></code>
+option, the color will be determined by the dot product of the
+properties with the projection axis.</p></li>
+<li><p><strong>projection_axis</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Tuple" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]) – Projection axis that can be used to calculate the color of
+vector properties. If None, the norm of the properties will be used,
+otherwise the color will be determined by the dot product of the
+properties with the projection axis. Only has an effect when used with
+the <code class="docutils literal notranslate"><span class="pre">vector_properties</span></code> option.</p></li>
+<li><p><strong>vector_spacing</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – The rough spacing between arrows. Uses a custom algorithm
+for resampling the Fermi surface to ensure that arrows are not too close
+together. Only has an effect when used with the <code class="docutils literal notranslate"><span class="pre">vector_properties</span></code>
+option.</p></li>
+<li><p><strong>cmin</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – Minimum intensity for normalising properties colors (including
+vector colors). Only has an effect when used with
+<code class="docutils literal notranslate"><span class="pre">color_properties</span></code> or <code class="docutils literal notranslate"><span class="pre">vector_properties</span></code> options.</p></li>
+<li><p><strong>cmax</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – Maximum intensity for normalising properties colors (including
+vector colors). Only has an effect when used with
+<code class="docutils literal notranslate"><span class="pre">color_properties</span></code> or <code class="docutils literal notranslate"><span class="pre">vector_properties</span></code> options.</p></li>
+<li><p><strong>vnorm</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – The value by which to normalize the vector lengths. For example,
+spin properties should typically have a norm of 1 whereas group
+velocity properties can have larger or smaller norms depending on the
+structure. By changing this number, the size of the vectors will be
+scaled. Note that the properties of two materials can only be compared
+quantitatively if a fixed values is used for both plots. Only has an
+effect when used with the <code class="docutils literal notranslate"><span class="pre">vector_properties</span></code> option.</p></li>
+<li><p><strong>hide_surface</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether to hide the Fermi surface. Only recommended in
+combination with the <code class="docutils literal notranslate"><span class="pre">vector_properties</span></code> option.</p></li>
+<li><p><strong>hide_labels</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether to show the high-symmetry k-point labels.</p></li>
+<li><p><strong>hide_cell</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether to show the reciprocal cell boundary.</p></li>
+<li><p><strong>**plot_kwargs</strong> – Other keyword arguments supported by the individual plotting
+methods.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ifermi.plot.FermiSurfacePlotter.get_symmetry_points">
+<em class="property">static </em><code class="sig-name descname">get_symmetry_points</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fermi_surface</span></em>, <em class="sig-param"><span class="n">symprec</span><span class="o">=</span><span class="default_value">0.001</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#FermiSurfacePlotter.get_symmetry_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.FermiSurfacePlotter.get_symmetry_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the high symmetry k-points and labels for the Fermi surface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fermi_surface</strong> (<a class="reference internal" href="#ifermi.surface.FermiSurface" title="ifermi.surface.FermiSurface"><code class="xref py py-class docutils literal notranslate"><span class="pre">FermiSurface</span></code></a>) – A fermi surface.</p></li>
+<li><p><strong>symprec</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – The symmetry precision in Angstrom.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Tuple" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.List" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The high symmetry k-points and labels.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="ifermi.plot.cmap_to_mayavi">
+<code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">cmap_to_mayavi</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">colormap</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#cmap_to_mayavi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.cmap_to_mayavi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a matplotlib colormap to mayavi format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>colormap</strong> (<a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.colors.Colormap.html#matplotlib.colors.Colormap" title="(in Matplotlib v3.3.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Colormap</span></code></a>) – A matplotlib colormap object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The equivalent mayavi colormap, as a (255, 4) numpy array.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ifermi.plot.cmap_to_plotly">
+<code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">cmap_to_plotly</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">colormap</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#cmap_to_plotly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.cmap_to_plotly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a matplotlib colormap to plotly colorscale format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>colormap</strong> (<a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.colors.Colormap.html#matplotlib.colors.Colormap" title="(in Matplotlib v3.3.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Colormap</span></code></a>) – A matplotlib colormap object.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.List" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The equivalent plotly colorscale.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ifermi.plot.get_face_arrows">
+<code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">get_face_arrows</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fermi_surface</span></em>, <em class="sig-param"><span class="n">spins</span></em>, <em class="sig-param"><span class="n">vector_spacing</span></em>, <em class="sig-param"><span class="n">vnorm</span></em>, <em class="sig-param"><span class="n">projection_axis</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#get_face_arrows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.get_face_arrows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get face arrows from vector properties.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fermi_surface</strong> (<a class="reference internal" href="#ifermi.surface.FermiSurface" title="ifermi.surface.FermiSurface"><code class="xref py py-class docutils literal notranslate"><span class="pre">FermiSurface</span></code></a>) – The fermi surface containing the isosurfaces and properties.</p></li>
+<li><p><strong>spins</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.List" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.core.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2021.2.16)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>]) – Spin channels from which to extract arrows.</p></li>
+<li><p><strong>vector_spacing</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – The rough spacing between arrows. Uses a custom algorithm for
+resampling the Fermi surface to ensure that arrows are not too close
+together.</p></li>
+<li><p><strong>vnorm</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – The value by which to normalize the vector lengths. For example,
+spin properties should typically have a norm of 1 whereas group velocity
+properties can have larger or smaller norms depending on the structure.
+By changing this number, the size of the vectors will be scaled. Note that
+the properties of two materials can only be compared quantitatively if a
+fixed values is used for both plots.</p></li>
+<li><p><strong>projection_axis</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Tuple" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]) – Projection axis that can be used to calculate the color of
+vector projections. If None, the norm of the properties will be used,
+otherwise the color will be determined by the dot product of the properties
+with the projection axis.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.List" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Tuple" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The arrows, as a list of (starts, stops, intensities) for each face. The
+starts and stops are numpy arrays with the shape (narrows, 3) and intensities
+is a numpy array with the shape (narrows, ). The intensities are used
+to color the arrows during plotting.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ifermi.plot.get_isosurface_colors">
+<code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">get_isosurface_colors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">colors</span></em>, <em class="sig-param"><span class="n">fermi_object</span></em>, <em class="sig-param"><span class="n">spins</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#get_isosurface_colors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.get_isosurface_colors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get colors for each Fermi surface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>colors</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]) – <p>The color specification. Valid options are:</p>
+<ul>
+<li><p>A single color to use for all Fermi surfaces, specified as a tuple of rgb
+values from 0 to 1. E.g., red would be <code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">0,</span> <span class="pre">0)</span></code>.</p></li>
+<li><p>A list of colors, specified as above.</p></li>
+<li><p>A dictionary of <code class="docutils literal notranslate"><span class="pre">{Spin.up:</span> <span class="pre">color1,</span> <span class="pre">Spin.down:</span> <span class="pre">color2}</span></code>, where the colors
+are specified as above.</p></li>
+<li><p>A string specifying which matplotlib colormap to use. See
+<a class="reference external" href="https://matplotlib.org/tutorials/colors/colormaps.html">https://matplotlib.org/tutorials/colors/colormaps.html</a> for more
+information.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code>, in which case the default colors will be used.</p></li>
+</ul>
+</p></li>
+<li><p><strong>fermi_object</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference internal" href="#ifermi.surface.FermiSurface" title="ifermi.surface.FermiSurface"><code class="xref py py-class docutils literal notranslate"><span class="pre">FermiSurface</span></code></a>, <a class="reference internal" href="#ifermi.slice.FermiSlice" title="ifermi.slice.FermiSlice"><code class="xref py py-class docutils literal notranslate"><span class="pre">FermiSlice</span></code></a>]) – A Fermi surface or Fermi slice object.</p></li>
+<li><p><strong>spins</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.List" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.core.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2021.2.16)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>]) – A list of spins for which colors will be generated.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.List" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Tuple" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The colors as a list of tuples, where each color is specified as the rgb values
+from 0 to 1. E.g., red would be <code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">0,</span> <span class="pre">0)</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ifermi.plot.get_plot_type">
+<code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">get_plot_type</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">plot</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#get_plot_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.get_plot_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the plot type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>plot</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Any" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>) – A plot object from <code class="docutils literal notranslate"><span class="pre">FermiSurfacePlotter.get_plot()</span></code>. Supports matplotlib
+pyplot objects, plotly figure objects, and mlab figure objects.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The plot type. Current options are “matplotlib”, “mayavi”, and “plotly”.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ifermi.plot.get_segment_arrows">
+<code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">get_segment_arrows</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fermi_slice</span></em>, <em class="sig-param"><span class="n">spins</span></em>, <em class="sig-param"><span class="n">vector_spacing</span></em>, <em class="sig-param"><span class="n">vnorm</span></em>, <em class="sig-param"><span class="n">projection_axis</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#get_segment_arrows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.get_segment_arrows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get segment arrows from vector properties.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fermi_slice</strong> (<a class="reference internal" href="#ifermi.slice.FermiSlice" title="ifermi.slice.FermiSlice"><code class="xref py py-class docutils literal notranslate"><span class="pre">FermiSlice</span></code></a>) – The Fermi slice containing the isolines and properties.</p></li>
+<li><p><strong>spins</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Collection" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Collection</span></code></a>[<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.core.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2021.2.16)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>]) – Spin channels from which to extract arrows.</p></li>
+<li><p><strong>vector_spacing</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – The rough spacing between arrows. Uses a custom algorithm for
+resampling the Fermi slic to ensure that arrows are not too close
+together.</p></li>
+<li><p><strong>vnorm</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – The value by which to normalize the vector lengths. For example,
+spin properties should typically have a norm of 1 whereas group velocity
+properties can have larger or smaller norms depending on the structure.
+By changing this number, the size of the vectors will be scaled. Note that
+the properties of two materials can only be compared quantitatively if a
+fixed values is used for both plots.</p></li>
+<li><p><strong>projection_axis</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Tuple" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]) – Projection axis that can be used to calculate the color of
+vector projects. If None, the norm of the properties will be used,
+otherwise the color will be determined by the dot product of the properties
+with the properties axis.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.List" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Tuple" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The arrows, as a list of (starts, stops, intensities) for each face. The
+starts and stops are numpy arrays with the shape (narrows, 3) and intensities
+is a numpy array with the shape (narrows, ). The intensities are used
+to color the arrows during plotting.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ifermi.plot.plotly_arrow">
+<code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">plotly_arrow</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start</span></em>, <em class="sig-param"><span class="n">stop</span></em>, <em class="sig-param"><span class="n">color</span></em>, <em class="sig-param"><span class="n">line_kwargs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cone_kwargs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#plotly_arrow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.plotly_arrow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an arrow object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – The starting coordinates.</p></li>
+<li><p><strong>stop</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – The ending coordinates.</p></li>
+<li><p><strong>color</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Tuple" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – The arrow color in rgb format as a tuple of floats from 0 to 1.</p></li>
+<li><p><strong>line_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Any" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]) – Additional keyword arguments used to style the arrow shaft and that
+are passed to <code class="docutils literal notranslate"><span class="pre">Scatter3d</span></code>.</p></li>
+<li><p><strong>cone_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Any" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]) – Additional keyword arguments used to style the arrow cone and that
+are passed to <code class="docutils literal notranslate"><span class="pre">Cone</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Tuple" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Any" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Any" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The arrow, formed by a line and cone.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ifermi.plot.rgb_to_plotly">
+<code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">rgb_to_plotly</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">color</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#rgb_to_plotly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.rgb_to_plotly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a plotly formatted color from rgb values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>color</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Tuple" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – The color in rgb format as a tuple of three floats from 0 to 1.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The plotly formatted color.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ifermi.plot.save_plot">
+<code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">save_plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">plot</span></em>, <em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">scale</span><span class="o">=</span><span class="default_value">4</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#save_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.save_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save a plot to file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>plot</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Any" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>) – A plot object from <code class="docutils literal notranslate"><span class="pre">FermiSurfacePlotter.get_plot()</span></code>. Supports matplotlib
+pyplot objects, plotly figure objects, and mlab figure objects.</p></li>
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/pathlib.html#pathlib.Path" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]) – The output filename.</p></li>
+<li><p><strong>scale</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – Scale for the figure size. Increases resolution but does not change the
+relative size of the figure and text.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ifermi.plot.show_plot">
+<code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">show_plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">plot</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#show_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.show_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display a plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>plot</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Any" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>) – A plot object from <code class="docutils literal notranslate"><span class="pre">FermiSurfacePlotter.get_plot()</span></code>. Supports matplotlib
+pyplot objects, plotly figure objects, and mlab figure objects.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="section" id="module-ifermi.slice">
 <span id="ifermi-slice-module"></span><h2>ifermi.slice module<a class="headerlink" href="#module-ifermi.slice" title="Permalink to this headline">¶</a></h2>
@@ -1634,7 +2192,7 @@ algorithm will use constrained smoothing algorithm to preserve fine details
 if input dimension is lower than (500, 500, 500), otherwise will apply a
 Gaussian filter.</p></li>
 <li><p><strong>calculate_dimensionality</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether to calculate isosurface dimensionality.</p></li>
-<li><p><strong>property_interpolator</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<code class="xref py py-class docutils literal notranslate"><span class="pre">LinearInterpolator</span></code>]) – An interpolator class for interpolating properties
+<li><p><strong>property_interpolator</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference internal" href="#ifermi.interpolate.LinearInterpolator" title="ifermi.interpolate.LinearInterpolator"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinearInterpolator</span></code></a>]) – An interpolator class for interpolating properties
 onto the surface. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, no properties will be calculated.</p></li>
 </ul>
 </dd>
@@ -1699,7 +2257,7 @@ energies has the shape (nbands, nkpoints).</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>interpolator</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">LinearInterpolator</span></code>) – Periodic interpolator for property data.</p></li>
+<li><p><strong>interpolator</strong> (<a class="reference internal" href="#ifermi.interpolate.LinearInterpolator" title="ifermi.interpolate.LinearInterpolator"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinearInterpolator</span></code></a>) – Periodic interpolator for property data.</p></li>
 <li><p><strong>vertices</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – A (n, 3) float array of the vertices in the isosurface.</p></li>
 <li><p><strong>faces</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – A (m, 3) int array of the faces of the isosurface.</p></li>
 <li><p><strong>band_idx</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – The band that the isosurface belongs to.</p></li>

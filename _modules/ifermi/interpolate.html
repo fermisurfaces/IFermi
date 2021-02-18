@@ -1,0 +1,507 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifermi.interpolate &mdash; IFermi 0.1.4 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+
+  
+  
+  
+  
+    <link rel="canonical" href="https://github.com/ajsearle97/IFermi_modules/ifermi/interpolate.html"/>
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> IFermi
+          
+
+          
+            
+            <img src="../../_static/logo-docs-01.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Usage Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command-line interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../plotting_using_python.html">Plotting using Python</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Information</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing to IFermi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/ajsearle97/IFermi">See IFermi on GitHub</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Function Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ifermi.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Index</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">IFermi</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content style-external-links">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifermi.interpolate</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifermi.interpolate</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Tools for Fourier and linear interpolation.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">pymatgen.electronic_structure.bandstructure</span> <span class="kn">import</span> <span class="n">BandStructure</span>
+<span class="kn">from</span> <span class="nn">pymatgen.electronic_structure.core</span> <span class="kn">import</span> <span class="n">Spin</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;FourierInterpolator&quot;</span><span class="p">,</span> <span class="s2">&quot;LinearInterpolator&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="FourierInterpolator"><a class="viewcode-back" href="../../ifermi.html#ifermi.interpolate.FourierInterpolator">[docs]</a><span class="k">class</span> <span class="nc">FourierInterpolator</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Class to perform Fourier interpolation of electronic band structures.</span>
+
+<span class="sd">    Interpolation is performed using BoltzTraP2.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        band_structure: The Bandstructure object to be interpolated.</span>
+<span class="sd">        magmom: Magnetic moments of the atoms.</span>
+<span class="sd">        mommat: Momentum matrix, as supported by BoltzTraP2.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">band_structure</span><span class="p">:</span> <span class="n">BandStructure</span><span class="p">,</span>
+        <span class="n">magmom</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">mommat</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">BoltzTraP2.units</span> <span class="kn">import</span> <span class="n">Angstrom</span>
+        <span class="kn">from</span> <span class="nn">pymatgen.io.ase</span> <span class="kn">import</span> <span class="n">AseAtomsAdaptor</span>
+
+        <span class="kn">from</span> <span class="nn">ifermi.kpoints</span> <span class="kn">import</span> <span class="n">kpoints_from_bandstructure</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_band_structure</span> <span class="o">=</span> <span class="n">band_structure</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_spins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_band_structure</span><span class="o">.</span><span class="n">bands</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_matrix</span> <span class="o">=</span> <span class="n">band_structure</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">matrix</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">Angstrom</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_kpoints</span> <span class="o">=</span> <span class="n">kpoints_from_bandstructure</span><span class="p">(</span><span class="n">band_structure</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_atoms</span> <span class="o">=</span> <span class="n">AseAtomsAdaptor</span><span class="o">.</span><span class="n">get_atoms</span><span class="p">(</span><span class="n">band_structure</span><span class="o">.</span><span class="n">structure</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_magmom</span> <span class="o">=</span> <span class="n">magmom</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mommat</span> <span class="o">=</span> <span class="n">mommat</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_structure</span> <span class="o">=</span> <span class="n">band_structure</span><span class="o">.</span><span class="n">structure</span>
+
+<div class="viewcode-block" id="FourierInterpolator.interpolate_bands"><a class="viewcode-back" href="../../ifermi.html#ifermi.interpolate.FourierInterpolator.interpolate_bands">[docs]</a>    <span class="k">def</span> <span class="nf">interpolate_bands</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">interpolation_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="n">return_velocities</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">nworkers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get an interpolated pymatgen band structure.</span>
+
+<span class="sd">        Note, the interpolation mesh is determined using by ``interpolate_factor``</span>
+<span class="sd">        option in the ``FourierInterpolator`` constructor.</span>
+
+<span class="sd">        The degree of parallelization is controlled by the ``nworkers`` option.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            interpolation_factor: The factor by which the band structure will</span>
+<span class="sd">                be interpolated.</span>
+<span class="sd">            return_velocities: Whether to return the group velocities.</span>
+<span class="sd">            nworkers: The number of processors used to perform the</span>
+<span class="sd">                interpolation. If set to ``-1``, the number of workers will</span>
+<span class="sd">                be set to the number of CPU cores.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The interpolated electronic structure. If ``return_velocities`` is True,</span>
+<span class="sd">            the group velocities will also be returned as a  dict of</span>
+<span class="sd">            ``{Spin: velocities}`` where velocities is a numpy array with the</span>
+<span class="sd">            shape (nbands, nkpoints, 3) and has units of m/s.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">multiprocessing</span>
+
+        <span class="kn">from</span> <span class="nn">scipy.constants</span> <span class="kn">import</span> <span class="n">physical_constants</span>
+        <span class="kn">from</span> <span class="nn">BoltzTraP2</span> <span class="kn">import</span> <span class="n">fite</span><span class="p">,</span> <span class="n">sphere</span>
+        <span class="kn">from</span> <span class="nn">BoltzTraP2.units</span> <span class="kn">import</span> <span class="n">eV</span>
+        <span class="kn">from</span> <span class="nn">pymatgen.io.ase</span> <span class="kn">import</span> <span class="n">AseAtomsAdaptor</span>
+        <span class="kn">from</span> <span class="nn">spglib</span> <span class="kn">import</span> <span class="n">spglib</span>
+
+        <span class="kn">from</span> <span class="nn">ifermi.boltztrap</span> <span class="kn">import</span> <span class="n">bands_fft</span>
+        <span class="kn">from</span> <span class="nn">ifermi.kpoints</span> <span class="kn">import</span> <span class="n">sort_boltztrap_to_spglib</span>
+
+        <span class="n">coefficients</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">equivalences</span> <span class="o">=</span> <span class="n">sphere</span><span class="o">.</span><span class="n">get_equivalences</span><span class="p">(</span>
+            <span class="n">atoms</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_atoms</span><span class="p">,</span>
+            <span class="n">nkpt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_kpoints</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">interpolation_factor</span><span class="p">,</span>
+            <span class="n">magmom</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_magmom</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># get the interpolation mesh used by BoltzTraP2</span>
+        <span class="n">interpolation_mesh</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">equivalences</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">spin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spins</span><span class="p">:</span>
+            <span class="n">energies</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_band_structure</span><span class="o">.</span><span class="n">bands</span><span class="p">[</span><span class="n">spin</span><span class="p">]</span> <span class="o">*</span> <span class="n">eV</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">DFTData</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_kpoints</span><span class="p">,</span> <span class="n">energies</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_matrix</span><span class="p">,</span> <span class="n">mommat</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_mommat</span>
+            <span class="p">)</span>
+            <span class="n">coefficients</span><span class="p">[</span><span class="n">spin</span><span class="p">]</span> <span class="o">=</span> <span class="n">fite</span><span class="o">.</span><span class="n">fitde3D</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">equivalences</span><span class="p">)</span>
+
+        <span class="n">nworkers</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span> <span class="k">if</span> <span class="n">nworkers</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="k">else</span> <span class="n">nworkers</span>
+
+        <span class="n">energies</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">velocities</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">spin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spins</span><span class="p">:</span>
+            <span class="n">energies</span><span class="p">[</span><span class="n">spin</span><span class="p">],</span> <span class="n">velocities</span><span class="p">[</span><span class="n">spin</span><span class="p">]</span> <span class="o">=</span> <span class="n">bands_fft</span><span class="p">(</span>
+                <span class="n">equivalences</span><span class="p">,</span>
+                <span class="n">coefficients</span><span class="p">[</span><span class="n">spin</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_matrix</span><span class="p">,</span>
+                <span class="n">nworkers</span><span class="o">=</span><span class="n">nworkers</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="c1"># boltztrap2 gives energies in Rydberg, convert to eV</span>
+            <span class="n">energies</span><span class="p">[</span><span class="n">spin</span><span class="p">]</span> <span class="o">/=</span> <span class="n">eV</span>
+
+            <span class="c1"># velocities in Bohr radius * Rydberg / hbar, convert to m/s.</span>
+            <span class="n">velocities</span><span class="p">[</span><span class="n">spin</span><span class="p">]</span> <span class="o">*=</span> <span class="p">(</span>
+                <span class="n">physical_constants</span><span class="p">[</span><span class="s2">&quot;Bohr radius&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span>
+                <span class="n">physical_constants</span><span class="p">[</span><span class="s2">&quot;atomic unit of time&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="n">efermi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_band_structure</span><span class="o">.</span><span class="n">efermi</span>
+
+        <span class="n">atoms</span> <span class="o">=</span> <span class="n">AseAtomsAdaptor</span><span class="p">()</span><span class="o">.</span><span class="n">get_atoms</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_band_structure</span><span class="o">.</span><span class="n">structure</span><span class="p">)</span>
+        <span class="n">mapping</span><span class="p">,</span> <span class="n">grid</span> <span class="o">=</span> <span class="n">spglib</span><span class="o">.</span><span class="n">get_ir_reciprocal_mesh</span><span class="p">(</span>
+            <span class="n">interpolation_mesh</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">symprec</span><span class="o">=</span><span class="mf">0.1</span>
+        <span class="p">)</span>
+        <span class="n">kpoints</span> <span class="o">=</span> <span class="n">grid</span> <span class="o">/</span> <span class="n">interpolation_mesh</span>
+
+        <span class="c1"># sort energies so they have the same order as the k-points generated by spglib</span>
+        <span class="n">sort_idx</span> <span class="o">=</span> <span class="n">sort_boltztrap_to_spglib</span><span class="p">(</span><span class="n">kpoints</span><span class="p">)</span>
+        <span class="n">energies</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="n">ener</span><span class="p">[:,</span> <span class="n">sort_idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">ener</span> <span class="ow">in</span> <span class="n">energies</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="n">velocities</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="n">vel</span><span class="p">[:,</span> <span class="n">sort_idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">vel</span> <span class="ow">in</span> <span class="n">velocities</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+        <span class="n">rlat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_band_structure</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">reciprocal_lattice</span>
+        <span class="n">interp_band_structure</span> <span class="o">=</span> <span class="n">BandStructure</span><span class="p">(</span>
+            <span class="n">kpoints</span><span class="p">,</span> <span class="n">energies</span><span class="p">,</span> <span class="n">rlat</span><span class="p">,</span> <span class="n">efermi</span><span class="p">,</span> <span class="n">structure</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_structure</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">return_velocities</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">interp_band_structure</span><span class="p">,</span> <span class="n">velocities</span>
+
+        <span class="k">return</span> <span class="n">interp_band_structure</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">DFTData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;DFTData object used for BoltzTraP2 interpolation.</span>
+
+<span class="sd">    Note that the units used by BoltzTraP are different to those used by VASP.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        kpoints: The k-points in fractional coordinates.</span>
+<span class="sd">        energies: The band energies in Hartree, formatted as (nbands, nkpoints).</span>
+<span class="sd">        lattice_matrix: The lattice matrix in Bohr^3.</span>
+<span class="sd">        mommat: The band structure derivatives.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">kpoints</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">energies</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">lattice_matrix</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">mommat</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kpoints</span> <span class="o">=</span> <span class="n">kpoints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ebands</span> <span class="o">=</span> <span class="n">energies</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lattice_matrix</span> <span class="o">=</span> <span class="n">lattice_matrix</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">volume</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice_matrix</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mommat</span> <span class="o">=</span> <span class="n">mommat</span>
+
+    <span class="k">def</span> <span class="nf">get_lattvec</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get the lattice matrix. This method is required by BoltzTraP2.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice_matrix</span>
+
+
+<div class="viewcode-block" id="LinearInterpolator"><a class="viewcode-back" href="../../ifermi.html#ifermi.interpolate.LinearInterpolator">[docs]</a><span class="k">class</span> <span class="nc">LinearInterpolator</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Class to perform linear interpolation of periodic properties.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        kpoints: The k-points in fractional coordinates as a numpy array.</span>
+<span class="sd">            with the shape (nkpoints, 3). Note, the k-points must cover</span>
+<span class="sd">            the full Brillouin zone, not just the irreducible part.</span>
+<span class="sd">        data: The data to interpolate. Should be given for spin up</span>
+<span class="sd">            and spin down bands. If the system is not spin polarized</span>
+<span class="sd">            then only spin up should be set. The data for each spin</span>
+<span class="sd">            channel should be a numpy array with the shape</span>
+<span class="sd">            (nbands, nkpoints, ...). The values to interpolate can be scalar</span>
+<span class="sd">            or multidimensional.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kpoints</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]):</span>
+        <span class="n">grid_kpoints</span><span class="p">,</span> <span class="n">mesh_dim</span><span class="p">,</span> <span class="n">sort_idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_grid_kpoints</span><span class="p">(</span><span class="n">kpoints</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setup_interpolators</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">grid_kpoints</span><span class="p">,</span> <span class="n">mesh_dim</span><span class="p">,</span> <span class="n">sort_idx</span><span class="p">)</span>
+
+<div class="viewcode-block" id="LinearInterpolator.interpolate"><a class="viewcode-back" href="../../ifermi.html#ifermi.interpolate.LinearInterpolator.interpolate">[docs]</a>    <span class="k">def</span> <span class="nf">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spin</span><span class="p">:</span> <span class="n">Spin</span><span class="p">,</span> <span class="n">bands</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">kpoints</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the interpolated data for a spin channel and series of bands and k-points.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            spin: The spin channel.</span>
+<span class="sd">            bands: A list of bands at which to interpolate.</span>
+<span class="sd">            kpoints: A list of k-points at which to interpolate. The number of</span>
+<span class="sd">                k-points must equal the number of bands.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of interpolated values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">bands</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">kpoints</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">interp_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">interpolators</span><span class="p">[</span><span class="n">spin</span><span class="p">](</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">interp_data</span></div>
+
+    <span class="k">def</span> <span class="nf">_setup_interpolators</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">grid_kpoints</span><span class="p">,</span> <span class="n">mesh_dim</span><span class="p">,</span> <span class="n">sort_idx</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">RegularGridInterpolator</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">grid_kpoints</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">grid_kpoints</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">grid_kpoints</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">nbands</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interpolators</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">spin</span><span class="p">,</span> <span class="n">spin_data</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">data_shape</span> <span class="o">=</span> <span class="n">spin_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+            <span class="n">nbands</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbands</span><span class="p">[</span><span class="n">spin</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_shape</span> <span class="o">=</span> <span class="n">data_shape</span>
+
+            <span class="c1"># sort the data then reshape them into the grid. The data</span>
+            <span class="c1"># can now be indexed as data[iband][ikx][iky][ikz]</span>
+            <span class="n">sorted_data</span> <span class="o">=</span> <span class="n">spin_data</span><span class="p">[:,</span> <span class="n">sort_idx</span><span class="p">]</span>
+            <span class="n">grid_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">nbands</span><span class="p">,)</span> <span class="o">+</span> <span class="n">mesh_dim</span> <span class="o">+</span> <span class="n">data_shape</span>
+            <span class="n">grid_data</span> <span class="o">=</span> <span class="n">sorted_data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">grid_shape</span><span class="p">)</span>
+
+            <span class="c1"># wrap the data to account for PBC</span>
+            <span class="n">pad_size</span> <span class="o">=</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_shape</span><span class="p">)</span>
+            <span class="n">grid_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">grid_data</span><span class="p">,</span> <span class="n">pad_size</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;wrap&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">nbands</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># this can cause a bug in RegularGridInterpolator. Have to fake</span>
+                <span class="c1"># having at least two bands</span>
+                <span class="n">nbands</span> <span class="o">=</span> <span class="mi">2</span>
+                <span class="n">grid_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">grid_data</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_shape</span><span class="p">))</span>
+
+            <span class="n">interp_range</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nbands</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">interpolators</span><span class="p">[</span><span class="n">spin</span><span class="p">]</span> <span class="o">=</span> <span class="n">RegularGridInterpolator</span><span class="p">(</span>
+                <span class="n">interp_range</span><span class="p">,</span>
+                <span class="n">grid_data</span><span class="p">,</span>
+                <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">fill_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="c1"># method=&quot;nearest&quot;</span>
+            <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_grid_kpoints</span><span class="p">(</span><span class="n">kpoints</span><span class="p">):</span>
+        <span class="c1"># k-points has to cover the full BZ</span>
+        <span class="kn">from</span> <span class="nn">ifermi.kpoints</span> <span class="kn">import</span> <span class="n">get_kpoint_mesh_dim</span><span class="p">,</span> <span class="n">kpoints_to_first_bz</span>
+
+        <span class="n">kpoints</span> <span class="o">=</span> <span class="n">kpoints_to_first_bz</span><span class="p">(</span><span class="n">kpoints</span><span class="p">)</span>
+        <span class="n">mesh_dim</span> <span class="o">=</span> <span class="n">get_kpoint_mesh_dim</span><span class="p">(</span><span class="n">kpoints</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">mesh_dim</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">kpoints</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;k-points do not cover full Brillouin zone.&quot;</span><span class="p">)</span>
+
+        <span class="n">kpoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">kpoints</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+        <span class="c1"># get the indices to sort the k-points on the Z, then Y, then X columns</span>
+        <span class="n">sort_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">lexsort</span><span class="p">((</span><span class="n">kpoints</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">kpoints</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">kpoints</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]))</span>
+
+        <span class="c1"># put the kpoints into a 3D grid so that they can be indexed as</span>
+        <span class="c1"># kpoints[ikx][iky][ikz] = [kx, ky, kz]</span>
+        <span class="n">grid_kpoints</span> <span class="o">=</span> <span class="n">kpoints</span><span class="p">[</span><span class="n">sort_idx</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mesh_dim</span> <span class="o">+</span> <span class="p">(</span><span class="mi">3</span><span class="p">,))</span>
+
+        <span class="c1"># Expand the k-point mesh to account for periodic boundary conditions</span>
+        <span class="n">grid_kpoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span>
+            <span class="n">grid_kpoints</span><span class="p">,</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;wrap&quot;</span>
+        <span class="p">)</span>
+        <span class="n">grid_kpoints</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">-=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">grid_kpoints</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">grid_kpoints</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">grid_kpoints</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">+=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">grid_kpoints</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">grid_kpoints</span><span class="p">[:,</span> <span class="p">:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">grid_kpoints</span><span class="p">,</span> <span class="n">mesh_dim</span><span class="p">,</span> <span class="n">sort_idx</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2021, Amy Searle and Alex Ganose
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

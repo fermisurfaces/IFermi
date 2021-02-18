@@ -24,10 +24,10 @@ ifermi.brillouin\_zone module
    :members:
    :show-inheritance:
 
-ifermi.interpolator module
+ifermi.interpolate module
 --------------------------
 
-.. automodule:: ifermi.interpolator
+.. automodule:: ifermi.interpolate
    :members:
    :undoc-members:
    :show-inheritance:
@@ -40,10 +40,10 @@ ifermi.kpoints module
    :undoc-members:
    :show-inheritance:
 
-ifermi.plotter module
+ifermi.plot module
 ---------------------
 
-.. automodule:: ifermi.plotter
+.. automodule:: ifermi.plot
    :members:
    :undoc-members:
    :show-inheritance:
