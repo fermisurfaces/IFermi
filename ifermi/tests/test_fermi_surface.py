@@ -27,10 +27,10 @@ class FermiSurfaceTest(unittest.TestCase):
 
     def test_decimation(self):
         fs = FermiSurface.from_band_structure(self.band_structure)
-        n_faces_orig = len(fs.isosurfaces[Spin.up][0][1])
+        n_faces_orig = len(fs.isosurfaces[Spin.up][0].faces)
 
         fs = FermiSurface.from_band_structure(self.band_structure, decimate_factor=0.8)
-        n_faces_new = len(fs.isosurfaces[Spin.up][0][1])
+        n_faces_new = len(fs.isosurfaces[Spin.up][0].faces)
         self.assertLess(n_faces_new, n_faces_orig)
 
     def test_reciprocal_cell(self):
@@ -58,7 +58,7 @@ class FermiSurfaceTest(unittest.TestCase):
 
             for s1, s2 in zip(iso1, iso2):
                 # check vertex coordinates are almost equal
-                np.testing.assert_array_almost_equal(s1[0], s2[0], decimal=5)
+                np.testing.assert_array_almost_equal(s1.vertices, s2.vertices, decimal=5)
 
                 # check faces are exactly equal
-                np.testing.assert_array_equal(s1[1], s2[1])
+                np.testing.assert_array_equal(s1.faces, s2.faces)
