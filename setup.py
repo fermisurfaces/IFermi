@@ -36,7 +36,6 @@ setup(
     install_requires=[
         "numpy",
         "scipy",
-        "colorlover",
         "matplotlib",
         "pymatgen>=2017.12.30",
         "BoltzTraP2",
@@ -50,6 +49,7 @@ setup(
         "psutil",
         "click",
         "networkx",
+        "tabulate",
     ],
     extras_require={
         "mayavi": ["mayavi", "mlabtex", "vtk"],
