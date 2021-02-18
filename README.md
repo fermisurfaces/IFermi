@@ -21,7 +21,7 @@ manipulation and analysis. The main features include:
 IFermi currently only works with VASP calculations but support for additional DFT packages 
 will be added in the future.
 
-![MgB2](https://raw.githubusercontent.com/fermisurfaces/IFermi/master/docs/src/_static/fermi_surface_example.png)
+![MgB2](https://raw.githubusercontent.com/fermisurfaces/IFermi/master/docs/src/_static/fermi-surface-example.png)
 
 ## Quick start
 
