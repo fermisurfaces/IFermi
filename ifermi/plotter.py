@@ -89,12 +89,12 @@ _mpl_arrow_style = {
     "scale": 1,
     "zorder": 10,
     "units": "dots",
-    "width": 5,
+    "width": 10,
     "pivot": "tail",
 }
 
 _mpl_sym_pt_style = {"s": 20, "c": "k", "zorder": 20}
-_mpl_sym_label_style = {"size": 18, "zorder": 20}
+_mpl_sym_label_style = {"size": 16, "zorder": 20}
 
 __all__ = [
     "FermiSlicePlotter",
@@ -834,7 +834,7 @@ class FermiSlicePlotter:
         self,
         ax: Optional[Any] = None,
         spin: Optional[Spin] = None,
-        colors: Optional[Union[str, dict, list]] = COLORMAP,
+        colors: Optional[Union[str, dict, list]] = None,
         color_properties: Union[str, bool] = True,
         vector_properties: Union[str, bool] = False,
         projection_axis: Optional[Tuple[int, int, int]] = None,
@@ -938,6 +938,7 @@ class FermiSlicePlotter:
             matplotlib pyplot object.
         """
         import matplotlib.pyplot as plt
+        from matplotlib.transforms import ScaledTranslation
         from matplotlib.collections import LineCollection
 
         slice_kwargs = slice_kwargs or {}
@@ -963,7 +964,7 @@ class FermiSlicePlotter:
         )
 
         if ax is None:
-            fig = plt.figure(figsize=(5, 5))
+            fig = plt.figure(figsize=(6, 6))
             ax = fig.add_subplot(111)
         else:
             fig = plt.gcf()
@@ -976,7 +977,7 @@ class FermiSlicePlotter:
             reference = max(abs(plot_data.cmax), abs(plot_data.cmin))
 
             lines = None
-            for (segments, _), proj in zip(plot_data.slices, plot_data.properties):
+            for segments, proj in zip(plot_data.slices, plot_data.properties):
                 if scale_linewidth is False:
                     linewidth = 2
                 else:
@@ -1003,7 +1004,7 @@ class FermiSlicePlotter:
         else:
             slice_style = {"antialiasted": True, "linewidth": 2}
             slice_style.update(slice_kwargs)
-            for c, (segments, band_idx) in zip(plot_data.colors, plot_data.slices):
+            for c, segments in zip(plot_data.colors, plot_data.slices):
                 lines = LineCollection(
                     np.dot(segments, rotation), colors=c, **slice_kwargs
                 )
@@ -1017,11 +1018,18 @@ class FermiSlicePlotter:
             ax.add_collection(lines)
 
         if not plot_data.hide_labels:
+            # shift labels a few pixels away from the high-sym points
+            offset = ScaledTranslation(4/72, 4/72, fig.dpi_scale_trans)
             for coords, label in zip(*self._symmetry_pts):
                 _mpl_sym_pt_style.update(sym_pt_kwargs)
                 _mpl_sym_label_style.update(sym_label_kwargs)
                 ax.scatter(*coords, **_mpl_sym_pt_style)
-                ax.text(*coords, "${}$".format(label), **_mpl_sym_label_style)
+                ax.text(
+                    *coords,
+                    "${}$".format(label),
+                    **_mpl_sym_label_style,
+                    transform=ax.transData + offset
+                )
 
         if plot_data.arrows is not None:
             norm = Normalize(vmin=plot_data.cmin, vmax=plot_data.cmax)
@@ -1035,7 +1043,9 @@ class FermiSlicePlotter:
                 x, y = starts.T
                 ax.quiver(x, y, u, v, color=colors, **_mpl_arrow_style)
 
-        ax.autoscale(enable=True)
+            ax.margins(y=.1, x=.1)
+
+        ax.autoscale_view()
         ax.axis("equal")
         ax.axis("off")
 
@@ -1077,7 +1087,7 @@ class FermiSlicePlotter:
 
         properties = []
         properties_colormap = None
-        if not self.fermi_slice.has_properties:
+        if self.fermi_slice.has_properties:
             # always calculate properties if they are present so we can determine
             # cmin and cmax. These are also be used for arrows and it is critical that
             # cmin and cmax are the same for properties and arrow color scales (even
@@ -1311,11 +1321,12 @@ def get_face_arrows(
 
             vectors.append(isosurface.properties[face_idx])
             if projection_axis is None:
-                # properties intensity is the norm of the properties
-                intensity.append(isosurface.properties_norms)
+                # intensity is the norm of the properties
+                intensities = isosurface.properties_norms[face_idx]
             else:
-                # get properties intensity from properties of the vector onto axis
-                intensity.append(isosurface.scalar_projection(projection_axis))
+                # get intensity from projection of the vector onto axis
+                intensities = isosurface.scalar_projection(projection_axis)[face_idx]
+            intensity.append(intensities)
 
     if vnorm is None:
         property_norms = fermi_surface.all_properties(spins=spins, norm=True)
@@ -1382,10 +1393,12 @@ def get_segment_arrows(
             vectors.append(isoline.properties[segment_idx])
             if projection_axis is None:
                 # properties intensity is the norm of the properties
-                intensity.append(isoline.properties_norms)
+                intensities = isoline.properties_norms[segment_idx]
             else:
                 # get properties intensity from properties of the vector onto axis
-                intensity.append(isoline.scalar_projection(projection_axis))
+                intensities = isoline.scalar_projection(projection_axis)[segment_idx]
+
+            intensity.append(intensities)
 
     if vnorm is None:
         property_norms = fermi_slice.all_properties(spins=spins, norm=True)

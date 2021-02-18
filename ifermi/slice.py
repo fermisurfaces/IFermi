@@ -33,7 +33,7 @@ class Isoline(MSONable):
     @property
     def has_properties(self) -> float:
         """Whether the isoline has properties."""
-        return self.properties is None
+        return self.properties is not None
 
     def scalar_projection(self, axis: Tuple[int, int, int]) -> np.ndarray:
         """
@@ -65,7 +65,7 @@ class Isoline(MSONable):
     def properties_ndim(self) -> int:
         """Dimensionality of face properties."""
         if not self.has_properties:
-            raise ValueError("Isoline does not have face properties.")
+            raise ValueError("Isoline does not have segment properties.")
 
         return self.properties.ndim
 
@@ -419,7 +419,7 @@ def interpolate_segments(
     vert_interpolator = interp1d(
         vert_dist,
         vert,
-        kind="quadratic",
+        kind="cubic",
         axis=0,
         bounds_error=False,
         fill_value="extrapolate",

@@ -68,7 +68,7 @@ class Isosurface(MSONable):
     @property
     def has_properties(self) -> float:
         """Whether the surface has properties."""
-        return self.properties is None
+        return self.properties is not None
 
     @property
     def properties_norms(self) -> np.ndarray:

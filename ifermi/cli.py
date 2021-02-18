@@ -11,7 +11,7 @@ from ifermi.defaults import AZIMUTH, ELEVATION, SCALE, SYMPREC, VECTOR_SPACING
 
 plot_type = click.Choice(["matplotlib", "plotly", "mayavi"], case_sensitive=False)
 spin_type = click.Choice(["up", "down"], case_sensitive=False)
-projection_type = click.Choice(["velocity", "spin"], case_sensitive=False)
+property_type = click.Choice(["velocity", "spin"], case_sensitive=False)
 
 
 @click.group(
@@ -40,29 +40,36 @@ def cli():
     show_default=True,
 )
 @option(
+    "--wigner/--no-wigner",
+    "wigner_seitz",
+    default=True,
+    help="use Wigner-Seitz cell rather than reciprocal lattice parallelepiped",
+    show_default=True,
+)
+@option(
     "-i",
     "--interpolation-factor",
     default=8.0,
     help="interpolation factor for band structure",
     show_default=True,
 )
-@option("--projection", type=projection_type, help="projection type")
+@option("--property", type=property_type, help="projection type")
 @option(
     "--projection-axis",
     nargs=3,
     type=float,
-    help="use dot product of properties onto cartesian axis (e.g. 0 0 1)",
+    help="use dot product of property onto cartesian axis (e.g. 0 0 1)",
 )
 def info(filename, **kwargs):
     """Calculate information about the Fermi surface."""
     fs = _get_fermi_surface(
         filename=filename,
         interpolation_factor=kwargs["interpolation_factor"],
-        projection=kwargs["projection"],
+        properties=kwargs["property"],
         mu=kwargs["mu"],
         decimate_factor=None,
         smooth=False,
-        wigner_seitz=False,
+        wigner_seitz=kwargs["wigner_seitz"],
     )
 
 
@@ -120,16 +127,16 @@ def info(filename, **kwargs):
     help="plotting type",
     show_default=True,
 )
-@option("--projection", type=projection_type, help="projection type")
+@option("--property", type=property_type, help="property type")
 @option(
-    "--color-projection/--no-color-projection",
+    "--color-property/--no-color-property",
     default=True,
     help="color Fermi surface properties",
     show_default=True,
 )
-@option("--projection-colormap", help="matplotlib colormap name for properties")
+@option("--property-colormap", help="matplotlib colormap name for properties")
 @option(
-    "--vector-projection/--no-vector-projection",
+    "--vector-property/--no-vector-property",
     help="show vector properties as arrows",
     show_default=True,
 )
@@ -138,21 +145,21 @@ def info(filename, **kwargs):
     "--projection-axis",
     nargs=3,
     type=float,
-    help="color projection by projecting onto cartesian axis (e.g. 0 0 1)",
+    help="color property by projecting onto cartesian axis (e.g. 0 0 1)",
 )
 @option(
     "--vector-spacing",
     default=VECTOR_SPACING,
-    help="spacing between projection arrows",
+    help="spacing between property arrows",
     show_default=True,
 )
-@option("--cmin", type=float, help="minimum intensity on projection colorbar")
-@option("--cmax", type=float, help="maximum intensity on projection colorbar")
+@option("--cmin", type=float, help="minimum intensity on property colorbar")
+@option("--cmax", type=float, help="maximum intensity on property colorbar")
 @option("--vnorm", type=float, help="value by which to normalise vector lengths")
 @option(
     "--scale-linewidth",
     is_flag=True,
-    help="scale Fermi slice thickness by projection",
+    help="scale Fermi slice thickness by property",
     show_default=True,
 )
 @option(
@@ -197,11 +204,11 @@ def plot(filename, **kwargs):
     except ImportError:
         mlab = False
 
-    if kwargs["properties_colormap"]:
-        kwargs["color_properties"] = kwargs["properties_colormap"]
+    if kwargs["property_colormap"]:
+        kwargs["color_property"] = kwargs["property_colormap"]
 
     if kwargs["vector_colormap"]:
-        kwargs["vector_properties"] = kwargs["vector_colormap"]
+        kwargs["vector_property"] = kwargs["vector_colormap"]
 
     output_filename = kwargs["output_filename"]
     if mlab and kwargs["plot_type"] == "mayavi" and output_filename is not None:
@@ -211,7 +218,7 @@ def plot(filename, **kwargs):
     fs = _get_fermi_surface(
         filename=filename,
         interpolation_factor=kwargs["interpolation_factor"],
-        projection=kwargs["projection"],
+        properties=kwargs["property"],
         mu=kwargs["mu"],
         decimate_factor=kwargs["decimate_factor"],
         smooth=kwargs["smooth"],
@@ -229,8 +236,8 @@ def plot(filename, **kwargs):
         plotter = FermiSlicePlotter(fermi_slice, symprec=kwargs["symprec"])
         fig = plotter.get_plot(
             spin=spin,
-            color_properties=kwargs["color_properties"],
-            vector_properties=kwargs["vector_properties"],
+            color_properties=kwargs["color_property"],
+            vector_properties=kwargs["vector_property"],
             projection_axis=projection_axis,
             vector_spacing=kwargs["vector_spacing"],
             cmin=kwargs["cmin"],
@@ -248,8 +255,8 @@ def plot(filename, **kwargs):
             spin=spin,
             azimuth=kwargs["azimuth"],
             elevation=kwargs["elevation"],
-            color_properties=kwargs["color_properties"],
-            vector_properties=kwargs["vector_properties"],
+            color_properties=kwargs["color_property"],
+            vector_properties=kwargs["vector_property"],
             projection_axis=projection_axis,
             vector_spacing=kwargs["vector_spacing"],
             cmin=kwargs["cmin"],
@@ -283,7 +290,7 @@ def find_vasprun_file():
 def _get_fermi_surface(
     filename,
     interpolation_factor,
-    projection,
+    properties,
     mu,
     decimate_factor,
     smooth,
@@ -301,7 +308,7 @@ def _get_fermi_surface(
     if not filename:
         filename = find_vasprun_file()
 
-    parse_projections = projection == "spin"
+    parse_projections = properties == "spin"
     vr = Vasprun(filename, parse_projected_eigen=parse_projections)
     bs = vr.get_band_structure()
 
@@ -310,22 +317,22 @@ def _get_fermi_surface(
         interpolation_factor, return_velocities=True
     )
 
-    projection_data = None
-    projection_kpoints = None
-    if projection == "velocity":
-        projection_data = velocities
-        projection_kpoints = kpoints_from_bandstructure(interp_bs)
-    elif projection == "spin":
+    property_data = None
+    property_kpoints = None
+    if properties == "velocity":
+        property_data = velocities
+        property_kpoints = kpoints_from_bandstructure(interp_bs)
+    elif properties == "spin":
         if vr.projected_magnetisation is not None:
             # transpose so shape is (nbands, nkpoints, natoms, norbitals, 3)
-            projection_data = vr.projected_magnetisation.transpose(1, 0, 2, 3, 4)
+            property_data = vr.projected_magnetisation.transpose(1, 0, 2, 3, 4)
 
             # sum across all atoms and orbitals
-            projection_data = projection_data.sum(axis=(2, 3))
-            projection_data /= np.linalg.norm(projection_data, axis=-1)[..., None]
+            property_data = property_data.sum(axis=(2, 3))
+            property_data /= np.linalg.norm(property_data, axis=-1)[..., None]
 
-            projection_data = {Spin.up: projection_data}
-            projection_kpoints = kpoints_from_bandstructure(bs)
+            property_data = {Spin.up: property_data}
+            property_kpoints = kpoints_from_bandstructure(bs)
         else:
             click.echo(
                 "ERROR: Band structure does not include spin properties.\n"
@@ -340,6 +347,6 @@ def _get_fermi_surface(
         wigner_seitz=wigner_seitz,
         decimate_factor=decimate_factor,
         smooth=smooth,
-        projection_data=projection_data,
-        projection_kpoints=projection_kpoints,
+        property_data=property_data,
+        property_kpoints=property_kpoints,
     )

@@ -66,7 +66,7 @@ class Interpolator:
         Returns:
             The interpolated electronic structure. If ``return_velocities`` is True,
             the group velocities will also be returned as a  dict of
-            ``{Spin: velocoties}`` where velocities is a numpy array with the
+            ``{Spin: velocities}`` where velocities is a numpy array with the
             shape (nbands, nkpoints, 3) and has units of m/s.
         """
         import multiprocessing
@@ -172,9 +172,9 @@ class PeriodicLinearInterpolator:
     """Class to perform linear interpolation of periodic properties.
 
     Args:
-        kpoints: The k-points in fractional coordinations as a numpy array.
+        kpoints: The k-points in fractional coordinates as a numpy array.
             with the shape (nkpoints, 3). Note, the k-points must cover
-            the full Brillouin zone, not just the irredicible part.
+            the full Brillouin zone, not just the irreducible part.
         data: The data to interpolate. Should be given for spin up
             and spin down bands. If the system is not spin polarized
             then only spin up should be set. The data for each spin

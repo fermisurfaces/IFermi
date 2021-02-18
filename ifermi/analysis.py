@@ -447,10 +447,10 @@ def equivalent_vertices(vertices: np.ndarray, tol: float = KTOL) -> np.ndarray:
 
 def longest_simple_paths(vertices: np.ndarray, edges: np.ndarray) -> List[np.ndarray]:
     """
-    Find the shortest paths that go through all nodes.
+    Find the shortest paths that go through all vertices.
 
-    The paths are broken up into the connected subgraphs. Note this function is only
-    designed to work with connected subgraphs that are either simple cycles or
+    The lines are broken up into the connected sublines. Note this function is only
+    designed to work with connected sublines that are either simple cycles or
     chains with no branches.
 
     Args:
@@ -458,7 +458,7 @@ def longest_simple_paths(vertices: np.ndarray, edges: np.ndarray) -> List[np.nda
         edges: (m, 2) int array of the edges.
 
     Returns:
-        A list of (k, ) int arrays (one for each connected subpath) specifying the path.
+        A list of (k, ) int arrays (one for each connected subline) specifying the path.
     """
     import networkx as nx
 
@@ -484,14 +484,14 @@ def longest_simple_paths(vertices: np.ndarray, edges: np.ndarray) -> List[np.nda
             # and end points for the path
             ends = [v for v, d in subgraph.degree if d == 1]
             if len(ends) != 2:
-                raise ValueError("Path is not unique; valued to find path")
+                raise ValueError("Path is not unique; unable to find path")
 
             start, end = ends
             simple_paths = list(nx.all_simple_paths(subgraph, start, end))
             longest_path = sorted(simple_paths, key=lambda x: len(x))[-1]
 
         if set(longest_path) != set(subgraph.nodes):
-            raise ValueError("Path does not cover all nodes.")
+            raise ValueError("Path does not cover all vertices.")
 
         paths.append(longest_path)
 
