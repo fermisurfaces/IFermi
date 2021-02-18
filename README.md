@@ -26,7 +26,7 @@ will be added in the future.
 ## Quick start
 
 The [online documentation](https://fermisurfaces.github.io/IFermi/cli.html) provides a full 
-description of the available options. 
+description of the available command-line options. 
 
 ### Analysis
 
