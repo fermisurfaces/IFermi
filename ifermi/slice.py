@@ -1,7 +1,7 @@
 """Tools to generate Isolines and Fermi slices."""
 import warnings
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Tuple, Union, Collection
+from typing import Collection, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from monty.json import MSONable
@@ -230,8 +230,9 @@ class FermiSlice(MSONable):
         Returns:
             The Fermi slice.
         """
-        from trimesh import Trimesh
         from collections import defaultdict
+
+        from trimesh import Trimesh
         from trimesh.intersections import mesh_multiplane
 
         cart_normal = np.dot(
@@ -268,7 +269,7 @@ class FermiSlice(MSONable):
                     isoline = Isoline(
                         segments=path_segments,
                         band_idx=isosurface.band_idx,
-                        properties=path_properties
+                        properties=path_properties,
                     )
                     isolines[spin].append(isoline)
 

@@ -4,7 +4,7 @@ import os
 import warnings
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union, Collection
+from typing import Any, Collection, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from matplotlib.colors import Colormap, Normalize
