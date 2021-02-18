@@ -97,3 +97,7 @@ temp-plot.html
 fermi-surface.html
 
 docs_build
+
+examples/*/*.png
+examples/*/*.jpg
+examples/*/*.html
