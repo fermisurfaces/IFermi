@@ -211,6 +211,51 @@ class FermiSurface(MSONable):
             [all([i.has_properties for i in s]) for s in self.isosurfaces.values()]
         )
 
+    def average_properties(
+        self, norm: bool = False, projection_axis: Optional[Tuple[int, int, int]] = None
+    ) -> Union[float, np.ndarray]:
+        """
+        Average property across the full Fermi surface.
+
+        Args:
+            norm: Average the norm of the properties (vector properties only).
+            projection_axis: A (3, ) in array of the axis to project the properties onto
+                (vector properties only).
+
+        Returns:
+            The averaged property.
+        """
+        surface_averages = self.average_properties_surfaces(norm, projection_axis)
+        surface_areas = self.area_surfaces
+
+        scaled_average = 0
+        total_area = 0
+        for spin in self.spins:
+            for average, area in zip(surface_averages[spin], surface_areas[spin]):
+                scaled_average += average * area
+                total_area += area
+
+        return scaled_average / total_area
+
+    def average_properties_surfaces(
+        self, norm: bool = False, projection_axis: Optional[Tuple[int, int, int]] = None
+    ) -> Dict[Spin, List[Union[float, np.ndarray]]]:
+        """
+        Average property for each isosurface in the Fermi surface.
+
+        Args:
+            norm: Average the norm of the properties (vector properties only).
+            projection_axis: A (3, ) in array of the axis to project the properties onto
+                (vector properties only).
+
+        Returns:
+            The averaged property for each surface in each spin channel.
+        """
+        return {
+            k: [i.average_properties(norm, projection_axis) for i in v]
+            for k, v in self.isosurfaces.items()
+        }
+
     @property
     def properties_ndim(self) -> int:
         """Dimensionality of isosurface properties."""

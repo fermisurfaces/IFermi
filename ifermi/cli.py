@@ -1,4 +1,5 @@
 """Command line tools for generating and plotting Fermi surfaces."""
+from collections import defaultdict
 
 import os
 import sys
@@ -60,9 +61,24 @@ def cli():
     type=float,
     help="use dot product of property onto cartesian axis (e.g. 0 0 1)",
 )
+@option(
+    "--norm/--no-norm",
+    default=True,
+    help="average property norms (overridden by --projection-axis)",
+    show_default=True,
+)
+@option(
+    "--precision",
+    default=3,
+    help="number of decimal places in output",
+    show_default=True,
+)
 def info(filename, **kwargs):
     """Calculate information about the Fermi surface."""
-    fs = _get_fermi_surface(
+    from tabulate import tabulate
+    import numpy as np
+
+    fs, bs = _get_fermi_surface(
         filename=filename,
         interpolation_factor=kwargs["interpolation_factor"],
         properties=kwargs["property"],
@@ -70,7 +86,74 @@ def info(filename, **kwargs):
         decimate_factor=None,
         smooth=False,
         wigner_seitz=kwargs["wigner_seitz"],
+        calculate_dimensionality=True,
     )
+
+    np.set_printoptions(precision=kwargs["precision"])
+
+    def dp(value):
+        if isinstance(value, (list, tuple, np.ndarray)):
+            return str(np.array(value))
+        else:
+            if value < 10 ** (-kwargs["precision"] + 1):
+                return f"{value:.{kwargs['precision']}g}"
+            else:
+                return f"{value:.{kwargs['precision']}f}"
+
+    norm = kwargs["norm"]
+    axis = kwargs["projection_axis"] or None
+    prop = kwargs["property"]
+
+    if prop == "velocity":
+        unit = " m/s"
+        table_unit = " [m/s]"
+    else:
+        unit = ""
+        table_unit = ""
+
+    click.echo("Fermi Surface Summary\n=====================\n")
+    click.echo(f"  # surfaces: {fs.n_surfaces}")
+    click.echo(f"  Area: {dp(fs.area)} Å⁻²")
+
+    if fs.has_properties:
+        avg_property = fs.average_properties(norm=norm, projection_axis=axis)
+        click.echo(f"  Avg {prop}: {dp(avg_property)}{unit}")
+
+    for spin in fs.spins:
+        if bs.is_spin_polarized:
+            title = f"Spin {spin.name.capitalize()} Isosurfaces:"
+        else:
+            title = "Isosurfaces"
+        click.echo(f"\n{title}\n{len(title) * '~'}\n")
+
+        table = defaultdict(list)
+        for isosurface in fs.isosurfaces[spin]:
+            table["Band"].append(isosurface.band_idx + 1)
+            table["Area [Å⁻²]"].append(isosurface.area)
+
+            avg_property = None
+            if isosurface.has_properties:
+                avg_property = isosurface.average_properties(norm, axis)
+            table[f"{prop.capitalize()} avg{table_unit}"].append(avg_property)
+
+            table["Dimensionality"].append(isosurface.dimensionality)
+            table["Orientation"].append(isosurface.orientation)
+
+        # filter columns that have None's in all rows
+        table = {k: v for k, v in table.items() if any([i is not None for i in v])}
+
+        # format table
+        table_str = tabulate(
+            table,
+            headers=table.keys(),
+            numalign="right",
+            stralign="center",
+            floatfmt=f".{kwargs['precision']}f"
+        )
+
+        # indent table 2 spaces in
+        table_str = "  " + table_str.replace("\n", "\n  ")
+        click.echo(table_str)
 
 
 @cli.command()
@@ -215,7 +298,7 @@ def plot(filename, **kwargs):
         # handle mlab non interactive plots
         mlab.options.offscreen = True
 
-    fs = _get_fermi_surface(
+    fs, _ = _get_fermi_surface(
         filename=filename,
         interpolation_factor=kwargs["interpolation_factor"],
         properties=kwargs["property"],
@@ -223,6 +306,7 @@ def plot(filename, **kwargs):
         decimate_factor=kwargs["decimate_factor"],
         smooth=kwargs["smooth"],
         wigner_seitz=kwargs["wigner_seitz"],
+        calculate_dimensionality=False,
     )
 
     spin = {"up": Spin.up, "down": Spin.down, None: None}[kwargs["spin"]]
@@ -295,6 +379,7 @@ def _get_fermi_surface(
     decimate_factor,
     smooth,
     wigner_seitz,
+    calculate_dimensionality,
 ):
     """Common helper method to get Fermi surface"""
     import numpy as np
@@ -349,4 +434,5 @@ def _get_fermi_surface(
         smooth=smooth,
         property_data=property_data,
         property_kpoints=property_kpoints,
-    )
+        calculate_dimensionality=calculate_dimensionality,
+    ), bs

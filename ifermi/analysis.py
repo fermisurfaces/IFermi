@@ -59,10 +59,15 @@ def average_properties(
 
     mesh = Trimesh(vertices=vertices, faces=faces)
 
-    if norm:
+    if norm and properties.ndim > 1:
         properties = np.linalg.norm(properties, axis=1)
 
-    return np.sum(properties * mesh.area_faces, axis=0) / mesh.area
+    face_areas = mesh.area_faces
+
+    # face_areas has to have same number of dimensions as property
+    face_areas = face_areas.reshape(face_areas.shape + (1, ) * (properties.ndim - 1))
+
+    return np.sum(properties * face_areas, axis=0) / mesh.area
 
 
 def connected_subsurfaces(
