@@ -1,7 +1,7 @@
 <img alt="IFermi logo" src="https://raw.githubusercontent.com/fermisurfaces/IFermi/master/docs/src/_static/logo-01.png" height="150px">
 
 --------
-[📖📖 Documentation 📖📖](https://fermisurfaces.github.io/IFermi)
+[📖 **Online Documentation** 📖](https://fermisurfaces.github.io/IFermi)
  
 
 IFermi is a package for plotting Fermi surfaces and from *ab initio* calculation outputs. 
