@@ -8,15 +8,21 @@ from monty.json import MSONable
 from pymatgen.core.structure import Structure
 from pymatgen.electronic_structure.core import Spin
 
+from ifermi.analysis import equivalent_vertices, longest_simple_paths
 from ifermi.brillouin_zone import ReciprocalSlice
 
 __all__ = [
     "FermiSlice",
     "process_lines",
-    "equivalent_vertices",
-    "longest_simple_paths",
     "interpolate_segments",
 ]
+
+
+@dataclass
+class Isoslice(MSONable):
+    segments: np.ndarray
+    band_idx: int
+    projections: Optional[np.ndarray] = None
 
 
 @dataclass
@@ -31,10 +37,10 @@ class FermiSlice(MSONable):
         reciprocal_slice: The reciprocal slice defining the intersection of the
             plane with the Brillouin zone edges.
         structure: The structure.
-        projections: A property projected onto the slice. The projections are given
+        properties: A property projected onto the slice. The properties are given
             for each line. They should be provided as a dict of
-            ``{spin: projections}``, where projections is a list of numpy arrays with
-            the shape (n_lines, ...), for each slice in ``slices`. The projections
+            ``{spin: properties}``, where properties is a list of numpy arrays with
+            the shape (n_lines, ...), for each slice in ``slices`. The properties
             can scalar or vector properties.
 
     """
@@ -96,16 +102,16 @@ class FermiSlice(MSONable):
                 paths = process_lines(segments, face_idxs)
 
                 for path_segments, path_faces in paths:
-                    path_projections = fermi_surface.projections[spin][i][path_faces]
+                    path_projections = fermi_surface.properties[spin][i][path_faces]
                     path_segments, path_projections = interpolate_segments(
                         path_segments, path_projections, 0.001
                     )
                     spin_slices.append((path_segments, band_idx))
-                    if fermi_surface.projections:
+                    if fermi_surface.properties:
                         spin_projections.append(path_projections)
 
             slices[spin] = spin_slices
-            if fermi_surface.projections:
+            if fermi_surface.properties:
                 projections[spin] = spin_projections
             else:
                 projections = None
@@ -124,8 +130,8 @@ class FermiSlice(MSONable):
         fs = super().from_dict(d)
         fs.slices = {Spin(int(k)): v for k, v in fs.slices.items()}
 
-        if fs.projections:
-            fs.projections = {Spin(int(k)): v for k, v in fs.projections.items()}
+        if fs.properties:
+            fs.properties = {Spin(int(k)): v for k, v in fs.properties.items()}
 
         return fs
 
@@ -135,7 +141,7 @@ class FermiSlice(MSONable):
         d["slices"] = {str(spin): iso for spin, iso in self.slices.items()}
 
         if self.projections:
-            d["projections"] = {str(k): v for k, v in self.projections.items()}
+            d["properties"] = {str(k): v for k, v in self.projections.items()}
 
         return d
 
@@ -227,104 +233,6 @@ def process_lines(
     return path_data
 
 
-def equivalent_vertices(vertices: np.ndarray, tol: float = 1e-4) -> np.ndarray:
-    """
-    Find vertices that are equivalent (closer than a tolerance).
-
-    Note that the algorithm used is effectively recursive. If vertex a is within the
-    tolerance of b, and b is within the tolerance of c, even if a and c and not within
-    the tolerance all vertices will be equivalent.
-
-    Args:
-        vertices: The vertices as a numpy array with shape (nvertices, 2).
-        tol: The distance tolerance for equivalence.
-
-    Returns:
-        The mapping that maps each vertex in the original vertex array to its
-        equivalent index.
-    """
-    from scipy import spatial
-
-    tree = spatial.cKDTree(vertices)
-    to_merge = tree.query_ball_tree(tree, tol)
-
-    merge_mapping = {}
-    seen = set()
-    for i, merge_set in enumerate(to_merge):
-        if i in merge_mapping or i in seen:
-            continue
-
-        merge_mapping[i] = {i}
-        seen.add(i)
-        queue = list(merge_set)
-        for idx in queue:
-            if idx in seen:
-                continue
-
-            merge_mapping[i].add(idx)
-            seen.add(idx)
-            queue += list(to_merge[i])
-
-    inverse_mapping = {}
-    for k, v in merge_mapping.items():
-        inverse_mapping.update(dict(zip(list(v), len(v) * [k])))
-
-    return np.array([inverse_mapping[i] for i in range(len(vertices))])
-
-
-def longest_simple_paths(vertices: np.ndarray, edges: np.ndarray) -> List[np.ndarray]:
-    """
-    Find the shortest paths that go through all nodes.
-
-    The paths are broken up into the connected subgraphs. Note this function is only
-    designed to work with connected subgraphs that are either simple cycles or
-    chains with no branches.
-
-    Args:
-        vertices: The vertices as a numpy array with shape (nvertices, 2).
-        edges: The edges as a numpy array with the shape (nedges, 2).
-
-    Returns:
-        A list of paths (one for each connected subpath), specified as an array of ints.
-    """
-    import networkx as nx
-
-    graph = nx.Graph()
-    graph.add_nodes_from(vertices)
-    graph.add_edges_from(edges)
-
-    subgraphs = [graph.subgraph(c) for c in nx.connected_components(graph)]
-
-    paths = []
-    for subgraph in subgraphs:
-        cycles = list(nx.cycle_basis(subgraph))
-
-        if len(cycles) > 0:
-            # path contains a cycle, i.e., the path does not hit a periodic boundary
-            # there should be only one cycle, but just in case we take the longest one
-            longest_path = sorted(cycles, key=lambda x: len(x))[-1]
-            longest_path.append(longest_path[0])  # complete the cycle
-
-        else:
-            # graph does not have cycles, i.e., it his the periodic boundary condition
-            # twice; find the nodes with only one edge and use these as the start
-            # and end points for the path
-            ends = [v for v, d in subgraph.degree if d == 1]
-            if len(ends) != 2:
-                raise ValueError("Path is not unique; valued to find path")
-
-            start, end = ends
-            simple_paths = list(nx.all_simple_paths(subgraph, start, end))
-            longest_path = sorted(simple_paths, key=lambda x: len(x))[-1]
-
-        if set(longest_path) != set(subgraph.nodes):
-            raise ValueError("Path does not cover all nodes.")
-
-        paths.append(longest_path)
-
-    return paths
-
-
 def interpolate_segments(
     segments: np.ndarray, projections: np.ndarray, max_spacing: float
 ) -> Tuple[np.ndarray, np.ndarray]:
@@ -335,12 +243,12 @@ def interpolate_segments(
 
     Args:
         segments: The line segments as a numpy array with the shape (nsegments, 2, 2).
-        projections: The line projections as an array with the shape (nsegments, ).
+        projections: The line properties as an array with the shape (nsegments, ).
         max_spacing: The desired spacing after interpolation. Note, the spacing
             may be slightly smaller than this value.
 
     Returns:
-        The interpolated segments and projections.
+        The interpolated segments and properties.
     """
     from scipy.interpolate import interp1d
 
