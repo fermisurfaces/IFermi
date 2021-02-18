@@ -106,11 +106,11 @@
 <li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to IFermi</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/ajsearle97/IFermi">See project on GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/ajsearle97/IFermi">See IFermi on GitHub</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Function Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ifermi.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
 </ul>
 
@@ -276,19 +276,21 @@ generate a Fermi surface, calculate Fermi surface properties, and visualise the 
 A more complete summary of the API is given in the <a class="reference external" href="https://fermisurfaces.github.io/IFermi/plotting_using_python.html">API introduction page</a>
 and in the <a class="reference external" href="https://fermisurfaces.github.io/IFermi/ifermi.html">API Reference page</a> in the documentation.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pymatgen.io.vasp.outputs</span> <span class="kn">import</span> <span class="n">Vasprun</span>
-<span class="kn">import</span> <span class="nn">ifermi</span>
+<span class="kn">from</span> <span class="nn">ifermi.surface</span> <span class="kn">import</span> <span class="n">FermiSurface</span>
+<span class="kn">from</span> <span class="nn">ifermi.interpolate</span> <span class="kn">import</span> <span class="n">FourierInterpolator</span>
+<span class="kn">from</span> <span class="nn">ifermi.plot</span> <span class="kn">import</span> <span class="n">FermiSlicePlotter</span><span class="p">,</span> <span class="n">FermiSurfacePlotter</span><span class="p">,</span> <span class="n">save_plot</span><span class="p">,</span> <span class="n">show_plot</span>
 
-<span class="c1"># load VASP calculation outputs</span>
+<span class="c1"># load VASP calculation outputs</span>
 <span class="n">vr</span> <span class="o">=</span> <span class="n">Vasprun</span><span class="p">(</span><span class="s2">&quot;vasprun.xml&quot;</span><span class="p">)</span>
 <span class="n">bs</span> <span class="o">=</span> <span class="n">vr</span><span class="o">.</span><span class="n">get_band_structure</span><span class="p">()</span>
 
 <span class="c1"># interpolate the energies onto a dense k-point mesh</span>
-<span class="n">interpolator</span> <span class="o">=</span> <span class="n">ifermi</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">Interpolator</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span>
+<span class="n">interpolator</span> <span class="o">=</span> <span class="n">FourierInterpolator</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span>
 <span class="n">dense_bs</span> <span class="o">=</span> <span class="n">interpolator</span><span class="o">.</span><span class="n">interpolate_bands</span><span class="p">()</span>
 
 <span class="c1"># generate the Fermi surface and calculate the dimensionality</span>
-<span class="n">fs</span> <span class="o">=</span> <span class="n">ifermi</span><span class="o">.</span><span class="n">surface</span><span class="o">.</span><span class="n">FermiSurface</span><span class="o">.</span><span class="n">from_band_structure</span><span class="p">(</span>
-    <span class="n">dense_bs</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">wigner_seitz</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">calculate_dimensionality</span><span class="o">=</span><span class="kc">True</span>
+<span class="n">fs</span> <span class="o">=</span> <span class="n">FermiSurface</span><span class="o">.</span><span class="n">from_band_structure</span><span class="p">(</span>
+  <span class="n">dense_bs</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">wigner_seitz</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">calculate_dimensionality</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
 
 <span class="c1"># number of isosurfaces in the Fermi surface</span>
@@ -306,32 +308,31 @@ and in the <a class="reference external" href="https://fermisurfaces.github.io/I
 <span class="c1"># loop over all isosurfaces and check their properties</span>
 <span class="c1"># the isosurfaces are given as a list for each spin channel</span>
 <span class="k">for</span> <span class="n">spin</span><span class="p">,</span> <span class="n">isosurfaces</span> <span class="ow">in</span> <span class="n">fs</span><span class="o">.</span><span class="n">isosurfaces</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="k">for</span> <span class="n">isosurface</span> <span class="ow">in</span> <span class="n">isosurfaces</span><span class="p">:</span>
+  <span class="k">for</span> <span class="n">isosurface</span> <span class="ow">in</span> <span class="n">isosurfaces</span><span class="p">:</span>
+    <span class="c1"># the dimensionality (does the surface cross periodic boundaries)</span>
+    <span class="n">isosurface</span><span class="o">.</span><span class="n">dimensionality</span>
 
-        <span class="c1"># the dimensionality (does the surface cross periodic boundaries)</span>
-        <span class="n">isosurface</span><span class="o">.</span><span class="n">dimensionality</span>
+    <span class="c1"># what is the orientation</span>
+    <span class="n">isosurface</span><span class="o">.</span><span class="n">orientation</span>
 
-        <span class="c1"># what is the orientation</span>
-        <span class="n">isosurface</span><span class="o">.</span><span class="n">orientation</span>
+    <span class="c1"># does the surface have face properties</span>
+    <span class="n">isosurface</span><span class="o">.</span><span class="n">has_properties</span>
 
-        <span class="c1"># does the surface have face properties</span>
-        <span class="n">isosurface</span><span class="o">.</span><span class="n">has_properties</span>
+    <span class="c1"># calculate the norms of the properties</span>
+    <span class="n">isosurface</span><span class="o">.</span><span class="n">properties_norms</span>
 
-        <span class="c1"># calculate the norms of the properties</span>
-        <span class="n">isosurface</span><span class="o">.</span><span class="n">properties_norms</span>
+    <span class="c1"># calculate scalar projection of properties on to [0 0 1] vector</span>
+    <span class="n">isosurface</span><span class="o">.</span><span class="n">scalar_projection</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
-        <span class="c1"># calculate scalar projection of properties on to [0 0 1] vector</span>
-        <span class="n">isosurface</span><span class="o">.</span><span class="n">scalar_projection</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-
-        <span class="c1"># uniformly sample the surface faces to a consistent density</span>
-        <span class="n">isosurface</span><span class="o">.</span><span class="n">sample_uniform</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="c1"># uniformly sample the surface faces to a consistent density</span>
+    <span class="n">isosurface</span><span class="o">.</span><span class="n">sample_uniform</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
 
 <span class="c1"># plot the Fermi surface</span>
-<span class="n">fs_plotter</span> <span class="o">=</span> <span class="n">ifermi</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">FermiSurfacePlotter</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
+<span class="n">fs_plotter</span> <span class="o">=</span> <span class="n">FermiSurfacePlotter</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
 <span class="n">plot</span> <span class="o">=</span> <span class="n">fs_plotter</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span>
 
 <span class="c1"># generate Fermi slice along the (0 0 1) plane going through the Γ-point.</span>
-<span class="nb">slice</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">get_fermi_slice</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">slice</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">get_fermi_slice</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
 <span class="c1"># number of isolines in the slice</span>
 <span class="nb">slice</span><span class="o">.</span><span class="n">n_lines</span>
@@ -340,11 +341,11 @@ and in the <a class="reference external" href="https://fermisurfaces.github.io/I
 <span class="nb">slice</span><span class="o">.</span><span class="n">has_properties</span>
 
 <span class="c1"># plot slice</span>
-<span class="n">slice_plotter</span> <span class="o">=</span> <span class="n">ifermi</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">FermiSurfacePlotter</span><span class="p">(</span><span class="nb">slice</span><span class="p">)</span>
+<span class="n">slice_plotter</span> <span class="o">=</span> <span class="n">FermiSlicePlotter</span><span class="p">(</span><span class="nb">slice</span><span class="p">)</span>
 <span class="n">plot</span> <span class="o">=</span> <span class="n">slice_plotter</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span>
 
-<span class="n">ifermi</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">save_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="s2">&quot;fermi-surface.png&quot;</span><span class="p">)</span>  <span class="c1"># saves the plot to a file</span>
-<span class="n">ifermi</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">show_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span>  <span class="c1"># displays an interactive plot</span>
+<span class="n">save_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="s2">&quot;fermi-slice.png&quot;</span><span class="p">)</span>  <span class="c1"># saves the plot to a file</span>
+<span class="n">show_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span>  <span class="c1"># displays an interactive plot</span>
 </pre></div>
 </div>
 </div>

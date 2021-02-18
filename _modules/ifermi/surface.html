@@ -1,0 +1,993 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifermi.surface &mdash; IFermi 0.1.4 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+
+  
+  
+  
+  
+    <link rel="canonical" href="https://github.com/ajsearle97/IFermi_modules/ifermi/surface.html"/>
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> IFermi
+          
+
+          
+            
+            <img src="../../_static/logo-docs-01.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Usage Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command-line interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../plotting_using_python.html">Plotting using Python</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Information</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing to IFermi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/ajsearle97/IFermi">See IFermi on GitHub</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Function Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ifermi.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Index</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">IFermi</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content style-external-links">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifermi.surface</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifermi.surface</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Tools to generate isosurfaces and Fermi surfaces.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Collection</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">monty.dev</span> <span class="kn">import</span> <span class="n">requires</span>
+<span class="kn">from</span> <span class="nn">monty.json</span> <span class="kn">import</span> <span class="n">MSONable</span>
+<span class="kn">from</span> <span class="nn">pymatgen.core.structure</span> <span class="kn">import</span> <span class="n">Structure</span>
+<span class="kn">from</span> <span class="nn">pymatgen.electronic_structure.bandstructure</span> <span class="kn">import</span> <span class="n">BandStructure</span>
+<span class="kn">from</span> <span class="nn">pymatgen.electronic_structure.core</span> <span class="kn">import</span> <span class="n">Spin</span>
+
+<span class="kn">from</span> <span class="nn">ifermi.brillouin_zone</span> <span class="kn">import</span> <span class="n">ReciprocalCell</span><span class="p">,</span> <span class="n">WignerSeitzCell</span>
+<span class="kn">from</span> <span class="nn">ifermi.interpolate</span> <span class="kn">import</span> <span class="n">LinearInterpolator</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">mcubes</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">mcubes</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">open3d</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">open3d</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Isosurface&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;FermiSurface&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;compute_isosurfaces&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;trim_surface&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;expand_bands&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;decimate_mesh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;face_properties&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="Isosurface"><a class="viewcode-back" href="../../ifermi.html#ifermi.surface.Isosurface">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Isosurface</span><span class="p">(</span><span class="n">MSONable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An isosurface object contains a triangular mesh and surface properties.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        vertices: A (n, 3) float array of the vertices in the isosurface.</span>
+<span class="sd">        faces: A (m, 3) int array of the faces of the isosurface.</span>
+<span class="sd">        band_idx: The band index to which the surface belongs.</span>
+<span class="sd">        properties: An optional (m, ...) float array containing face properties as</span>
+<span class="sd">            scalars or vectors.</span>
+<span class="sd">        dimensionality: The dimensionality of the surface.</span>
+<span class="sd">        orientation: The orientation of the surface (for 1D and 2D surfaces only).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">faces</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">band_idx</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">properties</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">dimensionality</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">orientation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">area</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Area of the isosurface.&quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">ifermi.analysis</span> <span class="kn">import</span> <span class="n">isosurface_area</span>
+
+        <span class="k">return</span> <span class="n">isosurface_area</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">faces</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">has_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the surface has properties.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">properties_norms</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;(m, ) norm of isosurface properties.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_properties</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Isosurface does not have face properties.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Isosurface does not have vector properties.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">properties_ndim</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Dimensionality of face properties.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_properties</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Isosurface does not have face properties.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">ndim</span>
+
+<div class="viewcode-block" id="Isosurface.average_properties"><a class="viewcode-back" href="../../ifermi.html#ifermi.surface.Isosurface.average_properties">[docs]</a>    <span class="k">def</span> <span class="nf">average_properties</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">norm</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">projection_axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Average property across isosurface.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            norm: Average the norm of the properties (vector properties only).</span>
+<span class="sd">            projection_axis: A (3, ) in array of the axis to project the properties onto</span>
+<span class="sd">                (vector properties only).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The averaged property.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">ifermi.analysis</span> <span class="kn">import</span> <span class="n">average_properties</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_properties</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Isosurface does not have face properties.&quot;</span><span class="p">)</span>
+
+        <span class="n">properties</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span>
+        <span class="k">if</span> <span class="n">projection_axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">properties</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scalar_projection</span><span class="p">(</span><span class="n">projection_axis</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">average_properties</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">faces</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Isosurface.scalar_projection"><a class="viewcode-back" href="../../ifermi.html#ifermi.surface.Isosurface.scalar_projection">[docs]</a>    <span class="k">def</span> <span class="nf">scalar_projection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get scalar projection of properties onto axis.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            axis: A (3, ) int array of the axis to project onto.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            (m, ) float array of scalar projection of properties.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_properties</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Isosurface does not have face properties.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Isosurface does not have vector properties.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Isosurface.sample_uniform"><a class="viewcode-back" href="../../ifermi.html#ifermi.surface.Isosurface.sample_uniform">[docs]</a>    <span class="k">def</span> <span class="nf">sample_uniform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid_size</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sample mesh faces uniformly.</span>
+
+<span class="sd">        See the docstring for ``ifermi.analysis.sample_surface_uniform`` for more</span>
+<span class="sd">        details.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            grid_size: The grid size in Å^-1.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A (n, ) int array containing the indices of uniformly spaced faces.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">ifermi.analysis</span> <span class="kn">import</span> <span class="n">sample_surface_uniform</span>
+
+        <span class="k">return</span> <span class="n">sample_surface_uniform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">faces</span><span class="p">,</span> <span class="n">grid_size</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="FermiSurface"><a class="viewcode-back" href="../../ifermi.html#ifermi.surface.FermiSurface">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">FermiSurface</span><span class="p">(</span><span class="n">MSONable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A FermiSurface object contains isosurfaces and the reciprocal lattice definition.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        isosurfaces: A dict containing a list of isosurfaces for each spin channel.</span>
+<span class="sd">        reciprocal_space: A reciprocal space defining periodic boundary conditions.</span>
+<span class="sd">        structure: The structure.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">isosurfaces</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Isosurface</span><span class="p">]]</span>
+    <span class="n">reciprocal_space</span><span class="p">:</span> <span class="n">ReciprocalCell</span>
+    <span class="n">structure</span><span class="p">:</span> <span class="n">Structure</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">n_surfaces</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Number of isosurfaces in the Fermi surface.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_surfaces_per_spin</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">n_surfaces_per_band</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get number of surfaces for each band index for each spin channel.</span>
+
+<span class="sd">        Returned as a dict of ``{spin: {band_idx: count}}``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+        <span class="n">n_surfaces</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">spin</span><span class="p">,</span> <span class="n">isosurfaces</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">isosurfaces</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">n_surfaces</span><span class="p">[</span><span class="n">spin</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">Counter</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">band_idx</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">isosurfaces</span><span class="p">]))</span>
+
+        <span class="k">return</span> <span class="n">n_surfaces</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">n_surfaces_per_spin</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get number of surfaces per spin channel.</span>
+
+<span class="sd">        Returned as a dict of ``{spin: count}``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">spin</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">surfaces</span><span class="p">)</span> <span class="k">for</span> <span class="n">spin</span><span class="p">,</span> <span class="n">surfaces</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">isosurfaces</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">area</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Total area of all isosurfaces in the Fermi surface.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">sum</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">area_surfaces</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">area_surfaces</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;Area of each isosurface in the Fermi surface.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">i</span><span class="o">.</span><span class="n">area</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">v</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">isosurfaces</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">has_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether all isosurfaces have face properties.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">all</span><span class="p">(</span>
+            <span class="p">[</span><span class="nb">all</span><span class="p">([</span><span class="n">i</span><span class="o">.</span><span class="n">has_properties</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">s</span><span class="p">])</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">isosurfaces</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="FermiSurface.average_properties"><a class="viewcode-back" href="../../ifermi.html#ifermi.surface.FermiSurface.average_properties">[docs]</a>    <span class="k">def</span> <span class="nf">average_properties</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">norm</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">projection_axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Average property across the full Fermi surface.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            norm: Average the norm of the properties (vector properties only).</span>
+<span class="sd">            projection_axis: A (3, ) in array of the axis to project the properties onto</span>
+<span class="sd">                (vector properties only).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The averaged property.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">surface_averages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">average_properties_surfaces</span><span class="p">(</span><span class="n">norm</span><span class="p">,</span> <span class="n">projection_axis</span><span class="p">)</span>
+        <span class="n">surface_areas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">area_surfaces</span>
+
+        <span class="n">scaled_average</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">total_area</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">spin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">spins</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">average</span><span class="p">,</span> <span class="n">area</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">surface_averages</span><span class="p">[</span><span class="n">spin</span><span class="p">],</span> <span class="n">surface_areas</span><span class="p">[</span><span class="n">spin</span><span class="p">]):</span>
+                <span class="n">scaled_average</span> <span class="o">+=</span> <span class="n">average</span> <span class="o">*</span> <span class="n">area</span>
+                <span class="n">total_area</span> <span class="o">+=</span> <span class="n">area</span>
+
+        <span class="k">return</span> <span class="n">scaled_average</span> <span class="o">/</span> <span class="n">total_area</span></div>
+
+<div class="viewcode-block" id="FermiSurface.average_properties_surfaces"><a class="viewcode-back" href="../../ifermi.html#ifermi.surface.FermiSurface.average_properties_surfaces">[docs]</a>    <span class="k">def</span> <span class="nf">average_properties_surfaces</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">norm</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">projection_axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Average property for each isosurface in the Fermi surface.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            norm: Average the norm of the properties (vector properties only).</span>
+<span class="sd">            projection_axis: A (3, ) in array of the axis to project the properties onto</span>
+<span class="sd">                (vector properties only).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The averaged property for each surface in each spin channel.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="n">k</span><span class="p">:</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">average_properties</span><span class="p">(</span><span class="n">norm</span><span class="p">,</span> <span class="n">projection_axis</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">v</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">isosurfaces</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">properties_ndim</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Dimensionality of isosurface properties.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_properties</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Isosurfaces don&#39;t have properties.&quot;</span><span class="p">)</span>
+
+        <span class="n">ndims</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">properties_ndim</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">isosurfaces</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">v</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ndims</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;Isosurfaces have different property dimensions, using the largest.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">ndims</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">spins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The spin channels in the Fermi surface.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isosurfaces</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+<div class="viewcode-block" id="FermiSurface.all_vertices_faces"><a class="viewcode-back" href="../../ifermi.html#ifermi.surface.FermiSurface.all_vertices_faces">[docs]</a>    <span class="k">def</span> <span class="nf">all_vertices_faces</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">spins</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Spin</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the vertices and faces for all isosurfaces.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            spins: One or more spin channels to select. Default is all spins available.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of (vertices, faces).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">spins</span><span class="p">:</span>
+            <span class="n">spins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spins</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spins</span><span class="p">,</span> <span class="n">Spin</span><span class="p">):</span>
+            <span class="n">spins</span> <span class="o">=</span> <span class="p">[</span><span class="n">spins</span><span class="p">]</span>
+
+        <span class="n">vertices_faces</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">spin</span> <span class="ow">in</span> <span class="n">spins</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">isosurface</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">isosurfaces</span><span class="p">[</span><span class="n">spin</span><span class="p">]:</span>
+                <span class="n">vertices_faces</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">isosurface</span><span class="o">.</span><span class="n">vertices</span><span class="p">,</span> <span class="n">isosurface</span><span class="o">.</span><span class="n">faces</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">vertices_faces</span></div>
+
+<div class="viewcode-block" id="FermiSurface.all_properties"><a class="viewcode-back" href="../../ifermi.html#ifermi.surface.FermiSurface.all_properties">[docs]</a>    <span class="k">def</span> <span class="nf">all_properties</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">spins</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Spin</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">projection_axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">norm</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the properties for all isosurfaces.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            spins: One or more spin channels to select. Default is all spins available.</span>
+<span class="sd">            projection_axis: A (3, ) in array of the axis to project the properties onto</span>
+<span class="sd">                (vector properties only).</span>
+<span class="sd">            norm: Calculate the norm of the properties (vector properties only).</span>
+<span class="sd">                Ignored if ``projection_axis`` is set.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of properties arrays for each isosurface.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">spins</span><span class="p">:</span>
+            <span class="n">spins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spins</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spins</span><span class="p">,</span> <span class="n">Spin</span><span class="p">):</span>
+            <span class="n">spins</span> <span class="o">=</span> <span class="p">[</span><span class="n">spins</span><span class="p">]</span>
+
+        <span class="n">projections</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">spin</span> <span class="ow">in</span> <span class="n">spins</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">isosurface</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">isosurfaces</span><span class="p">[</span><span class="n">spin</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">projection_axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">projections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">isosurface</span><span class="o">.</span><span class="n">scalar_projection</span><span class="p">(</span><span class="n">projection_axis</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="n">norm</span><span class="p">:</span>
+                    <span class="n">projections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">isosurface</span><span class="o">.</span><span class="n">properties_norms</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">projections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">isosurface</span><span class="o">.</span><span class="n">properties</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">projections</span></div>
+
+<div class="viewcode-block" id="FermiSurface.from_band_structure"><a class="viewcode-back" href="../../ifermi.html#ifermi.surface.FermiSurface.from_band_structure">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_band_structure</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">band_structure</span><span class="p">:</span> <span class="n">BandStructure</span><span class="p">,</span>
+        <span class="n">mu</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">wigner_seitz</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">decimate_factor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">decimate_method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;quadric&quot;</span><span class="p">,</span>
+        <span class="n">smooth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">property_data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">property_kpoints</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">calculate_dimensionality</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;FermiSurface&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a FermiSurface from a pymatgen band structure object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            band_structure: A band structure. The k-points must cover the full</span>
+<span class="sd">                Brillouin zone (i.e., not just be the irreducible mesh). Use</span>
+<span class="sd">                the ``ifermi.interpolator.FourierInterpolator`` class to expand the k-points to</span>
+<span class="sd">                the full Brillouin zone if required.</span>
+<span class="sd">            mu: Energy offset from the Fermi energy at which the isosurface is</span>
+<span class="sd">                calculated.</span>
+<span class="sd">            wigner_seitz: Controls whether the cell is the Wigner-Seitz cell</span>
+<span class="sd">                or the reciprocal unit cell parallelepiped.</span>
+<span class="sd">            decimate_factor: If method is &quot;quadric&quot;, factor is the scaling factor by</span>
+<span class="sd">                which to reduce the number of faces. I.e., final # faces = initial</span>
+<span class="sd">                # faces * factor. If method is &quot;cluster&quot;, factor is the voxel size in</span>
+<span class="sd">                which to cluster points. Default is None (no decimation).</span>
+<span class="sd">            decimate_method: Algorithm to use for decimation. Options are &quot;quadric&quot;</span>
+<span class="sd">                or &quot;cluster&quot;.</span>
+<span class="sd">            smooth: If True, will smooth resulting isosurface. Requires PyMCubes. See</span>
+<span class="sd">                compute_isosurfaces for more information.</span>
+<span class="sd">            property_data: A property to project onto the Fermi surface. It should be</span>
+<span class="sd">                given as a dict of ``{spin: properties}``, where properties is numpy</span>
+<span class="sd">                array with shape (nbands, nkpoints, ...). The number of bands should</span>
+<span class="sd">                equal the number of bands in the band structure but the k-point mesh</span>
+<span class="sd">                can be different. Must be used in combination with</span>
+<span class="sd">                ``kpoints``.</span>
+<span class="sd">            property_kpoints: The k-points on which the data is generated.</span>
+<span class="sd">                Must be used in combination with ``data``.</span>
+<span class="sd">            calculate_dimensionality: Whether to calculate isosurface dimensionalities.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A Fermi surface.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">ifermi.kpoints</span> <span class="kn">import</span> <span class="n">get_kpoint_mesh_dim</span><span class="p">,</span> <span class="n">kpoints_from_bandstructure</span>
+
+        <span class="n">band_structure</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">band_structure</span><span class="p">)</span>  <span class="c1"># prevent data getting overwritten</span>
+
+        <span class="n">structure</span> <span class="o">=</span> <span class="n">band_structure</span><span class="o">.</span><span class="n">structure</span>
+        <span class="n">fermi_level</span> <span class="o">=</span> <span class="n">band_structure</span><span class="o">.</span><span class="n">efermi</span> <span class="o">+</span> <span class="n">mu</span>
+        <span class="n">bands</span> <span class="o">=</span> <span class="n">band_structure</span><span class="o">.</span><span class="n">bands</span>
+        <span class="n">kpoints</span> <span class="o">=</span> <span class="n">kpoints_from_bandstructure</span><span class="p">(</span><span class="n">band_structure</span><span class="p">)</span>
+
+        <span class="n">kpoint_dim</span> <span class="o">=</span> <span class="n">get_kpoint_mesh_dim</span><span class="p">(</span><span class="n">kpoints</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">kpoint_dim</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">kpoints</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Number of k-points (</span><span class="si">{}</span><span class="s2">) in band structure does not match number of &quot;</span>
+                <span class="s2">&quot;k-points expected from mesh dimensions (</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="nb">len</span><span class="p">(</span><span class="n">band_structure</span><span class="o">.</span><span class="n">kpoints</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">kpoint_dim</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">wigner_seitz</span><span class="p">:</span>
+            <span class="n">reciprocal_space</span> <span class="o">=</span> <span class="n">WignerSeitzCell</span><span class="o">.</span><span class="n">from_structure</span><span class="p">(</span><span class="n">structure</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">reciprocal_space</span> <span class="o">=</span> <span class="n">ReciprocalCell</span><span class="o">.</span><span class="n">from_structure</span><span class="p">(</span><span class="n">structure</span><span class="p">)</span>
+
+        <span class="n">interpolator</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">property_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">property_kpoints</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">interpolator</span> <span class="o">=</span> <span class="n">LinearInterpolator</span><span class="p">(</span><span class="n">property_kpoints</span><span class="p">,</span> <span class="n">property_data</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">property_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">property_kpoints</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Both data and kpoints must be specified.&quot;</span><span class="p">)</span>
+
+        <span class="n">bands</span><span class="p">,</span> <span class="n">kpoints</span> <span class="o">=</span> <span class="n">expand_bands</span><span class="p">(</span>
+            <span class="n">bands</span><span class="p">,</span> <span class="n">kpoints</span><span class="p">,</span> <span class="n">supercell_dim</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">isosurfaces</span> <span class="o">=</span> <span class="n">compute_isosurfaces</span><span class="p">(</span>
+            <span class="n">bands</span><span class="p">,</span>
+            <span class="n">kpoints</span><span class="p">,</span>
+            <span class="n">fermi_level</span><span class="p">,</span>
+            <span class="n">reciprocal_space</span><span class="p">,</span>
+            <span class="n">decimate_factor</span><span class="o">=</span><span class="n">decimate_factor</span><span class="p">,</span>
+            <span class="n">decimate_method</span><span class="o">=</span><span class="n">decimate_method</span><span class="p">,</span>
+            <span class="n">smooth</span><span class="o">=</span><span class="n">smooth</span><span class="p">,</span>
+            <span class="n">calculate_dimensionality</span><span class="o">=</span><span class="n">calculate_dimensionality</span><span class="p">,</span>
+            <span class="n">property_interpolator</span><span class="o">=</span><span class="n">interpolator</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">isosurfaces</span><span class="p">,</span> <span class="n">reciprocal_space</span><span class="p">,</span> <span class="n">structure</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FermiSurface.get_fermi_slice"><a class="viewcode-back" href="../../ifermi.html#ifermi.surface.FermiSurface.get_fermi_slice">[docs]</a>    <span class="k">def</span> <span class="nf">get_fermi_slice</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">plane_normal</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">distance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;FermiSlice&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a slice through the Fermi surface.</span>
+
+<span class="sd">        Slice defined by the intersection of a plane with the Fermi surface.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            plane_normal: (3, ) int array of the plane normal in fractional indices.</span>
+<span class="sd">            distance: The distance from the center of the Brillouin zone (Γ-point).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The Fermi slice.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">ifermi.slice</span> <span class="kn">import</span> <span class="n">FermiSlice</span>
+
+        <span class="k">return</span> <span class="n">FermiSlice</span><span class="o">.</span><span class="n">from_fermi_surface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plane_normal</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="n">distance</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FermiSurface.from_dict"><a class="viewcode-back" href="../../ifermi.html#ifermi.surface.FermiSurface.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;FermiSurface&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return FermiSurface object from dict.&quot;&quot;&quot;</span>
+        <span class="n">fs</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="n">fs</span><span class="o">.</span><span class="n">isosurfaces</span> <span class="o">=</span> <span class="p">{</span><span class="n">Spin</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="p">)):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">fs</span><span class="o">.</span><span class="n">isosurfaces</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">return</span> <span class="n">fs</span></div>
+
+<div class="viewcode-block" id="FermiSurface.as_dict"><a class="viewcode-back" href="../../ifermi.html#ifermi.surface.FermiSurface.as_dict">[docs]</a>    <span class="k">def</span> <span class="nf">as_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get a json-serializable dict representation of FermiSurface.&quot;&quot;&quot;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()</span>
+        <span class="n">d</span><span class="p">[</span><span class="s2">&quot;isosurfaces&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">spin</span><span class="p">):</span> <span class="n">iso</span> <span class="k">for</span> <span class="n">spin</span><span class="p">,</span> <span class="n">iso</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">isosurfaces</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">return</span> <span class="n">d</span></div></div>
+
+
+<div class="viewcode-block" id="compute_isosurfaces"><a class="viewcode-back" href="../../ifermi.html#ifermi.surface.compute_isosurfaces">[docs]</a><span class="k">def</span> <span class="nf">compute_isosurfaces</span><span class="p">(</span>
+    <span class="n">bands</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+    <span class="n">kpoints</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">fermi_level</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">reciprocal_space</span><span class="p">:</span> <span class="n">ReciprocalCell</span><span class="p">,</span>
+    <span class="n">decimate_factor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">decimate_method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;quadric&quot;</span><span class="p">,</span>
+    <span class="n">smooth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">calculate_dimensionality</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">property_interpolator</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LinearInterpolator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Isosurface</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the isosurfaces at a particular energy level.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        bands: The band energies, given as a dictionary of ``{spin: energies}``, where</span>
+<span class="sd">            energies has the shape (nbands, nkpoints).</span>
+<span class="sd">        kpoints: The k-points in fractional coordinates.</span>
+<span class="sd">        fermi_level: The energy at which to calculate the Fermi surface.</span>
+<span class="sd">        reciprocal_space: The reciprocal space representation.</span>
+<span class="sd">        decimate_factor: If method is &quot;quadric&quot;, factor is the scaling factor by which</span>
+<span class="sd">            to reduce the number of faces. I.e., final # faces = initial # faces *</span>
+<span class="sd">            factor. If method is &quot;cluster&quot;, factor is the voxel size in which to</span>
+<span class="sd">            cluster points. Default is None (no decimation).</span>
+<span class="sd">        decimate_method: Algorithm to use for decimation. Options are &quot;quadric&quot; or</span>
+<span class="sd">            &quot;cluster&quot;.</span>
+<span class="sd">        smooth: If True, will smooth resulting isosurface. Requires PyMCubes. Smoothing</span>
+<span class="sd">            algorithm will use constrained smoothing algorithm to preserve fine details</span>
+<span class="sd">            if input dimension is lower than (500, 500, 500), otherwise will apply a</span>
+<span class="sd">            Gaussian filter.</span>
+<span class="sd">        calculate_dimensionality: Whether to calculate isosurface dimensionality.</span>
+<span class="sd">        property_interpolator: An interpolator class for interpolating properties</span>
+<span class="sd">            onto the surface. If ``None``, no properties will be calculated.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A dictionary containing a list of isosurfaces for each spin channel.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">ifermi.kpoints</span> <span class="kn">import</span> <span class="n">get_kpoint_mesh_dim</span><span class="p">,</span> <span class="n">get_kpoint_spacing</span>
+
+    <span class="c1"># sort k-points to be in the correct order</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">lexsort</span><span class="p">((</span><span class="n">kpoints</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">kpoints</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">kpoints</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]))</span>
+    <span class="n">kpoints</span> <span class="o">=</span> <span class="n">kpoints</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+    <span class="n">bands</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="n">b</span><span class="p">[:,</span> <span class="n">order</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bands</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+    <span class="n">kpoint_dim</span> <span class="o">=</span> <span class="n">get_kpoint_mesh_dim</span><span class="p">(</span><span class="n">kpoints</span><span class="p">)</span>
+    <span class="n">spacing</span> <span class="o">=</span> <span class="n">get_kpoint_spacing</span><span class="p">(</span><span class="n">kpoints</span><span class="p">)</span>
+    <span class="n">reference</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">kpoints</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">isosurfaces</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">spin</span><span class="p">,</span> <span class="n">ebands</span> <span class="ow">in</span> <span class="n">bands</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">ebands</span> <span class="o">-=</span> <span class="n">fermi_level</span>
+        <span class="n">spin_isosurface</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">band_idx</span><span class="p">,</span> <span class="n">energies</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ebands</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">energies</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">energies</span><span class="p">):</span>
+                <span class="c1"># if band doesn&#39;t cross the Fermi level then skip it</span>
+                <span class="k">continue</span>
+
+            <span class="n">band_isosurfaces</span> <span class="o">=</span> <span class="n">_calculate_band_isosurfaces</span><span class="p">(</span>
+                <span class="n">spin</span><span class="p">,</span>
+                <span class="n">band_idx</span><span class="p">,</span>
+                <span class="n">energies</span><span class="p">,</span>
+                <span class="n">kpoint_dim</span><span class="p">,</span>
+                <span class="n">spacing</span><span class="p">,</span>
+                <span class="n">reference</span><span class="p">,</span>
+                <span class="n">reciprocal_space</span><span class="p">,</span>
+                <span class="n">decimate_factor</span><span class="p">,</span>
+                <span class="n">decimate_method</span><span class="p">,</span>
+                <span class="n">smooth</span><span class="p">,</span>
+                <span class="n">calculate_dimensionality</span><span class="p">,</span>
+                <span class="n">property_interpolator</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">spin_isosurface</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">band_isosurfaces</span><span class="p">)</span>
+
+        <span class="n">isosurfaces</span><span class="p">[</span><span class="n">spin</span><span class="p">]</span> <span class="o">=</span> <span class="n">spin_isosurface</span>
+
+    <span class="k">return</span> <span class="n">isosurfaces</span></div>
+
+
+<span class="k">def</span> <span class="nf">_calculate_band_isosurfaces</span><span class="p">(</span>
+    <span class="n">spin</span><span class="p">:</span> <span class="n">Spin</span><span class="p">,</span>
+    <span class="n">band_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">energies</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">kpoint_dim</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+    <span class="n">spacing</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">reference</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">reciprocal_space</span><span class="p">:</span> <span class="n">ReciprocalCell</span><span class="p">,</span>
+    <span class="n">decimate_factor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+    <span class="n">decimate_method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">smooth</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">calculate_dimensionality</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">property_interpolator</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LinearInterpolator</span><span class="p">],</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Helper function to calculate the connected isosurfaces for a band.&quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">skimage.measure</span> <span class="kn">import</span> <span class="n">marching_cubes</span>
+
+    <span class="kn">from</span> <span class="nn">ifermi.analysis</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">connected_subsurfaces</span><span class="p">,</span>
+        <span class="n">equivalent_surfaces</span><span class="p">,</span>
+        <span class="n">isosurface_dimensionality</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">rlat</span> <span class="o">=</span> <span class="n">reciprocal_space</span><span class="o">.</span><span class="n">reciprocal_lattice</span>
+
+    <span class="k">if</span> <span class="n">smooth</span> <span class="ow">and</span> <span class="n">mcubes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">smooth</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Smoothing disabled, install PyMCubes to enable smoothing.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">decimate_factor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">open3d</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">decimate_factor</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Decimation disabled, install open3d to enable decimation.&quot;</span><span class="p">)</span>
+
+    <span class="n">band_data</span> <span class="o">=</span> <span class="n">energies</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">kpoint_dim</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">smooth</span><span class="p">:</span>
+        <span class="n">smoothed_band_data</span> <span class="o">=</span> <span class="n">mcubes</span><span class="o">.</span><span class="n">smooth</span><span class="p">(</span><span class="n">band_data</span><span class="p">)</span>
+        <span class="n">verts</span><span class="p">,</span> <span class="n">faces</span> <span class="o">=</span> <span class="n">mcubes</span><span class="o">.</span><span class="n">marching_cubes</span><span class="p">(</span><span class="n">smoothed_band_data</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># have to manually set spacing with PyMCubes</span>
+        <span class="n">verts</span> <span class="o">*=</span> <span class="n">spacing</span>
+        <span class="c1"># comes out as np.uint64, but trimesh doesn&#39;t like this</span>
+        <span class="n">faces</span> <span class="o">=</span> <span class="n">faces</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">verts</span><span class="p">,</span> <span class="n">faces</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">marching_cubes</span><span class="p">(</span><span class="n">band_data</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="n">spacing</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">decimate_factor</span><span class="p">:</span>
+        <span class="n">verts</span><span class="p">,</span> <span class="n">faces</span> <span class="o">=</span> <span class="n">decimate_mesh</span><span class="p">(</span>
+            <span class="n">verts</span><span class="p">,</span> <span class="n">faces</span><span class="p">,</span> <span class="n">decimate_factor</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">decimate_method</span>
+        <span class="p">)</span>
+
+    <span class="n">verts</span> <span class="o">+=</span> <span class="n">reference</span>
+
+    <span class="c1"># break the isosurface into connected subsurfaces</span>
+    <span class="n">subsurfaces</span> <span class="o">=</span> <span class="n">connected_subsurfaces</span><span class="p">(</span><span class="n">verts</span><span class="p">,</span> <span class="n">faces</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">calculate_dimensionality</span><span class="p">:</span>
+        <span class="c1"># calculate dimensionality of periodically equivalent surfaces.</span>
+        <span class="n">dimensionalities</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">mapping</span> <span class="o">=</span> <span class="n">equivalent_surfaces</span><span class="p">([</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">subsurfaces</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">mapping</span><span class="p">:</span>
+            <span class="n">dimensionalities</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">isosurface_dimensionality</span><span class="p">(</span><span class="o">*</span><span class="n">subsurfaces</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dimensionalities</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">mapping</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">subsurfaces</span><span class="p">))</span>
+
+    <span class="n">isosurfaces</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">dimensionality</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">orientation</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">properties</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">subverts</span><span class="p">,</span> <span class="n">subfaces</span><span class="p">),</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">subsurfaces</span><span class="p">,</span> <span class="n">mapping</span><span class="p">):</span>
+        <span class="c1"># convert vertices to cartesian coordinates</span>
+        <span class="n">subverts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">subverts</span><span class="p">,</span> <span class="n">rlat</span><span class="p">)</span>
+        <span class="n">subverts</span><span class="p">,</span> <span class="n">subfaces</span> <span class="o">=</span> <span class="n">trim_surface</span><span class="p">(</span><span class="n">reciprocal_space</span><span class="p">,</span> <span class="n">subverts</span><span class="p">,</span> <span class="n">subfaces</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">subverts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># skip surfaces that do not enter the reciprocal space boundaries</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="n">calculate_dimensionality</span><span class="p">:</span>
+            <span class="n">dimensionality</span><span class="p">,</span> <span class="n">orientation</span> <span class="o">=</span> <span class="n">dimensionalities</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">property_interpolator</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">properties</span> <span class="o">=</span> <span class="n">face_properties</span><span class="p">(</span>
+                <span class="n">property_interpolator</span><span class="p">,</span> <span class="n">subverts</span><span class="p">,</span> <span class="n">subfaces</span><span class="p">,</span> <span class="n">band_idx</span><span class="p">,</span> <span class="n">spin</span><span class="p">,</span> <span class="n">rlat</span>
+            <span class="p">)</span>
+
+        <span class="n">isosurface</span> <span class="o">=</span> <span class="n">Isosurface</span><span class="p">(</span>
+            <span class="n">vertices</span><span class="o">=</span><span class="n">subverts</span><span class="p">,</span>
+            <span class="n">faces</span><span class="o">=</span><span class="n">subfaces</span><span class="p">,</span>
+            <span class="n">band_idx</span><span class="o">=</span><span class="n">band_idx</span><span class="p">,</span>
+            <span class="n">properties</span><span class="o">=</span><span class="n">properties</span><span class="p">,</span>
+            <span class="n">dimensionality</span><span class="o">=</span><span class="n">dimensionality</span><span class="p">,</span>
+            <span class="n">orientation</span><span class="o">=</span><span class="n">orientation</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">isosurfaces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">isosurface</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">isosurfaces</span>
+
+
+<div class="viewcode-block" id="trim_surface"><a class="viewcode-back" href="../../ifermi.html#ifermi.surface.trim_surface">[docs]</a><span class="k">def</span> <span class="nf">trim_surface</span><span class="p">(</span>
+    <span class="n">reciprocal_cell</span><span class="p">:</span> <span class="n">ReciprocalCell</span><span class="p">,</span> <span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">faces</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Trim the surface to remove parts outside the cell boundaries.</span>
+
+<span class="sd">    Will add new triangles at the boundary edges as necessary to produce a smooth</span>
+<span class="sd">    surface.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        reciprocal_cell: The reciprocal space object.</span>
+<span class="sd">        vertices: A (n, 3) float array of the vertices in the isosurface.</span>
+<span class="sd">        faces: A (m, 3) int array of the faces of the isosurface.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (vertices, faces) of the trimmed surface.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">trimesh.intersections</span> <span class="kn">import</span> <span class="n">slice_faces_plane</span>
+
+    <span class="k">for</span> <span class="n">center</span><span class="p">,</span> <span class="n">normal</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">reciprocal_cell</span><span class="o">.</span><span class="n">centers</span><span class="p">,</span> <span class="n">reciprocal_cell</span><span class="o">.</span><span class="n">normals</span><span class="p">):</span>
+        <span class="n">vertices</span><span class="p">,</span> <span class="n">faces</span> <span class="o">=</span> <span class="n">slice_faces_plane</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">faces</span><span class="p">,</span> <span class="o">-</span><span class="n">normal</span><span class="p">,</span> <span class="n">center</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">faces</span></div>
+
+
+<div class="viewcode-block" id="expand_bands"><a class="viewcode-back" href="../../ifermi.html#ifermi.surface.expand_bands">[docs]</a><span class="k">def</span> <span class="nf">expand_bands</span><span class="p">(</span>
+    <span class="n">bands</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+    <span class="n">fractional_kpoints</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">supercell_dim</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="n">center</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Expand the band energies and k-points with periodic boundary conditions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        bands: The band energies, given as a dictionary of ``{spin: energies}``, where</span>
+<span class="sd">            energies has the shape (nbands, nkpoints).</span>
+<span class="sd">        fractional_kpoints: A (n, 3) float array of the fractional k-point coordinates.</span>
+<span class="sd">        supercell_dim: The supercell mesh dimensions.</span>
+<span class="sd">        center: The cell on which the supercell is centered.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (energies, kpoints) The expanded band energies and k-points.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">final_ebands</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">nk</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fractional_kpoints</span><span class="p">)</span>
+    <span class="n">ncells</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">supercell_dim</span><span class="p">)</span>
+
+    <span class="n">final_kpoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">fractional_kpoints</span><span class="p">,</span> <span class="p">(</span><span class="n">ncells</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndindex</span><span class="p">(</span><span class="n">supercell_dim</span><span class="p">)):</span>
+        <span class="n">final_kpoints</span><span class="p">[</span><span class="n">n</span> <span class="o">*</span> <span class="n">nk</span> <span class="p">:</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">nk</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span>
+    <span class="n">final_kpoints</span> <span class="o">-=</span> <span class="n">center</span>
+
+    <span class="k">for</span> <span class="n">spin</span><span class="p">,</span> <span class="n">ebands</span> <span class="ow">in</span> <span class="n">bands</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">final_ebands</span><span class="p">[</span><span class="n">spin</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">ebands</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncells</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">final_ebands</span><span class="p">,</span> <span class="n">final_kpoints</span></div>
+
+
+<div class="viewcode-block" id="face_properties"><a class="viewcode-back" href="../../ifermi.html#ifermi.surface.face_properties">[docs]</a><span class="k">def</span> <span class="nf">face_properties</span><span class="p">(</span>
+    <span class="n">interpolator</span><span class="p">:</span> <span class="n">LinearInterpolator</span><span class="p">,</span>
+    <span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">faces</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">band_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">spin</span><span class="p">:</span> <span class="n">Spin</span><span class="p">,</span>
+    <span class="n">reciprocal_lattice</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Interpolate properties data onto the Fermi surfaces.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        interpolator: Periodic interpolator for property data.</span>
+<span class="sd">        vertices: A (n, 3) float array of the vertices in the isosurface.</span>
+<span class="sd">        faces: A (m, 3) int array of the faces of the isosurface.</span>
+<span class="sd">        band_idx: The band that the isosurface belongs to.</span>
+<span class="sd">        spin: The spin channel the isosurface belongs to.</span>
+<span class="sd">        reciprocal_lattice: Reciprocal lattice matrix</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A (m, ...) float array of the interpolated properties at the center of each</span>
+<span class="sd">        face in the isosurface.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">ifermi.kpoints</span> <span class="kn">import</span> <span class="n">kpoints_to_first_bz</span>
+
+    <span class="c1"># get the center of each of face in fractional coords</span>
+    <span class="n">inv_lattice</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">reciprocal_lattice</span><span class="p">)</span>
+    <span class="n">face_verts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">inv_lattice</span><span class="p">)[</span><span class="n">faces</span><span class="p">]</span>
+    <span class="n">centers</span> <span class="o">=</span> <span class="n">face_verts</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># convert to 1st BZ</span>
+    <span class="n">centers</span> <span class="o">=</span> <span class="n">kpoints_to_first_bz</span><span class="p">(</span><span class="n">centers</span><span class="p">)</span>
+
+    <span class="c1"># get interpolated properties at center of faces</span>
+    <span class="n">band_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">centers</span><span class="p">),</span> <span class="n">band_idx</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">interpolator</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">spin</span><span class="p">,</span> <span class="n">band_idxs</span><span class="p">,</span> <span class="n">centers</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="decimate_mesh"><a class="viewcode-back" href="../../ifermi.html#ifermi.surface.decimate_mesh">[docs]</a><span class="nd">@requires</span><span class="p">(</span><span class="n">open3d</span><span class="p">,</span> <span class="s2">&quot;open3d package is required for mesh decimation&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">decimate_mesh</span><span class="p">(</span><span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">faces</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">factor</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;quadric&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Decimate mesh to reduce the number of triangles and vertices.</span>
+
+<span class="sd">    The open3d package is required for decimation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        vertices: A (n, 3) float array of the vertices in the isosurface.</span>
+<span class="sd">        faces: A (m, 3) int array of the faces of the isosurface.</span>
+<span class="sd">        factor: If method is &quot;quadric&quot;, factor is the scaling factor by which to</span>
+<span class="sd">            reduce the number of faces. I.e., final # faces = initial # faces * factor.</span>
+<span class="sd">            If method is &quot;cluster&quot;, factor is the voxel size in which to cluster points.</span>
+<span class="sd">        method: Algorithm to use for decimation. Options are &quot;quadric&quot; or &quot;cluster&quot;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (vertices, faces) of the decimated mesh.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># convert mesh to open3d format</span>
+    <span class="n">o3d_verts</span> <span class="o">=</span> <span class="n">open3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3dVector</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+    <span class="n">o3d_faces</span> <span class="o">=</span> <span class="n">open3d</span><span class="o">.</span><span class="n">utility</span><span class="o">.</span><span class="n">Vector3iVector</span><span class="p">(</span><span class="n">faces</span><span class="p">)</span>
+    <span class="n">o3d_mesh</span> <span class="o">=</span> <span class="n">open3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">TriangleMesh</span><span class="p">(</span><span class="n">o3d_verts</span><span class="p">,</span> <span class="n">o3d_faces</span><span class="p">)</span>
+
+    <span class="c1"># decimate mesh</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;quadric&quot;</span><span class="p">:</span>
+        <span class="n">n_target_triangles</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">faces</span><span class="p">)</span> <span class="o">*</span> <span class="n">factor</span><span class="p">)</span>
+        <span class="n">o3d_new_mesh</span> <span class="o">=</span> <span class="n">o3d_mesh</span><span class="o">.</span><span class="n">simplify_quadric_decimation</span><span class="p">(</span><span class="n">n_target_triangles</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cluster_type</span> <span class="o">=</span> <span class="n">open3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">SimplificationContraction</span><span class="o">.</span><span class="n">Quadric</span>
+        <span class="n">o3d_new_mesh</span> <span class="o">=</span> <span class="n">o3d_mesh</span><span class="o">.</span><span class="n">simplify_vertex_clustering</span><span class="p">(</span><span class="n">factor</span><span class="p">,</span> <span class="n">cluster_type</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">o3d_new_mesh</span><span class="o">.</span><span class="n">vertices</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">o3d_new_mesh</span><span class="o">.</span><span class="n">triangles</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2021, Amy Searle and Alex Ganose
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

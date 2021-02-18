@@ -105,11 +105,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing to IFermi</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/ajsearle97/IFermi">See project on GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/ajsearle97/IFermi">See IFermi on GitHub</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Function Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ifermi.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Index</a></li>
 </ul>
 
@@ -175,17 +175,15 @@
            <div itemprop="articleBody">
             
   <h1>Source code for ifermi.brillouin_zone</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">itertools</span>
+<span></span><span class="sd">&quot;&quot;&quot;Brillouin zone and slice geometries.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">itertools</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">monty.json</span> <span class="kn">import</span> <span class="n">MSONable</span>
-<span class="kn">from</span> <span class="nn">pymatgen</span> <span class="kn">import</span> <span class="n">Structure</span>
-<span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">ConvexHull</span><span class="p">,</span> <span class="n">Voronoi</span>
-<span class="kn">from</span> <span class="nn">trimesh.geometry</span> <span class="kn">import</span> <span class="n">plane_transform</span>
-<span class="kn">from</span> <span class="nn">trimesh.intersections</span> <span class="kn">import</span> <span class="n">plane_lines</span>
-<span class="kn">from</span> <span class="nn">trimesh.transformations</span> <span class="kn">import</span> <span class="n">transform_points</span>
+<span class="kn">from</span> <span class="nn">pymatgen.core.structure</span> <span class="kn">import</span> <span class="n">Structure</span>
 
 
 <div class="viewcode-block" id="ReciprocalSlice"><a class="viewcode-back" href="../../ifermi.html#ifermi.brillouin_zone.ReciprocalSlice">[docs]</a><span class="nd">@dataclass</span>
@@ -193,24 +191,24 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A slice along a pane in reciprocal space.</span>
 
-<span class="sd">    Args:</span>
+<span class="sd">    Attributes:</span>
 <span class="sd">        reciprocal_space: The reciprocal space that the slice belongs to.</span>
-<span class="sd">        vertices: The vertices as 2D coordinates for the intersection of the plane with</span>
-<span class="sd">            the Brillouin zone boundaries.</span>
-<span class="sd">        transformation: The transformation that maps points in the 3D Brillouin zone</span>
-<span class="sd">            to points on the reciprocal slice.</span>
+<span class="sd">        vertices: A (n, 2) float array of the vertices defining the intersection of the</span>
+<span class="sd">            slice with the Brillouin zone.</span>
+<span class="sd">        transformation: (n, 4, 4) float array of the transformation that maps points in</span>
+<span class="sd">            the 3D Brillouin zone to points on the 2D slice.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">reciprocal_space</span><span class="p">:</span> <span class="s2">&quot;ReciprocalCell&quot;</span>
     <span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
     <span class="n">transformation</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
-    <span class="n">_edges</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">_edges</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">edges</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the edges of the space as a List of tuples specifying the vertex indices.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">edges</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;A (n, 2) int array defining the cell edges.&quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">ConvexHull</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">hull</span> <span class="o">=</span> <span class="n">ConvexHull</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span> <span class="o">=</span> <span class="n">hull</span><span class="o">.</span><span class="n">simplices</span>
@@ -218,10 +216,8 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">lines</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the lines defining the space as a list of two coordinates.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">)]</span></div>
+        <span class="sd">&quot;&quot;&quot;A (n, 2, 2) float array defining the cell boundaries.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="ReciprocalCell"><a class="viewcode-back" href="../../ifermi.html#ifermi.brillouin_zone.ReciprocalCell">[docs]</a><span class="nd">@dataclass</span>
@@ -229,18 +225,20 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A parallelepiped reciprocal lattice cell.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        reciprocal_lattice: The reciprocal lattice vectors.</span>
-<span class="sd">        vertices: The vertices of the Brillouin zone edges as an array with shape</span>
-<span class="sd">            ``(n_vertices, 3)``.</span>
-<span class="sd">        faces: The faces of the reciprocal cell given as in terms of vertex indices as</span>
-<span class="sd">            a list with shape ``(n_faces, n_vertices_in_face)``.</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        reciprocal_lattice: A (3, 3) float array of the reciprocal lattice vectors.</span>
+<span class="sd">        vertices: A (n, 3) float array of the vertices of the Brillouin zone edges.</span>
+<span class="sd">        faces: A (m, 3) int array of the faces of the Brillouin zone.</span>
+<span class="sd">        centers: A (m, 3) float array of the face centers.</span>
+<span class="sd">        normals: A (m, 3) float array of the face normal.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">reciprocal_lattice</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
     <span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
     <span class="n">faces</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span>
-    <span class="n">_edges</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">centers</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">normals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">_edges</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ReciprocalCell.from_structure"><a class="viewcode-back" href="../../ifermi.html#ifermi.brillouin_zone.ReciprocalCell.from_structure">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_structure</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">structure</span><span class="p">:</span> <span class="n">Structure</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;ReciprocalCell&quot;</span><span class="p">:</span>
@@ -251,7 +249,7 @@
 <span class="sd">            structure: A structure.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            An instance of the class.</span>
+<span class="sd">            The reciprocal cell.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">reciprocal_lattice</span> <span class="o">=</span> <span class="n">structure</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">reciprocal_lattice</span><span class="o">.</span><span class="n">matrix</span>
         <span class="n">vertices</span> <span class="o">=</span> <span class="p">[</span>
@@ -273,44 +271,66 @@
             <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
         <span class="p">]</span>
         <span class="n">vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">reciprocal_lattice</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">reciprocal_lattice</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">faces</span><span class="p">)</span></div>
+
+        <span class="c1"># get the center normals for all faces</span>
+        <span class="n">centers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">normals</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">face</span> <span class="ow">in</span> <span class="n">faces</span><span class="p">:</span>
+            <span class="n">face_verts</span> <span class="o">=</span> <span class="n">vertices</span><span class="p">[</span><span class="n">face</span><span class="p">]</span>
+            <span class="n">center</span> <span class="o">=</span> <span class="n">face_verts</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="n">v1</span> <span class="o">=</span> <span class="n">face_verts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">center</span>
+            <span class="k">for</span> <span class="n">v2</span> <span class="ow">in</span> <span class="n">face_verts</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                <span class="n">normal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span> <span class="o">-</span> <span class="n">center</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">normal</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">):</span>
+                    <span class="k">break</span>
+
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">normal</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="n">normal</span> <span class="o">=</span> <span class="o">-</span><span class="n">normal</span>
+
+            <span class="n">centers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">center</span><span class="p">)</span>
+            <span class="n">normals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
+
+        <span class="n">centers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">centers</span><span class="p">)</span>
+        <span class="n">normals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">normals</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">reciprocal_lattice</span><span class="p">,</span> <span class="n">vertices</span><span class="p">,</span> <span class="n">faces</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">normals</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">edges</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the edges of the space as a List of tuples specifying the vertex indices.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">edges</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;A (n, 2) int array defining the cell edges.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">output</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">face</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">faces</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">face</span><span class="p">)):</span>
                     <span class="n">edge</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">([</span><span class="n">face</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">face</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]]))</span>
                     <span class="n">output</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">output</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">output</span><span class="p">)))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edges</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">lines</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the lines defining the space as a list of two coordinates.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">)]</span>
+        <span class="sd">&quot;&quot;&quot;A (n, 2, 3) float array defining the cell boundaries.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">]</span>
 
 <div class="viewcode-block" id="ReciprocalCell.get_reciprocal_slice"><a class="viewcode-back" href="../../ifermi.html#ifermi.brillouin_zone.ReciprocalCell.get_reciprocal_slice">[docs]</a>    <span class="k">def</span> <span class="nf">get_reciprocal_slice</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">plane_normal</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">distance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ReciprocalSlice</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get a reciprocal slice through the Brillouin zone, defined by the intersection</span>
-<span class="sd">        of a plane with the lattice.</span>
+<span class="sd">        Get a reciprocal slice through the Brillouin zone.</span>
+
+<span class="sd">        Reciprocal slice defined by the intersection of a plane with the lattice.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            plane_normal: The plane normal in fractional indices. E.g., ``(1, 0, 0)``.</span>
-<span class="sd">            distance: The distance from the center of the Brillouin zone (the Gamma</span>
-<span class="sd">                point).</span>
+<span class="sd">            plane_normal: (3, ) int array of the plane normal in fractional indices.</span>
+<span class="sd">            distance: The distance from the center of the Brillouin zone (Γ-point).</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The reciprocal slice.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">trimesh</span> <span class="kn">import</span> <span class="n">transform_points</span>
+        <span class="kn">from</span> <span class="nn">trimesh.geometry</span> <span class="kn">import</span> <span class="n">plane_transform</span>
+        <span class="kn">from</span> <span class="nn">trimesh.intersections</span> <span class="kn">import</span> <span class="n">plane_lines</span>
+
         <span class="n">cart_normal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">plane_normal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reciprocal_lattice</span><span class="p">)</span>
         <span class="n">cart_center</span> <span class="o">=</span> <span class="n">cart_normal</span> <span class="o">*</span> <span class="n">distance</span>
 
@@ -332,22 +352,15 @@
 <div class="viewcode-block" id="WignerSeitzCell"><a class="viewcode-back" href="../../ifermi.html#ifermi.brillouin_zone.WignerSeitzCell">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">WignerSeitzCell</span><span class="p">(</span><span class="n">ReciprocalCell</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The first Brillioun Zone information.</span>
+<span class="sd">    WignerSeitz cell of the reciprocal lattice.</span>
 
-<span class="sd">    This is the Wigner–Seitz cell of the reciprocal lattice.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        reciprocal_lattice: The reciprocal lattice vectors.</span>
-<span class="sd">        vertices: The vertices of the Brillouin zone edges as an array with shape</span>
-<span class="sd">            ``(n_vertices, 3)``.</span>
-<span class="sd">        faces: The faces of the reciprocal cell given as in terms of vertex indices as</span>
-<span class="sd">            a list with shape ``(n_faces, n_vertices_in_face)``.</span>
-<span class="sd">        centers: The centers of the faces with the shape ``(n_faces, 3)``.</span>
-<span class="sd">        normals: The normal vectors to each face with the shape ``(n_faces, 3)``.</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        reciprocal_lattice: A (3, 3) float array of the reciprocal lattice vectors.</span>
+<span class="sd">        vertices: A (n, 3) float array of the vertices of the Brillouin zone edges.</span>
+<span class="sd">        faces: A (m, 3) int array of the faces of the Brillouin zone.</span>
+<span class="sd">        centers: A (m, 3) float array of the face centers.</span>
+<span class="sd">        normals: A (m, 3) float array of the face normal.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">centers</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
-    <span class="n">normals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
 
 <div class="viewcode-block" id="WignerSeitzCell.from_structure"><a class="viewcode-back" href="../../ifermi.html#ifermi.brillouin_zone.WignerSeitzCell.from_structure">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_structure</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">structure</span><span class="p">:</span> <span class="n">Structure</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;WignerSeitzCell&quot;</span><span class="p">:</span>
@@ -360,6 +373,8 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            An instance of the cell.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">scipy.spatial.qhull</span> <span class="kn">import</span> <span class="n">Voronoi</span>
+
         <span class="n">reciprocal_lattice</span> <span class="o">=</span> <span class="n">structure</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">reciprocal_lattice</span><span class="o">.</span><span class="n">matrix</span>
 
         <span class="n">points</span> <span class="o">=</span> <span class="p">[]</span>

@@ -4,6 +4,18 @@ Change Log
 [Unreleased]
 ------------
 
+v0.1.5
+------
+
+Enhancements:
+
+- Simplified interpolator and FermiSurface generation api.
+
+Bug fixes:
+
+- Fixed bug where the Fermi surface was not exactly centered in reciprocal space.
+
+
 v0.1.4
 ------
 

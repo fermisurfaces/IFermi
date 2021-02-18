@@ -1,5 +1,5 @@
 ``ifermi`` program
-====================
+==================
 
 IFermi can be used on the command-line through the ``ifermi``
 command. All of the options provided in the command-line are also accessible using the
@@ -197,7 +197,7 @@ For example, a slice through the (0 0 1) plane can be generated using:
 Command-line interface
 ----------------------
 
-.. argparse::
-   :module: ifermi.cli
-   :func: _get_fs_parser
-   :prog: ifermi
+.. click:: ifermi.cli:plot
+  :prog: ifermi plot
+  :nested: full
+

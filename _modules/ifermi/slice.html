@@ -1,0 +1,678 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifermi.slice &mdash; IFermi 0.1.4 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+
+  
+  
+  
+  
+    <link rel="canonical" href="https://github.com/ajsearle97/IFermi_modules/ifermi/slice.html"/>
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> IFermi
+          
+
+          
+            
+            <img src="../../_static/logo-docs-01.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Usage Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command-line interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../plotting_using_python.html">Plotting using Python</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Information</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing to IFermi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/ajsearle97/IFermi">See IFermi on GitHub</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Function Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ifermi.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Index</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">IFermi</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content style-external-links">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifermi.slice</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifermi.slice</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Tools to generate Isolines and Fermi slices.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Collection</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">monty.json</span> <span class="kn">import</span> <span class="n">MSONable</span>
+<span class="kn">from</span> <span class="nn">pymatgen.core.structure</span> <span class="kn">import</span> <span class="n">Structure</span>
+<span class="kn">from</span> <span class="nn">pymatgen.electronic_structure.core</span> <span class="kn">import</span> <span class="n">Spin</span>
+
+<span class="kn">from</span> <span class="nn">ifermi.analysis</span> <span class="kn">import</span> <span class="n">equivalent_vertices</span><span class="p">,</span> <span class="n">longest_simple_paths</span>
+<span class="kn">from</span> <span class="nn">ifermi.brillouin_zone</span> <span class="kn">import</span> <span class="n">ReciprocalSlice</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Isoline&quot;</span><span class="p">,</span> <span class="s2">&quot;FermiSlice&quot;</span><span class="p">,</span> <span class="s2">&quot;process_lines&quot;</span><span class="p">,</span> <span class="s2">&quot;interpolate_segments&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="Isoline"><a class="viewcode-back" href="../../ifermi.html#ifermi.slice.Isoline">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Isoline</span><span class="p">(</span><span class="n">MSONable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An isoline object contains line segments mesh and line properties.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        segments: A (n, 2, 2) float array of the line segments..</span>
+<span class="sd">        band_idx: The band index to which the slice belongs.</span>
+<span class="sd">        properties: An optional (n, ...) float array containing segment properties as</span>
+<span class="sd">            scalars or vectors.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">segments</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">band_idx</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">properties</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">has_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether the isoline has properties.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Isoline.scalar_projection"><a class="viewcode-back" href="../../ifermi.html#ifermi.slice.Isoline.scalar_projection">[docs]</a>    <span class="k">def</span> <span class="nf">scalar_projection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get scalar projection of properties onto axis.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            axis: A (3, ) int array of the axis to project onto.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_properties</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Isoline does not have segment properties.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Isoline does not have vector properties.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">properties_norms</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;(m, ) norm of isoline properties.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_properties</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Isoline does not have segment properties.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Isoline does not have vector properties.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">properties_ndim</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Dimensionality of face properties.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_properties</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Isoline does not have segment properties.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">ndim</span>
+
+<div class="viewcode-block" id="Isoline.sample_uniform"><a class="viewcode-back" href="../../ifermi.html#ifermi.slice.Isoline.sample_uniform">[docs]</a>    <span class="k">def</span> <span class="nf">sample_uniform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sample line segments uniformly.</span>
+
+<span class="sd">        See the docstring for ``ifermi.analysis.sample_line_uniform`` for more details.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            spacing: The spacing in Å^-1.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A (n, ) int array containing the indices of uniformly spaced segments.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">ifermi.analysis</span> <span class="kn">import</span> <span class="n">sample_line_uniform</span>
+
+        <span class="k">return</span> <span class="n">sample_line_uniform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">segments</span><span class="p">,</span> <span class="n">spacing</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="FermiSlice"><a class="viewcode-back" href="../../ifermi.html#ifermi.slice.FermiSlice">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">FermiSlice</span><span class="p">(</span><span class="n">MSONable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A FermiSlice object is a 2D slice through a Fermi surface.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        isolines: A dict containing a list of isolines for each spin channel.</span>
+<span class="sd">        reciprocal_space: A reciprocal slice defining the intersection of the slice</span>
+<span class="sd">            with the Brillouin zone edges.</span>
+<span class="sd">        structure: The structure.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">isolines</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Isoline</span><span class="p">]]</span>
+    <span class="n">reciprocal_slice</span><span class="p">:</span> <span class="n">ReciprocalSlice</span>
+    <span class="n">structure</span><span class="p">:</span> <span class="n">Structure</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">n_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Number of isolines in the Fermi slice.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_surfaces_per_spin</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">n_lines_per_band</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get number of lines for each band index for each spin channel.</span>
+
+<span class="sd">        Returned as a dict of ``{spin: {band_idx: count}}``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+        <span class="n">n_surfaces</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">spin</span><span class="p">,</span> <span class="n">isosurfaces</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">isolines</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">n_surfaces</span><span class="p">[</span><span class="n">spin</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">Counter</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">band_idx</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">isosurfaces</span><span class="p">]))</span>
+
+        <span class="k">return</span> <span class="n">n_surfaces</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">n_lines_per_spin</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get number of lines per spin channel.</span>
+
+<span class="sd">        Returned as a dict of ``{spin: count}``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">spin</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">surfaces</span><span class="p">)</span> <span class="k">for</span> <span class="n">spin</span><span class="p">,</span> <span class="n">surfaces</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">isolines</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">has_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Whether all isolines have segment properties.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">all</span><span class="p">([</span><span class="nb">all</span><span class="p">([</span><span class="n">i</span><span class="o">.</span><span class="n">has_properties</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">s</span><span class="p">])</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">isolines</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">spins</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Spin</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;The spin channels in the Fermi slice.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isolines</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">properties_ndim</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Dimensionality of isoline properties.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_properties</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Isolines don&#39;t have properties.&quot;</span><span class="p">)</span>
+
+        <span class="n">ndims</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">properties_ndim</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">isolines</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">v</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ndims</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;Ioslines have different property dimensions, using the largest.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">ndims</span><span class="p">)</span>
+
+<div class="viewcode-block" id="FermiSlice.all_lines"><a class="viewcode-back" href="../../ifermi.html#ifermi.slice.FermiSlice.all_lines">[docs]</a>    <span class="k">def</span> <span class="nf">all_lines</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">spins</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Spin</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the segments for all isolines.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            spins: One or more spin channels to select. Default is all spins available.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of segments arrays.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">spins</span><span class="p">:</span>
+            <span class="n">spins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spins</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spins</span><span class="p">,</span> <span class="n">Spin</span><span class="p">):</span>
+            <span class="n">spins</span> <span class="o">=</span> <span class="p">[</span><span class="n">spins</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">segments</span> <span class="k">for</span> <span class="n">spin</span> <span class="ow">in</span> <span class="n">spins</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">isolines</span><span class="p">[</span><span class="n">spin</span><span class="p">]]</span></div>
+
+<div class="viewcode-block" id="FermiSlice.all_properties"><a class="viewcode-back" href="../../ifermi.html#ifermi.slice.FermiSlice.all_properties">[docs]</a>    <span class="k">def</span> <span class="nf">all_properties</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">spins</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Spin</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">projection_axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">norm</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the properties for all isolines.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            spins: One or more spin channels to select. Default is all spins available.</span>
+<span class="sd">            projection_axis: A (3, ) in array of the axis to project the properties onto</span>
+<span class="sd">                (vector properties only).</span>
+<span class="sd">            norm: Calculate the norm of the properties (vector properties only).</span>
+<span class="sd">                Ignored if ``projection_axis`` is set.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of properties arrays for each isosurface.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">spins</span><span class="p">:</span>
+            <span class="n">spins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spins</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spins</span><span class="p">,</span> <span class="n">Spin</span><span class="p">):</span>
+            <span class="n">spins</span> <span class="o">=</span> <span class="p">[</span><span class="n">spins</span><span class="p">]</span>
+
+        <span class="n">projections</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">spin</span> <span class="ow">in</span> <span class="n">spins</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">isosurface</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">isolines</span><span class="p">[</span><span class="n">spin</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">projection_axis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">projections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">isosurface</span><span class="o">.</span><span class="n">scalar_projection</span><span class="p">(</span><span class="n">projection_axis</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="n">norm</span><span class="p">:</span>
+                    <span class="n">projections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">isosurface</span><span class="o">.</span><span class="n">properties_norms</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">projections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">isosurface</span><span class="o">.</span><span class="n">properties</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">projections</span></div>
+
+<div class="viewcode-block" id="FermiSlice.from_fermi_surface"><a class="viewcode-back" href="../../ifermi.html#ifermi.slice.FermiSlice.from_fermi_surface">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_fermi_surface</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">fermi_surface</span><span class="p">:</span> <span class="s2">&quot;FermiSurface&quot;</span><span class="p">,</span>
+        <span class="n">plane_normal</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+        <span class="n">distance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;FermiSlice&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get a slice through the Fermi surface.</span>
+
+<span class="sd">        The slice is defined by the intersection of a plane with the Fermi surface.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fermi_surface: A Fermi surface object.</span>
+<span class="sd">            plane_normal: (3, ) int array of the plane normal in fractional indices.</span>
+<span class="sd">            distance: The distance from the center of the Brillouin zone (Γ-point).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The Fermi slice.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+        <span class="kn">from</span> <span class="nn">trimesh</span> <span class="kn">import</span> <span class="n">Trimesh</span>
+        <span class="kn">from</span> <span class="nn">trimesh.intersections</span> <span class="kn">import</span> <span class="n">mesh_multiplane</span>
+
+        <span class="n">cart_normal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+            <span class="n">plane_normal</span><span class="p">,</span> <span class="n">fermi_surface</span><span class="o">.</span><span class="n">reciprocal_space</span><span class="o">.</span><span class="n">reciprocal_lattice</span>
+        <span class="p">)</span>
+        <span class="n">cart_origin</span> <span class="o">=</span> <span class="n">cart_normal</span> <span class="o">*</span> <span class="n">distance</span>
+
+        <span class="n">isolines</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">spin</span> <span class="ow">in</span> <span class="n">fermi_surface</span><span class="o">.</span><span class="n">spins</span><span class="p">:</span>
+
+            <span class="k">for</span> <span class="n">isosurface</span> <span class="ow">in</span> <span class="n">fermi_surface</span><span class="o">.</span><span class="n">isosurfaces</span><span class="p">[</span><span class="n">spin</span><span class="p">]:</span>
+                <span class="n">mesh</span> <span class="o">=</span> <span class="n">Trimesh</span><span class="p">(</span><span class="n">vertices</span><span class="o">=</span><span class="n">isosurface</span><span class="o">.</span><span class="n">vertices</span><span class="p">,</span> <span class="n">faces</span><span class="o">=</span><span class="n">isosurface</span><span class="o">.</span><span class="n">faces</span><span class="p">)</span>
+                <span class="n">lines</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">face_idxs</span> <span class="o">=</span> <span class="n">mesh_multiplane</span><span class="p">(</span>
+                    <span class="n">mesh</span><span class="p">,</span> <span class="n">cart_origin</span><span class="p">,</span> <span class="n">cart_normal</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="p">)</span>
+
+                <span class="c1"># only provided one mesh, so get the segments and faces for that</span>
+                <span class="n">segments</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">face_idxs</span> <span class="o">=</span> <span class="n">face_idxs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">segments</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="c1"># plane did not intersect surface</span>
+                    <span class="k">continue</span>
+
+                <span class="n">paths</span> <span class="o">=</span> <span class="n">process_lines</span><span class="p">(</span><span class="n">segments</span><span class="p">,</span> <span class="n">face_idxs</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">path_segments</span><span class="p">,</span> <span class="n">path_faces</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">:</span>
+                    <span class="n">path_properties</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="k">if</span> <span class="n">isosurface</span><span class="o">.</span><span class="n">has_properties</span><span class="p">:</span>
+                        <span class="n">path_properties</span> <span class="o">=</span> <span class="n">isosurface</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="n">path_faces</span><span class="p">]</span>
+                        <span class="n">path_segments</span><span class="p">,</span> <span class="n">path_properties</span> <span class="o">=</span> <span class="n">interpolate_segments</span><span class="p">(</span>
+                            <span class="n">path_segments</span><span class="p">,</span> <span class="n">path_properties</span><span class="p">,</span> <span class="mf">0.001</span>
+                        <span class="p">)</span>
+                    <span class="n">isoline</span> <span class="o">=</span> <span class="n">Isoline</span><span class="p">(</span>
+                        <span class="n">segments</span><span class="o">=</span><span class="n">path_segments</span><span class="p">,</span>
+                        <span class="n">band_idx</span><span class="o">=</span><span class="n">isosurface</span><span class="o">.</span><span class="n">band_idx</span><span class="p">,</span>
+                        <span class="n">properties</span><span class="o">=</span><span class="n">path_properties</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="n">isolines</span><span class="p">[</span><span class="n">spin</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">isoline</span><span class="p">)</span>
+
+        <span class="n">reciprocal_slice</span> <span class="o">=</span> <span class="n">fermi_surface</span><span class="o">.</span><span class="n">reciprocal_space</span><span class="o">.</span><span class="n">get_reciprocal_slice</span><span class="p">(</span>
+            <span class="n">plane_normal</span><span class="p">,</span> <span class="n">distance</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">FermiSlice</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">isolines</span><span class="p">),</span> <span class="n">reciprocal_slice</span><span class="p">,</span> <span class="n">fermi_surface</span><span class="o">.</span><span class="n">structure</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FermiSlice.from_dict"><a class="viewcode-back" href="../../ifermi.html#ifermi.slice.FermiSlice.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;FermiSlice&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return FermiSlice object from a dict.&quot;&quot;&quot;</span>
+        <span class="n">fs</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="n">fs</span><span class="o">.</span><span class="n">isolines</span> <span class="o">=</span> <span class="p">{</span><span class="n">Spin</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="p">)):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">fs</span><span class="o">.</span><span class="n">isolines</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">return</span> <span class="n">fs</span></div>
+
+<div class="viewcode-block" id="FermiSlice.as_dict"><a class="viewcode-back" href="../../ifermi.html#ifermi.slice.FermiSlice.as_dict">[docs]</a>    <span class="k">def</span> <span class="nf">as_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get a json-serializable dict representation of a FermiSlice.&quot;&quot;&quot;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()</span>
+        <span class="n">d</span><span class="p">[</span><span class="s2">&quot;isolines&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">spin</span><span class="p">):</span> <span class="n">iso</span> <span class="k">for</span> <span class="n">spin</span><span class="p">,</span> <span class="n">iso</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">isolines</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">return</span> <span class="n">d</span></div></div>
+
+
+<div class="viewcode-block" id="process_lines"><a class="viewcode-back" href="../../ifermi.html#ifermi.slice.process_lines">[docs]</a><span class="k">def</span> <span class="nf">process_lines</span><span class="p">(</span>
+    <span class="n">segments</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">face_idxs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Process segments and face_idxs from mesh_multiplane.</span>
+
+<span class="sd">    The key issue is that the segments from mesh_multiplane do not correspond to</span>
+<span class="sd">    individual lines, nor are they sorted in a continuous order. Instead they are just</span>
+<span class="sd">    a list of randomly ordered segments. This causes trouble later on when trying</span>
+<span class="sd">    to interpolate the lines or add equally spaced arrows.</span>
+
+<span class="sd">    The goal of this function is to identify the separate paths in the segments (a path</span>
+<span class="sd">    is a collection of segments that are connected together), and return these</span>
+<span class="sd">    segments in the order that they are connected. By looping through each segment, you</span>
+<span class="sd">    will be proceeding along the line in a certain direction.</span>
+
+<span class="sd">    Because the original segments may contain multiple paths, a list of segments</span>
+<span class="sd">    and their corresponding face indices are returned.</span>
+
+<span class="sd">    Lastly, note that there is no guarantee that all of the original segments will be</span>
+<span class="sd">    used in the processed segments. This is because some of the original segments are</span>
+<span class="sd">    very small and will be filtered out.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        segments: A (n, 2, 2) float array of the line segments.</span>
+<span class="sd">        face_idxs: The face indices that each segment belongs to.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A list of (segments, faces) for each path.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># turn segments [shape: (nsegments, 2, 2)], to vertices [shape: (nsegments * 2, 2)]</span>
+    <span class="n">vertices</span> <span class="o">=</span> <span class="n">segments</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># create edges that correspond to the original segments, i.e., [(0, 1), (2, 3), ...]</span>
+    <span class="n">edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">vertices</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">segments</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># merge vertices that are close together and get an equivalence mapping</span>
+    <span class="n">mapping</span> <span class="o">=</span> <span class="n">equivalent_vertices</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+
+    <span class="c1"># get the indices of the unique vertices</span>
+    <span class="n">unique_vertices_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">mapping</span><span class="p">)</span>
+
+    <span class="c1"># use only equivalent vertices for the edges</span>
+    <span class="n">edges</span> <span class="o">=</span> <span class="n">mapping</span><span class="p">[</span><span class="n">edges</span><span class="p">]</span>
+
+    <span class="c1"># some of the edges may now be duplicates, and some even may be edges between</span>
+    <span class="c1"># the same vertex; filter these duplicates/self edges but keep track of the index</span>
+    <span class="c1"># of the unique edges in the original edges array. We keep this information as this</span>
+    <span class="c1"># index is used to identify the face that each segment belongs to</span>
+    <span class="n">unique_edges</span><span class="p">,</span> <span class="n">unique_edge_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">return_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># filter self edges</span>
+    <span class="n">non_self_edges</span> <span class="o">=</span> <span class="n">unique_edges</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">unique_edges</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># these are the unique/non-self edges</span>
+    <span class="n">unique_edges</span> <span class="o">=</span> <span class="n">unique_edges</span><span class="p">[</span><span class="n">non_self_edges</span><span class="p">]</span>
+
+    <span class="c1"># these are the indices of the unique edges in the original edges array</span>
+    <span class="n">unique_edge_idxs</span> <span class="o">=</span> <span class="n">unique_edge_idxs</span><span class="p">[</span><span class="n">non_self_edges</span><span class="p">]</span>
+
+    <span class="c1"># create a mapping from the edge data to the original edge index</span>
+    <span class="n">edge_mapping</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)):</span> <span class="n">idx</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">),</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">unique_edges</span><span class="p">,</span> <span class="n">unique_edge_idxs</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="c1"># get the longest paths for each subgraph</span>
+    <span class="n">paths</span> <span class="o">=</span> <span class="n">longest_simple_paths</span><span class="p">(</span><span class="n">unique_vertices_idx</span><span class="p">,</span> <span class="n">unique_edges</span><span class="p">)</span>
+
+    <span class="c1"># get the new segments and corresponding face indices for each path</span>
+    <span class="n">path_data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">:</span>
+        <span class="n">pair_path</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">_pairwise</span><span class="p">(</span><span class="n">path</span><span class="p">)))</span>
+        <span class="n">new_segments</span> <span class="o">=</span> <span class="n">vertices</span><span class="p">[</span><span class="n">pair_path</span><span class="p">]</span>
+
+        <span class="n">edge_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">edge_mapping</span><span class="p">[(</span><span class="nb">min</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">))]</span> <span class="k">for</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">pair_path</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">new_faces</span> <span class="o">=</span> <span class="n">face_idxs</span><span class="p">[</span><span class="n">edge_idxs</span><span class="p">]</span>
+
+        <span class="n">path_data</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">new_segments</span><span class="p">,</span> <span class="n">new_faces</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">path_data</span></div>
+
+
+<div class="viewcode-block" id="interpolate_segments"><a class="viewcode-back" href="../../ifermi.html#ifermi.slice.interpolate_segments">[docs]</a><span class="k">def</span> <span class="nf">interpolate_segments</span><span class="p">(</span>
+    <span class="n">segments</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">max_spacing</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Resample a series of line segments to a consistent density.</span>
+
+<span class="sd">    Note: the segments must be ordered so that they are adjacent.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        segments: A (n, 2, 2) float array of the line segments.</span>
+<span class="sd">        properties: A (n, ...) float array of the segment properties.</span>
+<span class="sd">        max_spacing: The desired spacing after interpolation. Note, the spacing</span>
+<span class="sd">            may be slightly smaller than this value.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (segments, properties): The interpolated segments and properties.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">interp1d</span>
+
+    <span class="n">is_cycle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">segments</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">segments</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">segments</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">segments</span><span class="p">,</span> <span class="n">properties</span>
+
+    <span class="n">vert</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">segments</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">segments</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">][</span><span class="kc">None</span><span class="p">]])</span>
+    <span class="n">lengths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vert</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">vert</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">lengths</span><span class="p">)</span>
+
+    <span class="n">vert_dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">lengths</span><span class="p">)])</span>
+    <span class="n">proj_dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="n">vert_dist</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">vert_dist</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="n">length</span><span class="p">]])</span>
+
+    <span class="k">if</span> <span class="n">is_cycle</span><span class="p">:</span>
+        <span class="n">proj_start</span> <span class="o">=</span> <span class="p">[(</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">properties</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">properties</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">proj_start</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="n">proj_start</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">properties</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">properties</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">properties</span><span class="p">,</span> <span class="n">properties</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+
+    <span class="n">vert_interpolator</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span>
+        <span class="n">vert_dist</span><span class="p">,</span>
+        <span class="n">vert</span><span class="p">,</span>
+        <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;cubic&quot;</span><span class="p">,</span>
+        <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">fill_value</span><span class="o">=</span><span class="s2">&quot;extrapolate&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">proj_interpolator</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span>
+        <span class="n">proj_dist</span><span class="p">,</span>
+        <span class="n">properties</span><span class="p">,</span>
+        <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span>
+        <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">fill_value</span><span class="o">=</span><span class="s2">&quot;extrapolate&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">vert_xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">length</span> <span class="o">/</span> <span class="n">max_spacing</span><span class="p">)))</span>
+    <span class="n">proj_xs</span> <span class="o">=</span> <span class="p">(</span><span class="n">vert_xs</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">vert_xs</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="n">new_vert</span> <span class="o">=</span> <span class="n">vert_interpolator</span><span class="p">(</span><span class="n">vert_xs</span><span class="p">)</span>
+    <span class="n">new_proj</span> <span class="o">=</span> <span class="n">proj_interpolator</span><span class="p">(</span><span class="n">proj_xs</span><span class="p">)</span>
+
+    <span class="n">new_segments</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">_pairwise</span><span class="p">(</span><span class="n">new_vert</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">new_segments</span><span class="p">,</span> <span class="n">new_proj</span></div>
+
+
+<span class="k">def</span> <span class="nf">_pairwise</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert an iterable, s, to (s0,s1), (s1,s2), (s2, s3), ...&quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">tee</span>
+
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">tee</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+    <span class="nb">next</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2021, Amy Searle and Alex Ganose
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

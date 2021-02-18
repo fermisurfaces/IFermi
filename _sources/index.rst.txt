@@ -15,14 +15,15 @@
    contributors
    contributing
    license
-   See project on GitHub <https://github.com/ajsearle97/IFermi>
+   See IFermi on GitHub <https://github.com/ajsearle97/IFermi>
 
 
 .. toctree::
    :caption: Function Reference
+   :maxdepth: -1
    :hidden:
 
-   API reference <modules>
+   API reference <ifermi>
    genindex
 
 .. include:: introduction.rst

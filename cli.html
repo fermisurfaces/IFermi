@@ -111,7 +111,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#command-line-interface">Command-line interface</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Named Arguments">Named Arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ifermi-plot">ifermi plot</a></li>
 </ul>
 </li>
 </ul>
@@ -124,11 +124,11 @@
 <li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to IFermi</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/ajsearle97/IFermi">See project on GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/ajsearle97/IFermi">See IFermi on GitHub</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Function Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ifermi.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
 </ul>
 
@@ -379,73 +379,275 @@ However, slices are always plotted using matplotlib as the backend.</p>
 </div>
 <div class="section" id="command-line-interface">
 <h2>Command-line interface<a class="headerlink" href="#command-line-interface" title="Permalink to this headline">¶</a></h2>
-<p><blockquote>
-<div><p>ifermi is a package for plotting Fermi-surfaces</p>
-</div></blockquote>
-</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">ifermi</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">F</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">O</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">m</span> <span class="n">MU</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="n">N</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">r</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">spin</span> <span class="n">SPIN</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">a</span> <span class="n">A</span><span class="p">]</span>
-              <span class="p">[</span><span class="o">-</span><span class="n">e</span> <span class="n">E</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">smooth</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="n">PLOT_TYPE</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="nb">slice</span> <span class="n">N</span> <span class="n">N</span> <span class="n">N</span> <span class="n">N</span><span class="p">]</span>
-              <span class="p">[</span><span class="o">--</span><span class="n">decimate</span><span class="o">-</span><span class="n">factor</span> <span class="n">N</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">scale</span> <span class="n">SCALE</span><span class="p">]</span>
+<div class="section" id="ifermi-plot">
+<h3>ifermi plot<a class="headerlink" href="#ifermi-plot" title="Permalink to this headline">¶</a></h3>
+<p>Plot a Fermi surface from a vasprun.xml file.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ifermi plot <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
-<div class="section" id="Named Arguments">
-<h3>Named Arguments<a class="headerlink" href="#Named Arguments" title="Permalink to this headline">¶</a></h3>
-<dl class="option-list">
-<dt><kbd>-f, --filename</kbd></dt>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-f">
+<code class="sig-name descname">-f</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--filename</code><code class="sig-prename descclassname"> &lt;filename&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-f" title="Permalink to this definition">¶</a></dt>
 <dd><p>vasprun.xml file to plot</p>
-</dd>
-<dt><kbd>-o, --output</kbd></dt>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-o">
+<code class="sig-name descname">-o</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--output</code><code class="sig-prename descclassname"> &lt;output_filename&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-o" title="Permalink to this definition">¶</a></dt>
 <dd><p>output filename</p>
-</dd>
-<dt><kbd>-m, --mu</kbd></dt>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-m">
+<code class="sig-name descname">-m</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--mu</code><code class="sig-prename descclassname"> &lt;mu&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-m" title="Permalink to this definition">¶</a></dt>
 <dd><p>offset from the Fermi level at which to calculate Fermi surface</p>
-<p>Default: 0.0</p>
-</dd>
-<dt><kbd>-i, --interpolation-factor</kbd></dt>
-<dd><p>interpolation factor for band structure (default: 8)</p>
-<p>Default: 8</p>
-</dd>
-<dt><kbd>-r, --reciprocal-cell</kbd></dt>
-<dd><p>use the reciprocal lattice rather than Wigner-Seitz cell</p>
-<p>Default: True</p>
-</dd>
-<dt><kbd>--spin</kbd></dt>
-<dd><p>select spin channel (options: up, 1; down, -1)</p>
-</dd>
-<dt><kbd>-a, --azimuth</kbd></dt>
-<dd><p>viewpoint azmith angle in degrees (default: 45)</p>
-<p>Default: 45.0</p>
-</dd>
-<dt><kbd>-e, --elevation</kbd></dt>
-<dd><p>viewpoint elevation (zenith) angle in degrees (default: 35)</p>
-<p>Default: 35.0</p>
-</dd>
-<dt><kbd>--smooth</kbd></dt>
-<dd><p>smooth the Fermi surface</p>
-<p>Default: False</p>
-</dd>
-<dt><kbd>-t, --type</kbd></dt>
-<dd><p>plotting type (options: matplotlib, plotly, mayavi)</p>
-<p>Default: “plotly”</p>
-</dd>
-<dt><kbd>--slice</kbd></dt>
-<dd><p>slice through the Brillouin zone (format: j k l distance)</p>
-</dd>
-<dt><kbd>--decimate-factor</kbd></dt>
-<dd><p>factor by which to decimate Fermi surfaces (i.e., 0.8 gives 20 % fewer faces)</p>
-</dd>
-<dt><kbd>--scale</kbd></dt>
-<dd><p>scale for image resolution (default: 4)</p>
-<p>Default: 4</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>0.0</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-i">
+<code class="sig-name descname">-i</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--interpolation-factor</code><code class="sig-prename descclassname"> &lt;interpolation_factor&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-i" title="Permalink to this definition">¶</a></dt>
+<dd><p>interpolation factor for band structure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>8.0</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-wigner">
+<code class="sig-name descname">--wigner</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--no-wigner</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-ifermi-plot-wigner" title="Permalink to this definition">¶</a></dt>
+<dd><p>use Wigner-Seitz cell rather than reciprocal lattice parallelepiped</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-s">
+<code class="sig-name descname">-s</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--symprec</code><code class="sig-prename descclassname"> &lt;symprec&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-s" title="Permalink to this definition">¶</a></dt>
+<dd><p>symmetry precision in Å</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>0.001</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-a">
+<code class="sig-name descname">-a</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--azimuth</code><code class="sig-prename descclassname"> &lt;azimuth&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-a" title="Permalink to this definition">¶</a></dt>
+<dd><p>viewpoint azimuth angle in °</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>45.0</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-e">
+<code class="sig-name descname">-e</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--elevation</code><code class="sig-prename descclassname"> &lt;elevation&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-e" title="Permalink to this definition">¶</a></dt>
+<dd><p>viewpoint elevation angle in °</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>35.0</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-t">
+<code class="sig-name descname">-t</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--type</code><code class="sig-prename descclassname"> &lt;plot_type&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-t" title="Permalink to this definition">¶</a></dt>
+<dd><p>plotting type</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>plotly</p>
+</dd>
+<dt class="field-even">Options</dt>
+<dd class="field-even"><p>matplotlib|plotly|mayavi</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-property">
+<code class="sig-name descname">--property</code><code class="sig-prename descclassname"> &lt;property&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-property" title="Permalink to this definition">¶</a></dt>
+<dd><p>property type</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options</dt>
+<dd class="field-odd"><p>velocity|spin</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-color-property">
+<code class="sig-name descname">--color-property</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--no-color-property</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-ifermi-plot-color-property" title="Permalink to this definition">¶</a></dt>
+<dd><p>color Fermi surface properties</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-property-colormap">
+<code class="sig-name descname">--property-colormap</code><code class="sig-prename descclassname"> &lt;property_colormap&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-property-colormap" title="Permalink to this definition">¶</a></dt>
+<dd><p>matplotlib colormap name for properties</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-vector-property">
+<code class="sig-name descname">--vector-property</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--no-vector-property</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-ifermi-plot-vector-property" title="Permalink to this definition">¶</a></dt>
+<dd><p>show vector properties as arrows</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-vector-colormap">
+<code class="sig-name descname">--vector-colormap</code><code class="sig-prename descclassname"> &lt;vector_colormap&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-vector-colormap" title="Permalink to this definition">¶</a></dt>
+<dd><p>matplotlib colormap name for vectors</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-projection-axis">
+<code class="sig-name descname">--projection-axis</code><code class="sig-prename descclassname"> &lt;projection_axis&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-projection-axis" title="Permalink to this definition">¶</a></dt>
+<dd><p>color property by projecting onto cartesian axis (e.g. 0 0 1)</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-vector-spacing">
+<code class="sig-name descname">--vector-spacing</code><code class="sig-prename descclassname"> &lt;vector_spacing&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-vector-spacing" title="Permalink to this definition">¶</a></dt>
+<dd><p>spacing between property arrows</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>0.2</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-cmin">
+<code class="sig-name descname">--cmin</code><code class="sig-prename descclassname"> &lt;cmin&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-cmin" title="Permalink to this definition">¶</a></dt>
+<dd><p>minimum intensity on property colorbar</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-cmax">
+<code class="sig-name descname">--cmax</code><code class="sig-prename descclassname"> &lt;cmax&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-cmax" title="Permalink to this definition">¶</a></dt>
+<dd><p>maximum intensity on property colorbar</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-vnorm">
+<code class="sig-name descname">--vnorm</code><code class="sig-prename descclassname"> &lt;vnorm&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-vnorm" title="Permalink to this definition">¶</a></dt>
+<dd><p>value by which to normalise vector lengths</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-scale-linewidth">
+<code class="sig-name descname">--scale-linewidth</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-ifermi-plot-scale-linewidth" title="Permalink to this definition">¶</a></dt>
+<dd><p>scale Fermi slice thickness by property</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-hide-surface">
+<code class="sig-name descname">--hide-surface</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-ifermi-plot-hide-surface" title="Permalink to this definition">¶</a></dt>
+<dd><p>hide the Fermi surface</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-hide-labels">
+<code class="sig-name descname">--hide-labels</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-ifermi-plot-hide-labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>hide the high-symmetry k-point labels</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-hide-cell">
+<code class="sig-name descname">--hide-cell</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-ifermi-plot-hide-cell" title="Permalink to this definition">¶</a></dt>
+<dd><p>hide reciprocal cell boundary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-spin">
+<code class="sig-name descname">--spin</code><code class="sig-prename descclassname"> &lt;spin&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-spin" title="Permalink to this definition">¶</a></dt>
+<dd><p>select spin channel</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options</dt>
+<dd class="field-odd"><p>up|down</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-smooth">
+<code class="sig-name descname">--smooth</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-ifermi-plot-smooth" title="Permalink to this definition">¶</a></dt>
+<dd><p>smooth the Fermi surface</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-slice">
+<code class="sig-name descname">--slice</code><code class="sig-prename descclassname"> &lt;slice&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-slice" title="Permalink to this definition">¶</a></dt>
+<dd><p>slice through the Brillouin zone (format: j k l dist)</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-decimate-factor">
+<code class="sig-name descname">--decimate-factor</code><code class="sig-prename descclassname"> &lt;decimate_factor&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-decimate-factor" title="Permalink to this definition">¶</a></dt>
+<dd><p>factor by which to decimate surfaces (i.e. 0.8 gives 20 % fewer faces)</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-scale">
+<code class="sig-name descname">--scale</code><code class="sig-prename descclassname"> &lt;scale&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>scale for image resolution</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>4</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<p><blockquote>
-<div><p>Author: Amy Searle
-Version: 0.1.0
-Last updated: Sept 18, 2019</p>
-</div></blockquote>
-</p>
 </div>
 </div>
 

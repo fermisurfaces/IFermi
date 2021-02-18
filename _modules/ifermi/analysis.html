@@ -1,0 +1,729 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ifermi.analysis &mdash; IFermi 0.1.4 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+
+  
+  
+  
+  
+    <link rel="canonical" href="https://github.com/ajsearle97/IFermi_modules/ifermi/analysis.html"/>
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> IFermi
+          
+
+          
+            
+            <img src="../../_static/logo-docs-01.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Usage Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command-line interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../plotting_using_python.html">Plotting using Python</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Information</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing to IFermi</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/ajsearle97/IFermi">See IFermi on GitHub</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Function Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ifermi.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Index</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">IFermi</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content style-external-links">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>ifermi.analysis</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ifermi.analysis</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Isosurface and isoline analysis functions.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">ifermi.defaults</span> <span class="kn">import</span> <span class="n">KTOL</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;isosurface_area&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;isosurface_dimensionality&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;connected_subsurfaces&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;average_properties&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;line_orientation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;plane_orientation&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;connected_images&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;equivalent_surfaces&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;equivalent_vertices&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sample_line_uniform&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sample_surface_uniform&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;longest_simple_paths&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="isosurface_area"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.isosurface_area">[docs]</a><span class="k">def</span> <span class="nf">isosurface_area</span><span class="p">(</span><span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">faces</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the area of an isosurface.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        vertices: A (n, 3) float array of the vertices in the isosurface.</span>
+<span class="sd">        faces: A (m, 3) int array of the faces of the isosurface.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The area of the isosurface, in Å^-2.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">trimesh</span> <span class="kn">import</span> <span class="n">Trimesh</span>
+
+    <span class="n">mesh</span> <span class="o">=</span> <span class="n">Trimesh</span><span class="p">(</span><span class="n">vertices</span><span class="o">=</span><span class="n">vertices</span><span class="p">,</span> <span class="n">faces</span><span class="o">=</span><span class="n">faces</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mesh</span><span class="o">.</span><span class="n">area</span></div>
+
+
+<div class="viewcode-block" id="average_properties"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.average_properties">[docs]</a><span class="k">def</span> <span class="nf">average_properties</span><span class="p">(</span>
+    <span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">faces</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">norm</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Average property across an isosurface.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        vertices: A (n, 3) float array of the vertices in the isosurface.</span>
+<span class="sd">        faces: A (m, 3) int array of the faces of the isosurface.</span>
+<span class="sd">        properties: A (m, ...) array of the face properties as scalars or vectors.</span>
+<span class="sd">        norm: Whether to average the norm of the properties (vector properties only).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The averaged property.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">trimesh</span> <span class="kn">import</span> <span class="n">Trimesh</span>
+
+    <span class="n">mesh</span> <span class="o">=</span> <span class="n">Trimesh</span><span class="p">(</span><span class="n">vertices</span><span class="o">=</span><span class="n">vertices</span><span class="p">,</span> <span class="n">faces</span><span class="o">=</span><span class="n">faces</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">norm</span> <span class="ow">and</span> <span class="n">properties</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">properties</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">properties</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">face_areas</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">area_faces</span>
+
+    <span class="c1"># face_areas has to have same number of dimensions as property</span>
+    <span class="n">face_areas</span> <span class="o">=</span> <span class="n">face_areas</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">face_areas</span><span class="o">.</span><span class="n">shape</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">properties</span><span class="o">.</span><span class="n">ndim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">properties</span> <span class="o">*</span> <span class="n">face_areas</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">mesh</span><span class="o">.</span><span class="n">area</span></div>
+
+
+<div class="viewcode-block" id="connected_subsurfaces"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.connected_subsurfaces">[docs]</a><span class="k">def</span> <span class="nf">connected_subsurfaces</span><span class="p">(</span>
+    <span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">faces</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find connected sub-surfaces (those that share edges).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        vertices: A (n, 3) float array of the vertices in the isosurface.</span>
+<span class="sd">        faces: A (m, 3) int array of the faces of the isosurface.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A list of of (vertices, faces) for each sub-surface.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">trimesh</span> <span class="kn">import</span> <span class="n">Trimesh</span>
+
+    <span class="n">mesh</span> <span class="o">=</span> <span class="n">Trimesh</span><span class="p">(</span><span class="n">vertices</span><span class="o">=</span><span class="n">vertices</span><span class="p">,</span> <span class="n">faces</span><span class="o">=</span><span class="n">faces</span><span class="p">)</span>
+    <span class="n">connected_meshes</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">only_watertight</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[(</span><span class="n">m</span><span class="o">.</span><span class="n">vertices</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">faces</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">connected_meshes</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="equivalent_surfaces"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.equivalent_surfaces">[docs]</a><span class="k">def</span> <span class="nf">equivalent_surfaces</span><span class="p">(</span><span class="n">surfaces_vertices</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">tol</span><span class="o">=</span><span class="n">KTOL</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Note: This function expects the vertices of each surface to only belong to a single</span>
+<span class="sd">    connected mesh, and the vertices should cover a 3x3x3 supercell, where the</span>
+<span class="sd">    coordinates from -0.5 to 0.5 indicate the center image.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        surfaces_vertices: A (m, ) list of (n, 3) float arrays containing the vertices</span>
+<span class="sd">            for each surface, in fractional coordinates.</span>
+<span class="sd">        tol: A tolerance for evaluating whether two vertices are equivalent.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A (m, ) int array that maps each each surface in the original surface array to</span>
+<span class="sd">        its equivalent.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">ifermi.kpoints</span> <span class="kn">import</span> <span class="n">kpoints_to_first_bz</span>
+
+    <span class="n">round_dp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">tol</span><span class="p">))</span>
+
+    <span class="c1"># loop through all surfaces and find those that are present in the center cell</span>
+    <span class="n">mapping</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">surface_idx</span><span class="p">,</span> <span class="n">vertices</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">surfaces_vertices</span><span class="p">):</span>
+        <span class="c1"># in_center_cell = np.all((vertices &gt;= -0.5) &amp; (vertices &lt; 0.5), axis=1)</span>
+        <span class="n">center_cell</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">vertices</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">vertices</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">center_cell</span><span class="p">):</span>
+            <span class="n">vertices</span> <span class="o">=</span> <span class="n">vertices</span><span class="p">[</span><span class="n">center_cell</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_dp</span><span class="p">)</span>
+            <span class="n">mapping</span><span class="p">[</span><span class="n">surface_idx</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">vertices</span><span class="p">)))</span>
+
+    <span class="n">mapping_order</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># now find which other surfaces map to the those that go through the center cell</span>
+    <span class="k">for</span> <span class="n">surface_idx</span><span class="p">,</span> <span class="n">vertices</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">surfaces_vertices</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">surface_idx</span> <span class="ow">in</span> <span class="n">mapping</span><span class="p">:</span>
+            <span class="n">mapping_order</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">surface_idx</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="n">vertices</span> <span class="o">=</span> <span class="n">kpoints_to_first_bz</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">round_dp</span><span class="p">)</span>
+        <span class="n">vertices_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">vertices</span><span class="p">))</span>
+
+        <span class="n">match</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">mapping_idx</span><span class="p">,</span> <span class="n">mapping_vertices</span> <span class="ow">in</span> <span class="n">mapping</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mapping_vertices</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">vertices_set</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">match</span> <span class="o">=</span> <span class="n">mapping_idx</span>
+                <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Could not map surface&quot;</span><span class="p">)</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="n">surface_idx</span>
+        <span class="n">mapping_order</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">match</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mapping_order</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="isosurface_dimensionality"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.isosurface_dimensionality">[docs]</a><span class="k">def</span> <span class="nf">isosurface_dimensionality</span><span class="p">(</span>
+    <span class="n">fractional_vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">faces</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate isosurface properties a single isosurface (fully connected).</span>
+
+<span class="sd">    The vertices must cover a 3x3x3 supercell and must not have been trimmed to fit</span>
+<span class="sd">    inside the reciprocal lattice.</span>
+
+<span class="sd">    Note: This function expects the vertices to only belong to a single connected</span>
+<span class="sd">    mesh, and the vertices should cover a 3x3x3 supercell, where the coordinates</span>
+<span class="sd">    from -0.5 to 0.5 indicate the center image.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        fractional_vertices: A (n, 3) float array of the vertices in the isosurface</span>
+<span class="sd">            in fractional coordinates.</span>
+<span class="sd">        faces: A (m, 3) int array of the faces of the isosurface.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The dimensionality and (n, 3) int array orientation of the isosurface.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">connected_subsurfaces</span><span class="p">(</span><span class="n">fractional_vertices</span><span class="p">,</span> <span class="n">faces</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;isosurface contains multiple subsurfaces&quot;</span><span class="p">)</span>
+
+    <span class="n">images</span> <span class="o">=</span> <span class="n">connected_images</span><span class="p">(</span><span class="n">fractional_vertices</span><span class="p">)</span>
+
+    <span class="n">rank</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">matrix_rank</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+    <span class="n">orientation</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">orientation</span> <span class="o">=</span> <span class="n">line_orientation</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+        <span class="n">dimensionality</span> <span class="o">=</span> <span class="s2">&quot;2D&quot;</span>
+    <span class="k">elif</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">orientation</span> <span class="o">=</span> <span class="n">plane_orientation</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+        <span class="n">dimensionality</span> <span class="o">=</span> <span class="s2">&quot;1D&quot;</span>
+    <span class="k">elif</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">dimensionality</span> <span class="o">=</span> <span class="s2">&quot;3D&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dimensionality</span> <span class="o">=</span> <span class="s2">&quot;quasi-3D&quot;</span>
+
+    <span class="k">return</span> <span class="n">dimensionality</span><span class="p">,</span> <span class="n">orientation</span></div>
+
+
+<div class="viewcode-block" id="connected_images"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.connected_images">[docs]</a><span class="k">def</span> <span class="nf">connected_images</span><span class="p">(</span>
+    <span class="n">fractional_vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">KTOL</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the images a set of vertices is connected to.</span>
+
+<span class="sd">    Note: This function expects the vertices to only belong to a single connected</span>
+<span class="sd">    mesh, and the vertices should cover a 3x3x3 supercell, where the coordinates</span>
+<span class="sd">    from -0.5 to 0.5 indicate the center image.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        fractional_vertices: A (n, 3) float array of the vertices in the isosurface</span>
+<span class="sd">            in fractional coordinates.</span>
+<span class="sd">        tol: A tolerance for evaluating whether two vertices are equivalent.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A (n, 3) int array of the images across which the mesh is connected</span>
+<span class="sd">        periodically.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+    <span class="kn">from</span> <span class="nn">ifermi.kpoints</span> <span class="kn">import</span> <span class="n">kpoints_to_first_bz</span>
+
+    <span class="c1"># shift vertices so that the vertices in the center image fall between 0-1</span>
+    <span class="n">vertices_first_bz</span> <span class="o">=</span> <span class="n">kpoints_to_first_bz</span><span class="p">(</span><span class="n">fractional_vertices</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span>
+    <span class="n">vertices</span> <span class="o">=</span> <span class="n">fractional_vertices</span> <span class="o">+</span> <span class="mf">0.5</span>
+
+    <span class="c1"># we will be filtering the vertices based on whether they fall into a particular</span>
+    <span class="c1"># periodic image. To avoid having to recalculate whether certain coordinates</span>
+    <span class="c1"># fall within certain images we will cache the filters</span>
+    <span class="n">coordinate_filters</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">filter_coordinates</span><span class="p">(</span><span class="n">axis</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Filter vertices on whether the coordinate fall within an image.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">axis</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">coordinate_filters</span> <span class="ow">or</span> <span class="n">image</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">coordinate_filters</span><span class="p">[</span><span class="n">axis</span><span class="p">]:</span>
+            <span class="n">coordinate_filters</span><span class="p">[</span><span class="n">axis</span><span class="p">][</span><span class="n">image</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">vertices</span><span class="p">[:,</span> <span class="n">axis</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">image</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span>
+                <span class="n">vertices</span><span class="p">[:,</span> <span class="n">axis</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">image</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">coordinate_filters</span><span class="p">[</span><span class="n">axis</span><span class="p">][</span><span class="n">image</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">mesh_in_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">vertex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_vertices</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if any vertices are in a periodic image.</span>
+
+<span class="sd">        If a vertex is provided, the vertices that fall within the periodic image</span>
+<span class="sd">        will be mapped back to the center image and used to determine if the provided</span>
+<span class="sd">        vertex is among them. If it isn&#39;t, this indicates that the connection is</span>
+<span class="sd">        to a different mesh than the one in the center image.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">filter_coordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">image</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="o">&amp;</span> <span class="n">filter_coordinates</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">image</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="o">&amp;</span> <span class="n">filter_coordinates</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">image</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">vertex</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">return_vertices</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">vertex</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">mask</span><span class="p">),</span> <span class="n">vertices</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+
+        <span class="n">vertices_in_image</span> <span class="o">=</span> <span class="n">vertices_first_bz</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="n">is_in_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vertices_in_image</span> <span class="o">-</span> <span class="n">vertex</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">return_vertices</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">is_in_image</span><span class="p">,</span> <span class="n">vertices_in_image</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">is_in_image</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">mesh_in_image</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
+        <span class="c1"># if none of the vertices are in the center cell then skip this mesh</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="c1"># choose a vertex of the mesh that is in the center cell and that will be used</span>
+    <span class="c1"># to identify this particular mesh</span>
+    <span class="n">mesh_vertex</span> <span class="o">=</span> <span class="n">mesh_in_image</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">return_vertices</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">found_connections</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">ndindex</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)):</span>
+        <span class="n">to_image</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">mesh_in_image</span><span class="p">(</span><span class="n">to_image</span><span class="p">,</span> <span class="n">vertex</span><span class="o">=</span><span class="n">mesh_vertex</span><span class="p">):</span>
+            <span class="n">found_connections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">to_image</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">found_connections</span></div>
+
+
+<div class="viewcode-block" id="line_orientation"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.line_orientation">[docs]</a><span class="k">def</span> <span class="nf">line_orientation</span><span class="p">(</span><span class="n">images</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the orientation (direction vector) from a list of rank 1 connected images.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        images: (n, 3) int array of the images.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The orientation vector as a (3, ) int array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">pymatgen.core.lattice</span> <span class="kn">import</span> <span class="n">get_integer_index</span>
+
+    <span class="n">vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">vertices</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">vertices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">vh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">vertices</span> <span class="o">-</span> <span class="n">g</span><span class="p">)</span>  <span class="c1"># run singular value decomposition</span>
+
+    <span class="k">return</span> <span class="n">get_integer_index</span><span class="p">(</span><span class="n">vh</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:])</span>  <span class="c1"># return line of best fit</span></div>
+
+
+<div class="viewcode-block" id="plane_orientation"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.plane_orientation">[docs]</a><span class="k">def</span> <span class="nf">plane_orientation</span><span class="p">(</span><span class="n">images</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the orientation (surface normal) from a list of rank 2 connected images.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        images: (n, 3) int array of the images.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The surface normal as a (3, ) int array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">pymatgen.core.lattice</span> <span class="kn">import</span> <span class="n">get_integer_index</span>
+
+    <span class="n">vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">vertices</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">vertices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">vh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">vertices</span> <span class="o">-</span> <span class="n">g</span><span class="p">)</span>  <span class="c1"># run singular value decomposition</span>
+    <span class="k">return</span> <span class="n">get_integer_index</span><span class="p">(</span><span class="n">vh</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">:])</span>  <span class="c1"># return unitary norm</span></div>
+
+
+<div class="viewcode-block" id="sample_surface_uniform"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.sample_surface_uniform">[docs]</a><span class="k">def</span> <span class="nf">sample_surface_uniform</span><span class="p">(</span>
+    <span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">faces</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">grid_size</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sample isosurface faces uniformly.</span>
+
+<span class="sd">    The algorithm works by:</span>
+
+<span class="sd">    1. Splitting the mesh into a uniform grid with block sizes determined by</span>
+<span class="sd">       ``grid_size``.</span>
+<span class="sd">    2. For each cell in the grid, finds whether the center of any faces falls within the</span>
+<span class="sd">       cell.</span>
+<span class="sd">    3. If multiple face centers fall within the cell, it picks the closest one to the</span>
+<span class="sd">       center of the cell. If no face centers fall within the cell then the cell is</span>
+<span class="sd">       ignored.</span>
+<span class="sd">    4. Returns the indices of all the faces that have been selected.</span>
+
+<span class="sd">    This algorithm is not well optimised for small grid sizes.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        vertices: A (n, 3) float array of the vertices in the isosurface.</span>
+<span class="sd">        faces: A (m, 3) int array of the faces of the isosurface.</span>
+<span class="sd">        grid_size: The grid size in Å^-1.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A (k, ) int array containing the indices of uniformly spaced faces.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">face_verts</span> <span class="o">=</span> <span class="n">vertices</span><span class="p">[</span><span class="n">faces</span><span class="p">]</span>
+    <span class="n">centers</span> <span class="o">=</span> <span class="n">face_verts</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">min_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">centers</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">max_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">centers</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">lengths</span> <span class="o">=</span> <span class="n">max_coords</span> <span class="o">-</span> <span class="n">min_coords</span>
+    <span class="n">min_coords</span> <span class="o">-=</span> <span class="n">lengths</span> <span class="o">*</span> <span class="mf">0.2</span>
+    <span class="n">max_coords</span> <span class="o">+=</span> <span class="n">lengths</span> <span class="o">*</span> <span class="mf">0.2</span>
+
+    <span class="n">n_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="n">max_coords</span> <span class="o">-</span> <span class="n">min_coords</span><span class="p">)</span> <span class="o">/</span> <span class="n">grid_size</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="n">center_idxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">centers</span><span class="p">))</span>
+
+    <span class="n">selected_faces</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">cell_image</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">ndindex</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">n_grid</span><span class="p">)):</span>
+        <span class="n">cell_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cell_image</span><span class="p">)</span>
+        <span class="n">cell_min</span> <span class="o">=</span> <span class="n">min_coords</span> <span class="o">+</span> <span class="n">cell_image</span> <span class="o">*</span> <span class="n">grid_size</span>
+        <span class="n">cell_max</span> <span class="o">=</span> <span class="n">min_coords</span> <span class="o">+</span> <span class="p">(</span><span class="n">cell_image</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">grid_size</span>
+
+        <span class="c1"># find centers that fall within the cell</span>
+        <span class="n">within</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">centers</span> <span class="o">&gt;</span> <span class="n">cell_min</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">centers</span> <span class="o">&lt;</span> <span class="n">cell_max</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">within</span><span class="p">):</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># get the indexes of those centers</span>
+        <span class="n">within_idx</span> <span class="o">=</span> <span class="n">center_idxs</span><span class="p">[</span><span class="n">within</span><span class="p">]</span>
+
+        <span class="c1"># of these, find the center that is closest to the center of the cell</span>
+        <span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">((</span><span class="n">cell_max</span> <span class="o">+</span> <span class="n">cell_min</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">centers</span><span class="p">[</span><span class="n">within</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">select_idx</span> <span class="o">=</span> <span class="n">within_idx</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">distances</span><span class="p">)]</span>
+
+        <span class="n">selected_faces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">select_idx</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">selected_faces</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="sample_line_uniform"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.sample_line_uniform">[docs]</a><span class="k">def</span> <span class="nf">sample_line_uniform</span><span class="p">(</span><span class="n">segments</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sample line segments to a consistent density.</span>
+
+<span class="sd">    Note: the segments must be ordered so that they are adjacent.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        segments: (n, 2, 2) float array of line segments.</span>
+<span class="sd">        spacing: The desired spacing in Å^-1.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A (m, ) int array containing the indices of uniformly spaced segments.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">segment_lengths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">segments</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">segments</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># total line length</span>
+    <span class="n">line_length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">segment_lengths</span><span class="p">)</span>
+
+    <span class="c1"># this is the distance from the center of each segment to the beginning of the line</span>
+    <span class="n">center_lengths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">segment_lengths</span><span class="p">)</span> <span class="o">-</span> <span class="n">segment_lengths</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="c1"># find the distance of each arrow from the beginning of the line if ideally spaced</span>
+    <span class="n">narrows</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">line_length</span> <span class="o">/</span> <span class="n">spacing</span><span class="p">)))</span>
+
+    <span class="c1"># recalculate spacing so that all arrows are equally spaced</span>
+    <span class="n">spacing</span> <span class="o">=</span> <span class="n">line_length</span> <span class="o">/</span> <span class="n">narrows</span>
+
+    <span class="c1"># shift = (line_length - (narrows * spacing)) / 2</span>
+    <span class="n">ideal_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">narrows</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">spacing</span><span class="p">,</span> <span class="n">narrows</span><span class="p">)</span> <span class="o">+</span> <span class="n">spacing</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ideal_pos</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">center_lengths</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="equivalent_vertices"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.equivalent_vertices">[docs]</a><span class="k">def</span> <span class="nf">equivalent_vertices</span><span class="p">(</span><span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">KTOL</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find vertices that are equivalent (closer than a tolerance).</span>
+
+<span class="sd">    Note that the algorithm used is effectively recursive. If vertex a is within the</span>
+<span class="sd">    tolerance of b, and b is within the tolerance of c, even if a and c and not within</span>
+<span class="sd">    the tolerance, a, b, and c will be considered equivalent.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        vertices: (n, 2) or (n, 3) float array of the vertices.</span>
+<span class="sd">        tol: The distance tolerance for equivalence.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (n, ) int array that maps each each vertex in the original vertex array to its</span>
+<span class="sd">        equivalent.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">spatial</span>
+
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">spatial</span><span class="o">.</span><span class="n">cKDTree</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+    <span class="n">to_merge</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">query_ball_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">tol</span><span class="p">)</span>
+
+    <span class="n">merge_mapping</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">merge_set</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">to_merge</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">merge_mapping</span> <span class="ow">or</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="n">merge_mapping</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">}</span>
+        <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">queue</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">merge_set</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">queue</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">merge_mapping</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+            <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+            <span class="n">queue</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">to_merge</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+    <span class="n">inverse_mapping</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">merge_mapping</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">inverse_mapping</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">*</span> <span class="p">[</span><span class="n">k</span><span class="p">])))</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">inverse_mapping</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vertices</span><span class="p">))])</span></div>
+
+
+<div class="viewcode-block" id="longest_simple_paths"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.longest_simple_paths">[docs]</a><span class="k">def</span> <span class="nf">longest_simple_paths</span><span class="p">(</span><span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">edges</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the shortest paths that go through all vertices.</span>
+
+<span class="sd">    The lines are broken up into the connected sublines. Note this function is only</span>
+<span class="sd">    designed to work with connected sublines that are either simple cycles or</span>
+<span class="sd">    chains with no branches.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        vertices: (n, 2) float array of the line vertices.</span>
+<span class="sd">        edges: (m, 2) int array of the edges.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A list of (k, ) int arrays (one for each connected subline) specifying the path.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+
+    <span class="n">graph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+
+    <span class="n">subgraphs</span> <span class="o">=</span> <span class="p">[</span><span class="n">graph</span><span class="o">.</span><span class="n">subgraph</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">nx</span><span class="o">.</span><span class="n">connected_components</span><span class="p">(</span><span class="n">graph</span><span class="p">)]</span>
+
+    <span class="n">paths</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">subgraph</span> <span class="ow">in</span> <span class="n">subgraphs</span><span class="p">:</span>
+        <span class="n">cycles</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">cycle_basis</span><span class="p">(</span><span class="n">subgraph</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cycles</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># path contains a cycle, i.e., the path does not hit a periodic boundary</span>
+            <span class="c1"># there should be only one cycle, but just in case we take the longest one</span>
+            <span class="n">longest_path</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">cycles</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">longest_path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">longest_path</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># complete the cycle</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># graph does not have cycles, i.e., it his the periodic boundary condition</span>
+            <span class="c1"># twice; find the nodes with only one edge and use these as the start</span>
+            <span class="c1"># and end points for the path</span>
+            <span class="n">ends</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">subgraph</span><span class="o">.</span><span class="n">degree</span> <span class="k">if</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ends</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Path is not unique; unable to find path&quot;</span><span class="p">)</span>
+
+            <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">ends</span>
+            <span class="n">simple_paths</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">all_simple_paths</span><span class="p">(</span><span class="n">subgraph</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">))</span>
+            <span class="n">longest_path</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">simple_paths</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">longest_path</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">set</span><span class="p">(</span><span class="n">subgraph</span><span class="o">.</span><span class="n">nodes</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Path does not cover all vertices.&quot;</span><span class="p">)</span>
+
+        <span class="n">paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">longest_path</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">paths</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2021, Amy Searle and Alex Ganose
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
