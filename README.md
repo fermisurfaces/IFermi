@@ -9,14 +9,14 @@ analysis, and visualisation of Fermi surfaces and Fermi slices. The goal of the 
 is to provide full featured FermiSurface and FermiSlice objects which allow for easy 
 manipulation and analysis. The main features include:
 
-1. Interpolation of electronic band structures onto dense k-point meshes.
-2. Extraction of FermiSurfaces and FermiSlices from electronic band structures.
-3. Projection of arbitrary properties on to Fermi surfaces and Fermi slices.
-4. Tools to calculate Fermi surface dimensionality, orientation, and averaged projections.
-5. Interactive visualisation of Fermi surfaces and slices, with support for
-   [mayavi](https://docs.enthought.com/mayavi/mayavi/), [plotly](https://plot.ly/) and 
-   [matplotlib](https://matplotlib.org).
-6. Generation and visualisation of spin-texture.
+- Interpolation of electronic band structures onto dense k-point meshes.
+- Extraction of FermiSurfaces and FermiSlices from electronic band structures.
+- Projection of arbitrary properties on to Fermi surfaces and Fermi slices.
+- Tools to calculate Fermi surface dimensionality, orientation, and averaged projections.
+- Interactive visualisation of Fermi surfaces and slices, with support for
+  [mayavi](https://docs.enthought.com/mayavi/mayavi/), [plotly](https://plot.ly/) and 
+  [matplotlib](https://matplotlib.org).
+- Generation and visualisation of spin-texture.
 
 IFermi currently only works with VASP calculations but support for additional DFT packages 
 will be added in the future.
