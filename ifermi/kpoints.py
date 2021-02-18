@@ -1,6 +1,6 @@
 """
 ==============================
-K-point manipulation functions
+k-point manipulation functions
 ==============================
 """
 

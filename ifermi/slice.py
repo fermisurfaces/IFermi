@@ -1,4 +1,8 @@
-"""Tools for creating Fermi isolines from FermiSurface objects."""
+"""
+=========================
+Isolines and Fermi slices
+=========================
+"""
 
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Tuple
@@ -11,11 +15,7 @@ from pymatgen.electronic_structure.core import Spin
 from ifermi.analysis import equivalent_vertices, longest_simple_paths
 from ifermi.brillouin_zone import ReciprocalSlice
 
-__all__ = [
-    "FermiSlice",
-    "process_lines",
-    "interpolate_segments",
-]
+__all__ = ["Isoline", "FermiSlice", "process_lines", "interpolate_segments"]
 
 
 @dataclass
@@ -29,6 +29,7 @@ class Isoline(MSONable):
         properties: An optional (n, ...) float array containing segment properties as
             scalars or vectors.
     """
+
     segments: np.ndarray
     band_idx: int
     properties: Optional[np.ndarray] = None
@@ -78,9 +79,7 @@ class FermiSlice(MSONable):
     @property
     def has_properties(self) -> bool:
         """Whether all isolines have segment properties."""
-        return all(
-            [all([i.has_properties for i in s]) for s in self.isolines.values()]
-        )
+        return all([all([i.has_properties for i in s]) for s in self.isolines.values()])
 
     @property
     def spins(self) -> Tuple[Spin]:
@@ -155,9 +154,7 @@ class FermiSlice(MSONable):
             plane_normal, distance
         )
 
-        return FermiSlice(
-            slices, reciprocal_slice, fermi_surface.structure, properties
-        )
+        return FermiSlice(slices, reciprocal_slice, fermi_surface.structure, properties)
 
     @classmethod
     def from_dict(cls, d) -> "FermiSlice":

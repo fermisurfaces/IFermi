@@ -144,8 +144,7 @@ def equivalent_surfaces(surfaces_vertices: List[np.ndarray], tol=KTOL) -> np.nda
 
 
 def isosurface_dimensionality(
-    fractional_vertices: np.ndarray,
-    faces: np.ndarray,
+    fractional_vertices: np.ndarray, faces: np.ndarray
 ) -> Tuple[str, Tuple[int, int, int]]:
     """
     Calculate isosurface properties a single isosurface (fully connected).

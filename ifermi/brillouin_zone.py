@@ -1,7 +1,7 @@
 """
-==================================
-Brillouin zon and slice geometries
-==================================
+===================================
+Brillouin zone and slice geometries
+===================================
 """
 
 import itertools

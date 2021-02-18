@@ -7,7 +7,7 @@ Isosurfaces and Fermi surfaces
 import warnings
 from copy import deepcopy
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Tuple, Union, Collection
+from typing import Collection, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from monty.dev import requires
@@ -236,7 +236,7 @@ class FermiSurface(MSONable):
         return tuple(self.isosurfaces.keys())
 
     def all_vertices_faces(
-        self, spins: Optional[Union[Spin, Collection[Spin]]] = None,
+        self, spins: Optional[Union[Spin, Collection[Spin]]] = None
     ) -> List[Tuple[np.ndarray, np.ndarray]]:
         """
         Get the vertices and faces for all isosurfaces.
@@ -366,9 +366,7 @@ class FermiSurface(MSONable):
 
         interpolator = None
         if property_data is not None and property_kpoints is not None:
-            interpolator = PeriodicLinearInterpolator(
-                property_kpoints, property_data
-            )
+            interpolator = PeriodicLinearInterpolator(property_kpoints, property_data)
         elif property_data is not None or property_kpoints is not None:
             raise ValueError("Both data and kpoints must be specified.")
 

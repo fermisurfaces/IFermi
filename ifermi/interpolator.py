@@ -4,7 +4,6 @@ Fourier and linear interpolation
 ================================
 """
 
-from collections import defaultdict
 from typing import Dict, Optional
 
 import numpy as np

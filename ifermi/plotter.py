@@ -1,4 +1,8 @@
-"""Plotters for Fermi surfaces and Fermi isolines."""
+"""
+========
+Plotting
+========
+"""
 
 import os
 import warnings
@@ -110,6 +114,8 @@ __all__ = [
     "rgb_to_plotly",
     "cmap_to_mayavi",
     "cmap_to_plotly",
+    "get_segment_arrows",
+    "get_face_arrows",
 ]
 
 
@@ -375,11 +381,7 @@ class FermiSurfacePlotter(MSONable):
         arrow_colormap = None
         if vector_properties and self.fermi_surface.has_properties:
             arrows = get_face_arrows(
-                self.fermi_surface,
-                spin,
-                vector_spacing,
-                vnorm,
-                projection_axis,
+                self.fermi_surface, spin, vector_spacing, vnorm, projection_axis
             )
             if isinstance(vector_properties, str):
                 arrow_colormap = get_cmap(vector_properties)
@@ -478,10 +480,7 @@ class FermiSurfacePlotter(MSONable):
 
         # add the cell outline to the plot
         _mpl_bz_style.update(bz_kwargs)
-        lines = Line3DCollection(
-            self.reciprocal_space.lines,
-            **_mpl_bz_style,
-        )
+        lines = Line3DCollection(self.reciprocal_space.lines, **_mpl_bz_style)
         ax.add_collection3d(lines)
 
         if not plot_data.hide_labels:
@@ -574,15 +573,7 @@ class FermiSurfacePlotter(MSONable):
                 x, y, z = verts.T
                 i, j, k = faces.T
                 trace = go.Mesh3d(
-                    x=x,
-                    y=y,
-                    z=z,
-                    color=c,
-                    opacity=1,
-                    i=i,
-                    j=j,
-                    k=k,
-                    **mesh_kwargs,
+                    x=x, y=y, z=z, color=c, opacity=1, i=i, j=j, k=k, **mesh_kwargs
                 )
                 meshes.append(trace)
 
@@ -725,9 +716,7 @@ class FermiSurfacePlotter(MSONable):
         "crystal_toolkit option requires crystal_toolkit to be installed.",
     )
     def _get_crystal_toolkit_plot(
-        self,
-        plot_data: _FermiSurfacePlotData,
-        opacity: float = 1.0,
+        self, plot_data: _FermiSurfacePlotData, opacity: float = 1.0
     ) -> "Scene":
         """
         Get a crystal toolkit Scene showing the Fermi surface.
@@ -1119,11 +1108,7 @@ class FermiSlicePlotter(object):
         arrow_colormap = None
         if vector_properties and self.fermi_slice.projections is not None:
             arrows = get_segment_arrows(
-                self.fermi_slice,
-                spin,
-                vector_spacing,
-                vnorm,
-                projection_axis,
+                self.fermi_slice, spin, vector_spacing, vnorm, projection_axis
             )
             if isinstance(vector_properties, str):
                 arrow_colormap = get_cmap(vector_properties)
@@ -1439,9 +1424,7 @@ def get_segment_arrows(
 
 
 def _get_properties_limits(
-    projections: List[np.ndarray],
-    cmin: Optional[float],
-    cmax: Optional[float],
+    projections: List[np.ndarray], cmin: Optional[float], cmax: Optional[float]
 ) -> Tuple[float, float]:
     """
     Get the min and max properties if they are not already set.
