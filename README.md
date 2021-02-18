@@ -4,7 +4,7 @@
 [📖 **Online Documentation** 📖](https://fermisurfaces.github.io/IFermi)
 
 
-IFermi is a Python (3.6+) library and command-line tools the generation, 
+IFermi is a Python (3.6+) library and set of command-line tools for the generation, 
 analysis, and visualisation of Fermi surfaces and Fermi slices. The goal of the library 
 is to provide full featured FermiSurface and FermiSlice objects which allow for easy 
 manipulation and analysis. The main features include:
