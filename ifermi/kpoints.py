@@ -1,4 +1,9 @@
-"""This module defines helper functions for manipulating k-points."""
+"""
+==============================
+K-point manipulation functions
+==============================
+"""
+
 import warnings
 from typing import Tuple
 
@@ -23,11 +28,11 @@ def kpoints_to_first_bz(kpoints: np.ndarray, tol: float = KTOL) -> np.ndarray:
         -0.5 <= fractional coordinates < 0.5
 
     Args:
-        kpoints: The k-points in fractional coordinates.
+        kpoints: A (n, 3) float array of the k-points in fractional coordinates.
         tol: Tolerance for treating two k-points as equivalent.
 
     Returns:
-        The translated k-points.
+        A (n, 3) float array of the translated k-points.
     """
     kp = kpoints - np.round(kpoints)
 
@@ -44,11 +49,11 @@ def get_kpoint_mesh_dim(kpoints: np.ndarray, tol: float = KTOL) -> Tuple[int, in
     Get the k-point mesh dimensions.
 
     Args:
-        kpoints: The k-points.
+        kpoints: A (n, 3) float array of the k-points in fractional coordinates.
         tol: Tolerance for treating two k-points as equivalent.
 
     Returns:
-        The k-point mesh dimensions.
+        A (3, ) int array of the k-point mesh dimensions.
     """
     round_dp = int(np.log10(1 / tol))
     round_kpoints = np.round(kpoints, round_dp)
@@ -65,10 +70,10 @@ def sort_boltztrap_to_spglib(kpoints: np.ndarray) -> np.ndarray:
     Get an index array that sorts the k-points from BoltzTraP2 to the order from spglib.
 
     Args:
-        kpoints: The k-points.
+        kpoints: A (n, 3) float array of the k-points in fractional coordinates.
 
     Returns:
-        The sort order.
+        A (n, ) int array of the sort order.
     """
     sort_idx = np.lexsort(
         (
@@ -99,10 +104,10 @@ def get_kpoint_spacing(kpoints: np.ndarray) -> np.ndarray:
     """Get the spacing between fractional k-points.
 
     Args:
-        kpoints: k-points in fractional coordinates.
+        kpoints: A (n, 3) float array of the k-points in fractional coordinates.
 
     Returns:
-        The spacing along each reciprocal lattice direction.
+        A (3, ) float array of the spacing along each reciprocal lattice direction.
     """
     kpoints = kpoints.round(8)
     unique_a = np.unique(kpoints[:, 0])
@@ -134,7 +139,7 @@ def kpoints_from_bandstructure(
         cartesian: Whether to return the k-points in cartesian coordinates.
 
     Returns:
-        The k-points.
+        A (n, 3) float array of the k-points.
     """
     if cartesian:
         kpoints = np.array([k.cart_coords for k in bandstructure.kpoints])

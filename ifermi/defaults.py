@@ -1,4 +1,8 @@
-"""This module defines common defaults."""
+"""
+========
+Defaults
+========
+"""
 
 AZIMUTH = 45.0
 ELEVATION = 35.0

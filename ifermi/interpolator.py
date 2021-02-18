@@ -1,4 +1,8 @@
-"""Classes to perform Fourier and Linear interpolation."""
+"""
+================================
+Fourier and linear interpolation
+================================
+"""
 
 from collections import defaultdict
 from typing import Dict, Optional

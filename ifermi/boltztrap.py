@@ -1,4 +1,8 @@
-"""Functions modified from BoltzTraP2 to return the group velocities."""
+"""
+===========================
+BoltzTraP2 helper functions
+===========================
+"""
 
 import numpy as np
 
