@@ -291,10 +291,10 @@
             <span class="n">energies</span><span class="p">[</span><span class="n">spin</span><span class="p">]</span> <span class="o">/=</span> <span class="n">eV</span>
 
             <span class="c1"># velocities in Bohr radius * Rydberg / hbar, convert to m/s.</span>
-            <span class="n">velocities</span><span class="p">[</span><span class="n">spin</span><span class="p">]</span> <span class="o">*=</span> <span class="p">(</span>
-                <span class="n">physical_constants</span><span class="p">[</span><span class="s2">&quot;Bohr radius&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span>
-                <span class="n">physical_constants</span><span class="p">[</span><span class="s2">&quot;atomic unit of time&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-            <span class="p">)</span>
+            <span class="c1"># velocities[spin] *= (</span>
+            <span class="c1">#     physical_constants[&quot;Bohr radius&quot;][0] /</span>
+            <span class="c1">#     physical_constants[&quot;atomic unit of time&quot;][0]</span>
+            <span class="c1"># )</span>
 
         <span class="n">efermi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_band_structure</span><span class="o">.</span><span class="n">efermi</span>
 
