@@ -1,8 +1,4 @@
-"""
-===========================
-BoltzTraP2 helper functions
-===========================
-"""
+"""BoltzTraP2 helper functions."""
 
 import numpy as np
 

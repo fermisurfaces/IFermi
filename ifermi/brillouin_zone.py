@@ -1,8 +1,4 @@
-"""
-===================================
-Brillouin zone and slice geometries
-===================================
-"""
+"""Brillouin zone and slice geometries."""
 
 import itertools
 from dataclasses import dataclass, field

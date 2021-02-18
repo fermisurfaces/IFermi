@@ -1,8 +1,4 @@
-"""
-=========================================
-Isosurface and isoline analysis functions
-=========================================
-"""
+"""Isosurface and isoline analysis functions."""
 
 import warnings
 from typing import List, Tuple, Union

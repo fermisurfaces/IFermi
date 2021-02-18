@@ -1,8 +1,4 @@
-"""
-========
-Defaults
-========
-"""
+"""Defaults."""
 
 AZIMUTH = 45.0
 ELEVATION = 35.0

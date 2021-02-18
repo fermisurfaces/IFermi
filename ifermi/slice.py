@@ -1,11 +1,7 @@
-"""
-=========================
-Isolines and Fermi slices
-=========================
-"""
-
+"""Tools to generate Isolines and Fermi slices."""
+import warnings
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Union, Collection
 
 import numpy as np
 from monty.json import MSONable
@@ -47,12 +43,47 @@ class Isoline(MSONable):
             axis: A (3, ) int array of the axis to project onto.
         """
         if not self.has_properties:
-            raise ValueError("Isoline does not have face properties.")
+            raise ValueError("Isoline does not have segment properties.")
 
         if self.properties.ndim != 2:
             raise ValueError("Isoline does not have vector properties.")
 
         return np.dot(self.properties, axis)
+
+    @property
+    def properties_norms(self) -> np.ndarray:
+        """(m, ) norm of isoline properties."""
+        if not self.has_properties:
+            raise ValueError("Isoline does not have segment properties.")
+
+        if self.properties.ndim != 2:
+            raise ValueError("Isoline does not have vector properties.")
+
+        return np.linalg.norm(self.properties, axis=1)
+
+    @property
+    def properties_ndim(self) -> int:
+        """Dimensionality of face properties."""
+        if not self.has_properties:
+            raise ValueError("Isoline does not have face properties.")
+
+        return self.properties.ndim
+
+    def sample_uniform(self, spacing: float) -> np.ndarray:
+        """
+        Sample line segments uniformly.
+
+        See the docstring for ``ifermi.analysis.sample_line_uniform`` for more details.
+
+        Args:
+            spacing: The spacing in Å^-1.
+
+        Returns:
+            A (n, ) int array containing the indices of uniformly spaced segments.
+        """
+        from ifermi.analysis import sample_line_uniform
+
+        return sample_line_uniform(self.segments, spacing)
 
 
 @dataclass
@@ -73,8 +104,32 @@ class FermiSlice(MSONable):
 
     @property
     def n_lines(self) -> int:
-        """Number of isolines in the Fermi surface."""
-        return sum(map(len, self.isolines.values()))
+        """Number of isolines in the Fermi slice."""
+        return sum(self.n_surfaces_per_spin.values())
+
+    @property
+    def n_lines_per_band(self) -> Dict[Spin, Dict[int, int]]:
+        """
+        Get number of lines for each band index for each spin channel.
+
+        Returned as a dict of ``{spin: {band_idx: count}}``.
+        """
+        from collections import Counter
+
+        n_surfaces = {}
+        for spin, isosurfaces in self.isolines.items():
+            n_surfaces[spin] = dict(Counter([s.band_idx for s in isosurfaces]))
+
+        return n_surfaces
+
+    @property
+    def n_lines_per_spin(self) -> Dict[Spin, int]:
+        """
+        Get number of lines per spin channel.
+
+        Returned as a dict of ``{spin: count}``.
+        """
+        return {spin: len(surfaces) for spin, surfaces in self.isolines.items()}
 
     @property
     def has_properties(self) -> bool:
@@ -85,6 +140,76 @@ class FermiSlice(MSONable):
     def spins(self) -> Tuple[Spin]:
         """The spin channels in the Fermi slice."""
         return tuple(self.isolines.keys())
+
+    @property
+    def properties_ndim(self) -> int:
+        """Dimensionality of isoline properties."""
+        if not self.has_properties:
+            raise ValueError("Isolines don't have properties.")
+
+        ndims = [i.properties_ndim for v in self.isolines.values() for i in v]
+
+        if len(set(ndims)) != 1:
+            warnings.warn(
+                "Ioslines have different property dimensions, using the largest."
+            )
+
+        return max(ndims)
+
+    def all_lines(
+        self, spins: Optional[Union[Spin, Collection[Spin]]] = None
+    ) -> List[np.ndarray]:
+        """
+        Get the segments for all isolines.
+
+        Args:
+            spins: One or more spin channels to select. Default is all spins available.
+
+        Returns:
+            A list of segments arrays.
+        """
+        if not spins:
+            spins = self.spins
+        elif isinstance(spins, Spin):
+            spins = [spins]
+
+        return [line.segments for spin in spins for line in self.isolines[spin]]
+
+    def all_properties(
+        self,
+        spins: Optional[Union[Spin, Collection[Spin]]] = None,
+        projection_axis: Optional[Tuple[int, int, int]] = None,
+        norm: bool = False,
+    ) -> List[np.ndarray]:
+        """
+        Get the properties for all isolines.
+
+        Args:
+            spins: One or more spin channels to select. Default is all spins available.
+            projection_axis: A (3, ) in array of the axis to project the properties onto
+                (vector properties only).
+            norm: Calculate the norm of the properties (vector properties only).
+                Ignored if ``projection_axis`` is set.
+
+        Returns:
+            A list of properties arrays for each isosurface.
+        """
+        if not spins:
+            spins = self.spins
+        elif isinstance(spins, Spin):
+            spins = [spins]
+
+        projections = []
+        for spin in spins:
+            for isosurface in self.isolines[spin]:
+                if projection_axis is not None:
+                    projections.append(isosurface.scalar_projection(projection_axis))
+                elif norm:
+                    projections.append(isosurface.properties_norms)
+                else:
+                    projections.append(isosurface.properties)
+
+        return projections
 
     @classmethod
     def from_fermi_surface(
@@ -106,6 +231,7 @@ class FermiSlice(MSONable):
             The Fermi slice.
         """
         from trimesh import Trimesh
+        from collections import defaultdict
         from trimesh.intersections import mesh_multiplane
 
         cart_normal = np.dot(
@@ -113,14 +239,11 @@ class FermiSlice(MSONable):
         )
         cart_origin = cart_normal * distance
 
-        slices = {}
-        properties = {}
-        for spin, spin_isosurfaces in fermi_surface.isosurfaces.items():
-            spin_slices = []
-            spin_properties = []
+        isolines = defaultdict(list)
+        for spin in fermi_surface.spins:
 
-            for i, (verts, faces, band_idx) in enumerate(spin_isosurfaces):
-                mesh = Trimesh(vertices=verts, faces=faces)
+            for isosurface in fermi_surface.isosurfaces[spin]:
+                mesh = Trimesh(vertices=isosurface.vertices, faces=isosurface.faces)
                 lines, _, face_idxs = mesh_multiplane(
                     mesh, cart_origin, cart_normal, [0]
                 )
@@ -136,25 +259,24 @@ class FermiSlice(MSONable):
                 paths = process_lines(segments, face_idxs)
 
                 for path_segments, path_faces in paths:
-                    path_properties = fermi_surface.properties[spin][i][path_faces]
-                    path_segments, path_properties = interpolate_segments(
-                        path_segments, path_properties, 0.001
+                    path_properties = None
+                    if isosurface.has_properties:
+                        path_properties = isosurface.properties[path_faces]
+                        path_segments, path_properties = interpolate_segments(
+                            path_segments, path_properties, 0.001
+                        )
+                    isoline = Isoline(
+                        segments=path_segments,
+                        band_idx=isosurface.band_idx,
+                        properties=path_properties
                     )
-                    spin_slices.append((path_segments, band_idx))
-                    if fermi_surface.properties:
-                        spin_properties.append(path_properties)
-
-            slices[spin] = spin_slices
-            if fermi_surface.properties:
-                properties[spin] = spin_properties
-            else:
-                properties = None
+                    isolines[spin].append(isoline)
 
         reciprocal_slice = fermi_surface.reciprocal_space.get_reciprocal_slice(
             plane_normal, distance
         )
 
-        return FermiSlice(slices, reciprocal_slice, fermi_surface.structure, properties)
+        return FermiSlice(dict(isolines), reciprocal_slice, fermi_surface.structure)
 
     @classmethod
     def from_dict(cls, d) -> "FermiSlice":

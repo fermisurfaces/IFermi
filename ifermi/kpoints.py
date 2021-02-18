@@ -1,8 +1,4 @@
-"""
-==============================
-k-point manipulation functions
-==============================
-"""
+"""k-point manipulation functions."""
 
 import warnings
 from typing import Tuple

@@ -1,8 +1,4 @@
-"""
-==============================
-Isosurfaces and Fermi surfaces
-==============================
-"""
+"""Tools to generate isosurfaces and Fermi surfaces."""
 
 import warnings
 from copy import deepcopy

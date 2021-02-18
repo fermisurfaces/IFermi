@@ -1,26 +1,19 @@
-"""
-========
-Plotting
-========
-"""
+"""Tools to plot FermiSurface and FermiSlice objects."""
 
 import os
 import warnings
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union, Collection
 
 import numpy as np
 from matplotlib.colors import Colormap, Normalize
 from monty.dev import requires
-from monty.json import MSONable
-from pymatgen import Spin
+from pymatgen.electronic_structure.core import Spin
 
-from ifermi.analysis import sample_line_uniform, sample_surface_uniform
-from ifermi.brillouin_zone import ReciprocalCell, ReciprocalSlice
 from ifermi.defaults import AZIMUTH, COLORMAP, ELEVATION, SCALE, SYMPREC, VECTOR_SPACING
-from ifermi.slice import FermiSlice, Isoline
-from ifermi.surface import FermiSurface, Isosurface
+from ifermi.slice import FermiSlice
+from ifermi.surface import FermiSurface
 
 try:
     import mayavi.mlab as mlab
@@ -149,17 +142,16 @@ class _FermiSlicePlotData:
     hide_cell: bool
 
 
-class FermiSurfacePlotter(MSONable):
-    """Class to plot a FermiSurface."""
+class FermiSurfacePlotter:
+    """Class to plot a FermiSurface.
+
+    Args:
+        fermi_surface: A FermiSurface object.
+        symprec: The symmetry precision in Angstrom for determining the high
+            symmetry k-point labels.
+    """
 
     def __init__(self, fermi_surface: FermiSurface, symprec: float = SYMPREC):
-        """Initialize a plotter object.
-
-        Args:
-            fermi_surface: A FermiSurface object.
-            symprec: The symmetry precision in Angstrom for determining the high
-                symmetry k-point labels.
-        """
         self.fermi_surface = fermi_surface
         self.reciprocal_space = fermi_surface.reciprocal_space
         self.rlat = self.reciprocal_space.reciprocal_lattice
@@ -181,6 +173,7 @@ class FermiSurfacePlotter(MSONable):
         """
         from pymatgen.symmetry.bandstructure import HighSymmKpath
 
+        from ifermi.brillouin_zone import ReciprocalCell
         from ifermi.kpoints import kpoints_to_first_bz
 
         hskp = HighSymmKpath(fermi_surface.structure, symprec=symprec)
@@ -780,18 +773,16 @@ class FermiSurfacePlotter(MSONable):
         return Scene("ifermi", contents=scene_contents)
 
 
-class FermiSlicePlotter(object):
-    """Class to plot 2D isolines through a FermiSurface."""
+class FermiSlicePlotter:
+    """Class to plot 2D isolines through a FermiSurface.
+
+    Args:
+        fermi_slice: A slice through a Fermi surface.
+        symprec: The symmetry precision in Angstrom for determining the high
+            symmetry k-point labels.
+    """
 
     def __init__(self, fermi_slice: FermiSlice, symprec: float = SYMPREC):
-        """
-        Initialize class for plotting Fermi isolines.
-
-        Args:
-            fermi_slice: A slice through a Fermi surface.
-            symprec: The symmetry precision in Angstrom for determining the high
-                symmetry k-point labels.
-        """
         self.fermi_slice = fermi_slice
         self.reciprocal_slice = fermi_slice.reciprocal_slice
         self._symmetry_pts = self.get_symmetry_points(fermi_slice, symprec=symprec)
@@ -813,6 +804,7 @@ class FermiSlicePlotter(object):
         from pymatgen.symmetry.bandstructure import HighSymmKpath
         from trimesh import transform_points
 
+        from ifermi.brillouin_zone import ReciprocalCell
         from ifermi.kpoints import kpoints_to_first_bz
 
         hskp = HighSymmKpath(fermi_slice.structure, symprec=symprec)
@@ -1075,38 +1067,40 @@ class FermiSlicePlotter(object):
         from matplotlib.cm import get_cmap
 
         if not spin:
-            spin = list(self.fermi_slice.isolines.keys())
+            spin = self.fermi_slice.spins
         elif isinstance(spin, Spin):
             spin = [spin]
 
         slices = []
         if not hide_slice:
-            for s in spin:
-                slices.extend(self.fermi_slice.isolines[s])
+            slices = self.fermi_slice.all_lines(spins=spin)
 
         properties = []
         properties_colormap = None
-        if self.fermi_slice.projections is not None:
+        if not self.fermi_slice.has_properties:
             # always calculate properties if they are present so we can determine
             # cmin and cmax. These are also be used for arrows and it is critical that
             # cmin and cmax are the same for properties and arrow color scales (even
             # if the colormap used is different)
-            properties = _get_projections(self.fermi_slice, spin, projection_axis)
+            norm = self.fermi_slice.properties_ndim == 2
+            properties = self.fermi_slice.all_properties(
+                spins=spin, projection_axis=projection_axis, norm=norm
+            )
             if isinstance(color_properties, str):
                 properties_colormap = get_cmap(color_properties)
             else:
                 properties_colormap = get_cmap(COLORMAP)
             cmin, cmax = _get_properties_limits(properties, cmin, cmax)
 
-        if not color_properties or self.fermi_slice.projections is None:
-            colors = get_isosurface_colors(colors, self.fermi_slice.isolines, spin)
+        if not color_properties or not self.fermi_slice.has_properties:
+            colors = get_isosurface_colors(colors, self.fermi_slice, spin)
             properties = []
             cmin = None
             cmax = None
 
         arrows = []
         arrow_colormap = None
-        if vector_properties and self.fermi_slice.projections is not None:
+        if vector_properties and self.fermi_slice.has_properties:
             arrows = get_segment_arrows(
                 self.fermi_slice, spin, vector_spacing, vnorm, projection_axis
             )
@@ -1223,8 +1217,6 @@ def get_isosurface_colors(
         The colors as a list of tuples, where each color is specified as the rgb values
         from 0 to 1. E.g., red would be ``(1, 0, 0)``.
     """
-    from collections import Counter
-
     from matplotlib.cm import get_cmap
 
     if isinstance(fermi_object, FermiSurface):
@@ -1273,7 +1265,7 @@ def get_isosurface_colors(
 def get_face_arrows(
     fermi_surface: FermiSurface,
     spins: List[Spin],
-    vector_spacing,
+    vector_spacing: float,
     vnorm: Optional[float],
     projection_axis: Optional[Tuple[int, int, int]],
 ) -> List[Tuple[np.ndarray, np.ndarray, np.ndarray]]:
@@ -1341,10 +1333,10 @@ def get_face_arrows(
 
 def get_segment_arrows(
     fermi_slice: FermiSlice,
-    spins: List[Spin],
-    vector_spacing,
+    spins: Collection[Spin],
+    vector_spacing: float,
     vnorm: Optional[float],
-    projection_axis: Optional[np.ndarray],
+    projection_axis: Optional[Tuple[int, int, int]],
 ) -> List[Tuple[np.ndarray, np.ndarray, np.ndarray]]:
     """
     Get segment arrows from vector properties.
@@ -1374,37 +1366,30 @@ def get_segment_arrows(
     """
     from trimesh import transform_points
 
-    norms = []
     centers = []
     intensity = []
     vectors = []
     for spin in spins:
-        for (segments, _), segment_projections in zip(
-            fermi_slice.isolines[spin], fermi_slice.projections[spin]
-        ):
-            if segment_projections.ndim != 2:
+        for isoline in fermi_slice.isolines[spin]:
+            if isoline.properties_ndim != 2:
                 continue
 
-            # sample_uniform uniformly
-            segment_idx = sample_line_uniform(segments, vector_spacing)
-            segments = segments[segment_idx]
-            segment_projections = segment_projections[segment_idx]
+            segment_idx = isoline.sample_uniform(vector_spacing)
 
             # get the center of each of segment in cartesian coords
-            centers.append(segments.mean(axis=1))
+            centers.append(isoline.segments[segment_idx].mean(axis=1))
 
-            vectors.append(segment_projections)
-            norms.append(np.linalg.norm(segment_projections, axis=1))
-
+            vectors.append(isoline.properties[segment_idx])
             if projection_axis is None:
                 # properties intensity is the norm of the properties
-                intensity.append(norms[-1])
+                intensity.append(isoline.properties_norms)
             else:
                 # get properties intensity from properties of the vector onto axis
-                intensity.append(np.dot(segment_projections, projection_axis))
+                intensity.append(isoline.scalar_projection(projection_axis))
 
     if vnorm is None:
-        vnorm = np.max([np.max(x) for x in norms])
+        property_norms = fermi_slice.all_properties(spins=spins, norm=True)
+        vnorm = np.max([np.max(x) for x in property_norms])
 
     arrows = []
     for segment_vectors, segment_centers, segment_intensity in zip(
@@ -1564,7 +1549,7 @@ def cmap_to_mayavi(colormap: Colormap) -> np.ndarray:
     return (colormap(np.linspace(0, 1, 255)) * 255).astype(int)
 
 
-def _get_rotation(reciprocal_slice: ReciprocalSlice) -> np.ndarray:
+def _get_rotation(reciprocal_slice) -> np.ndarray:
     """
     Get a rotation matrix that aligns the longest slice length along the x axis.
 

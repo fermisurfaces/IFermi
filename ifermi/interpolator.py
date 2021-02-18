@@ -1,21 +1,24 @@
-"""
-================================
-Fourier and linear interpolation
-================================
-"""
+"""Tools for Fourier and linear interpolation."""
 
 from typing import Dict, Optional
 
 import numpy as np
-from monty.json import MSONable
 from pymatgen.electronic_structure.bandstructure import BandStructure
 from pymatgen.electronic_structure.core import Spin
 
 __all__ = ["Interpolator", "PeriodicLinearInterpolator"]
 
 
-class Interpolator(MSONable):
-    """Class to perform Fourier interpolation of electronic band structures."""
+class Interpolator:
+    """Class to perform Fourier interpolation of electronic band structures.
+
+    Interpolation is performed using BoltzTraP2.
+
+    Args:
+        band_structure: The Bandstructure object to be interpolated.
+        magmom: Magnetic moments of the atoms.
+        mommat: Momentum matrix, as supported by BoltzTraP2.
+    """
 
     def __init__(
         self,
@@ -23,15 +26,6 @@ class Interpolator(MSONable):
         magmom: Optional[np.ndarray] = None,
         mommat: Optional[np.ndarray] = None,
     ):
-        """Interpolator to perform Fourier interpolation of electronic band structures.
-
-        Interpolation is performed using BoltzTraP2.
-
-        Args:
-            band_structure: The Bandstructure object to be interpolated.
-            magmom: Magnetic moments of the atoms.
-            mommat: Momentum matrix, as supported by BoltzTraP2.
-        """
         from BoltzTraP2.units import Angstrom
         from pymatgen.io.ase import AseAtomsAdaptor
 
@@ -145,7 +139,16 @@ class Interpolator(MSONable):
 
 
 class DFTData:
-    """DFTData object used for BoltzTraP2 interpolation."""
+    """DFTData object used for BoltzTraP2 interpolation.
+
+    Note that the units used by BoltzTraP are different to those used by VASP.
+
+    Args:
+        kpoints: The k-points in fractional coordinates.
+        energies: The band energies in Hartree, formatted as (nbands, nkpoints).
+        lattice_matrix: The lattice matrix in Bohr^3.
+        mommat: The band structure derivatives.
+    """
 
     def __init__(
         self,
@@ -154,16 +157,6 @@ class DFTData:
         lattice_matrix: np.ndarray,
         mommat: Optional[np.ndarray] = None,
     ):
-        """Initialize DFTData object used for BoltzTraP2 interpolation.
-
-        Note that the units used by BoltzTraP are different to those used by VASP.
-
-        Args:
-            kpoints: The k-points in fractional coordinates.
-            energies: The band energies in Hartree, formatted as (nbands, nkpoints).
-            lattice_matrix: The lattice matrix in Bohr^3.
-            mommat: The band structure derivatives.
-        """
         self.kpoints = kpoints
         self.ebands = energies
         self.lattice_matrix = lattice_matrix
@@ -175,24 +168,22 @@ class DFTData:
         return self.lattice_matrix
 
 
-class PeriodicLinearInterpolator(object):
-    """Class to perform linear interpolation of periodic properties."""
+class PeriodicLinearInterpolator:
+    """Class to perform linear interpolation of periodic properties.
+
+    Args:
+        kpoints: The k-points in fractional coordinations as a numpy array.
+            with the shape (nkpoints, 3). Note, the k-points must cover
+            the full Brillouin zone, not just the irredicible part.
+        data: The data to interpolate. Should be given for spin up
+            and spin down bands. If the system is not spin polarized
+            then only spin up should be set. The data for each spin
+            channel should be a numpy array with the shape
+            (nbands, nkpoints, ...). The values to interpolate can be scalar
+            or multidimensional.
+    """
 
     def __init__(self, kpoints: np.ndarray, data: Dict[Spin, np.ndarray]):
-        """
-        Create an interpolator that can handle periodic boundary conditions.
-
-        Args:
-            kpoints: The k-points in fractional coordinations as a numpy array.
-                with the shape (nkpoints, 3). Note, the k-points must cover
-                the full Brillouin zone, not just the irredicible part.
-            data: The data to interpolate. Should be given for spin up
-                and spin down bands. If the system is not spin polarized
-                then only spin up should be set. The data for each spin
-                channel should be a numpy array with the shape
-                (nbands, nkpoints, ...). The values to interpolate can be scalar
-                or multidimensional.
-        """
         grid_kpoints, mesh_dim, sort_idx = self._grid_kpoints(kpoints)
         self._setup_interpolators(data, grid_kpoints, mesh_dim, sort_idx)
 

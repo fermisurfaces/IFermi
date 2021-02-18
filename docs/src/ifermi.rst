@@ -1,8 +1,13 @@
 ifermi package
 ==============
 
-Submodules
-----------
+ifermi.analysis module
+-----------------------
+
+.. automodule:: ifermi.analysis
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 ifermi.boltztrap module
 -----------------------
@@ -17,23 +22,6 @@ ifermi.brillouin\_zone module
 
 .. automodule:: ifermi.brillouin_zone
    :members:
-   :undoc-members:
-   :show-inheritance:
-
-ifermi.cli module
------------------
-
-.. automodule:: ifermi.cli
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-ifermi.defaults module
-----------------------
-
-.. automodule:: ifermi.defaults
-   :members:
-   :undoc-members:
    :show-inheritance:
 
 ifermi.interpolator module
@@ -65,7 +53,6 @@ ifermi.slice module
 
 .. automodule:: ifermi.slice
    :members:
-   :undoc-members:
    :show-inheritance:
 
 ifermi.surface module
@@ -73,13 +60,4 @@ ifermi.surface module
 
 .. automodule:: ifermi.surface
    :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: ifermi
-   :members:
-   :undoc-members:
    :show-inheritance:
