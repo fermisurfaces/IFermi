@@ -1,5 +1,5 @@
 ``ifermi`` program
-====================
+==================
 
 IFermi can be used on the command-line through the ``ifermi``
 command. All of the options provided in the command-line are also accessible using the

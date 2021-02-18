@@ -275,7 +275,7 @@ def plot(filename, **kwargs):
     """Plot a Fermi surface from a vasprun.xml file."""
     from pymatgen.electronic_structure.core import Spin
 
-    from ifermi.plotter import (
+    from ifermi.plot import (
         FermiSlicePlotter,
         FermiSurfacePlotter,
         save_plot,
@@ -386,7 +386,7 @@ def _get_fermi_surface(
     from pymatgen.electronic_structure.core import Spin
     from pymatgen.io.vasp.outputs import Vasprun
 
-    from ifermi.interpolator import Interpolator
+    from ifermi.interpolate import FourierInterpolator
     from ifermi.kpoints import kpoints_from_bandstructure
     from ifermi.surface import FermiSurface
 
@@ -397,7 +397,7 @@ def _get_fermi_surface(
     vr = Vasprun(filename, parse_projected_eigen=parse_projections)
     bs = vr.get_band_structure()
 
-    interpolator = Interpolator(bs)
+    interpolator = FourierInterpolator(bs)
     interp_bs, velocities = interpolator.interpolate_bands(
         interpolation_factor, return_velocities=True
     )

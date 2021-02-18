@@ -6,10 +6,10 @@ import numpy as np
 from pymatgen.electronic_structure.bandstructure import BandStructure
 from pymatgen.electronic_structure.core import Spin
 
-__all__ = ["Interpolator", "PeriodicLinearInterpolator"]
+__all__ = ["FourierInterpolator", "LinearInterpolator"]
 
 
-class Interpolator:
+class FourierInterpolator:
     """Class to perform Fourier interpolation of electronic band structures.
 
     Interpolation is performed using BoltzTraP2.
@@ -51,7 +51,7 @@ class Interpolator:
         """Get an interpolated pymatgen band structure.
 
         Note, the interpolation mesh is determined using by ``interpolate_factor``
-        option in the ``Interpolator`` constructor.
+        option in the ``FourierInterpolator`` constructor.
 
         The degree of parallelization is controlled by the ``nworkers`` option.
 
@@ -168,7 +168,7 @@ class DFTData:
         return self.lattice_matrix
 
 
-class PeriodicLinearInterpolator:
+class LinearInterpolator:
     """Class to perform linear interpolation of periodic properties.
 
     Args:

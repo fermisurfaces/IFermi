@@ -13,7 +13,7 @@ from pymatgen.electronic_structure.bandstructure import BandStructure
 from pymatgen.electronic_structure.core import Spin
 
 from ifermi.brillouin_zone import ReciprocalCell, WignerSeitzCell
-from ifermi.interpolator import PeriodicLinearInterpolator
+from ifermi.interpolate import LinearInterpolator
 
 try:
     import mcubes
@@ -355,7 +355,7 @@ class FermiSurface(MSONable):
         Args:
             band_structure: A band structure. The k-points must cover the full
                 Brillouin zone (i.e., not just be the irreducible mesh). Use
-                the ``ifermi.interpolator.Interpolator`` class to expand the k-points to
+                the ``ifermi.interpolator.FourierInterpolator`` class to expand the k-points to
                 the full Brillouin zone if required.
             mu: Energy offset from the Fermi energy at which the isosurface is
                 calculated.
@@ -407,7 +407,7 @@ class FermiSurface(MSONable):
 
         interpolator = None
         if property_data is not None and property_kpoints is not None:
-            interpolator = PeriodicLinearInterpolator(property_kpoints, property_data)
+            interpolator = LinearInterpolator(property_kpoints, property_data)
         elif property_data is not None or property_kpoints is not None:
             raise ValueError("Both data and kpoints must be specified.")
 
@@ -470,7 +470,7 @@ def compute_isosurfaces(
     decimate_method: str = "quadric",
     smooth: bool = False,
     calculate_dimensionality: bool = False,
-    property_interpolator: Optional[PeriodicLinearInterpolator] = None,
+    property_interpolator: Optional[LinearInterpolator] = None,
 ) -> Dict[Spin, List[Isosurface]]:
     """
     Compute the isosurfaces at a particular energy level.
@@ -552,7 +552,7 @@ def _calculate_band_isosurfaces(
     decimate_method: str,
     smooth: bool,
     calculate_dimensionality: bool,
-    property_interpolator: Optional[PeriodicLinearInterpolator],
+    property_interpolator: Optional[LinearInterpolator],
 ):
     """Helper function to calculate the connected isosurfaces for a band."""
     from skimage.measure import marching_cubes
@@ -697,7 +697,7 @@ def expand_bands(
 
 
 def face_properties(
-    interpolator: PeriodicLinearInterpolator,
+    interpolator: LinearInterpolator,
     vertices: np.ndarray,
     faces: np.ndarray,
     band_idx: int,

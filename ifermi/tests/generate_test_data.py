@@ -3,7 +3,7 @@ from pathlib import Path
 from monty.serialization import dumpfn
 from pymatgen.io.vasp.outputs import Vasprun
 
-from ifermi.interpolator import Interpolator
+from ifermi.interpolate import FourierInterpolator
 from ifermi.surface import FermiSurface
 
 if __name__ == "__main__":
@@ -13,7 +13,7 @@ if __name__ == "__main__":
 
     dumpfn(bs.structure, "structure.json.gz")
 
-    interpolater = Interpolator(bs)
+    interpolater = FourierInterpolator(bs)
     new_bs = interpolater.interpolate_bands(1)
 
     bs_data = {"bs": new_bs, "structure": bs.structure}

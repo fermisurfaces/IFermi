@@ -4,8 +4,8 @@ from pathlib import Path
 from pymatgen import Spin
 from pymatgen.io.vasp.outputs import Vasprun
 
-from ifermi.interpolator import Interpolator
-from ifermi.plotter import FermiSurfacePlotter, save_plot
+from ifermi.interpolate import FourierInterpolator
+from ifermi.plot import FermiSurfacePlotter, save_plot
 from ifermi.surface import FermiSurface
 
 test_dir = Path(__file__).resolve().parent
@@ -21,7 +21,7 @@ class IntegrationTest(unittest.TestCase):
         self.output_file = test_dir / "fs.png"
 
     def test_integration_wigner_seitz(self):
-        interpolator = Interpolator(self.band_structure)
+        interpolator = FourierInterpolator(self.band_structure)
         new_bs = interpolator.interpolate_bands(1)
         fs = FermiSurface.from_band_structure(new_bs)
         plotter = FermiSurfacePlotter(fs)
@@ -31,7 +31,7 @@ class IntegrationTest(unittest.TestCase):
         # plotter.plot(plot_type='mayavi', interactive=False, filename=self.output_file)
 
     def test_integration_reciprocal(self):
-        interpolator = Interpolator(self.band_structure)
+        interpolator = FourierInterpolator(self.band_structure)
         new_bs = interpolator.interpolate_bands(1)
         fs = FermiSurface.from_band_structure(new_bs, wigner_seitz=False)
         plotter = FermiSurfacePlotter(fs)
@@ -41,7 +41,7 @@ class IntegrationTest(unittest.TestCase):
         # plotter.plot(plot_type='mayavi', interactive=False, filename=self.output_file)
 
     def test_integration_spin(self):
-        interpolator = Interpolator(self.band_structure)
+        interpolator = FourierInterpolator(self.band_structure)
         new_bs = interpolator.interpolate_bands(1)
         fs = FermiSurface.from_band_structure(new_bs, wigner_seitz=False)
         plotter = FermiSurfacePlotter(fs)
