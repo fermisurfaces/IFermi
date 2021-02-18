@@ -592,6 +592,7 @@ class FermiSurfacePlotter:
             trace = go.Scatter3d(x=x, y=y, z=z, mode="lines", **_plotly_bz_style)
             meshes.append(trace)
 
+        scene = _plotly_scene.copy()
         if not plot_data.hide_labels:
             # plot high symmetry k-point markers
             labels = ["${}$".format(i) for i in self._symmetry_pts[1]]
@@ -607,7 +608,6 @@ class FermiSurfacePlotter:
                 annotations.append(
                     dict(x=x, y=y, z=z, text=label, **_plotly_sym_label_style)
                 )
-            scene = _plotly_scene.copy()
             scene["annotations"] = annotations
 
         # Specify plot parameters
@@ -1169,6 +1169,15 @@ def save_plot(plot: Any, filename: Union[Path, str], scale: float = SCALE):
         plot.savefig(filename, dpi=scale * 100, bbox_inches="tight")
     elif plot_type == "plotly":
         if kaleido is None:
+            # from kaleido.scopes.plotly import PlotlyScope
+            # scope = PlotlyScope()
+            #
+            # fig = dict(
+            #     data=[dict(type="scattergl", y=[1, 3, 2])],
+            #     config=dict(plotGlPixelRatio=4)
+            # )
+            # with open("figure.png", "wb") as f:
+            #     f.write(scope.transform(fig, format="png"))
             raise ValueError(
                 "kaleido package required to save static ploty images\n"
                 "please install it using:\npip install kaleido"
