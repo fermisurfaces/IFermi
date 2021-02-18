@@ -1,4 +1,4 @@
-"""Tools for creating Fermi slices from FermiSurface objects."""
+"""Tools for creating Fermi isolines from FermiSurface objects."""
 
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Tuple
@@ -19,36 +19,73 @@ __all__ = [
 
 
 @dataclass
-class Isoslice(MSONable):
+class Isoline(MSONable):
+    """
+    An isoline object contains line segments mesh and line properties.
+
+    Attributes:
+        segments: A (n, 2, 2) float array of the line segments..
+        band_idx: The band index to which the slice belongs.
+        properties: An optional (n, ...) float array containing segment properties as
+            scalars or vectors.
+    """
     segments: np.ndarray
     band_idx: int
-    projections: Optional[np.ndarray] = None
+    properties: Optional[np.ndarray] = None
+
+    @property
+    def has_properties(self) -> float:
+        """Whether the isoline has properties."""
+        return self.properties is None
+
+    def scalar_projection(self, axis: Tuple[int, int, int]) -> np.ndarray:
+        """
+        Get scalar projection of properties onto axis.
+
+        Args:
+            axis: A (3, ) int array of the axis to project onto.
+        """
+        if not self.has_properties:
+            raise ValueError("Isoline does not have face properties.")
+
+        if self.properties.ndim != 2:
+            raise ValueError("Isoline does not have vector properties.")
+
+        return np.dot(self.properties, axis)
 
 
 @dataclass
 class FermiSlice(MSONable):
     """
-    A 2D slice through a Fermi surface.
+    A FermiSlice object is a 2D slice through a Fermi surface.
 
-    Args:
-        slices: The slices for each spin channel. Given as a dictionary of
-            ``{spin: (spin_slices, band_idx)}`` where spin_slices is a List of numpy
-            arrays, each with the shape ``(n_lines, 2, 2)``.
-        reciprocal_slice: The reciprocal slice defining the intersection of the
-            plane with the Brillouin zone edges.
+    Attributes:
+        isolines: A dict containing a list of isolines for each spin channel.
+        reciprocal_space: A reciprocal slice defining the intersection of the slice
+            with the Brillouin zone edges.
         structure: The structure.
-        properties: A property projected onto the slice. The properties are given
-            for each line. They should be provided as a dict of
-            ``{spin: properties}``, where properties is a list of numpy arrays with
-            the shape (n_lines, ...), for each slice in ``slices`. The properties
-            can scalar or vector properties.
-
     """
 
-    slices: Dict[Spin, List[Tuple[np.ndarray, int]]]
+    isolines: Dict[Spin, List[Isoline]]
     reciprocal_slice: ReciprocalSlice
     structure: Structure
-    projections: Optional[Dict[Spin, List[np.ndarray]]] = None
+
+    @property
+    def n_lines(self) -> int:
+        """Number of isolines in the Fermi surface."""
+        return sum(map(len, self.isolines.values()))
+
+    @property
+    def has_properties(self) -> bool:
+        """Whether all isolines have segment properties."""
+        return all(
+            [all([i.has_properties for i in s]) for s in self.isolines.values()]
+        )
+
+    @property
+    def spins(self) -> Tuple[Spin]:
+        """The spin channels in the Fermi slice."""
+        return tuple(self.isolines.keys())
 
     @classmethod
     def from_fermi_surface(
@@ -62,14 +99,12 @@ class FermiSlice(MSONable):
         The slice is defined by the intersection of a plane with the Fermi surface.
 
         Args:
-            fermi_surface: A Fermi surface.
-            plane_normal: The plane normal in fractional indices. E.g., ``(1, 0, 0)``.
-            distance: The distance from the center of the Brillouin zone (the Gamma
-                point).
+            fermi_surface: A Fermi surface object.
+            plane_normal: (3, ) int array of the plane normal in fractional indices.
+            distance: The distance from the center of the Brillouin zone (Γ-point).
 
         Returns:
             The Fermi slice.
-
         """
         from trimesh import Trimesh
         from trimesh.intersections import mesh_multiplane
@@ -80,10 +115,10 @@ class FermiSlice(MSONable):
         cart_origin = cart_normal * distance
 
         slices = {}
-        projections = {}
+        properties = {}
         for spin, spin_isosurfaces in fermi_surface.isosurfaces.items():
             spin_slices = []
-            spin_projections = []
+            spin_properties = []
 
             for i, (verts, faces, band_idx) in enumerate(spin_isosurfaces):
                 mesh = Trimesh(vertices=verts, faces=faces)
@@ -102,47 +137,39 @@ class FermiSlice(MSONable):
                 paths = process_lines(segments, face_idxs)
 
                 for path_segments, path_faces in paths:
-                    path_projections = fermi_surface.properties[spin][i][path_faces]
-                    path_segments, path_projections = interpolate_segments(
-                        path_segments, path_projections, 0.001
+                    path_properties = fermi_surface.properties[spin][i][path_faces]
+                    path_segments, path_properties = interpolate_segments(
+                        path_segments, path_properties, 0.001
                     )
                     spin_slices.append((path_segments, band_idx))
                     if fermi_surface.properties:
-                        spin_projections.append(path_projections)
+                        spin_properties.append(path_properties)
 
             slices[spin] = spin_slices
             if fermi_surface.properties:
-                projections[spin] = spin_projections
+                properties[spin] = spin_properties
             else:
-                projections = None
+                properties = None
 
         reciprocal_slice = fermi_surface.reciprocal_space.get_reciprocal_slice(
             plane_normal, distance
         )
 
         return FermiSlice(
-            slices, reciprocal_slice, fermi_surface.structure, projections
+            slices, reciprocal_slice, fermi_surface.structure, properties
         )
 
     @classmethod
     def from_dict(cls, d) -> "FermiSlice":
         """Return FermiSlice object from a dict."""
         fs = super().from_dict(d)
-        fs.slices = {Spin(int(k)): v for k, v in fs.slices.items()}
-
-        if fs.properties:
-            fs.properties = {Spin(int(k)): v for k, v in fs.properties.items()}
-
+        fs.isolines = {Spin(int(k)): v for k, v in fs.isolines.items()}
         return fs
 
     def as_dict(self) -> dict:
         """Get a json-serializable dict representation of a FermiSlice."""
         d = super().as_dict()
-        d["slices"] = {str(spin): iso for spin, iso in self.slices.items()}
-
-        if self.projections:
-            d["properties"] = {str(k): v for k, v in self.projections.items()}
-
+        d["isolines"] = {str(spin): iso for spin, iso in self.isolines.items()}
         return d
 
 
@@ -170,12 +197,11 @@ def process_lines(
     very small and will be filtered out.
 
     Args:
-        segments: The segments from mesh_multiplane as an array with the shape
-            (nsegments, 2, 2).
+        segments: A (n, 2, 2) float array of the line segments.
         face_idxs: The face indices that each segment belongs to.
 
     Returns:
-        A list of segments and faces for each path.
+        A list of (segments, faces) for each path.
     """
 
     # turn segments [shape: (nsegments, 2, 2)], to vertices [shape: (nsegments * 2, 2)]
@@ -234,7 +260,7 @@ def process_lines(
 
 
 def interpolate_segments(
-    segments: np.ndarray, projections: np.ndarray, max_spacing: float
+    segments: np.ndarray, properties: np.ndarray, max_spacing: float
 ) -> Tuple[np.ndarray, np.ndarray]:
     """
     Resample a series of line segments to a consistent density.
@@ -242,20 +268,20 @@ def interpolate_segments(
     Note: the segments must be ordered so that they are adjacent.
 
     Args:
-        segments: The line segments as a numpy array with the shape (nsegments, 2, 2).
-        projections: The line properties as an array with the shape (nsegments, ).
+        segments: A (n, 2, 2) float array of the line segments.
+        properties: A (n, ...) float array of the segment properties.
         max_spacing: The desired spacing after interpolation. Note, the spacing
             may be slightly smaller than this value.
 
     Returns:
-        The interpolated segments and properties.
+        (segments, properties): The interpolated segments and properties.
     """
     from scipy.interpolate import interp1d
 
     is_cycle = np.allclose(segments[0, 0], segments[-1, 1], atol=1e-4)
 
     if len(segments) < 3:
-        return segments, projections
+        return segments, properties
 
     vert = np.concatenate([segments[:, 0], segments[-1, 1][None]])
     lengths = np.linalg.norm(vert[:-1] - vert[1:], axis=1)
@@ -265,10 +291,10 @@ def interpolate_segments(
     proj_dist = np.concatenate([[0], (vert_dist[:-1] + vert_dist[1:]) / 2, [length]])
 
     if is_cycle:
-        proj_start = [(projections[0] + projections[-1]) / 2]
-        projections = np.concatenate([proj_start, projections, proj_start])
+        proj_start = [(properties[0] + properties[-1]) / 2]
+        properties = np.concatenate([proj_start, properties, proj_start])
     else:
-        projections = np.concatenate([projections[0], projections, projections[-1]])
+        properties = np.concatenate([properties[0], properties, properties[-1]])
 
     vert_interpolator = interp1d(
         vert_dist,
@@ -280,7 +306,7 @@ def interpolate_segments(
     )
     proj_interpolator = interp1d(
         proj_dist,
-        projections,
+        properties,
         kind="linear",
         axis=0,
         bounds_error=False,
