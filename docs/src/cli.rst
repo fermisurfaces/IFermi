@@ -279,7 +279,7 @@ can include a property projected onto the isosurface faces. By default, if prope
 are included in the Fermi surface they will be indicated by coloring of the isosurface
 colors. If the face property is a vector, the norm of the vector will be used as the
 color intensity. The colormap of the surface can be changed using the
-``--property-colormap`` option. All `matplotlib colorrmaps<https://matplotlib.org/stable/gallery/color/colormap_reference.html>`_
+``--property-colormap`` option. All `matplotlib colormaps <https://matplotlib.org/stable/gallery/color/colormap_reference.html>`_
 are supported. For example:
 
 .. code-block:: bash
