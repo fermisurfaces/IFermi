@@ -1,8 +1,9 @@
 ``ifermi`` program
 ==================
 
-IFermi can be used on the command-line through the ``ifermi``
-command. All of the options provided in the command-line are also accessible using the
+IFermi incluudes command-line tools for generating, analysing, and plotting Fermi
+surfaces. The tools can be accessed using the ``ifermi`` command-line program.
+All of the options provided in the command-line are also accessible using the
 `Python API <plotting_using_python.html>`_.
 
 IFermi works in 4 stages:
@@ -11,22 +12,69 @@ IFermi works in 4 stages:
 2. It interpolates the band structure onto a dense k-point mesh using Fourier
    interpolation as implemented in `BoltzTraP2 <https://gitlab.com/sousaw/BoltzTraP2>`_.
 3. It extracts the Fermi surface at a given energy level.
-4. It plots the surface using a number of plotting backends.
+4. It extracts information about the Fermi surface or plots it using several
+   plotting backends.
 
 .. NOTE::
 
     Currently, IFermi only works with VASP calculation outputs. Support for additional
     DFT packages will be added in a future release.
 
-Usage
------
-
-IFermi is controlled on the command-line using the ``ifermi`` command. The only input
-required is a vasprun.xml file. To plot an interactive Fermi surface just run:
+IFermi is controlled on the command-line using the ``ifermi`` command. The available
+options can be listed using:
 
 .. code-block:: bash
 
-    ifermi
+    ifermi -h
+
+Information on the Fermi surface area, dimensionality,
+and orientation can be extracted using the ``info`` subcommand.
+The only input required is a vasprun.xml. For example:
+
+.. code-block:: bash
+
+    ifermi info
+
+An example output for MgB:sub:`2` is shown below:
+
+.. code-block:: markdown
+
+    Fermi Surface Summary
+    =====================
+
+      # surfaces: 5
+      Area: 32.745 Å⁻²
+
+    Isosurfaces
+    ~~~~~~~~~~~
+
+        Band    Area [Å⁻²]   Dimensionality    Orientation
+      ------  ------------  ----------------  -------------
+           6         1.944         2D           (0, 0, 1)
+           7         4.370         1D           (0, 0, 1)
+           7         2.961         2D           (0, 0, 1)
+           8         3.549         1D           (0, 0, 1)
+           8         3.549         1D           (0, 0, 1)
+
+Fermi surfaces and slices can be visualised using the ``plot`` subcommand. Again, the
+only input required is a vasprun.xml file. For example:
+
+.. code-block:: bash
+
+    ifermi plot
+
+The two subcommands ``info`` and ``plot`` share many of the same options
+which we describe below.
+
+Generation options
+------------------
+
+There are several options affect the generation of Fermi surfaces from *ab initio*
+calculation outputs. These options are available for both the ``info`` and ``plot``
+subcommands.
+
+Input file
+~~~~~~~~~~
 
 IFermi will look for a vasprun.xml or vasprun.xml.gz file in the current directory.
 To specify a particular vasprun file the ``--filename`` (or ``-f`` for short) option
@@ -34,7 +82,7 @@ can be used:
 
 .. code-block:: bash
 
-    ifermi --filename my_vasprun.xml
+    ifermi plot --filename my_vasprun.xml
 
 Interpolation factor
 ~~~~~~~~~~~~~~~~~~~~
@@ -42,13 +90,13 @@ Interpolation factor
 The band structure extracted from the vasprun must be processed before the Fermi
 surface can be generated. The two key issues are:
 
-1. It only contains the irreducible portion of the Brillouin zone (since symmetry was
-   used in the calculation) and therefore does not contain enough information to plot
+1. It may only contain the irreducible portion of the Brillouin zone (if symmetry was
+   used in the calculation) and therefore may not contain enough information to plot
    the Fermi surface across the full reciprocal lattice.
-2. It was calculated on a relatively coarse k-point mesh and will therefore produce a
-   rather jagged Fermi surface.
+2. It may have been calculated on a relatively coarse k-point mesh and will therefore
+   produce a rather jagged Fermi surface.
 
-Both issues can be solved be interpolating the band structure onto a denser k-point
+Both issues can be solved by interpolating the band structure onto a denser k-point
 mesh. This is achieved by using `BoltzTraP2 <https://gitlab.com/sousaw/BoltzTraP2>`_
 to Fourier interpolate the eigenvalues onto a denser mesh that covers the full
 Brillouin zone.
@@ -56,17 +104,89 @@ Brillouin zone.
 The degree of interpolation is controlled by the ``--interpolation-factor`` (``-i``)
 argument. A value of 8 (the default value), roughly indicates that the interpolated band
 structure will contain 8x as many k-points. Increasing the interpolation factor will
-result in more smooth Fermi surfaces. For example:
+result in smoother Fermi surfaces. For example:
 
 .. code-block:: bash
 
-    ifermi --interpolation-factor 10
-
+    ifermi plot --interpolation-factor 10
 
 .. WARNING::
 
-    As the interpolation increases, the generation of the Fermi surface and plot will
-    take a longer time and can result in large file sizes.
+    As the interpolation increases, the generation of the Fermi surface, analysis and
+    plotting will take a longer time and can result in large file sizes.
+
+Fermi surface energy
+~~~~~~~~~~~~~~~~~~~~
+
+The energy level offset at which the Fermi surface is calculated is controlled by the
+``--mu`` option. The energy level is given relative to the Fermi level of the VASP
+calculation and is given in eV. By default, the Fermi surface is calculated at
+``mu = 0``, i.e., at the Fermi level.
+
+For gapped materials, ``mu`` must be selected so that it falls within the
+conduction or valence bands otherwise no Fermi surface will be obtained. For
+example. The following command will generate the Fermi surface at 1 eV above the Fermi
+level:
+
+.. code-block:: bash
+
+    ifermi plot --mu 1
+
+
+.. _property-gen:
+
+Property projections
+~~~~~~~~~~~~~~~~~~~~
+
+Additional properties, such as the group velocity and orbital magnetisation (spin
+texture), can be projected onto the Fermi surface using the ``--property`` option. The
+group velocities are calculated during Fourier interpolation and can be included in the
+Fermi surface using:
+
+.. code-block:: bash
+
+    ifermi plot --property velocity
+
+
+For calculations performed using spin–orbit coupling or non-collinear magnetism, the
+spin magnetisation can be projected onto the Fermi surface using:
+
+.. code-block:: bash
+
+    ifermi plot --property spin
+
+.. WARNING::
+
+    Projecting the spin magnetisation requires the k-point mesh to cover the entire
+    Brillouin zone. I.e., the DFT calculation must have been performed without symmetry
+    (``ISYM = - 1`` in VASP).
+
+It is possible to calculate the scalar projection of the the Fermi surface properties
+onto a cartesian axis using the ``--projection-axis`` option.. For example, to use the
+scalar projection of the spin magnetisation onto the [0 0 1] cartesian direction:
+
+.. code-block:: bash
+
+    ifermi plot --property spin --projection-axis 0 0 1
+
+Reciprocal space
+~~~~~~~~~~~~~~~~
+
+By default, the Wigner–Seitz cell is used to contain to the Fermi surface. The
+parallelepiped reciprocal lattice cell can be used instead by selecting the
+``--reciprocal-cell`` option (``-r``). For example:
+
+.. code-block:: bash
+
+    ifermi plot --reciprocal-cell
+
+
+Visualisation options
+---------------------
+
+In addition to the options for generating Fermi surfaces, there are several options
+that control the visualisation parameters. These options are only available for the
+``plot`` subcommand.
 
 Plotting backend
 ~~~~~~~~~~~~~~~~
@@ -86,7 +206,7 @@ example, to use matplotlib:
 
 .. code-block:: bash
 
-    ifermi --type matplotlib
+    ifermi plot --type matplotlib
 
 Output files
 ~~~~~~~~~~~~
@@ -96,7 +216,7 @@ file can be specified using the ``--output`` (``-o``) option. For example:
 
 .. code-block:: bash
 
-    ifermi --output fermi-surface.jpg
+    ifermi plot --output fermi-surface.jpg
 
 .. NOTE::
 
@@ -120,27 +240,12 @@ is to plot both spins but a single spin channel can be selected through the name
 
 .. code-block:: bash
 
-    ifermi --spin up
+    ifermi plot --spin up
 
 .. image:: _static/fs-spin-up.jpg
     :height: 250px
     :align: center
 
-Fermi surface energy
-~~~~~~~~~~~~~~~~~~~~
-
-The energy level offset at which the Fermi surface is calculated is controlled by the ``--mu``
-option. The energy level is given relative to the Fermi level of the VASP calculation and is given in eV.
-By default, the Fermi surface is calculated at ``mu = 0``, i.e., at the Fermi level.
-
-For gapped materials, ``mu`` must be selected so that it falls within the
-conduction or valence bands otherwise no Fermi surface will be displayed. For
-example. The following command will generate the Fermi surface at 1 eV above the Fermi
-level:
-
-.. code-block:: bash
-
-    ifermi --mu 1
 
 Changing the viewpoint
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -159,45 +264,146 @@ As an example, the viewpoint could be changed using:
 
 .. code-block:: bash
 
-    ifermi --azimuth 120 --elevation 5
+    ifermi plot --azimuth 120 --elevation 5
 
 .. image:: _static/fs-viewpoint.jpg
     :height: 250px
     :align: center
 
-Reciprocal space
-~~~~~~~~~~~~~~~~
+.. _prop-style:
+Styling face properties
+~~~~~~~~~~~~~~~~~~~~~~~
 
-By default, the Wigner–Seitz cell is used to contain to the Fermi surface. The
-parallelepiped reciprocal lattice cell can be used instead by selecting the
-``--reciprocal-cell`` option (``-r``). For example:
+As described in the :ref:`property-gen` section, Fermi surfaces (and Fermi slices)
+can include a property projected onto the isosurface faces. By default, if properties
+are included in the Fermi surface they will be indicated by coloring of the isosurface
+colors. If the face property is a vector, the norm of the vector will be used as the
+color intensity. The colormap of the surface can be changed using the
+``--property-colormap`` option. All `matplotlib colorrmaps<https://matplotlib.org/stable/gallery/color/colormap_reference.html>`_
+are supported. For example:
 
 .. code-block:: bash
 
-    ifermi --reciprocal-cell
+    ifermi plot --property velocity --property-colormap viridis
 
-Generating slices
-~~~~~~~~~~~~~~~~~
+.. image:: _static/fs-velocity.jpg
+    :height: 250px
+    :align: center
+
+The minimum and maximum values for the colorbar limits can be set using the ``--cmin``
+and ``--cmax`` parameters. These should be used when quantitatively comparing surface
+properties between two plots. For example:
+
+.. code-block:: bash
+
+    ifermi plot --property velocity --cmin 0 --cmax 5
+
+As described above, it is also possible calculate the scalar projection of the
+face properties onto a cartesian axis using the ``--projection-axis`` option. When
+combined with a diverging colormap this can be used to indicate surface properties that
+vary between positive and negative numbers. For example, below we color the Fermi
+surface of MgB2 by the projection of the group velocity onto the [0 0 1] vector (z-axis).
+
+.. code-block:: bash
+
+    ifermi plot --property velocity --projection-axis 0 0 1 --property-colormap RdBu
+
+
+.. image:: _static/fs-velocity-projection.jpg
+    :height: 250px
+    :align: center
+
+Vector valued Fermi surface properties (such as group velocity or spin
+magnetisation) can also be visualised as arrows using the ``--vector-property`` option.
+If ``--projection-axis`` is set, the color of the arrows will be determined by the
+scalar projection of the property vectors onto the specified axis, otherwise the norm
+of the projections will be used. The colormap used to color the arrows is specified
+using ``--vector-colormap``. Lastly, often it is useful to hide the isosurface
+(``--hide-surface`` option) or high-symmetry labels (``-hide-labels``)
+when visualising arrows. An example of how to combine these options is given below:
+
+.. code-block:: bash
+
+    ifermi plot --property velocity --projection-axis 0 0 1 --property-colormap RdBu \
+                --vector-property --vector-colormap RdBu --hide-surface --hide-labels
+
+
+.. image:: _static/fs-velocity-arrow.jpg
+    :height: 250px
+    :align: center
+
+The size of the arrows can be controlled using the ``--vnorm`` parameter. This is
+particularly useful when quantitatively comparing vector properties across multiple
+Fermi surfaces. A larger ``vnorm`` value will increase the size of the arrows.
+The spacing between the arrows is controlled by the ``--vector-spacing`` option. Smaller
+values will increase the density of the arrows.
+
+Generating Fermi slices
+~~~~~~~~~~~~~~~~~~~~~~~
 
 IFermi can also generate two-dimensional slices of the Fermi surface along a specified
 plane using the ``--slice`` option. Planes are defined by their miller indices (a b c)
-and a distance from the plane, d. Most of the above options also apply to to Fermi slices.
-However, slices are always plotted using matplotlib as the backend.
+and a distance from the plane, d. Most of the above options also apply to to Fermi slices,
+however, slices are always plotted using matplotlib as the backend.
 
-For example, a slice through the (0 0 1) plane can be generated using:
+For example, a slice through the (0 0 1) plane that passes through the center of the
+Brillouin zone (Γ-point) can be generated using:
 
 .. code-block:: bash
 
-    ifermi --slice 0 0 1 0 --output slice.png
+    ifermi plot --slice 0 0 1 0
 
 .. image:: _static/slice.png
     :height: 250px
     :align: center
 
-Command-line interface
+Slices can contain segment properties in the same way that surfaces can contain face
+properties. To style slices with projections see :ref:`prop-style`_.
+When including arrows in Fermi slice figures, only the components of the
+arrows in the 2D plane will be shown. As an example below we plot the spin texture of
+BiSb (``examples/BiSb``) with and without arrows. The spin texture is colored by the
+projection of the spin onto the [0 0 1] cartesian direction.
+
+Without arrows:
+
+
+.. code-block:: bash
+
+    ifermi plot --mu -0.85  -i 10 --slice 0 0 1 0 --property spin --hide-cell \
+                --hide-labels --projection-axis 0 1 0 --property-colormap RdBu
+
+.. image:: _static/slice-property.png
+    :height: 250px
+    :align: center
+
+With arrows:
+
+.. code-block:: bash
+
+    ifermi plot --mu -0.85  -i 10 --slice 0 0 1 0 --property spin --hide-cell \
+                --hide-labels --projection-axis 0 1 0 --property-colormap RdBu \
+                --vector-property --vector-colormap RdBu --vnorm 5 --vector-spacing 0.025
+
+.. image:: _static/slice-arrows.png
+    :height: 250px
+    :align: center
+
+.. WARNING::
+
+    When generating spin texture plots for small regions of k-space, for example,
+    in a small area around the Γ-point, it is often necessary to increase the k-point
+    mesh density of the underlying DFT calculation. In the example above, the DFT
+    calculation was performed on a 21x21x21 k-point mesh.
+
+    Furthermore, projecting the spin magnetisation requires the k-point mesh to cover
+    the entire Brillouin zone. I.e., the DFT calculation must have been performed
+    without symmetry (``ISYM = - 1`` in VASP).
+
+
+``ifermi`` reference
 ----------------------
 
-.. click:: ifermi.cli:plot
-  :prog: ifermi plot
+.. click:: ifermi.cli:cli
+  :prog: ifermi
   :nested: full
 

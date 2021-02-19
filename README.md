@@ -41,11 +41,11 @@ ifermi info
 Fermi Surface Summary
 =====================
 
-  # surfaces: 10
+  # surfaces: 5
   Area: 32.745 Å⁻²
 
-Isosurfaces:
-~~~~~~~~~~~~
+Isosurfaces
+~~~~~~~~~~~
 
     Band    Area [Å⁻²]   Dimensionality    Orientation
   ------  ------------  ----------------  -------------

@@ -67,6 +67,7 @@ _plotly_sym_pt_style = {"marker": {"size": 5, "color": "black"}}
 _plotly_sym_label_style = dict(
     xshift=15, yshift=15, showarrow=False, font={"size": 20, "color": "black"}
 )
+_plotly_cbar_style = {"lenmode": 'fraction', "len": 0.5, "tickfont": {"size": 15}}
 
 # define mayavi default styles
 _mayavi_sym_label_style = {
@@ -558,6 +559,7 @@ class FermiSurfacePlotter:
                     cmin=plot_data.cmin,
                     cmax=plot_data.cmax,
                     **mesh_kwargs,
+                    colorbar=_plotly_cbar_style,
                 )
                 meshes.append(trace)
         else:
@@ -1169,20 +1171,11 @@ def save_plot(plot: Any, filename: Union[Path, str], scale: float = SCALE):
         plot.savefig(filename, dpi=scale * 100, bbox_inches="tight")
     elif plot_type == "plotly":
         if kaleido is None:
-            # from kaleido.scopes.plotly import PlotlyScope
-            # scope = PlotlyScope()
-            #
-            # fig = dict(
-            #     data=[dict(type="scattergl", y=[1, 3, 2])],
-            #     config=dict(plotGlPixelRatio=4)
-            # )
-            # with open("figure.png", "wb") as f:
-            #     f.write(scope.transform(fig, format="png"))
             raise ValueError(
                 "kaleido package required to save static ploty images\n"
                 "please install it using:\npip install kaleido"
             )
-        plot.write_image(filename, engine="kaleido", scale=scale)
+        plot.write_image(filename, engine="kaleido", scale=scale, width=750, height=750)
     elif plot_type == "mayavi":
         plot.savefig(filename, magnification=scale)
 
