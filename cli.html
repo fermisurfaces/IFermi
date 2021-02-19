@@ -99,19 +99,29 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Command-line interface</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#generation-options">Generation options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#input-file">Input file</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#interpolation-factor">Interpolation factor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fermi-surface-energy">Fermi surface energy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#property-projections">Property projections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reciprocal-space">Reciprocal space</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#visualisation-options">Visualisation options</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#plotting-backend">Plotting backend</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#output-files">Output files</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#selecting-spin-channels">Selecting spin channels</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#fermi-surface-energy">Fermi surface energy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#changing-the-viewpoint">Changing the viewpoint</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#reciprocal-space">Reciprocal space</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#generating-slices">Generating slices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#styling-face-properties">Styling face properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generating-fermi-slices">Generating Fermi slices</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#command-line-interface">Command-line interface</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#ifermi-plot">ifermi plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ifermi-reference"><code class="docutils literal notranslate"><span class="pre">ifermi</span></code> reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ifermi">ifermi</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ifermi-info">info</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ifermi-plot">plot</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -223,8 +233,9 @@
 </style>
 <div class="section" id="ifermi-program">
 <h1><code class="docutils literal notranslate"><span class="pre">ifermi</span></code> program<a class="headerlink" href="#ifermi-program" title="Permalink to this headline">¶</a></h1>
-<p>IFermi can be used on the command-line through the <code class="docutils literal notranslate"><span class="pre">ifermi</span></code>
-command. All of the options provided in the command-line are also accessible using the
+<p>IFermi incluudes command-line tools for generating, analysing, and plotting Fermi
+surfaces. The tools can be accessed using the <code class="docutils literal notranslate"><span class="pre">ifermi</span></code> command-line program.
+All of the options provided in the command-line are also accessible using the
 <a class="reference external" href="plotting_using_python.html">Python API</a>.</p>
 <p>IFermi works in 4 stages:</p>
 <ol class="arabic simple">
@@ -232,54 +243,149 @@ command. All of the options provided in the command-line are also accessible usi
 <li><p>It interpolates the band structure onto a dense k-point mesh using Fourier
 interpolation as implemented in <a class="reference external" href="https://gitlab.com/sousaw/BoltzTraP2">BoltzTraP2</a>.</p></li>
 <li><p>It extracts the Fermi surface at a given energy level.</p></li>
-<li><p>It plots the surface using a number of plotting backends.</p></li>
+<li><p>It extracts information about the Fermi surface or plots it using several
+plotting backends.</p></li>
 </ol>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Currently, IFermi only works with VASP calculation outputs. Support for additional
 DFT packages will be added in a future release.</p>
 </div>
-<div class="section" id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
-<p>IFermi is controlled on the command-line using the <code class="docutils literal notranslate"><span class="pre">ifermi</span></code> command. The only input
-required is a vasprun.xml file. To plot an interactive Fermi surface just run:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi
+<p>IFermi is controlled on the command-line using the <code class="docutils literal notranslate"><span class="pre">ifermi</span></code> command. The available
+options can be listed using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi -h
 </pre></div>
 </div>
+<p>Information on the Fermi surface area, dimensionality,
+and orientation can be extracted using the <code class="docutils literal notranslate"><span class="pre">info</span></code> subcommand.
+The only input required is a vasprun.xml. For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi info
+</pre></div>
+</div>
+<p>An example output for MgB:sub:<cite>2</cite> is shown below:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gh">Fermi Surface Summary</span>
+<span class="gh">=====================</span>
+
+  # surfaces: 5
+  Area: 32.745 Å⁻²
+
+Isosurfaces
+~~~~~~~~~~~
+
+    Band    Area [Å⁻²]   Dimensionality    Orientation
+  ------  ------------  ----------------  -------------
+       6         1.944         2D           (0, 0, 1)
+       7         4.370         1D           (0, 0, 1)
+       7         2.961         2D           (0, 0, 1)
+       8         3.549         1D           (0, 0, 1)
+       8         3.549         1D           (0, 0, 1)
+</pre></div>
+</div>
+<p>Fermi surfaces and slices can be visualised using the <code class="docutils literal notranslate"><span class="pre">plot</span></code> subcommand. Again, the
+only input required is a vasprun.xml file. For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot
+</pre></div>
+</div>
+<p>The two subcommands <code class="docutils literal notranslate"><span class="pre">info</span></code> and <code class="docutils literal notranslate"><span class="pre">plot</span></code> share many of the same options
+which we describe below.</p>
+<div class="section" id="generation-options">
+<h2>Generation options<a class="headerlink" href="#generation-options" title="Permalink to this headline">¶</a></h2>
+<p>There are several options affect the generation of Fermi surfaces from <em>ab initio</em>
+calculation outputs. These options are available for both the <code class="docutils literal notranslate"><span class="pre">info</span></code> and <code class="docutils literal notranslate"><span class="pre">plot</span></code>
+subcommands.</p>
+<div class="section" id="input-file">
+<h3>Input file<a class="headerlink" href="#input-file" title="Permalink to this headline">¶</a></h3>
 <p>IFermi will look for a vasprun.xml or vasprun.xml.gz file in the current directory.
 To specify a particular vasprun file the <code class="docutils literal notranslate"><span class="pre">--filename</span></code> (or <code class="docutils literal notranslate"><span class="pre">-f</span></code> for short) option
 can be used:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi --filename my_vasprun.xml
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --filename my_vasprun.xml
 </pre></div>
+</div>
 </div>
 <div class="section" id="interpolation-factor">
 <h3>Interpolation factor<a class="headerlink" href="#interpolation-factor" title="Permalink to this headline">¶</a></h3>
 <p>The band structure extracted from the vasprun must be processed before the Fermi
 surface can be generated. The two key issues are:</p>
 <ol class="arabic simple">
-<li><p>It only contains the irreducible portion of the Brillouin zone (since symmetry was
-used in the calculation) and therefore does not contain enough information to plot
+<li><p>It may only contain the irreducible portion of the Brillouin zone (if symmetry was
+used in the calculation) and therefore may not contain enough information to plot
 the Fermi surface across the full reciprocal lattice.</p></li>
-<li><p>It was calculated on a relatively coarse k-point mesh and will therefore produce a
-rather jagged Fermi surface.</p></li>
+<li><p>It may have been calculated on a relatively coarse k-point mesh and will therefore
+produce a rather jagged Fermi surface.</p></li>
 </ol>
-<p>Both issues can be solved be interpolating the band structure onto a denser k-point
+<p>Both issues can be solved by interpolating the band structure onto a denser k-point
 mesh. This is achieved by using <a class="reference external" href="https://gitlab.com/sousaw/BoltzTraP2">BoltzTraP2</a>
 to Fourier interpolate the eigenvalues onto a denser mesh that covers the full
 Brillouin zone.</p>
 <p>The degree of interpolation is controlled by the <code class="docutils literal notranslate"><span class="pre">--interpolation-factor</span></code> (<code class="docutils literal notranslate"><span class="pre">-i</span></code>)
 argument. A value of 8 (the default value), roughly indicates that the interpolated band
 structure will contain 8x as many k-points. Increasing the interpolation factor will
-result in more smooth Fermi surfaces. For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi --interpolation-factor <span class="m">10</span>
+result in smoother Fermi surfaces. For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --interpolation-factor <span class="m">10</span>
 </pre></div>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>As the interpolation increases, the generation of the Fermi surface and plot will
-take a longer time and can result in large file sizes.</p>
+<p>As the interpolation increases, the generation of the Fermi surface, analysis and
+plotting will take a longer time and can result in large file sizes.</p>
 </div>
 </div>
+<div class="section" id="fermi-surface-energy">
+<h3>Fermi surface energy<a class="headerlink" href="#fermi-surface-energy" title="Permalink to this headline">¶</a></h3>
+<p>The energy level offset at which the Fermi surface is calculated is controlled by the
+<code class="docutils literal notranslate"><span class="pre">--mu</span></code> option. The energy level is given relative to the Fermi level of the VASP
+calculation and is given in eV. By default, the Fermi surface is calculated at
+<code class="docutils literal notranslate"><span class="pre">mu</span> <span class="pre">=</span> <span class="pre">0</span></code>, i.e., at the Fermi level.</p>
+<p>For gapped materials, <code class="docutils literal notranslate"><span class="pre">mu</span></code> must be selected so that it falls within the
+conduction or valence bands otherwise no Fermi surface will be obtained. For
+example. The following command will generate the Fermi surface at 1 eV above the Fermi
+level:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --mu <span class="m">1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="property-projections">
+<span id="property-gen"></span><h3>Property projections<a class="headerlink" href="#property-projections" title="Permalink to this headline">¶</a></h3>
+<p>Additional properties, such as the group velocity and orbital magnetisation (spin
+texture), can be projected onto the Fermi surface using the <code class="docutils literal notranslate"><span class="pre">--property</span></code> option. The
+group velocities are calculated during Fourier interpolation and can be included in the
+Fermi surface using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --property velocity
+</pre></div>
+</div>
+<p>For calculations performed using spin–orbit coupling or non-collinear magnetism, the
+spin magnetisation can be projected onto the Fermi surface using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --property spin
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Projecting the spin magnetisation requires the k-point mesh to cover the entire
+Brillouin zone. I.e., the DFT calculation must have been performed without symmetry
+(<code class="docutils literal notranslate"><span class="pre">ISYM</span> <span class="pre">=</span> <span class="pre">-</span> <span class="pre">1</span></code> in VASP).</p>
+</div>
+<p>It is possible to calculate the scalar projection of the the Fermi surface properties
+onto a cartesian axis using the <code class="docutils literal notranslate"><span class="pre">--projection-axis</span></code> option.. For example, to use the
+scalar projection of the spin magnetisation onto the [0 0 1] cartesian direction:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --property spin --projection-axis <span class="m">0</span> <span class="m">0</span> <span class="m">1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="reciprocal-space">
+<h3>Reciprocal space<a class="headerlink" href="#reciprocal-space" title="Permalink to this headline">¶</a></h3>
+<p>By default, the Wigner–Seitz cell is used to contain to the Fermi surface. The
+parallelepiped reciprocal lattice cell can be used instead by selecting the
+<code class="docutils literal notranslate"><span class="pre">--reciprocal-cell</span></code> option (<code class="docutils literal notranslate"><span class="pre">-r</span></code>). For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --reciprocal-cell
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="visualisation-options">
+<h2>Visualisation options<a class="headerlink" href="#visualisation-options" title="Permalink to this headline">¶</a></h2>
+<p>In addition to the options for generating Fermi surfaces, there are several options
+that control the visualisation parameters. These options are only available for the
+<code class="docutils literal notranslate"><span class="pre">plot</span></code> subcommand.</p>
 <div class="section" id="plotting-backend">
 <h3>Plotting backend<a class="headerlink" href="#plotting-backend" title="Permalink to this headline">¶</a></h3>
 <p>IFermi supports multiple plotting backends. The default is to the
@@ -293,7 +399,7 @@ and then install IFermi using <code class="docutils literal notranslate"><span c
 </div>
 <p>Different plotting packages can be specified using the <code class="docutils literal notranslate"><span class="pre">--type</span></code> option (<code class="docutils literal notranslate"><span class="pre">-t</span></code>). For
 example, to use matplotlib:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi --type matplotlib
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --type matplotlib
 </pre></div>
 </div>
 </div>
@@ -301,7 +407,7 @@ example, to use matplotlib:</p>
 <h3>Output files<a class="headerlink" href="#output-files" title="Permalink to this headline">¶</a></h3>
 <p>By default, IFermi generates interactive plots. To generate static images, an output
 file can be specified using the <code class="docutils literal notranslate"><span class="pre">--output</span></code> (<code class="docutils literal notranslate"><span class="pre">-o</span></code>) option. For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi --output fermi-surface.jpg
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --output fermi-surface.jpg
 </pre></div>
 </div>
 <div class="admonition note">
@@ -319,23 +425,10 @@ is plotting two redundant surfaces. To stop it from doing this, we can specify t
 only one spin component should be plotted using the <code class="docutils literal notranslate"><span class="pre">--spin</span></code> option. The default
 is to plot both spins but a single spin channel can be selected through the names
 “up” and “down”. For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi --spin up
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --spin up
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/fs-spin-up.jpg"><img alt="_images/fs-spin-up.jpg" class="align-center" src="_images/fs-spin-up.jpg" style="height: 250px;" /></a>
-</div>
-<div class="section" id="fermi-surface-energy">
-<h3>Fermi surface energy<a class="headerlink" href="#fermi-surface-energy" title="Permalink to this headline">¶</a></h3>
-<p>The energy level offset at which the Fermi surface is calculated is controlled by the <code class="docutils literal notranslate"><span class="pre">--mu</span></code>
-option. The energy level is given relative to the Fermi level of the VASP calculation and is given in eV.
-By default, the Fermi surface is calculated at <code class="docutils literal notranslate"><span class="pre">mu</span> <span class="pre">=</span> <span class="pre">0</span></code>, i.e., at the Fermi level.</p>
-<p>For gapped materials, <code class="docutils literal notranslate"><span class="pre">mu</span></code> must be selected so that it falls within the
-conduction or valence bands otherwise no Fermi surface will be displayed. For
-example. The following command will generate the Fermi surface at 1 eV above the Fermi
-level:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi --mu <span class="m">1</span>
-</pre></div>
-</div>
 </div>
 <div class="section" id="changing-the-viewpoint">
 <h3>Changing the viewpoint<a class="headerlink" href="#changing-the-viewpoint" title="Permalink to this headline">¶</a></h3>
@@ -350,37 +443,214 @@ the z-axis. The default is 35°.</p></li>
 </ul>
 <p>The viewpoint always directed to the center of the the Fermi surface (position [0 0 0]).
 As an example, the viewpoint could be changed using:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi --azimuth <span class="m">120</span> --elevation <span class="m">5</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --azimuth <span class="m">120</span> --elevation <span class="m">5</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/fs-viewpoint.jpg"><img alt="_images/fs-viewpoint.jpg" class="align-center" src="_images/fs-viewpoint.jpg" style="height: 250px;" /></a>
 </div>
-<div class="section" id="reciprocal-space">
-<h3>Reciprocal space<a class="headerlink" href="#reciprocal-space" title="Permalink to this headline">¶</a></h3>
-<p>By default, the Wigner–Seitz cell is used to contain to the Fermi surface. The
-parallelepiped reciprocal lattice cell can be used instead by selecting the
-<code class="docutils literal notranslate"><span class="pre">--reciprocal-cell</span></code> option (<code class="docutils literal notranslate"><span class="pre">-r</span></code>). For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi --reciprocal-cell
+<div class="section" id="styling-face-properties">
+<h3>Styling face properties<a class="headerlink" href="#styling-face-properties" title="Permalink to this headline">¶</a></h3>
+<p>As described in the <a class="reference internal" href="#property-gen"><span class="std std-ref">Property projections</span></a> section, Fermi surfaces (and Fermi slices)
+can include a property projected onto the isosurface faces. By default, if properties
+are included in the Fermi surface they will be indicated by coloring of the isosurface
+colors. If the face property is a vector, the norm of the vector will be used as the
+color intensity. The colormap of the surface can be changed using the
+<code class="docutils literal notranslate"><span class="pre">--property-colormap</span></code> option. All <a href="#id4"><span class="problematic" id="id5">`matplotlib colorrmaps&lt;https://matplotlib.org/stable/gallery/color/colormap_reference.html&gt;`_</span></a>
+are supported. For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --property velocity --property-colormap viridis
 </pre></div>
 </div>
+<a class="reference internal image-reference" href="_images/fs-velocity.jpg"><img alt="_images/fs-velocity.jpg" class="align-center" src="_images/fs-velocity.jpg" style="height: 250px;" /></a>
+<p>The minimum and maximum values for the colorbar limits can be set using the <code class="docutils literal notranslate"><span class="pre">--cmin</span></code>
+and <code class="docutils literal notranslate"><span class="pre">--cmax</span></code> parameters. These should be used when quantitatively comparing surface
+properties between two plots. For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --property velocity --cmin <span class="m">0</span> --cmax <span class="m">5</span>
+</pre></div>
 </div>
-<div class="section" id="generating-slices">
-<h3>Generating slices<a class="headerlink" href="#generating-slices" title="Permalink to this headline">¶</a></h3>
+<p>As described above, it is also possible calculate the scalar projection of the
+face properties onto a cartesian axis using the <code class="docutils literal notranslate"><span class="pre">--projection-axis</span></code> option. When
+combined with a diverging colormap this can be used to indicate surface properties that
+vary between positive and negative numbers. For example, below we color the Fermi
+surface of MgB2 by the projection of the group velocity onto the [0 0 1] vector (z-axis).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --property velocity --projection-axis <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> --property-colormap RdBu
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/fs-velocity-projection.jpg"><img alt="_images/fs-velocity-projection.jpg" class="align-center" src="_images/fs-velocity-projection.jpg" style="height: 250px;" /></a>
+<p>Vector valued Fermi surface properties (such as group velocity or spin
+magnetisation) can also be visualised as arrows using the <code class="docutils literal notranslate"><span class="pre">--vector-property</span></code> option.
+If <code class="docutils literal notranslate"><span class="pre">--projection-axis</span></code> is set, the color of the arrows will be determined by the
+scalar projection of the property vectors onto the specified axis, otherwise the norm
+of the projections will be used. The colormap used to color the arrows is specified
+using <code class="docutils literal notranslate"><span class="pre">--vector-colormap</span></code>. Lastly, often it is useful to hide the isosurface
+(<code class="docutils literal notranslate"><span class="pre">--hide-surface</span></code> option) or high-symmetry labels (<code class="docutils literal notranslate"><span class="pre">-hide-labels</span></code>)
+when visualising arrows. An example of how to combine these options is given below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --property velocity --projection-axis <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> --property-colormap RdBu <span class="se">\</span>
+            --vector-property --vector-colormap RdBu --hide-surface --hide-labels
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/fs-velocity-arrow.jpg"><img alt="_images/fs-velocity-arrow.jpg" class="align-center" src="_images/fs-velocity-arrow.jpg" style="height: 250px;" /></a>
+<p>The size of the arrows can be controlled using the <code class="docutils literal notranslate"><span class="pre">--vnorm</span></code> parameter. This is
+particularly useful when quantitatively comparing vector properties across multiple
+Fermi surfaces. A larger <code class="docutils literal notranslate"><span class="pre">vnorm</span></code> value will increase the size of the arrows.
+The spacing between the arrows is controlled by the <code class="docutils literal notranslate"><span class="pre">--vector-spacing</span></code> option. Smaller
+values will increase the density of the arrows.</p>
+</div>
+<div class="section" id="generating-fermi-slices">
+<h3>Generating Fermi slices<a class="headerlink" href="#generating-fermi-slices" title="Permalink to this headline">¶</a></h3>
 <p>IFermi can also generate two-dimensional slices of the Fermi surface along a specified
 plane using the <code class="docutils literal notranslate"><span class="pre">--slice</span></code> option. Planes are defined by their miller indices (a b c)
-and a distance from the plane, d. Most of the above options also apply to to Fermi slices.
-However, slices are always plotted using matplotlib as the backend.</p>
-<p>For example, a slice through the (0 0 1) plane can be generated using:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi --slice <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span> --output slice.png
+and a distance from the plane, d. Most of the above options also apply to to Fermi slices,
+however, slices are always plotted using matplotlib as the backend.</p>
+<p>For example, a slice through the (0 0 1) plane that passes through the center of the
+Brillouin zone (Γ-point) can be generated using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --slice <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/slice.png"><img alt="_images/slice.png" class="align-center" src="_images/slice.png" style="height: 250px;" /></a>
+<p>Slices can contain segment properties in the same way that surfaces can contain face
+properties. To style slices with projections see <a href="#id2"><span class="problematic" id="id3">:ref:`prop-style`_</span></a>.
+When including arrows in Fermi slice figures, only the components of the
+arrows in the 2D plane will be shown. As an example below we plot the spin texture of
+BiSb (<code class="docutils literal notranslate"><span class="pre">examples/BiSb</span></code>) with and without arrows. The spin texture is colored by the
+projection of the spin onto the [0 0 1] cartesian direction.</p>
+<p>Without arrows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --mu -0.85  -i <span class="m">10</span> --slice <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span> --property spin --hide-cell <span class="se">\</span>
+            --hide-labels --projection-axis <span class="m">0</span> <span class="m">1</span> <span class="m">0</span> --property-colormap RdBu
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/slice-property.png"><img alt="_images/slice-property.png" class="align-center" src="_images/slice-property.png" style="height: 250px;" /></a>
+<p>With arrows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --mu -0.85  -i <span class="m">10</span> --slice <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span> --property spin --hide-cell <span class="se">\</span>
+            --hide-labels --projection-axis <span class="m">0</span> <span class="m">1</span> <span class="m">0</span> --property-colormap RdBu <span class="se">\</span>
+            --vector-property --vector-colormap RdBu --vnorm <span class="m">5</span> --vector-spacing <span class="m">0</span>.025
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/slice-arrows.png"><img alt="_images/slice-arrows.png" class="align-center" src="_images/slice-arrows.png" style="height: 250px;" /></a>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>When generating spin texture plots for small regions of k-space, for example,
+in a small area around the Γ-point, it is often necessary to increase the k-point
+mesh density of the underlying DFT calculation. In the example above, the DFT
+calculation was performed on a 21x21x21 k-point mesh.</p>
+<p>Furthermore, projecting the spin magnetisation requires the k-point mesh to cover
+the entire Brillouin zone. I.e., the DFT calculation must have been performed
+without symmetry (<code class="docutils literal notranslate"><span class="pre">ISYM</span> <span class="pre">=</span> <span class="pre">-</span> <span class="pre">1</span></code> in VASP).</p>
 </div>
 </div>
-<div class="section" id="command-line-interface">
-<h2>Command-line interface<a class="headerlink" href="#command-line-interface" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="ifermi-reference">
+<h2><code class="docutils literal notranslate"><span class="pre">ifermi</span></code> reference<a class="headerlink" href="#ifermi-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="ifermi">
+<h3>ifermi<a class="headerlink" href="#ifermi" title="Permalink to this headline">¶</a></h3>
+<p>IFermi is a tool for the generation, analysis and plotting of Fermi surfaces.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ifermi <span class="o">[</span>OPTIONS<span class="o">]</span> COMMAND <span class="o">[</span>ARGS<span class="o">]</span>...
+</pre></div>
+</div>
+<div class="section" id="ifermi-info">
+<h4>info<a class="headerlink" href="#ifermi-info" title="Permalink to this headline">¶</a></h4>
+<p>Calculate information about the Fermi surface.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ifermi info <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="std option">
+<dt id="cmdoption-ifermi-info-f">
+<code class="sig-name descname">-f</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--filename</code><code class="sig-prename descclassname"> &lt;filename&gt;</code><a class="headerlink" href="#cmdoption-ifermi-info-f" title="Permalink to this definition">¶</a></dt>
+<dd><p>vasprun.xml file to plot</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-info-m">
+<code class="sig-name descname">-m</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--mu</code><code class="sig-prename descclassname"> &lt;mu&gt;</code><a class="headerlink" href="#cmdoption-ifermi-info-m" title="Permalink to this definition">¶</a></dt>
+<dd><p>offset from the Fermi level at which to calculate Fermi surface</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>0.0</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-info-wigner">
+<code class="sig-name descname">--wigner</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--no-wigner</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-ifermi-info-wigner" title="Permalink to this definition">¶</a></dt>
+<dd><p>use Wigner-Seitz cell rather than reciprocal lattice parallelepiped</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-info-i">
+<code class="sig-name descname">-i</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--interpolation-factor</code><code class="sig-prename descclassname"> &lt;interpolation_factor&gt;</code><a class="headerlink" href="#cmdoption-ifermi-info-i" title="Permalink to this definition">¶</a></dt>
+<dd><p>interpolation factor for band structure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>8.0</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-info-property">
+<code class="sig-name descname">--property</code><code class="sig-prename descclassname"> &lt;property&gt;</code><a class="headerlink" href="#cmdoption-ifermi-info-property" title="Permalink to this definition">¶</a></dt>
+<dd><p>projection type</p>
+<dl class="field-list simple">
+<dt class="field-odd">Options</dt>
+<dd class="field-odd"><p>velocity|spin</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-info-projection-axis">
+<code class="sig-name descname">--projection-axis</code><code class="sig-prename descclassname"> &lt;projection_axis&gt;</code><a class="headerlink" href="#cmdoption-ifermi-info-projection-axis" title="Permalink to this definition">¶</a></dt>
+<dd><p>use dot product of property onto cartesian axis (e.g. 0 0 1)</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-info-decimate-factor">
+<code class="sig-name descname">--decimate-factor</code><code class="sig-prename descclassname"> &lt;decimate_factor&gt;</code><a class="headerlink" href="#cmdoption-ifermi-info-decimate-factor" title="Permalink to this definition">¶</a></dt>
+<dd><p>factor by which to decimate surfaces (i.e. 0.8 gives 20 % fewer faces)</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-info-smooth">
+<code class="sig-name descname">--smooth</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-ifermi-info-smooth" title="Permalink to this definition">¶</a></dt>
+<dd><p>smooth the Fermi surface</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-info-norm">
+<code class="sig-name descname">--norm</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--no-norm</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-ifermi-info-norm" title="Permalink to this definition">¶</a></dt>
+<dd><p>average property norms (overridden by –projection-axis)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-info-precision">
+<code class="sig-name descname">--precision</code><code class="sig-prename descclassname"> &lt;precision&gt;</code><a class="headerlink" href="#cmdoption-ifermi-info-precision" title="Permalink to this definition">¶</a></dt>
+<dd><p>number of decimal places in output</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>3</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
 <div class="section" id="ifermi-plot">
-<h3>ifermi plot<a class="headerlink" href="#ifermi-plot" title="Permalink to this headline">¶</a></h3>
+<h4>plot<a class="headerlink" href="#ifermi-plot" title="Permalink to this headline">¶</a></h4>
 <p>Plot a Fermi surface from a vasprun.xml file.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ifermi plot <span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
@@ -393,18 +663,23 @@ However, slices are always plotted using matplotlib as the backend.</p>
 </dd></dl>
 
 <dl class="std option">
-<dt id="cmdoption-ifermi-plot-o">
-<code class="sig-name descname">-o</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--output</code><code class="sig-prename descclassname"> &lt;output_filename&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-o" title="Permalink to this definition">¶</a></dt>
-<dd><p>output filename</p>
-</dd></dl>
-
-<dl class="std option">
 <dt id="cmdoption-ifermi-plot-m">
 <code class="sig-name descname">-m</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--mu</code><code class="sig-prename descclassname"> &lt;mu&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-m" title="Permalink to this definition">¶</a></dt>
 <dd><p>offset from the Fermi level at which to calculate Fermi surface</p>
 <dl class="field-list simple">
 <dt class="field-odd">Default</dt>
 <dd class="field-odd"><p>0.0</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-wigner">
+<code class="sig-name descname">--wigner</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--no-wigner</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-ifermi-plot-wigner" title="Permalink to this definition">¶</a></dt>
+<dd><p>use Wigner-Seitz cell rather than reciprocal lattice parallelepiped</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>True</p>
 </dd>
 </dl>
 </dd></dl>
@@ -421,14 +696,43 @@ However, slices are always plotted using matplotlib as the backend.</p>
 </dd></dl>
 
 <dl class="std option">
-<dt id="cmdoption-ifermi-plot-wigner">
-<code class="sig-name descname">--wigner</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--no-wigner</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-ifermi-plot-wigner" title="Permalink to this definition">¶</a></dt>
-<dd><p>use Wigner-Seitz cell rather than reciprocal lattice parallelepiped</p>
+<dt id="cmdoption-ifermi-plot-property">
+<code class="sig-name descname">--property</code><code class="sig-prename descclassname"> &lt;property&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-property" title="Permalink to this definition">¶</a></dt>
+<dd><p>projection type</p>
 <dl class="field-list simple">
-<dt class="field-odd">Default</dt>
-<dd class="field-odd"><p>True</p>
+<dt class="field-odd">Options</dt>
+<dd class="field-odd"><p>velocity|spin</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-projection-axis">
+<code class="sig-name descname">--projection-axis</code><code class="sig-prename descclassname"> &lt;projection_axis&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-projection-axis" title="Permalink to this definition">¶</a></dt>
+<dd><p>use dot product of property onto cartesian axis (e.g. 0 0 1)</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-decimate-factor">
+<code class="sig-name descname">--decimate-factor</code><code class="sig-prename descclassname"> &lt;decimate_factor&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-decimate-factor" title="Permalink to this definition">¶</a></dt>
+<dd><p>factor by which to decimate surfaces (i.e. 0.8 gives 20 % fewer faces)</p>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-smooth">
+<code class="sig-name descname">--smooth</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-ifermi-plot-smooth" title="Permalink to this definition">¶</a></dt>
+<dd><p>smooth the Fermi surface</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default</dt>
+<dd class="field-odd"><p>False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="std option">
+<dt id="cmdoption-ifermi-plot-o">
+<code class="sig-name descname">-o</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--output</code><code class="sig-prename descclassname"> &lt;output_filename&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-o" title="Permalink to this definition">¶</a></dt>
+<dd><p>output filename</p>
 </dd></dl>
 
 <dl class="std option">
@@ -479,17 +783,6 @@ However, slices are always plotted using matplotlib as the backend.</p>
 </dd></dl>
 
 <dl class="std option">
-<dt id="cmdoption-ifermi-plot-property">
-<code class="sig-name descname">--property</code><code class="sig-prename descclassname"> &lt;property&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-property" title="Permalink to this definition">¶</a></dt>
-<dd><p>property type</p>
-<dl class="field-list simple">
-<dt class="field-odd">Options</dt>
-<dd class="field-odd"><p>velocity|spin</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="std option">
 <dt id="cmdoption-ifermi-plot-color-property">
 <code class="sig-name descname">--color-property</code><code class="sig-prename descclassname"></code><code class="sig-prename descclassname">, </code><code class="sig-name descname">--no-color-property</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-ifermi-plot-color-property" title="Permalink to this definition">¶</a></dt>
 <dd><p>color Fermi surface properties</p>
@@ -521,12 +814,6 @@ However, slices are always plotted using matplotlib as the backend.</p>
 <dt id="cmdoption-ifermi-plot-vector-colormap">
 <code class="sig-name descname">--vector-colormap</code><code class="sig-prename descclassname"> &lt;vector_colormap&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-vector-colormap" title="Permalink to this definition">¶</a></dt>
 <dd><p>matplotlib colormap name for vectors</p>
-</dd></dl>
-
-<dl class="std option">
-<dt id="cmdoption-ifermi-plot-projection-axis">
-<code class="sig-name descname">--projection-axis</code><code class="sig-prename descclassname"> &lt;projection_axis&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-projection-axis" title="Permalink to this definition">¶</a></dt>
-<dd><p>color property by projecting onto cartesian axis (e.g. 0 0 1)</p>
 </dd></dl>
 
 <dl class="std option">
@@ -614,26 +901,9 @@ However, slices are always plotted using matplotlib as the backend.</p>
 </dd></dl>
 
 <dl class="std option">
-<dt id="cmdoption-ifermi-plot-smooth">
-<code class="sig-name descname">--smooth</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-ifermi-plot-smooth" title="Permalink to this definition">¶</a></dt>
-<dd><p>smooth the Fermi surface</p>
-<dl class="field-list simple">
-<dt class="field-odd">Default</dt>
-<dd class="field-odd"><p>False</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="std option">
 <dt id="cmdoption-ifermi-plot-slice">
 <code class="sig-name descname">--slice</code><code class="sig-prename descclassname"> &lt;slice&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-slice" title="Permalink to this definition">¶</a></dt>
 <dd><p>slice through the Brillouin zone (format: j k l dist)</p>
-</dd></dl>
-
-<dl class="std option">
-<dt id="cmdoption-ifermi-plot-decimate-factor">
-<code class="sig-name descname">--decimate-factor</code><code class="sig-prename descclassname"> &lt;decimate_factor&gt;</code><a class="headerlink" href="#cmdoption-ifermi-plot-decimate-factor" title="Permalink to this definition">¶</a></dt>
-<dd><p>factor by which to decimate surfaces (i.e. 0.8 gives 20 % fewer faces)</p>
 </dd></dl>
 
 <dl class="std option">
@@ -647,6 +917,7 @@ However, slices are always plotted using matplotlib as the backend.</p>
 </dl>
 </dd></dl>
 
+</div>
 </div>
 </div>
 </div>
