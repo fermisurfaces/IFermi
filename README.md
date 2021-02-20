@@ -35,7 +35,7 @@ Fermi surface properties, including dimensionality and orientation can be extrac
 from a vasprun.xml file using.
 
 ```bash
-ifermi info
+ifermi info --property velocity
 ```
 
 ```
@@ -43,18 +43,19 @@ Fermi Surface Summary
 =====================
 
   # surfaces: 5
-  Area: 32.745 Å⁻²
+  Area: 32.75 Å⁻²
+  Avg velocity: 9.131e+05 m/s
 
 Isosurfaces
 ~~~~~~~~~~~
 
-    Band    Area [Å⁻²]   Dimensionality    Orientation
-  ------  ------------  ----------------  -------------
-       6         1.944         2D           (0, 0, 1)
-       7         4.370         1D           (0, 0, 1)
-       7         2.961         2D           (0, 0, 1)
-       8         3.549         1D           (0, 0, 1)
-       8         3.549         1D           (0, 0, 1)
+    Band    Area [Å⁻²]    Velocity avg [m/s]   Dimensionality    Orientation
+  ------  ------------  --------------------  ----------------  -------------
+       6         1.944             7.178e+05         2D           (0, 0, 1)
+       7         4.370             9.092e+05         1D           (0, 0, 1)
+       7         2.961             5.880e+05         2D           (0, 0, 1)
+       8         3.549             1.105e+06         1D           (0, 0, 1)
+       8         3.549             1.105e+06         1D           (0, 0, 1)
 ```
 
 ### Visualisation
