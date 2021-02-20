@@ -19,7 +19,7 @@
   
   
   
-    <link rel="canonical" href="https://github.com/ajsearle97/IFermi_modules/ifermi/slice.html"/>
+    <link rel="canonical" href="https://github.com/fermisurfaces/IFermi_modules/ifermi/slice.html"/>
   
 
   
@@ -97,7 +97,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command-line interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../plotting_using_python.html">Plotting using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction_to_ifermi.html">Python API introduction</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Information</span></p>
 <ul>
@@ -282,7 +282,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">n_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Number of isolines in the Fermi slice.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_surfaces_per_spin</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_lines_per_spin</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">n_lines_per_band</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>

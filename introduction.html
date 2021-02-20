@@ -19,7 +19,7 @@
   
   
   
-    <link rel="canonical" href="https://github.com/ajsearle97/IFermiintroduction.html"/>
+    <link rel="canonical" href="https://github.com/fermisurfaces/IFermiintroduction.html"/>
   
 
   
@@ -112,7 +112,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command-line interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="plotting_using_python.html">Plotting using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction_to_ifermi.html">Python API introduction</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Information</span></p>
 <ul>
@@ -179,7 +179,7 @@
         
             
             
-              <a href="https://github.com/ajsearle97/IFermi/blob/master/docs_rst/introduction.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/fermisurfaces/IFermi/blob/master/docs_rst/introduction.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -225,7 +225,7 @@ is to provide full featured FermiSurface and FermiSlice objects which allow for 
 manipulation and analysis. The main features include:</p>
 <ul class="simple">
 <li><p>Interpolation of electronic band structures onto dense k-point meshes.</p></li>
-<li><p>Extraction of FermiSurfaces and FermiSlices from electronic band structures.</p></li>
+<li><p>Extraction of Fermi surfaces and Fermi slices from electronic band structures.</p></li>
 <li><p>Projection of arbitrary properties on to Fermi surfaces and Fermi slices.</p></li>
 <li><p>Tools to calculate Fermi surface dimensionality, orientation, and averaged projections.</p></li>
 <li><p>Interactive visualisation of Fermi surfaces and slices, with support for
@@ -235,7 +235,7 @@ manipulation and analysis. The main features include:</p>
 </ul>
 <p>IFermi currently only works with VASP calculations but support for additional DFT packages
 will be added in the future.</p>
-<a class="reference external image-reference" href="https://raw.githubusercontent.com/fermisurfaces/IFermi/master/docs/src/_static/fermi-surface-example.png"><img alt="MgB2" src="https://raw.githubusercontent.com/fermisurfaces/IFermi/master/docs/src/_static/fermi-surface-example.png" /></a>
+<a class="reference external image-reference" href="https://raw.githubusercontent.com/fermisurfaces/IFermi/master/docs/src/_static/fermi-surface-example.png"><img alt="Example Fermi surfaces" src="https://raw.githubusercontent.com/fermisurfaces/IFermi/master/docs/src/_static/fermi-surface-example.png" /></a>
 <div class="section" id="quick-start">
 <h2>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference external" href="https://fermisurfaces.github.io/IFermi/cli.html">online documentation</a> provides a full
@@ -342,16 +342,16 @@ and in the <a class="reference external" href="https://fermisurfaces.github.io/I
 <span class="n">plot</span> <span class="o">=</span> <span class="n">fs_plotter</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span>
 
 <span class="c1"># generate Fermi slice along the (0 0 1) plane going through the Γ-point.</span>
-<span class="nb">slice</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">get_fermi_slice</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">fermi_slice</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">get_fermi_slice</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
 <span class="c1"># number of isolines in the slice</span>
-<span class="nb">slice</span><span class="o">.</span><span class="n">n_lines</span>
+<span class="n">fermi_slice</span><span class="o">.</span><span class="n">n_lines</span>
 
 <span class="c1"># do the lines have segment properties</span>
-<span class="nb">slice</span><span class="o">.</span><span class="n">has_properties</span>
+<span class="n">fermi_slice</span><span class="o">.</span><span class="n">has_properties</span>
 
 <span class="c1"># plot slice</span>
-<span class="n">slice_plotter</span> <span class="o">=</span> <span class="n">FermiSlicePlotter</span><span class="p">(</span><span class="nb">slice</span><span class="p">)</span>
+<span class="n">slice_plotter</span> <span class="o">=</span> <span class="n">FermiSlicePlotter</span><span class="p">(</span><span class="n">fermi_slice</span><span class="p">)</span>
 <span class="n">plot</span> <span class="o">=</span> <span class="n">slice_plotter</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span>
 
 <span class="n">save_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="s2">&quot;fermi-slice.png&quot;</span><span class="p">)</span>  <span class="c1"># saves the plot to a file</span>

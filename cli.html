@@ -19,7 +19,7 @@
   
   
   
-    <link rel="canonical" href="https://github.com/ajsearle97/IFermicli.html"/>
+    <link rel="canonical" href="https://github.com/fermisurfaces/IFermicli.html"/>
   
 
   
@@ -42,7 +42,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Plotting using Python" href="plotting_using_python.html" />
+    <link rel="next" title="Python API introduction" href="introduction_to_ifermi.html" />
     <link rel="prev" title="Introduction" href="introduction.html" /> 
 </head>
 
@@ -126,7 +126,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="plotting_using_python.html">Plotting using Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction_to_ifermi.html">Python API introduction</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Information</span></p>
 <ul>
@@ -193,7 +193,7 @@
         
             
             
-              <a href="https://github.com/ajsearle97/IFermi/blob/master/docs_rst/cli.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/fermisurfaces/IFermi/blob/master/docs_rst/cli.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -262,7 +262,7 @@ The only input required is a vasprun.xml. For example:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi info
 </pre></div>
 </div>
-<p>An example output for MgB:sub:<cite>2</cite> is shown below:</p>
+<p>An example output for MgB<sub>2</sub> is shown below:</p>
 <div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gh">Fermi Surface Summary</span>
 <span class="gh">=====================</span>
 
@@ -449,13 +449,13 @@ As an example, the viewpoint could be changed using:</p>
 <a class="reference internal image-reference" href="_images/fs-viewpoint.jpg"><img alt="_images/fs-viewpoint.jpg" class="align-center" src="_images/fs-viewpoint.jpg" style="height: 250px;" /></a>
 </div>
 <div class="section" id="styling-face-properties">
-<h3>Styling face properties<a class="headerlink" href="#styling-face-properties" title="Permalink to this headline">¶</a></h3>
+<span id="prop-style"></span><h3>Styling face properties<a class="headerlink" href="#styling-face-properties" title="Permalink to this headline">¶</a></h3>
 <p>As described in the <a class="reference internal" href="#property-gen"><span class="std std-ref">Property projections</span></a> section, Fermi surfaces (and Fermi slices)
 can include a property projected onto the isosurface faces. By default, if properties
-are included in the Fermi surface they will be indicated by coloring of the isosurface
-colors. If the face property is a vector, the norm of the vector will be used as the
+are included in the Fermi surface they will be indicated by coloring of the isosurface.
+If the face property is a vector, the norm of the vector will be used as the
 color intensity. The colormap of the surface can be changed using the
-<code class="docutils literal notranslate"><span class="pre">--property-colormap</span></code> option. All <a href="#id4"><span class="problematic" id="id5">`matplotlib colorrmaps&lt;https://matplotlib.org/stable/gallery/color/colormap_reference.html&gt;`_</span></a>
+<code class="docutils literal notranslate"><span class="pre">--property-colormap</span></code> option. All <a class="reference external" href="https://matplotlib.org/stable/gallery/color/colormap_reference.html">matplotlib colormaps</a>
 are supported. For example:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --property velocity --property-colormap viridis
 </pre></div>
