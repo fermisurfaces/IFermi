@@ -1,4 +1,4 @@
-<img alt="IFermi logo" src="https://raw.githubusercontent.com/fermisurfaces/IFermi/master/docs/src/_static/logo-01.png" height="150px">
+<img alt="IFermi logo" src="https://raw.githubusercontent.com/fermisurfaces/IFermi/master/docs/src/_static/logo2-01.png" height="150px">
 
 --------
 [📖 **Online Documentation** 📖](https://fermisurfaces.github.io/IFermi)
