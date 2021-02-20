@@ -6,12 +6,12 @@
 
 IFermi is a Python (3.6+) library and set of command-line tools for the generation, 
 analysis, and visualisation of Fermi surfaces and Fermi slices. The goal of the library 
-is to provide full featured FermiSurface and FermiSlice objects which allow for easy 
+is to provide fully featured FermiSurface and FermiSlice objects that allow for easy 
 manipulation and analysis. The main features include:
 
 - Interpolation of electronic band structures onto dense k-point meshes.
 - Extraction of Fermi surfaces and Fermi slices from electronic band structures.
-- Projection of arbitrary properties on to Fermi surfaces and Fermi slices.
+- Projection of arbitrary properties onto Fermi surfaces and Fermi slices.
 - Tools to calculate Fermi surface dimensionality, orientation, and averaged projections,
   including Fermi velocities.
 - Interactive visualisation of Fermi surfaces and slices, with support for
