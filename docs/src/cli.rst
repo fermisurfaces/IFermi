@@ -35,7 +35,7 @@ The only input required is a vasprun.xml. For example:
 
     ifermi info
 
-An example output for MgB:sub:`2` is shown below:
+An example output for MgB\ :sub:`2` is shown below:
 
 .. code-block:: markdown
 
@@ -271,13 +271,14 @@ As an example, the viewpoint could be changed using:
     :align: center
 
 .. _prop-style:
+
 Styling face properties
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 As described in the :ref:`property-gen` section, Fermi surfaces (and Fermi slices)
 can include a property projected onto the isosurface faces. By default, if properties
-are included in the Fermi surface they will be indicated by coloring of the isosurface
-colors. If the face property is a vector, the norm of the vector will be used as the
+are included in the Fermi surface they will be indicated by coloring of the isosurface.
+If the face property is a vector, the norm of the vector will be used as the
 color intensity. The colormap of the surface can be changed using the
 ``--property-colormap`` option. All `matplotlib colormaps <https://matplotlib.org/stable/gallery/color/colormap_reference.html>`_
 are supported. For example:

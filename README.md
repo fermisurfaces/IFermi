@@ -10,7 +10,7 @@ is to provide full featured FermiSurface and FermiSlice objects which allow for 
 manipulation and analysis. The main features include:
 
 - Interpolation of electronic band structures onto dense k-point meshes.
-- Extraction of FermiSurfaces and FermiSlices from electronic band structures.
+- Extraction of Fermi surfaces and Fermi slices from electronic band structures.
 - Projection of arbitrary properties on to Fermi surfaces and Fermi slices.
 - Tools to calculate Fermi surface dimensionality, orientation, and averaged projections.
 - Interactive visualisation of Fermi surfaces and slices, with support for
@@ -21,7 +21,7 @@ manipulation and analysis. The main features include:
 IFermi currently only works with VASP calculations but support for additional DFT packages 
 will be added in the future.
 
-![MgB2](https://raw.githubusercontent.com/fermisurfaces/IFermi/master/docs/src/_static/fermi-surface-example.png)
+![Example Fermi surfaces](https://raw.githubusercontent.com/fermisurfaces/IFermi/master/docs/src/_static/fermi-surface-example.png)
 
 ## Quick start
 
@@ -137,16 +137,16 @@ fs_plotter = FermiSurfacePlotter(fs)
 plot = fs_plotter.get_plot()
 
 # generate Fermi slice along the (0 0 1) plane going through the Γ-point.
-slice = fs.get_fermi_slice((0, 0, 1))
+fermi_slice = fs.get_fermi_slice((0, 0, 1))
 
 # number of isolines in the slice
-slice.n_lines
+fermi_slice.n_lines
 
 # do the lines have segment properties
-slice.has_properties
+fermi_slice.has_properties
 
 # plot slice
-slice_plotter = FermiSlicePlotter(slice)
+slice_plotter = FermiSlicePlotter(fermi_slice)
 plot = slice_plotter.get_plot()
 
 save_plot(plot, "fermi-slice.png")  # saves the plot to a file

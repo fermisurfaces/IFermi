@@ -149,6 +149,18 @@ class Isosurface(MSONable):
 
         return sample_surface_uniform(self.vertices, self.faces, grid_size)
 
+    def __repr__(self):
+        rep = [
+            f"Isosurface(nvertices={len(self.vertices)}, "
+            f"nfaces={len(self.faces)}, band_idx={self.band_idx}",
+        ]
+        if self.dimensionality is not None:
+            rep.append(f", dim={self.dimensionality}")
+        if self.orientation is not None:
+            rep.append(f", orientation={self.orientation}")
+        rep.append(")")
+        return "".join(rep)
+
 
 @dataclass
 class FermiSurface(MSONable):

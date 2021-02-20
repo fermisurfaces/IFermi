@@ -105,7 +105,7 @@ class FermiSlice(MSONable):
     @property
     def n_lines(self) -> int:
         """Number of isolines in the Fermi slice."""
-        return sum(self.n_surfaces_per_spin.values())
+        return sum(self.n_lines_per_spin.values())
 
     @property
     def n_lines_per_band(self) -> Dict[Spin, Dict[int, int]]:

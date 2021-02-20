@@ -12,7 +12,7 @@ setup(
     name="ifermi",
     version=__version__,
     description="Fermi surface plotting tool from DFT output",
-    url="https://github.com/asearle13/IFermi",
+    url="https://github.com/fermisurfaces/IFermi",
     author="Amy Searle",
     author_email="amyjadesearle@gmail.com",
     long_description=long_description,

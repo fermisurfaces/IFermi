@@ -4,7 +4,7 @@
 
    Introduction <introduction>
    Command-line interface <cli>
-   plotting_using_python
+   introduction_to_ifermi
 
 
 .. toctree::

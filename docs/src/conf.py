@@ -121,7 +121,7 @@ html_css_files = ["custom.css"]
 htmlhelp_basename = "Ifermidoc"
 
 html_theme_options = {
-    "canonical_url": "https://github.com/ajsearle97/IFermi",
+    "canonical_url": "https://github.com/fermisurfaces/IFermi",
     "logo_only": False,
     "display_version": True,
     "prev_next_buttons_location": None,
@@ -138,7 +138,7 @@ html_logo = "_static/logo-docs-01.png"
 
 html_context = {
     "display_github": True,
-    "github_user": "ajsearle97",
+    "github_user": "fermisurfaces",
     "github_repo": "IFermi",
     "github_version": "master",
     "conf_py_path": "/docs_rst/",
