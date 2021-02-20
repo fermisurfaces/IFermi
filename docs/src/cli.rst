@@ -1,7 +1,7 @@
 ``ifermi`` program
 ==================
 
-IFermi incluudes command-line tools for generating, analysing, and plotting Fermi
+IFermi includes command-line tools for generating, analysing, and plotting Fermi
 surfaces. The tools can be accessed using the ``ifermi`` command-line program.
 All of the options provided in the command-line are also accessible using the
 `Python API <plotting_using_python.html>`_.

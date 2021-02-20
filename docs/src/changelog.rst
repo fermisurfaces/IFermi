@@ -8,15 +8,14 @@ v0.2.0
 ------
 
 This version completely overhauls the Python API and command-line tools. The major
-changes in this version are:
+changes are:
 
-- Support for projecting properties on to surface faces and isoline segments. The
+- Support for projecting properties onto surface faces and isoline segments. The
   command-line utilities include support for group velocities and spin texture.
-- Added tools for calculating Fermi surface dimensionality and orientation based on
-  the connectivity of the surface across periodic boundary conditions.
-- Added tools for calculating Fermi surface properties such as area and for calculating
-  average properties across the Fermi surface. This enables the calculation of
-  Fermi velocities.
+- New tools for calculating Fermi surface dimensionality and orientation based on
+  the connectivity across periodic boundary conditions.
+- New tools for calculating Fermi surface properties such as area and for averaging
+  projections across the Fermi surface. This enables the calculation of Fermi velocities.
 - New visualisation tools for Fermi surfaces and slices with projections. Fermi surfaces
   can now be colored by the surface properties. Additionally, vector properties
   can be indicated with arrows. This allows for the visualisation of spin texture.
@@ -25,15 +24,15 @@ Command line changes:
 
 IFermi now has a new command line interface. There are two subcommands:
 
-- ``ifermi info`` for calculating Fermi surface properties and dimensionalities.
-- ``ifermi plot`` for visualisation of Fermi surfaces.
+- ``ifermi info``: for calculating Fermi surface properties and dimensionalities.
+- ``ifermi plot``: for visualisation of Fermi surfaces and slices.
 
 API additions:
 
 - ``FermiSurface`` and ``FermiSlice`` objects now support projections.
 - Added ``Isosurface`` and ``Isoline`` classes.
 - Added many analysis functions to the ``FermiSurface`` and ``FermiSlice`` modules.
-- New ``analysis`` module containg algorithsm for:
+- New ``analysis`` module containing algorithms for:
 
   - Calculating Fermi surface dimensionality and orientation.
   - Uniformly sampling isosurfaces and isolines.
@@ -78,7 +77,7 @@ Bug fixes:
 
 - Fermi level is no longer adjusted from VASP value.
 - Bug fix for smoothing (@mdforti).
-- Fixed latex labex in plotly (@mdforti).
+- Fixed latex labels in plotly (@mdforti).
 - Better support for spin polarized materials.
 
 v0.0.4
