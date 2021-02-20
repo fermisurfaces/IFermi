@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ifermi program &mdash; IFermi 0.1.4 documentation</title>
+  <title>ifermi program &mdash; IFermi 0.2.0 documentation</title>
   
 
   
@@ -16,6 +16,8 @@
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
 
   
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
   
   
   
@@ -62,7 +64,7 @@
 
           
             
-            <img src="_static/logo-docs-01.png" class="logo" alt="Logo"/>
+            <img src="_static/docs-logo2-02.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -70,7 +72,7 @@
             
             
               <div class="version">
-                0.1.4
+                0.2.0
               </div>
             
           
@@ -113,7 +115,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#selecting-spin-channels">Selecting spin channels</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#changing-the-viewpoint">Changing the viewpoint</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#styling-face-properties">Styling face properties</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#generating-fermi-slices">Generating Fermi slices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fermi-slices">Fermi slices</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#ifermi-reference"><code class="docutils literal notranslate"><span class="pre">ifermi</span></code> reference</a><ul>
@@ -130,7 +132,7 @@
 </ul>
 <p class="caption"><span class="caption-text">Information</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to IFermi</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -233,7 +235,7 @@
 </style>
 <div class="section" id="ifermi-program">
 <h1><code class="docutils literal notranslate"><span class="pre">ifermi</span></code> program<a class="headerlink" href="#ifermi-program" title="Permalink to this headline">¶</a></h1>
-<p>IFermi incluudes command-line tools for generating, analysing, and plotting Fermi
+<p>IFermi includes command-line tools for generating, analysing, and plotting Fermi
 surfaces. The tools can be accessed using the <code class="docutils literal notranslate"><span class="pre">ifermi</span></code> command-line program.
 All of the options provided in the command-line are also accessible using the
 <a class="reference external" href="plotting_using_python.html">Python API</a>.</p>
@@ -263,7 +265,7 @@ The only input required is a vasprun.xml. For example:</p>
 </pre></div>
 </div>
 <p>An example output for MgB<sub>2</sub> is shown below:</p>
-<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gh">Fermi Surface Summary</span>
+<div class="highlight-md notranslate"><div class="highlight"><pre><span></span><span class="gh">Fermi Surface Summary</span>
 <span class="gh">=====================</span>
 
   # surfaces: 5
@@ -279,6 +281,31 @@ Isosurfaces
        7         2.961         2D           (0, 0, 1)
        8         3.549         1D           (0, 0, 1)
        8         3.549         1D           (0, 0, 1)
+</pre></div>
+</div>
+<p>If properties are included in the Fermi surface (see <a class="reference internal" href="#property-gen"><span class="std std-ref">Property projections</span></a>), the averaged
+property values will also be calculated. This allows for calculation of the Fermi
+velocity. For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi info --property velocity
+</pre></div>
+</div>
+<div class="highlight-md notranslate"><div class="highlight"><pre><span></span><span class="gh">Fermi Surface Summary</span>
+<span class="gh">=====================</span>
+
+  # surfaces: 5
+  Area: 32.75 Å⁻²
+  Avg velocity: 9.131e+05 m/s
+
+Isosurfaces
+~~~~~~~~~~~
+
+    Band    Area [Å⁻²]    Velocity avg [m/s]   Dimensionality    Orientation
+  ------  ------------  --------------------  ----------------  -------------
+       6         1.944             7.178e+05         2D           (0, 0, 1)
+       7         4.370             9.092e+05         1D           (0, 0, 1)
+       7         2.961             5.880e+05         2D           (0, 0, 1)
+       8         3.549             1.105e+06         1D           (0, 0, 1)
+       8         3.549             1.105e+06         1D           (0, 0, 1)
 </pre></div>
 </div>
 <p>Fermi surfaces and slices can be visualised using the <code class="docutils literal notranslate"><span class="pre">plot</span></code> subcommand. Again, the
@@ -495,8 +522,8 @@ Fermi surfaces. A larger <code class="docutils literal notranslate"><span class=
 The spacing between the arrows is controlled by the <code class="docutils literal notranslate"><span class="pre">--vector-spacing</span></code> option. Smaller
 values will increase the density of the arrows.</p>
 </div>
-<div class="section" id="generating-fermi-slices">
-<h3>Generating Fermi slices<a class="headerlink" href="#generating-fermi-slices" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="fermi-slices">
+<h3>Fermi slices<a class="headerlink" href="#fermi-slices" title="Permalink to this headline">¶</a></h3>
 <p>IFermi can also generate two-dimensional slices of the Fermi surface along a specified
 plane using the <code class="docutils literal notranslate"><span class="pre">--slice</span></code> option. Planes are defined by their miller indices (a b c)
 and a distance from the plane, d. Most of the above options also apply to to Fermi slices,
@@ -508,7 +535,7 @@ Brillouin zone (Γ-point) can be generated using:</p>
 </div>
 <a class="reference internal image-reference" href="_images/slice.png"><img alt="_images/slice.png" class="align-center" src="_images/slice.png" style="height: 250px;" /></a>
 <p>Slices can contain segment properties in the same way that surfaces can contain face
-properties. To style slices with projections see <a href="#id2"><span class="problematic" id="id3">:ref:`prop-style`_</span></a>.
+properties. To style slices with projections see <a class="reference internal" href="#prop-style"><span class="std std-ref">Styling face properties</span></a>.
 When including arrows in Fermi slice figures, only the components of the
 arrows in the 2D plane will be shown. As an example below we plot the spin texture of
 BiSb (<code class="docutils literal notranslate"><span class="pre">examples/BiSb</span></code>) with and without arrows. The spin texture is colored by the
@@ -643,7 +670,7 @@ without symmetry (<code class="docutils literal notranslate"><span class="pre">I
 <dd><p>number of decimal places in output</p>
 <dl class="field-list simple">
 <dt class="field-odd">Default</dt>
-<dd class="field-odd"><p>3</p>
+<dd class="field-odd"><p>4</p>
 </dd>
 </dl>
 </dd></dl>

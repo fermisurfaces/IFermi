@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ifermi.interpolate &mdash; IFermi 0.1.4 documentation</title>
+  <title>ifermi.interpolate &mdash; IFermi 0.2.0 documentation</title>
   
 
   
@@ -16,6 +16,8 @@
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
 
   
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
   
   
   
@@ -60,7 +62,7 @@
 
           
             
-            <img src="../../_static/logo-docs-01.png" class="logo" alt="Logo"/>
+            <img src="../../_static/docs-logo2-02.png" class="logo" alt="Logo"/>
           
           </a>
 
@@ -68,7 +70,7 @@
             
             
               <div class="version">
-                0.1.4
+                0.2.0
               </div>
             
           
@@ -101,7 +103,7 @@
 </ul>
 <p class="caption"><span class="caption-text">Information</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing to IFermi</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
@@ -248,10 +250,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">import</span> <span class="nn">multiprocessing</span>
 
-        <span class="kn">from</span> <span class="nn">scipy.constants</span> <span class="kn">import</span> <span class="n">physical_constants</span>
         <span class="kn">from</span> <span class="nn">BoltzTraP2</span> <span class="kn">import</span> <span class="n">fite</span><span class="p">,</span> <span class="n">sphere</span>
         <span class="kn">from</span> <span class="nn">BoltzTraP2.units</span> <span class="kn">import</span> <span class="n">eV</span>
         <span class="kn">from</span> <span class="nn">pymatgen.io.ase</span> <span class="kn">import</span> <span class="n">AseAtomsAdaptor</span>
+        <span class="kn">from</span> <span class="nn">scipy.constants</span> <span class="kn">import</span> <span class="n">physical_constants</span>
         <span class="kn">from</span> <span class="nn">spglib</span> <span class="kn">import</span> <span class="n">spglib</span>
 
         <span class="kn">from</span> <span class="nn">ifermi.boltztrap</span> <span class="kn">import</span> <span class="n">bands_fft</span>
@@ -291,10 +293,10 @@
             <span class="n">energies</span><span class="p">[</span><span class="n">spin</span><span class="p">]</span> <span class="o">/=</span> <span class="n">eV</span>
 
             <span class="c1"># velocities in Bohr radius * Rydberg / hbar, convert to m/s.</span>
-            <span class="c1"># velocities[spin] *= (</span>
-            <span class="c1">#     physical_constants[&quot;Bohr radius&quot;][0] /</span>
-            <span class="c1">#     physical_constants[&quot;atomic unit of time&quot;][0]</span>
-            <span class="c1"># )</span>
+            <span class="n">velocities</span><span class="p">[</span><span class="n">spin</span><span class="p">]</span> <span class="o">*=</span> <span class="p">(</span>
+                <span class="n">physical_constants</span><span class="p">[</span><span class="s2">&quot;Bohr radius&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="o">/</span> <span class="n">physical_constants</span><span class="p">[</span><span class="s2">&quot;atomic unit of time&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="p">)</span>
 
         <span class="n">efermi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_band_structure</span><span class="o">.</span><span class="n">efermi</span>
 
