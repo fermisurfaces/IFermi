@@ -15,7 +15,7 @@
    contributors
    contributing
    license
-   See IFermi on GitHub <https://github.com/ajsearle97/IFermi>
+   IFermi on GitHub <https://github.com/fermisurfaces/IFermi>
 
 
 .. toctree::
