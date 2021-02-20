@@ -1,8 +1,52 @@
-Change Log
+Change log
 ==========
 
 [Unreleased]
 ------------
+
+v0.2.0
+------
+
+This version completely overhauls the Python API and command-line tools. The major
+changes in this version are:
+
+- Support for projecting properties on to surface faces and isoline segments. The
+  command-line utilities include support for group velocities and spin texture.
+- Added tools for calculating Fermi surface dimensionality and orientation based on
+  the connectivity of the surface across periodic boundary conditions.
+- Added tools for calculating Fermi surface properties such as area and for calculating
+  average properties across the Fermi surface. This enables the calculation of
+  Fermi velocities.
+- New visualisation tools for Fermi surfaces and slices with projections. Fermi surfaces
+  can now be colored by the surface properties. Additionally, vector properties
+  can be indicated with arrows. This allows for the visualisation of spin texture.
+
+Command line changes:
+
+IFermi now has a new command line interface. There are two subcommands:
+
+- ``ifermi info`` for calculating Fermi surface properties and dimensionalities.
+- ``ifermi plot`` for visualisation of Fermi surfaces.
+
+API additions:
+
+- ``FermiSurface`` and ``FermiSlice`` objects now support projections.
+- Added ``Isosurface`` and ``Isoline`` classes.
+- Added many analysis functions to the ``FermiSurface`` and ``FermiSlice`` modules.
+- New ``analysis`` module containg algorithsm for:
+
+  - Calculating Fermi surface dimensionality and orientation.
+  - Uniformly sampling isosurfaces and isolines.
+  - Determining the connectivity of isosurfaces and isolines.
+  - Interpolating and smoothing isolines.
+
+API changes:
+
+- ``fermi_surface`` module renamed ``surface``.
+- ``FermiSlice`` class and related functions moved to ``slice`` module.
+- ``plotter`` module renamed ``plot``.
+- ``interpolation`` module renamed ``interpolate``, and ``Interpolator`` class
+  renamed ``FourierInterpolator``.
 
 v0.1.5
 ------

@@ -37,7 +37,7 @@ The only input required is a vasprun.xml. For example:
 
 An example output for MgB\ :sub:`2` is shown below:
 
-.. code-block:: markdown
+.. code-block:: md
 
     Fermi Surface Summary
     =====================
@@ -55,6 +55,35 @@ An example output for MgB\ :sub:`2` is shown below:
            7         2.961         2D           (0, 0, 1)
            8         3.549         1D           (0, 0, 1)
            8         3.549         1D           (0, 0, 1)
+
+
+If properties are included in the Fermi surface (see :ref:`property-gen`), the averaged
+property values will also be calculated. This allows for calculation of the Fermi
+velocity. For example:
+
+.. code-block:: bash
+
+    ifermi info --property velocity
+
+.. code-block:: md
+
+    Fermi Surface Summary
+    =====================
+
+      # surfaces: 5
+      Area: 32.75 Å⁻²
+      Avg velocity: 9.131e+05 m/s
+
+    Isosurfaces
+    ~~~~~~~~~~~
+
+        Band    Area [Å⁻²]    Velocity avg [m/s]   Dimensionality    Orientation
+      ------  ------------  --------------------  ----------------  -------------
+           6         1.944             7.178e+05         2D           (0, 0, 1)
+           7         4.370             9.092e+05         1D           (0, 0, 1)
+           7         2.961             5.880e+05         2D           (0, 0, 1)
+           8         3.549             1.105e+06         1D           (0, 0, 1)
+           8         3.549             1.105e+06         1D           (0, 0, 1)
 
 Fermi surfaces and slices can be visualised using the ``plot`` subcommand. Again, the
 only input required is a vasprun.xml file. For example:
@@ -339,8 +368,8 @@ Fermi surfaces. A larger ``vnorm`` value will increase the size of the arrows.
 The spacing between the arrows is controlled by the ``--vector-spacing`` option. Smaller
 values will increase the density of the arrows.
 
-Generating Fermi slices
-~~~~~~~~~~~~~~~~~~~~~~~
+Fermi slices
+~~~~~~~~~~~~
 
 IFermi can also generate two-dimensional slices of the Fermi surface along a specified
 plane using the ``--slice`` option. Planes are defined by their miller indices (a b c)
@@ -359,7 +388,7 @@ Brillouin zone (Γ-point) can be generated using:
     :align: center
 
 Slices can contain segment properties in the same way that surfaces can contain face
-properties. To style slices with projections see :ref:`prop-style`_.
+properties. To style slices with projections see :ref:`prop-style`.
 When including arrows in Fermi slice figures, only the components of the
 arrows in the 2D plane will be shown. As an example below we plot the spin texture of
 BiSb (``examples/BiSb``) with and without arrows. The spin texture is colored by the
@@ -407,4 +436,3 @@ With arrows:
 .. click:: ifermi.cli:cli
   :prog: ifermi
   :nested: full
-
