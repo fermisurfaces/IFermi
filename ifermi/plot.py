@@ -67,7 +67,7 @@ _plotly_sym_pt_style = {"marker": {"size": 5, "color": "black"}}
 _plotly_sym_label_style = dict(
     xshift=15, yshift=15, showarrow=False, font={"size": 20, "color": "black"}
 )
-_plotly_cbar_style = {"lenmode": 'fraction', "len": 0.5, "tickfont": {"size": 15}}
+_plotly_cbar_style = {"lenmode": "fraction", "len": 0.5, "tickfont": {"size": 15}}
 
 # define mayavi default styles
 _mayavi_sym_label_style = {
@@ -940,8 +940,8 @@ class FermiSlicePlotter:
             matplotlib pyplot object.
         """
         import matplotlib.pyplot as plt
-        from matplotlib.transforms import ScaledTranslation
         from matplotlib.collections import LineCollection
+        from matplotlib.transforms import ScaledTranslation
 
         slice_kwargs = slice_kwargs or {}
         cbar_kwargs = cbar_kwargs or {}
@@ -1021,7 +1021,7 @@ class FermiSlicePlotter:
 
         if not plot_data.hide_labels:
             # shift labels a few pixels away from the high-sym points
-            offset = ScaledTranslation(4/72, 4/72, fig.dpi_scale_trans)
+            offset = ScaledTranslation(4 / 72, 4 / 72, fig.dpi_scale_trans)
             for coords, label in zip(*self._symmetry_pts):
                 _mpl_sym_pt_style.update(sym_pt_kwargs)
                 _mpl_sym_label_style.update(sym_label_kwargs)
@@ -1030,7 +1030,7 @@ class FermiSlicePlotter:
                     *coords,
                     "${}$".format(label),
                     **_mpl_sym_label_style,
-                    transform=ax.transData + offset
+                    transform=ax.transData + offset,
                 )
 
         if plot_data.arrows is not None:
@@ -1045,7 +1045,7 @@ class FermiSlicePlotter:
                 x, y = starts.T
                 ax.quiver(x, y, u, v, color=colors, **_mpl_arrow_style)
 
-            ax.margins(y=.1, x=.1)
+            ax.margins(y=0.1, x=0.1)
 
         ax.autoscale_view()
         ax.axis("equal")

@@ -1,9 +1,8 @@
 """Command line tools for generating and plotting Fermi surfaces."""
-from collections import defaultdict
-
 import os
 import sys
 import warnings
+from collections import defaultdict
 
 import click
 from click import option
@@ -88,14 +87,14 @@ def cli():
 )
 @option(
     "--precision",
-    default=3,
+    default=4,
     help="number of decimal places in output",
     show_default=True,
 )
 def info(filename, **kwargs):
     """Calculate information about the Fermi surface."""
-    from tabulate import tabulate
     import numpy as np
+    from tabulate import tabulate
 
     fs, bs = _get_fermi_surface(
         filename=filename,
@@ -114,10 +113,7 @@ def info(filename, **kwargs):
         if isinstance(value, (list, tuple, np.ndarray)):
             return str(np.array(value))
         else:
-            if value < 10 ** (-kwargs["precision"] + 1):
-                return f"{value:.{kwargs['precision']}g}"
-            else:
-                return f"{value:.{kwargs['precision']}f}"
+            return f"{value:.{kwargs['precision']}g}"
 
     norm = kwargs["norm"]
     axis = kwargs["projection_axis"] or None
@@ -167,7 +163,7 @@ def info(filename, **kwargs):
             headers=table.keys(),
             numalign="right",
             stralign="center",
-            floatfmt=f".{kwargs['precision']}f",
+            floatfmt=f"#.{kwargs['precision']}g",
         )
 
         # indent table 2 spaces in
@@ -260,12 +256,7 @@ def plot(filename, **kwargs):
     """Plot a Fermi surface from a vasprun.xml file."""
     from pymatgen.electronic_structure.core import Spin
 
-    from ifermi.plot import (
-        FermiSlicePlotter,
-        FermiSurfacePlotter,
-        save_plot,
-        show_plot,
-    )
+    from ifermi.plot import FermiSlicePlotter, FermiSurfacePlotter, save_plot, show_plot
 
     try:
         import mayavi.mlab as mlab

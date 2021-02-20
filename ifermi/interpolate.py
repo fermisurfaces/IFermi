@@ -71,10 +71,10 @@ class FourierInterpolator:
         """
         import multiprocessing
 
-        from scipy.constants import physical_constants
         from BoltzTraP2 import fite, sphere
         from BoltzTraP2.units import eV
         from pymatgen.io.ase import AseAtomsAdaptor
+        from scipy.constants import physical_constants
         from spglib import spglib
 
         from ifermi.boltztrap import bands_fft
@@ -114,10 +114,10 @@ class FourierInterpolator:
             energies[spin] /= eV
 
             # velocities in Bohr radius * Rydberg / hbar, convert to m/s.
-            # velocities[spin] *= (
-            #     physical_constants["Bohr radius"][0] /
-            #     physical_constants["atomic unit of time"][0]
-            # )
+            velocities[spin] *= (
+                physical_constants["Bohr radius"][0]
+                / physical_constants["atomic unit of time"][0]
+            )
 
         efermi = self._band_structure.efermi
 

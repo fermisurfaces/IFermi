@@ -65,7 +65,7 @@ def average_properties(
     face_areas = mesh.area_faces
 
     # face_areas has to have same number of dimensions as property
-    face_areas = face_areas.reshape(face_areas.shape + (1, ) * (properties.ndim - 1))
+    face_areas = face_areas.reshape(face_areas.shape + (1,) * (properties.ndim - 1))
 
     return np.sum(properties * face_areas, axis=0) / mesh.area
 
