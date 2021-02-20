@@ -12,7 +12,8 @@ manipulation and analysis. The main features include:
 - Interpolation of electronic band structures onto dense k-point meshes.
 - Extraction of Fermi surfaces and Fermi slices from electronic band structures.
 - Projection of arbitrary properties on to Fermi surfaces and Fermi slices.
-- Tools to calculate Fermi surface dimensionality, orientation, and averaged projections.
+- Tools to calculate Fermi surface dimensionality, orientation, and averaged projections,
+  including Fermi velocities.
 - Interactive visualisation of Fermi surfaces and slices, with support for
   [mayavi](https://docs.enthought.com/mayavi/mayavi/), [plotly](https://plot.ly/) and 
   [matplotlib](https://matplotlib.org).
