@@ -9,14 +9,6 @@ ifermi.analysis module
    :undoc-members:
    :show-inheritance:
 
-ifermi.boltztrap module
------------------------
-
-.. automodule:: ifermi.boltztrap
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 ifermi.brillouin\_zone module
 -----------------------------
 

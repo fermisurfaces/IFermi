@@ -115,7 +115,6 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-ifermi.analysis">ifermi.analysis module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-ifermi.boltztrap">ifermi.boltztrap module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-ifermi.brillouin_zone">ifermi.brillouin_zone module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-ifermi.interpolate">ifermi.interpolate module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-ifermi.kpoints">ifermi.kpoints module</a></li>
@@ -489,58 +488,6 @@ ignored.</p></li>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A (k, ) int array containing the indices of uniformly spaced faces.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
-<div class="section" id="module-ifermi.boltztrap">
-<span id="ifermi-boltztrap-module"></span><h2>ifermi.boltztrap module<a class="headerlink" href="#module-ifermi.boltztrap" title="Permalink to this headline">¶</a></h2>
-<p>BoltzTraP2 helper functions.</p>
-<dl class="py function">
-<dt id="ifermi.boltztrap.bands_fft">
-<code class="sig-prename descclassname">ifermi.boltztrap.</code><code class="sig-name descname">bands_fft</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">equiv</span></em>, <em class="sig-param"><span class="n">coeffs</span></em>, <em class="sig-param"><span class="n">lattvec</span></em>, <em class="sig-param"><span class="n">nworkers</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/boltztrap.html#bands_fft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.boltztrap.bands_fft" title="Permalink to this definition">¶</a></dt>
-<dd><p>Rebuild the full energy bands from the interpolation coefficients.</p>
-<p>Adapted from BoltzTraP2.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>equiv</strong> – list of k-point equivalence classes in direct coordinates</p></li>
-<li><p><strong>coeffs</strong> – interpolation coefficients</p></li>
-<li><p><strong>lattvec</strong> – lattice vectors of the system</p></li>
-<li><p><strong>nworkers</strong> – number of working processes to span</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A 3-tuple (eband, vband) containing the energy bands  and group velocities.
-The shapes of those arrays are (nbands, nkpoints), (nbands, 3, nkpoints)
-where nkpoints is the total number of k points on the grid.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="ifermi.boltztrap.worker">
-<code class="sig-prename descclassname">ifermi.boltztrap.</code><code class="sig-name descname">worker</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">equivalences</span></em>, <em class="sig-param"><span class="n">sallvec</span></em>, <em class="sig-param"><span class="n">dims</span></em>, <em class="sig-param"><span class="n">iqueue</span></em>, <em class="sig-param"><span class="n">oqueue</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/boltztrap.html#worker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.boltztrap.worker" title="Permalink to this definition">¶</a></dt>
-<dd><p>Thin wrapper around FFTev and FFTc to be used as a worker function.</p>
-<p>Adapted from BoltzTraP2.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>equivalences</strong> – list of k-point equivalence classes in direct coordinates</p></li>
-<li><p><strong>sallvec</strong> – Cartesian coordinates of all k points as a 1D vector stored
-in shared memory.</p></li>
-<li><p><strong>dims</strong> – upper bound on the dimensions of the k-point grid</p></li>
-<li><p><strong>iqueue</strong> – input multiprocessing.Queue used to read bad indices
-and coefficients.</p></li>
-<li><p><strong>oqueue</strong> – output multiprocessing.Queue where all results of the
-interpolation are put. Each element of the queue is a 4-tuple
-of the form (index, eband, vvband, cband), containing the band
-index, the energies, and the group velocities.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None. The results of the calculation are put in oqueue.</p>
 </dd>
 </dl>
 </dd></dl>
