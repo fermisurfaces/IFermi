@@ -188,4 +188,4 @@ IFermi is made available under the MIT License.
 ## Acknowledgements
 
 Developed by Amy Searle and Alex Ganose.
-Sinead Griffin designed and led the project.
+Sinéad Griffin designed and led the project.
