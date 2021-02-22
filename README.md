@@ -56,9 +56,6 @@ Isosurfaces
          7         2.961             5.880e+05         2D           (0, 0, 1)
          8         3.549             1.105e+06      quasi-2D        (0, 0, 1)
          8         3.549             1.105e+06      quasi-2D        (0, 0, 1)
-
-
-
 ```
 
 ### Visualisation
