@@ -32,7 +32,7 @@ bibliography: paper.bib
 # Summary
 
 The Fermi surface is an important tool for understanding the electronic, optical, and
-magnetic properties of metals and semiconductors [@review].
+magnetic properties of metals and doped semiconductors [@review].
 It defines the surface in reciprocal space that divides unoccupied and occupied
 states at zero temperature.
 The topology of the Fermi surface impacts a variety of quantum phenomena including
@@ -50,20 +50,20 @@ surface properties.
 
 Many tools already exist for the generation of Fermi surfaces from *ab initio* band 
 structure calculations. For example, several electronic structure codes such as 
-CASTEP [@castep] and QuantumATK [@quatumatk] include integrated tools for creating Fermi 
+CASTEP [@castep] and QuantumATK [@quantumatk] include integrated tools for obtaining Fermi 
 surfaces. Furthermore, 
 software such as FermiSurfer [@fermisurfer], pyprocar [@pyprocar], BoltzTraP2 [@boltztrap2], 
 and XCrysDen [@xcrysden] interface with common 
 density functional theory packages and can plot Fermi surfaces from their 
-outputs. All such packages, however, are designed only to visualise Fermi surfaces
+outputs. All such packages, however, are only designed to visualise Fermi surfaces
 and do not expose any application programming interfaces (APIs) for analysing and 
-manipulating Fermi surfaces. In IFermi, we address these limitations by developing
+manipulating Fermi surfaces as objects. In IFermi, we address these limitations by developing
 a fully-featured Python library for representing and processing Fermi surfaces
 and Fermi slices. We also implement a novel algorithm for determining the dimensionality
 of Fermi surfaces using the connectivity of surface across periodic boundaries and the
 Euler characteristic of the isosurface mesh. IFermi, therefore, enables the 
 programmatic characterisation of Fermi surfaces and can be used as a foundational 
-library for investing complex Fermi surface properties such as nesting.
+library for investigating complex Fermi surface properties such as nesting.
 
 # IFermi
 
@@ -75,11 +75,12 @@ manipulation and programmatic analysis. The main features of the package include
 - The Fourier interpolation of electronic band structures onto dense k-point meshes 
   required to obtain high resolution Fermi surfaces.
 - The extraction of Fermi surfaces and Fermi slices from electronic band structures.
+- A rich API for representing and manipulating Fermi surface objects.
 - The projection of arbitrary properties onto Fermi surfaces and Fermi slices.
 - Algorithms to calculate Fermi surface properties, including dimensionality, orientation, 
   and averaged projections such as Fermi velocities.
 - Interactive visualisation of Fermi surfaces and slices, and their projections such as 
-  spin-texture, with support for mayavi [@mayavi], plotly [@plotly] and matplotlib [@matplot]. 
+  spin-texture, with support for mayavi [@mayavi], plotly [@plotly] and matplotlib [@matplotlib]. 
   An example of the graphics produced by IFermi are presented in Figure 1.
 
 ![Examples of Fermi surfaces and two-dimensional slices produced by IFermi. Fermi surface of MgB<sub>2</sub> with group velocity projections shown by (a) the isosurface color and (b) arrows colored by the scalar projection onto the [0 0 1] axis. (c) Spin texture of BiSb indicating Rashba splitting.](docs/src/_static/ifermi-example-01.png)
@@ -87,7 +88,7 @@ manipulation and programmatic analysis. The main features of the package include
 In addition to the Python library, IFermi includes several command-line tools that can
 perform common tasks such as calculating Fermi surface dimensionality and Fermi velocities.
 IFermi uses the pymatgen [@pymatgen] library for parsing calculation inputs and therefore supports
-all electronic structure codes supported therein. At the time of writing this includes
+all electronic structure codes supported therein. At the time of writing this comprises
 Vienna *ab initio* Simulation Package (VASP), ABINIT, and CP2K. IFermi also relies on 
 several open source packages, such as BoltzTraP2 [@boltztrap2] for Fourier interpolation, 
 trimesh [@trimesh] for processing triangular meshes, and scikit-image [@scikitimage]
