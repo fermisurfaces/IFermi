@@ -60,7 +60,7 @@ and do not expose any application programming interfaces (APIs) for analysing an
 manipulating Fermi surfaces as objects. In IFermi, we address these limitations by developing
 a fully-featured Python library for representing and processing Fermi surfaces
 and Fermi slices. We also implement a novel algorithm for determining the dimensionality
-of Fermi surfaces using the connectivity of surface across periodic boundaries and the
+of Fermi surfaces using the connectivity across periodic boundaries and the
 Euler characteristic of the isosurface mesh. IFermi, therefore, enables the 
 programmatic characterisation of Fermi surfaces and can be used as a foundational 
 library for investigating complex Fermi surface properties such as nesting.
