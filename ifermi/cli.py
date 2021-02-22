@@ -125,6 +125,7 @@ def info(filename, **kwargs):
     else:
         unit = ""
         table_unit = ""
+        prop = ""
 
     click.echo("Fermi Surface Summary\n=====================\n")
     click.echo(f"  # surfaces: {fs.n_surfaces}")

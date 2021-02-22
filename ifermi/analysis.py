@@ -165,6 +165,8 @@ def isosurface_dimensionality(
     Returns:
         The dimensionality and (n, 3) int array orientation of the isosurface.
     """
+    from trimesh import Trimesh
+
     if len(connected_subsurfaces(fractional_vertices, faces)) != 1:
         raise ValueError("isosurface contains multiple subsurfaces")
 
@@ -178,7 +180,13 @@ def isosurface_dimensionality(
         dimensionality = "2D"
     elif rank == 2:
         orientation = plane_orientation(images)
-        dimensionality = "1D"
+
+        # use euler number to decide if mesh is a plane or multiple tubes
+        euler_number = Trimesh(vertices=fractional_vertices, faces=faces).euler_number
+        if euler_number == 1:
+            dimensionality = "1D"
+        else:
+            dimensionality = "quasi-2D"
     elif rank == 0:
         dimensionality = "3D"
     else:
