@@ -9,23 +9,27 @@ tags:
   - chemistry
   - physics
 authors:
-  - name: Amy Searle
-    orcid: 0000-0003-0872-7098
-    affiliation: "1, 2"
-  - name: Alex M Ganose
+  - name: Alex M Ganose^[equal contribution]
     orcid: 0000-0002-4486-3321
-    affiliation: 3
+    affiliation: 1
+  - name: Amy Searle^[equal contribution]
+    affiliation: "2, 3, 4"
+  - name: Anubhav Jain
+    orcid: 0000-0001-5893-9967
+    affiliation: 1
   - name: Sinéad M Griffin
     orcid: 0000-0002-9943-4866
-    affiliation: "1, 2"
+    affiliation: "2, 3"
 affiliations:
- - name: Materials Science Division, Lawrence Berkeley National Laboratory, Berkeley, California 94720, USA
-   index: 1
- - name: Molecular Foundry, Lawrence Berkeley National Laboratory, Berkeley, California 94720, USA
-   index: 2
  - name: Energy Technologies Area, Lawrence Berkeley National Laboratory, Berkeley, California 94720, USA
+   index: 1
+ - name: Materials Science Division, Lawrence Berkeley National Laboratory, Berkeley, California 94720, USA
+   index: 2
+ - name: Molecular Foundry, Lawrence Berkeley National Laboratory, Berkeley, California 94720, USA
    index: 3
-date: 19 February 2021
+ - name: Department of Physics, University of Oxford, Oxford OX1 3PJ, UK
+   index: 3
+date: 1 March 2021
 bibliography: paper.bib
 ---
 
@@ -81,9 +85,9 @@ manipulation and programmatic analysis. The main features of the package include
   and averaged projections such as Fermi velocities.
 - Interactive visualisation of Fermi surfaces and slices, and their projections such as 
   spin-texture, with support for mayavi [@mayavi], plotly [@plotly] and matplotlib [@matplotlib]. 
-  An example of the graphics produced by IFermi are presented in Figure 1.
+  An example of the graphics produced by IFermi is presented in Figure 1.
 
-![Examples of Fermi surfaces and two-dimensional slices produced by IFermi. Fermi surface of MgB<sub>2</sub> with group velocity projections shown by (a) the isosurface color and (b) arrows colored by the scalar projection onto the [0 0 1] axis. (c) Spin texture of BiSb indicating Rashba splitting.](docs/src/_static/ifermi-example-01.png)
+![Examples of Fermi surfaces and two-dimensional slices produced by IFermi. Fermi surface of MgB$_2$ with group velocity projections shown by (a) the isosurface color and (b) arrows colored by the scalar projection onto the [0 0 1] axis. (c) Spin texture of BiSb indicating Rashba splitting.](docs/src/_static/ifermi-example-01.png)
   
 In addition to the Python library, IFermi includes several command-line tools that can
 perform common tasks such as calculating Fermi surface dimensionality and Fermi velocities.
@@ -107,6 +111,8 @@ There are no conflicts to declare.
 
 # Acknowledgements
 
+This work was funded by the DOE Basic Energy Sciences program -- the Materials Project 
+-- under Grant No. KC23MP
 AS and SMG were supported by the Laboratory Directed Research and Development Program of
 LBNL under the U.S. Department of Energy (DoE) Contract No. DE-AC02-05CH11231. 
 Computational resources were provided by the National Energy Research Scientific 
@@ -114,8 +120,7 @@ Computing Center and the Molecular Foundry, DoE Office of Science User Facilitie
 supported by the Office of Science of the U.S. Department of Energy under Contract No. 
 DE-AC02-05CH11231. The work performed at the Molecular Foundry was supported by the 
 Office of Science, Office of Basic Energy Sciences, of the U.S. Department of Energy 
-under the same contract. AMG was funded by the DOE Basic Energy Sciences program – the 
-Materials Project – under Grant No. KC23MP. 
+under the same contract. 
 We would like to acknowledge additional suggestions and code contributions from
 Matthew Horton and Mariano Forti.
 
