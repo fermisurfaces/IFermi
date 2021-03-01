@@ -85,14 +85,15 @@ manipulation and programmatic analysis. The main features of the package include
   and averaged projections such as Fermi velocities.
 - Interactive visualisation of Fermi surfaces and slices, and their projections such as 
   spin-texture, with support for mayavi [@mayavi], plotly [@plotly] and matplotlib [@matplotlib]. 
-  An example of the graphics produced by IFermi is presented in Figure 1.
+  Examples of the graphics produced by IFermi are presented in Figure 1.
 
 ![Examples of Fermi surfaces and two-dimensional slices produced by IFermi. Fermi surface of MgB$_2$ with group velocity projections shown by (a) the isosurface color and (b) arrows colored by the scalar projection onto the [0 0 1] axis. (c) Spin texture of BiSb indicating Rashba splitting.](docs/src/_static/ifermi-example-01.png)
   
 In addition to the Python library, IFermi includes several command-line tools that can
 perform common tasks such as calculating Fermi surface dimensionality and Fermi velocities.
-IFermi uses the pymatgen [@pymatgen] library for parsing calculation inputs and therefore 
-supports all electronic structure codes supported therein. At the time of writing this 
+IFermi uses the pymatgen [@pymatgen] library for parsing first-principles calculation 
+outputs and therefore supports all electronic structure codes supported therein. 
+At the time of writing this 
 comprises Vienna *ab initio* Simulation Package (VASP), ABINIT, and CP2K. IFermi also 
 relies on  several open source packages, such as BoltzTraP2 [@boltztrap2] for Fourier 
 interpolation, trimesh [@trimesh] for processing triangular meshes, and scikit-image 
@@ -112,7 +113,7 @@ There are no conflicts to declare.
 # Acknowledgements
 
 This work was funded by the DOE Basic Energy Sciences program -- the Materials Project 
--- under Grant No. KC23MP
+-- under Grant No. KC23MP.
 Computational resources were provided by the National Energy Research Scientific 
 Computing Center and the Molecular Foundry, DoE Office of Science User Facilities 
 supported by the Office of Science of the U.S. Department of Energy under Contract No. 
