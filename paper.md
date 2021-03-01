@@ -1,5 +1,5 @@
 ---
-title: 'IFermi: A python library for Fermi surface generation, analysis and visualisation'
+title: 'IFermi: A python library for Fermi surface generation and analysis'
 tags:
   - Python
   - electronic structure
@@ -91,13 +91,13 @@ manipulation and programmatic analysis. The main features of the package include
   
 In addition to the Python library, IFermi includes several command-line tools that can
 perform common tasks such as calculating Fermi surface dimensionality and Fermi velocities.
-IFermi uses the pymatgen [@pymatgen] library for parsing calculation inputs and therefore supports
-all electronic structure codes supported therein. At the time of writing this comprises
-Vienna *ab initio* Simulation Package (VASP), ABINIT, and CP2K. IFermi also relies on 
-several open source packages, such as BoltzTraP2 [@boltztrap2] for Fourier interpolation, 
-trimesh [@trimesh] for processing triangular meshes, and scikit-image [@scikitimage]
-for generating isosurfaces using the marching cubes algorithm developed by Lewiner et al
-[@marchingcubes].
+IFermi uses the pymatgen [@pymatgen] library for parsing calculation inputs and therefore 
+supports all electronic structure codes supported therein. At the time of writing this 
+comprises Vienna *ab initio* Simulation Package (VASP), ABINIT, and CP2K. IFermi also 
+relies on  several open source packages, such as BoltzTraP2 [@boltztrap2] for Fourier 
+interpolation, trimesh [@trimesh] for processing triangular meshes, and scikit-image 
+[@scikitimage] for generating isosurfaces using the marching cubes algorithm developed 
+by Lewiner et al [@marchingcubes].
 
 # Author Contributions
 
@@ -113,8 +113,6 @@ There are no conflicts to declare.
 
 This work was funded by the DOE Basic Energy Sciences program -- the Materials Project 
 -- under Grant No. KC23MP
-AS and SMG were supported by the Laboratory Directed Research and Development Program of
-LBNL under the U.S. Department of Energy (DoE) Contract No. DE-AC02-05CH11231. 
 Computational resources were provided by the National Energy Research Scientific 
 Computing Center and the Molecular Foundry, DoE Office of Science User Facilities 
 supported by the Office of Science of the U.S. Department of Energy under Contract No. 
