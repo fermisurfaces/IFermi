@@ -174,7 +174,7 @@ class FermiSurfacePlotter:
         """
         from pymatgen.symmetry.bandstructure import HighSymmKpath
 
-        from ifermi.brillouin_zone import ReciprocalCell
+        from ifermi.brillouin_zone import WignerSeitzCell
         from ifermi.kpoints import kpoints_to_first_bz
 
         hskp = HighSymmKpath(fermi_surface.structure, symprec=symprec)
@@ -185,7 +185,7 @@ class FermiSurfacePlotter:
         ):
             warnings.warn("Structure does not match expected primitive cell")
 
-        if isinstance(fermi_surface.reciprocal_space, ReciprocalCell):
+        if not isinstance(fermi_surface.reciprocal_space, WignerSeitzCell):
             kpoints = kpoints_to_first_bz(np.array(kpoints))
 
         kpoints = np.dot(kpoints, fermi_surface.reciprocal_space.reciprocal_lattice)
@@ -806,7 +806,7 @@ class FermiSlicePlotter:
         from pymatgen.symmetry.bandstructure import HighSymmKpath
         from trimesh import transform_points
 
-        from ifermi.brillouin_zone import ReciprocalCell
+        from ifermi.brillouin_zone import WignerSeitzCell
         from ifermi.kpoints import kpoints_to_first_bz
 
         hskp = HighSymmKpath(fermi_slice.structure, symprec=symprec)
@@ -817,7 +817,7 @@ class FermiSlicePlotter:
         ):
             warnings.warn("Structure does not match expected primitive cell")
 
-        if isinstance(fermi_slice.reciprocal_slice.reciprocal_space, ReciprocalCell):
+        if not isinstance(fermi_slice.reciprocal_slice.reciprocal_space, WignerSeitzCell):
             kpoints = kpoints_to_first_bz(np.array(kpoints))
 
         kpoints = np.dot(
@@ -1023,6 +1023,7 @@ class FermiSlicePlotter:
             # shift labels a few pixels away from the high-sym points
             offset = ScaledTranslation(4 / 72, 4 / 72, fig.dpi_scale_trans)
             for coords, label in zip(*self._symmetry_pts):
+                coords = np.dot(coords, rotation)
                 _mpl_sym_pt_style.update(sym_pt_kwargs)
                 _mpl_sym_label_style.update(sym_label_kwargs)
                 ax.scatter(*coords, **_mpl_sym_pt_style)
