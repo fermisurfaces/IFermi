@@ -32,7 +32,7 @@ description of the available command-line options.
 ### Analysis
 
 Fermi surface properties, including dimensionality and orientation can be extracted 
-from a vasprun.xml file using.
+from a vasprun.xml file using:
 
 ```bash
 ifermi info --property velocity
@@ -166,7 +166,7 @@ pip install ifermi
 IFermi is currently compatible with Python 3.6+ and relies on a number of
 open-source python packages, specifically:
 
-- [pymatgen](http://pymatgen.org) for parsing DFT calculation output.
+- [pymatgen](http://pymatgen.org) for parsing DFT calculation outputs.
 - [BoltzTrap2](https://gitlab.com/sousaw/BoltzTraP2) for band structure interpolation.
 - [trimesh](https://trimsh.org/) for manipulating isosurfaces.
 - [matplotlib](https://matplotlib.org), [mayavi](https://docs.enthought.com/mayavi/mayavi/), and [plotly](https://plot.ly/) for three-dimensional plotting.
@@ -178,12 +178,12 @@ Track changes to IFermi through the
 
 ## Contributing
 
-We greatly appreciate any contributions in the form of Pull Request.
+We greatly appreciate any contributions in the form of a pull request.
 We maintain a list of all contributors [here](https://fermisurfaces.github.io/IFermi/contributors.html).
 
 ## License
 
-IFermi is made available under the MIT License.
+IFermi is made available under the MIT License (see LICENSE file).
 
 ## Acknowledgements
 
