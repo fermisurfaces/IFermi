@@ -414,7 +414,7 @@ def interpolate_segments(
         proj_start = [(properties[0] + properties[-1]) / 2]
         properties = np.concatenate([proj_start, properties, proj_start])
     else:
-        properties = np.concatenate([properties[0], properties, properties[-1]])
+        properties = np.concatenate([[properties[0]], properties, [properties[-1]]])
 
     vert_interpolator = interp1d(
         vert_dist,
