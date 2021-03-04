@@ -122,5 +122,6 @@ Office of Science, Office of Basic Energy Sciences, of the U.S. Department of En
 under the same contract. 
 We would like to acknowledge additional suggestions and code contributions from
 Matthew Horton and Mariano Forti.
+We would like to acknowledge many fruitful discussions with Katherine Inzani.
 
 # References
