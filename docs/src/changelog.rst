@@ -4,6 +4,14 @@ Change log
 [Unreleased]
 ------------
 
+v0.2.1
+------
+
+Bug fixes:
+
+- Fixed interpolation of projections for 1D slices.
+- Fixed position of high-symmetry labels.
+
 v0.2.0
 ------
 
