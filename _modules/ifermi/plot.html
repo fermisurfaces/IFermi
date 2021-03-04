@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ifermi.plot &mdash; IFermi 0.2.1 documentation</title>
+  <title>ifermi.plot &mdash; IFermi 0.2.0 documentation</title>
   
 
   
@@ -70,7 +70,7 @@
             
             
               <div class="version">
-                0.2.1
+                0.2.0
               </div>
             
           
@@ -320,7 +320,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">pymatgen.symmetry.bandstructure</span> <span class="kn">import</span> <span class="n">HighSymmKpath</span>
 
-        <span class="kn">from</span> <span class="nn">ifermi.brillouin_zone</span> <span class="kn">import</span> <span class="n">WignerSeitzCell</span>
+        <span class="kn">from</span> <span class="nn">ifermi.brillouin_zone</span> <span class="kn">import</span> <span class="n">ReciprocalCell</span>
         <span class="kn">from</span> <span class="nn">ifermi.kpoints</span> <span class="kn">import</span> <span class="n">kpoints_to_first_bz</span>
 
         <span class="n">hskp</span> <span class="o">=</span> <span class="n">HighSymmKpath</span><span class="p">(</span><span class="n">fermi_surface</span><span class="o">.</span><span class="n">structure</span><span class="p">,</span> <span class="n">symprec</span><span class="o">=</span><span class="n">symprec</span><span class="p">)</span>
@@ -331,7 +331,7 @@
         <span class="p">):</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Structure does not match expected primitive cell&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fermi_surface</span><span class="o">.</span><span class="n">reciprocal_space</span><span class="p">,</span> <span class="n">WignerSeitzCell</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fermi_surface</span><span class="o">.</span><span class="n">reciprocal_space</span><span class="p">,</span> <span class="n">ReciprocalCell</span><span class="p">):</span>
             <span class="n">kpoints</span> <span class="o">=</span> <span class="n">kpoints_to_first_bz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">kpoints</span><span class="p">))</span>
 
         <span class="n">kpoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">kpoints</span><span class="p">,</span> <span class="n">fermi_surface</span><span class="o">.</span><span class="n">reciprocal_space</span><span class="o">.</span><span class="n">reciprocal_lattice</span><span class="p">)</span>
@@ -952,7 +952,7 @@
         <span class="kn">from</span> <span class="nn">pymatgen.symmetry.bandstructure</span> <span class="kn">import</span> <span class="n">HighSymmKpath</span>
         <span class="kn">from</span> <span class="nn">trimesh</span> <span class="kn">import</span> <span class="n">transform_points</span>
 
-        <span class="kn">from</span> <span class="nn">ifermi.brillouin_zone</span> <span class="kn">import</span> <span class="n">WignerSeitzCell</span>
+        <span class="kn">from</span> <span class="nn">ifermi.brillouin_zone</span> <span class="kn">import</span> <span class="n">ReciprocalCell</span>
         <span class="kn">from</span> <span class="nn">ifermi.kpoints</span> <span class="kn">import</span> <span class="n">kpoints_to_first_bz</span>
 
         <span class="n">hskp</span> <span class="o">=</span> <span class="n">HighSymmKpath</span><span class="p">(</span><span class="n">fermi_slice</span><span class="o">.</span><span class="n">structure</span><span class="p">,</span> <span class="n">symprec</span><span class="o">=</span><span class="n">symprec</span><span class="p">)</span>
@@ -963,7 +963,7 @@
         <span class="p">):</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Structure does not match expected primitive cell&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fermi_slice</span><span class="o">.</span><span class="n">reciprocal_slice</span><span class="o">.</span><span class="n">reciprocal_space</span><span class="p">,</span> <span class="n">WignerSeitzCell</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fermi_slice</span><span class="o">.</span><span class="n">reciprocal_slice</span><span class="o">.</span><span class="n">reciprocal_space</span><span class="p">,</span> <span class="n">ReciprocalCell</span><span class="p">):</span>
             <span class="n">kpoints</span> <span class="o">=</span> <span class="n">kpoints_to_first_bz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">kpoints</span><span class="p">))</span>
 
         <span class="n">kpoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
@@ -1169,7 +1169,6 @@
             <span class="c1"># shift labels a few pixels away from the high-sym points</span>
             <span class="n">offset</span> <span class="o">=</span> <span class="n">ScaledTranslation</span><span class="p">(</span><span class="mi">4</span> <span class="o">/</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">4</span> <span class="o">/</span> <span class="mi">72</span><span class="p">,</span> <span class="n">fig</span><span class="o">.</span><span class="n">dpi_scale_trans</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">coords</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_symmetry_pts</span><span class="p">):</span>
-                <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">rotation</span><span class="p">)</span>
                 <span class="n">_mpl_sym_pt_style</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">sym_pt_kwargs</span><span class="p">)</span>
                 <span class="n">_mpl_sym_label_style</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">sym_label_kwargs</span><span class="p">)</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">*</span><span class="n">coords</span><span class="p">,</span> <span class="o">**</span><span class="n">_mpl_sym_pt_style</span><span class="p">)</span>
