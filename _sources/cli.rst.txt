@@ -17,8 +17,8 @@ IFermi works in 4 stages:
 
 .. NOTE::
 
-    Currently, IFermi only works with VASP calculation outputs. Support for additional
-    DFT packages will be added in a future release.
+    Currently, IFermi's command-line tools only work with VASP calculation outputs.
+    Support for additional DFT packages will be added in a future release.
 
 IFermi is controlled on the command-line using the ``ifermi`` command. The available
 options can be listed using:
