@@ -40,14 +40,14 @@ magnetic properties of metals and doped semiconductors [@review].
 It defines the surface in reciprocal space that divides unoccupied and occupied
 states at zero temperature.
 The topology of the Fermi surface impacts a variety of quantum phenomena including
-superconductivity, topological insulation, and ferromagnetism, and can be used to 
+superconductivity, topological insulation, and ferromagnetism, and it can be used to
 predict the complex behaviour of systems without requiring more detailed computations.
-For example: (i) large nested Fermi sheets are characteristic of charge density ordering [@cdw]; 
+For example: (i) large nested Fermi sheets are a characteristic of charge density ordering [@cdw];
 (ii) the size and position of Fermi pockets are indicators of high-performance
 thermoelectrics [@thermoelectrics]; and (iii) the average group velocities across the
 Fermi surface control the sensitivity of materials for dark matter detection [@darkmatter].
-IFermi is Python library for the generation, analysis, and visualisation of Fermi 
-surfaces that we believe will facilitate sophisticated analyses of Fermi 
+IFermi is Python library for the generation, analysis, and visualisation of Fermi
+surfaces that can facilitate sophisticated analyses of Fermi 
 surface properties.
 
 # Statement of need
@@ -124,4 +124,3 @@ We would like to acknowledge additional suggestions and code contributions from
 Matthew Horton and Mariano Forti.
 
 # References
-
