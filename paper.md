@@ -28,7 +28,7 @@ affiliations:
  - name: Molecular Foundry, Lawrence Berkeley National Laboratory, Berkeley, California 94720, USA
    index: 3
  - name: Department of Physics, University of Oxford, Oxford OX1 3PJ, UK
-   index: 3
+   index: 4
 date: 1 March 2021
 bibliography: paper.bib
 ---
