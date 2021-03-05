@@ -175,7 +175,7 @@ open-source python packages, specifically:
 ## Need Help?
 
 Ask questions about the IFermi Python API and command-line tools on the [IFermi
-Discourse page](https://matsci.org/c/ifermi).
+support forum](https://matsci.org/c/ifermi).
 
 ## What’s new?
 
