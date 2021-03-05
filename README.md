@@ -1,8 +1,9 @@
 <img alt="IFermi logo" src="https://raw.githubusercontent.com/fermisurfaces/IFermi/master/docs/src/_static/logo2-01.png" height="150px">
 
 --------
-[📖 **Online Documentation** 📖](https://fermisurfaces.github.io/IFermi)
+[📖 **Online Documentation** 📖](https://fermisurfaces.github.io/IFermi) 
 
+[🙋 **Support Forum** 🙋](https://matsci.org/c/ifermi/)
 
 IFermi is a Python (3.6+) library and set of command-line tools for the generation, 
 analysis, and visualisation of Fermi surfaces and Fermi slices. The goal of the library 
@@ -170,6 +171,11 @@ open-source python packages, specifically:
 - [BoltzTrap2](https://gitlab.com/sousaw/BoltzTraP2) for band structure interpolation.
 - [trimesh](https://trimsh.org/) for manipulating isosurfaces.
 - [matplotlib](https://matplotlib.org), [mayavi](https://docs.enthought.com/mayavi/mayavi/), and [plotly](https://plot.ly/) for three-dimensional plotting.
+
+## Need Help?
+
+Ask questions about the IFermi Python API and command-line tools on the [IFermi
+Discourse page](https://matsci.org/c/ifermi).
 
 ## What’s new?
 
