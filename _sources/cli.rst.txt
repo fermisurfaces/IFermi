@@ -170,8 +170,8 @@ Property projections
 
 Additional properties, such as the group velocity and orbital magnetisation (spin
 texture), can be projected onto the Fermi surface using the ``--property`` option. The
-group velocities are calculated during Fourier interpolation and can be included in the
-Fermi surface using:
+group velocities are calculated during Fourier interpolation (units of m/s) and can be
+included in the Fermi surface using:
 
 .. code-block:: bash
 

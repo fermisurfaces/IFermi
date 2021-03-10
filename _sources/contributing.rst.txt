@@ -13,10 +13,8 @@ transparent as possible, whether it's:
 Reporting bugs, getting help, and discussion
 --------------------------------------------
 
-IFermi is still in development, so at the moment we
-do not have a dedicated help forum. For the time being, please
-submit questions and bugs to the
-`GitHub issues page <https://github.com/fermisurfaces/IFermi/issues>`__.
+Please submit questions to the dedicated IFermi `help forum <https://matsci.org/c/ifermi>`__.
+Bug reports should be directed to the `GitHub issues page <https://github.com/fermisurfaces/IFermi/issues>`__.
 
 If you are making a bug report, incorporate as many elements of the
 following as possible to ensure a timely response and avoid the
