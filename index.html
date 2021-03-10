@@ -321,8 +321,11 @@ and in the <a class="reference external" href="https://fermisurfaces.github.io/I
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>IFermi can be installed with the command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install ifermi
+<p>The recommended way to install IFermi is in a conda environment.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda create --name ifermi pip cmake numpy fftw
+conda activate ifermi
+pip install ifermi
+<span class="sb">`</span>
 </pre></div>
 </div>
 <p>IFermi is currently compatible with Python 3.6+ and relies on a number of
@@ -333,6 +336,20 @@ open-source python packages, specifically:</p>
 <li><p><a class="reference external" href="https://trimsh.org/">trimesh</a> for manipulating isosurfaces.</p></li>
 <li><p><a class="reference external" href="https://matplotlib.org">matplotlib</a>, <a class="reference external" href="https://docs.enthought.com/mayavi/mayavi/">mayavi</a>, and <a class="reference external" href="https://plot.ly/">plotly</a> for three-dimensional plotting.</p></li>
 </ul>
+<div class="section" id="running-tests">
+<h3>Running tests<a class="headerlink" href="#running-tests" title="Permalink to this headline">¶</a></h3>
+<p>The integration tests can be run to ensure IFermi has been installed correctly. First
+download the IFermi source and install the test requirements.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">fermisurfaces</span><span class="o">/</span><span class="n">IFermi</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">IFermi</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">.</span><span class="p">[</span><span class="n">tests</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Next, the tests can be run in the IFermi folder using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="need-help">
 <h2>Need Help?<a class="headerlink" href="#need-help" title="Permalink to this headline">¶</a></h2>
