@@ -185,7 +185,7 @@ cd IFermi
 pip install .[tests]
 ```
 
-Next, the tests can be run in the IFermi folder using:
+The tests can be run in the IFermi folder using:
 
 ```bash
 pytest
