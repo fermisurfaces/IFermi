@@ -46,7 +46,7 @@ For example: (i) large nested Fermi sheets are a characteristic of charge densit
 (ii) the size and position of Fermi pockets are indicators of high-performance
 thermoelectrics [@thermoelectrics]; and (iii) the average group velocities across the
 Fermi surface control the sensitivity of materials for dark matter detection [@darkmatter].
-IFermi is Python library for the generation, analysis, and visualisation of Fermi
+IFermi is a Python library for the generation, analysis, and visualisation of Fermi
 surfaces that can facilitate sophisticated analyses of Fermi 
 surface properties.
 
