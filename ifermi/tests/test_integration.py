@@ -1,7 +1,7 @@
 import unittest
 from pathlib import Path
 
-from pymatgen import Spin
+from pymatgen.electronic_structure.core import Spin
 from pymatgen.io.vasp.outputs import Vasprun
 
 from ifermi.interpolate import FourierInterpolator

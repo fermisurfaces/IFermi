@@ -68,7 +68,7 @@ setup(
             "ipython",
         ],
         "dev": ["black"],
-        "tests": ["nose", "coverage", "coveralls"],
+        "tests": ["pytest"],
         ':python_version < "3.7"': ["dataclasses>=0.6"],
     },
     data_files=["LICENSE"],

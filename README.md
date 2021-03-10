@@ -158,11 +158,13 @@ show_plot(plot)  # displays an interactive plot
 
 ## Installation
 
-IFermi can be installed with the command:
+The recommended way to install IFermi is in a conda environment.
 
 ```bash
+conda create --name ifermi pip cmake numpy fftw
+conda activate ifermi
 pip install ifermi
-```
+````
 
 IFermi is currently compatible with Python 3.6+ and relies on a number of
 open-source python packages, specifically:
@@ -171,6 +173,23 @@ open-source python packages, specifically:
 - [BoltzTrap2](https://gitlab.com/sousaw/BoltzTraP2) for band structure interpolation.
 - [trimesh](https://trimsh.org/) for manipulating isosurfaces.
 - [matplotlib](https://matplotlib.org), [mayavi](https://docs.enthought.com/mayavi/mayavi/), and [plotly](https://plot.ly/) for three-dimensional plotting.
+
+### Running tests
+
+The integration tests can be run to ensure IFermi has been installed correctly. First 
+download the IFermi source and install the test requirements.
+
+```
+git clone https://github.com/fermisurfaces/IFermi.git
+cd IFermi
+pip install .[tests]
+```
+
+Next, the tests can be run in the IFermi folder using:
+
+```bash
+pytest
+```
 
 ## Need Help?
 

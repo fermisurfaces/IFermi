@@ -3,9 +3,14 @@ from pathlib import Path
 
 import numpy as np
 from monty.serialization import loadfn
-from pymatgen import Spin
+from pymatgen.electronic_structure.core import Spin
 
 from ifermi.surface import FermiSurface
+
+try:
+    import open3d
+except ImportError:
+    open3d = None
 
 test_dir = Path(__file__).resolve().parent
 
@@ -25,6 +30,7 @@ class FermiSurfaceTest(unittest.TestCase):
         fs = FermiSurface.from_band_structure(self.band_structure, wigner_seitz=True)
         self.assert_fs_equal(fs, self.ref_fs_wigner)
 
+    @unittest.skipIf(open3d is None, "open3d not installed")
     def test_decimation(self):
         fs = FermiSurface.from_band_structure(self.band_structure)
         n_faces_orig = len(fs.isosurfaces[Spin.up][0].faces)
