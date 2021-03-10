@@ -60,7 +60,7 @@ class Isosurface(MSONable):
 
     @property
     def area(self) -> float:
-        """Area of the isosurface."""
+        """Area of the isosurface in Å:sup:`-2`."""
         from ifermi.analysis import isosurface_area
 
         return isosurface_area(self.vertices, self.faces)
@@ -208,12 +208,12 @@ class FermiSurface(MSONable):
 
     @property
     def area(self) -> float:
-        """Total area of all isosurfaces in the Fermi surface."""
+        """Total area of all isosurfaces in the Fermi surface in Å:sup:`-2`."""
         return sum(map(sum, self.area_surfaces.values()))
 
     @property
     def area_surfaces(self) -> Dict[Spin, np.ndarray]:
-        """Area of each isosurface in the Fermi surface."""
+        """Area of each isosurface in the Fermi surface in Å:sup:`-2`."""
         return {k: np.array([i.area for i in v]) for k, v in self.isosurfaces.items()}
 
     @property
