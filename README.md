@@ -161,7 +161,7 @@ show_plot(plot)  # displays an interactive plot
 The recommended way to install IFermi is in a conda environment.
 
 ```bash
-conda create --name ifermi pip cmake numpy fftw
+conda create --name ifermi pip cmake numpy
 conda activate ifermi
 pip install ifermi
 ````
