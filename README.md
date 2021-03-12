@@ -163,6 +163,7 @@ The recommended way to install IFermi is in a conda environment.
 ```bash
 conda create --name ifermi pip cmake numpy
 conda activate ifermi
+conda install -c conda-forge pymatgen boltztrap2 pyfftw
 pip install ifermi
 ````
 
