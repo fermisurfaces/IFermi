@@ -1,7 +1,7 @@
 <img alt="IFermi logo" src="https://raw.githubusercontent.com/fermisurfaces/IFermi/main/docs/src/_static/logo2-01.png" height="150px">
 
 --------
-[📖 **Online Documentation** 📖](https://fermisurfaces.github.io/IFermi) 
+[📖 **Official Documentation** 📖](https://fermisurfaces.github.io/IFermi) 
 
 [🙋 **Support Forum** 🙋](https://matsci.org/c/ifermi/)
 
