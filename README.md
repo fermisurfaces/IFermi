@@ -87,6 +87,7 @@ from pymatgen.io.vasp.outputs import Vasprun
 from ifermi.surface import FermiSurface
 from ifermi.interpolate import FourierInterpolator
 from ifermi.plot import FermiSlicePlotter, FermiSurfacePlotter, save_plot, show_plot
+from ifermi.kpoints import kpoints_from_bandstructure
 
 # load VASP calculation outputs
 vr = Vasprun("vasprun.xml")
@@ -94,11 +95,19 @@ bs = vr.get_band_structure()
 
 # interpolate the energies onto a dense k-point mesh
 interpolator = FourierInterpolator(bs)
-dense_bs = interpolator.interpolate_bands()
+dense_bs, velocities = interpolator.interpolate_bands(return_velocities=True)
 
 # generate the Fermi surface and calculate the dimensionality
 fs = FermiSurface.from_band_structure(
   dense_bs, mu=0.0, wigner_seitz=True, calculate_dimensionality=True
+)
+
+# generate the Fermi surface and calculate the group velocity at the 
+# center of each triangular face
+dense_kpoints = kpoints_from_bandstructure(dense_bs)
+fs = FermiSurface.from_band_structure(
+  dense_bs, mu=0.0, wigner_seitz=True, calculate_dimensionality=True,
+  property_data=velocities, property_kpoints=dense_kpoints
 )
 
 # number of isosurfaces in the Fermi surface
@@ -116,24 +125,24 @@ fs.area_surfaces
 # loop over all isosurfaces and check their properties
 # the isosurfaces are given as a list for each spin channel
 for spin, isosurfaces in fs.isosurfaces.items():
-  for isosurface in isosurfaces:
-    # the dimensionality (does the surface cross periodic boundaries)
-    isosurface.dimensionality
+    for isosurface in isosurfaces:
+        # the dimensionality (does the surface cross periodic boundaries)
+        isosurface.dimensionality
 
-    # what is the orientation
-    isosurface.orientation
+        # what is the orientation
+        isosurface.orientation
 
-    # does the surface have face properties
-    isosurface.has_properties
+        # does the surface have face properties
+        isosurface.has_properties
 
-    # calculate the norms of the properties
-    isosurface.properties_norms
+        # calculate the norms of the properties
+        isosurface.properties_norms
 
-    # calculate scalar projection of properties on to [0 0 1] vector
-    isosurface.scalar_projection((0, 0, 1))
+        # calculate scalar projection of properties on to [0 0 1] vector
+        isosurface.scalar_projection((0, 0, 1))
 
-    # uniformly sample the surface faces to a consistent density
-    isosurface.sample_uniform(0.1)
+        # uniformly sample the surface faces to a consistent density
+        isosurface.sample_uniform(0.1)
 
 # plot the Fermi surface
 fs_plotter = FermiSurfacePlotter(fs)
