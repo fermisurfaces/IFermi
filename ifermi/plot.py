@@ -1171,12 +1171,19 @@ def save_plot(plot: Any, filename: Union[Path, str], scale: float = SCALE):
         # default dpi is ~100
         plot.savefig(filename, dpi=scale * 100, bbox_inches="tight")
     elif plot_type == "plotly":
-        if kaleido is None:
-            raise ValueError(
-                "kaleido package required to save static ploty images\n"
-                "please install it using:\npip install kaleido"
+        if "html" in filename:
+            from plotly.offline import plot as show_plotly
+
+            show_plotly(plot, include_mathjax="cdn", filename=filename, auto_open=False)
+        else:
+            if kaleido is None:
+                raise ValueError(
+                    "kaleido package required to save static ploty images\n"
+                    "please install it using:\npip install kaleido"
+                )
+            plot.write_image(
+                filename, engine="kaleido", scale=scale, width=750, height=750
             )
-        plot.write_image(filename, engine="kaleido", scale=scale, width=750, height=750)
     elif plot_type == "mayavi":
         plot.savefig(filename, magnification=scale)
 
