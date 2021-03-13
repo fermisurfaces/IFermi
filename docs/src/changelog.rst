@@ -4,6 +4,12 @@ Change log
 [Unreleased]
 ------------
 
+v0.2.2
+------
+
+Saving interactive html plots is now possible using the plotly backend with:
+``ifermi plot --output filename.html``.
+
 v0.2.1
 ------
 
