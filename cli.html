@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ifermi program &mdash; IFermi 0.2.1 documentation</title>
+  <title>ifermi program &mdash; IFermi 0.2.2 documentation</title>
   
 
   
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.2.1
+                0.2.2
               </div>
             
           
@@ -365,8 +365,8 @@ scalar projection of the spin magnetisation onto the [0 0 1] cartesian direction
 <h3>Reciprocal space<a class="headerlink" href="#reciprocal-space" title="Permalink to this headline">¶</a></h3>
 <p>By default, the Wigner–Seitz cell is used to contain to the Fermi surface. The
 parallelepiped reciprocal lattice cell can be used instead by selecting the
-<code class="docutils literal notranslate"><span class="pre">--reciprocal-cell</span></code> option (<code class="docutils literal notranslate"><span class="pre">-r</span></code>). For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --reciprocal-cell
+<code class="docutils literal notranslate"><span class="pre">--no-wigner</span></code> option. For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --no-wigner
 </pre></div>
 </div>
 </div>
@@ -402,10 +402,16 @@ file can be specified using the <code class="docutils literal notranslate"><span
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Saving output files with the plotly backend requires plotly-orca to be installed.</p>
+<p>Saving graphical output files with the plotly backend requires plotly-orca to be
+installed.</p>
 </div>
 <p>Running the above command in the <code class="docutils literal notranslate"><span class="pre">examples/MgB2</span></code> directory produces the plot:</p>
 <a class="reference internal image-reference" href="_images/fs-1.jpg"><img alt="_images/fs-1.jpg" class="align-center" src="_images/fs-1.jpg" style="height: 250px;" /></a>
+<p>Interactive plots can be saved to a html file using the plotly backend by specifying
+a html filename. This will prevent the plot from being opened automatically.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --output fermi-surface.html
+</pre></div>
+</div>
 </div>
 <div class="section" id="selecting-spin-channels">
 <h3>Selecting spin channels<a class="headerlink" href="#selecting-spin-channels" title="Permalink to this headline">¶</a></h3>

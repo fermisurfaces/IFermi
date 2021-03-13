@@ -204,11 +204,11 @@ Reciprocal space
 
 By default, the Wigner–Seitz cell is used to contain to the Fermi surface. The
 parallelepiped reciprocal lattice cell can be used instead by selecting the
-``--reciprocal-cell`` option (``-r``). For example:
+``--no-wigner`` option. For example:
 
 .. code-block:: bash
 
-    ifermi plot --reciprocal-cell
+    ifermi plot --no-wigner
 
 
 Visualisation options
@@ -250,13 +250,21 @@ file can be specified using the ``--output`` (``-o``) option. For example:
 
 .. NOTE::
 
-    Saving output files with the plotly backend requires plotly-orca to be installed.
+    Saving graphical output files with the plotly backend requires plotly-orca to be
+    installed.
 
 Running the above command in the ``examples/MgB2`` directory produces the plot:
 
 .. image:: _static/fs-1.jpg
     :height: 250px
     :align: center
+
+Interactive plots can be saved to a html file using the plotly backend by specifying
+a html filename. This will prevent the plot from being opened automatically.
+
+.. code-block:: bash
+
+    ifermi plot --output fermi-surface.html
 
 Selecting spin channels
 ~~~~~~~~~~~~~~~~~~~~~~~
