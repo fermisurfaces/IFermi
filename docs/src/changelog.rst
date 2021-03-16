@@ -4,6 +4,11 @@ Change log
 [Unreleased]
 ------------
 
+v0.2.3
+------
+
+Publish IFermi on zenodo.
+
 v0.2.2
 ------
 
