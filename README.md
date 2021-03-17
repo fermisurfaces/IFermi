@@ -174,7 +174,7 @@ If you find IFermi useful, please encourage its development by citing the follow
 [paper](https://doi.org/10.21105/joss.03089) in your research output:
 
 ```
-Ganose, A.M., Searle, A., Jain, A., Griffin, S. M., IFermi: A python library for Fermi 
+Ganose, A. M., Searle, A., Jain, A., Griffin, S. M., IFermi: A python library for Fermi 
 surface generation and analysis. Journal of Open Source Software. Journal of Open 
 Source Software, 2021, 6 (59), 3089
 ```
