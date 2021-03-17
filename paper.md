@@ -98,7 +98,7 @@ comprises Vienna *ab initio* Simulation Package (VASP), ABINIT, and CP2K. IFermi
 relies on  several open source packages, such as BoltzTraP2 [@boltztrap2] for Fourier 
 interpolation, trimesh [@trimesh] for processing triangular meshes, and scikit-image 
 [@scikitimage] for generating isosurfaces using the marching cubes algorithm developed 
-by Lewiner et al [@marchingcubes].
+by @marchingcubes.
 
 # Author Contributions
 
