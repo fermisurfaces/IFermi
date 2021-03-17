@@ -6,7 +6,7 @@
 
 [🙋 **Support Forum** 🙋](https://matsci.org/c/ifermi/)
 
-[📝 **JOSS Paper** 📝](https://matsci.org/c/ifermi/)
+[📝 **JOSS Paper** 📝](https://doi.org/10.21105/joss.03089)
 
 IFermi is a Python (3.6+) library and set of command-line tools for the generation, 
 analysis, and visualisation of Fermi surfaces and Fermi slices. The goal of the library 
