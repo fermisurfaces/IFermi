@@ -1,9 +1,12 @@
 <img alt="IFermi logo" src="https://raw.githubusercontent.com/fermisurfaces/IFermi/main/docs/src/_static/logo2-01.png" height="150px">
 
 --------
+
 [📖 **Official Documentation** 📖](https://fermisurfaces.github.io/IFermi) 
 
 [🙋 **Support Forum** 🙋](https://matsci.org/c/ifermi/)
+
+[📝 **JOSS Paper** 📝](https://matsci.org/c/ifermi/)
 
 IFermi is a Python (3.6+) library and set of command-line tools for the generation, 
 analysis, and visualisation of Fermi surfaces and Fermi slices. The goal of the library 
@@ -164,6 +167,18 @@ plot = slice_plotter.get_plot()
 save_plot(plot, "fermi-slice.png")  # saves the plot to a file
 show_plot(plot)  # displays an interactive plot
 ```
+
+## Citing IFermi
+
+If you find IFermi useful, please encourage its development by citing the following 
+[paper](https://doi.org/10.21105/joss.03089) in your research output:
+
+```
+Ganose, A.M., Searle, A., Jain, A., Griffin, S. M., IFermi: A python library for Fermi 
+surface generation and analysis. Journal of Open Source Software. Journal of Open 
+Source Software, 2021, 6 (59), 3089
+```
+
 
 ## Installation
 
