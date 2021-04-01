@@ -373,10 +373,12 @@ class FermiSurface(MSONable):
                 calculated.
             wigner_seitz: Controls whether the cell is the Wigner-Seitz cell
                 or the reciprocal unit cell parallelepiped.
-            decimate_factor: If method is "quadric", factor is the scaling factor by
-                which to reduce the number of faces. I.e., final # faces = initial
-                # faces * factor. If method is "cluster", factor is the voxel size in
-                which to cluster points. Default is None (no decimation).
+            decimate_factor: If method is "quadric", and factor is a floating point
+                value then factor is the scaling factor by which to reduce the number of
+                faces. I.e., final # faces = initial # faces * factor. If method is
+                "quadric" but factor is an integer then factor is the target number of
+                final faces. If method is "cluster", factor is the voxel size in which
+                to cluster points. Default is None (no decimation).
             decimate_method: Algorithm to use for decimation. Options are "quadric"
                 or "cluster".
             smooth: If True, will smooth resulting isosurface. Requires PyMCubes. See
@@ -493,10 +495,12 @@ def compute_isosurfaces(
         kpoints: The k-points in fractional coordinates.
         fermi_level: The energy at which to calculate the Fermi surface.
         reciprocal_space: The reciprocal space representation.
-        decimate_factor: If method is "quadric", factor is the scaling factor by which
-            to reduce the number of faces. I.e., final # faces = initial # faces *
-            factor. If method is "cluster", factor is the voxel size in which to
-            cluster points. Default is None (no decimation).
+        decimate_factor: If method is "quadric", and factor is a floating point value
+            then factor is the scaling factor by which to reduce the number of faces.
+            I.e., final # faces = initial # faces * factor. If method is "quadric" but
+            factor is an integer then factor is the target number of final faces.
+            If method is "cluster", factor is the voxel size in which to cluster points.
+            Default is None (no decimation).
         decimate_method: Algorithm to use for decimation. Options are "quadric" or
             "cluster".
         smooth: If True, will smooth resulting isosurface. Requires PyMCubes. Smoothing
@@ -747,7 +751,9 @@ def face_properties(
 
 
 @requires(open3d, "open3d package is required for mesh decimation")
-def decimate_mesh(vertices: np.ndarray, faces: np.ndarray, factor, method="quadric"):
+def decimate_mesh(
+    vertices: np.ndarray, faces: np.ndarray, factor: Union[int, float], method="quadric"
+):
     """Decimate mesh to reduce the number of triangles and vertices.
 
     The open3d package is required for decimation.
@@ -755,8 +761,10 @@ def decimate_mesh(vertices: np.ndarray, faces: np.ndarray, factor, method="quadr
     Args:
         vertices: A (n, 3) float array of the vertices in the isosurface.
         faces: A (m, 3) int array of the faces of the isosurface.
-        factor: If method is "quadric", factor is the scaling factor by which to
-            reduce the number of faces. I.e., final # faces = initial # faces * factor.
+        factor: If method is "quadric", and factor is a floating point value then
+            factor is the scaling factor by which to reduce the number of faces.
+            I.e., final # faces = initial # faces * factor. If method is "quadric" but
+            factor is an integer then factor is the target number of final faces.
             If method is "cluster", factor is the voxel size in which to cluster points.
         method: Algorithm to use for decimation. Options are "quadric" or "cluster".
 
@@ -770,7 +778,10 @@ def decimate_mesh(vertices: np.ndarray, faces: np.ndarray, factor, method="quadr
 
     # decimate mesh
     if method == "quadric":
-        n_target_triangles = int(len(faces) * factor)
+        if isinstance(factor, int):
+            n_target_triangles = min(factor, len(faces))
+        else:
+            n_target_triangles = int(len(faces) * factor)
         o3d_new_mesh = o3d_mesh.simplify_quadric_decimation(n_target_triangles)
     else:
         cluster_type = open3d.geometry.SimplificationContraction.Quadric
