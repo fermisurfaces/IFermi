@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ifermi.plot &mdash; IFermi 0.2.3 documentation</title>
+  <title>ifermi.plot &mdash; IFermi 0.2.4 documentation</title>
   
 
   
@@ -70,7 +70,7 @@
             
             
               <div class="version">
-                0.2.3
+                0.2.4
               </div>
             
           
@@ -963,7 +963,9 @@
         <span class="p">):</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Structure does not match expected primitive cell&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fermi_slice</span><span class="o">.</span><span class="n">reciprocal_slice</span><span class="o">.</span><span class="n">reciprocal_space</span><span class="p">,</span> <span class="n">WignerSeitzCell</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">fermi_slice</span><span class="o">.</span><span class="n">reciprocal_slice</span><span class="o">.</span><span class="n">reciprocal_space</span><span class="p">,</span> <span class="n">WignerSeitzCell</span>
+        <span class="p">):</span>
             <span class="n">kpoints</span> <span class="o">=</span> <span class="n">kpoints_to_first_bz</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">kpoints</span><span class="p">))</span>
 
         <span class="n">kpoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ifermi.surface &mdash; IFermi 0.2.3 documentation</title>
+  <title>ifermi.surface &mdash; IFermi 0.2.4 documentation</title>
   
 
   
@@ -70,7 +70,7 @@
             
             
               <div class="version">
-                0.2.3
+                0.2.4
               </div>
             
           
@@ -519,10 +519,12 @@
 <span class="sd">                calculated.</span>
 <span class="sd">            wigner_seitz: Controls whether the cell is the Wigner-Seitz cell</span>
 <span class="sd">                or the reciprocal unit cell parallelepiped.</span>
-<span class="sd">            decimate_factor: If method is &quot;quadric&quot;, factor is the scaling factor by</span>
-<span class="sd">                which to reduce the number of faces. I.e., final # faces = initial</span>
-<span class="sd">                # faces * factor. If method is &quot;cluster&quot;, factor is the voxel size in</span>
-<span class="sd">                which to cluster points. Default is None (no decimation).</span>
+<span class="sd">            decimate_factor: If method is &quot;quadric&quot;, and factor is a floating point</span>
+<span class="sd">                value then factor is the scaling factor by which to reduce the number of</span>
+<span class="sd">                faces. I.e., final # faces = initial # faces * factor. If method is</span>
+<span class="sd">                &quot;quadric&quot; but factor is an integer then factor is the target number of</span>
+<span class="sd">                final faces. If method is &quot;cluster&quot;, factor is the voxel size in which</span>
+<span class="sd">                to cluster points. Default is None (no decimation).</span>
 <span class="sd">            decimate_method: Algorithm to use for decimation. Options are &quot;quadric&quot;</span>
 <span class="sd">                or &quot;cluster&quot;.</span>
 <span class="sd">            smooth: If True, will smooth resulting isosurface. Requires PyMCubes. See</span>
@@ -639,10 +641,12 @@
 <span class="sd">        kpoints: The k-points in fractional coordinates.</span>
 <span class="sd">        fermi_level: The energy at which to calculate the Fermi surface.</span>
 <span class="sd">        reciprocal_space: The reciprocal space representation.</span>
-<span class="sd">        decimate_factor: If method is &quot;quadric&quot;, factor is the scaling factor by which</span>
-<span class="sd">            to reduce the number of faces. I.e., final # faces = initial # faces *</span>
-<span class="sd">            factor. If method is &quot;cluster&quot;, factor is the voxel size in which to</span>
-<span class="sd">            cluster points. Default is None (no decimation).</span>
+<span class="sd">        decimate_factor: If method is &quot;quadric&quot;, and factor is a floating point value</span>
+<span class="sd">            then factor is the scaling factor by which to reduce the number of faces.</span>
+<span class="sd">            I.e., final # faces = initial # faces * factor. If method is &quot;quadric&quot; but</span>
+<span class="sd">            factor is an integer then factor is the target number of final faces.</span>
+<span class="sd">            If method is &quot;cluster&quot;, factor is the voxel size in which to cluster points.</span>
+<span class="sd">            Default is None (no decimation).</span>
 <span class="sd">        decimate_method: Algorithm to use for decimation. Options are &quot;quadric&quot; or</span>
 <span class="sd">            &quot;cluster&quot;.</span>
 <span class="sd">        smooth: If True, will smooth resulting isosurface. Requires PyMCubes. Smoothing</span>
@@ -893,7 +897,9 @@
 
 
 <div class="viewcode-block" id="decimate_mesh"><a class="viewcode-back" href="../../ifermi.html#ifermi.surface.decimate_mesh">[docs]</a><span class="nd">@requires</span><span class="p">(</span><span class="n">open3d</span><span class="p">,</span> <span class="s2">&quot;open3d package is required for mesh decimation&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">decimate_mesh</span><span class="p">(</span><span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">faces</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">factor</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;quadric&quot;</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">decimate_mesh</span><span class="p">(</span>
+    <span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">faces</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">factor</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;quadric&quot;</span>
+<span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Decimate mesh to reduce the number of triangles and vertices.</span>
 
 <span class="sd">    The open3d package is required for decimation.</span>
@@ -901,8 +907,10 @@
 <span class="sd">    Args:</span>
 <span class="sd">        vertices: A (n, 3) float array of the vertices in the isosurface.</span>
 <span class="sd">        faces: A (m, 3) int array of the faces of the isosurface.</span>
-<span class="sd">        factor: If method is &quot;quadric&quot;, factor is the scaling factor by which to</span>
-<span class="sd">            reduce the number of faces. I.e., final # faces = initial # faces * factor.</span>
+<span class="sd">        factor: If method is &quot;quadric&quot;, and factor is a floating point value then</span>
+<span class="sd">            factor is the scaling factor by which to reduce the number of faces.</span>
+<span class="sd">            I.e., final # faces = initial # faces * factor. If method is &quot;quadric&quot; but</span>
+<span class="sd">            factor is an integer then factor is the target number of final faces.</span>
 <span class="sd">            If method is &quot;cluster&quot;, factor is the voxel size in which to cluster points.</span>
 <span class="sd">        method: Algorithm to use for decimation. Options are &quot;quadric&quot; or &quot;cluster&quot;.</span>
 
@@ -916,7 +924,10 @@
 
     <span class="c1"># decimate mesh</span>
     <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;quadric&quot;</span><span class="p">:</span>
-        <span class="n">n_target_triangles</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">faces</span><span class="p">)</span> <span class="o">*</span> <span class="n">factor</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">factor</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">n_target_triangles</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">factor</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">faces</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">n_target_triangles</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">faces</span><span class="p">)</span> <span class="o">*</span> <span class="n">factor</span><span class="p">)</span>
         <span class="n">o3d_new_mesh</span> <span class="o">=</span> <span class="n">o3d_mesh</span><span class="o">.</span><span class="n">simplify_quadric_decimation</span><span class="p">(</span><span class="n">n_target_triangles</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">cluster_type</span> <span class="o">=</span> <span class="n">open3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">SimplificationContraction</span><span class="o">.</span><span class="n">Quadric</span>

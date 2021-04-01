@@ -4,6 +4,13 @@ Change log
 [Unreleased]
 ------------
 
+v0.2.4
+------
+
+Enhancements:
+- Added function to trim band structure to within a energy cutoff.
+- Improved decimation options.
+
 v0.2.3
 ------
 
