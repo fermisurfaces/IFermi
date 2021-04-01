@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ifermi.surface &mdash; IFermi 0.2.4 documentation</title>
+  <title>ifermi.surface &mdash; IFermi 0.2.5 documentation</title>
   
 
   
@@ -70,7 +70,7 @@
             
             
               <div class="version">
-                0.2.4
+                0.2.5
               </div>
             
           
@@ -574,6 +574,10 @@
         <span class="n">bands</span><span class="p">,</span> <span class="n">kpoints</span> <span class="o">=</span> <span class="n">expand_bands</span><span class="p">(</span>
             <span class="n">bands</span><span class="p">,</span> <span class="n">kpoints</span><span class="p">,</span> <span class="n">supercell_dim</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">decimate_factor</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="c1"># increase number of target faces to account for 3x3x3 supercell</span>
+            <span class="n">decimate_factor</span> <span class="o">*=</span> <span class="mi">27</span>
+
         <span class="n">isosurfaces</span> <span class="o">=</span> <span class="n">compute_isosurfaces</span><span class="p">(</span>
             <span class="n">bands</span><span class="p">,</span>
             <span class="n">kpoints</span><span class="p">,</span>

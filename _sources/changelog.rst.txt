@@ -4,6 +4,12 @@ Change log
 [Unreleased]
 ------------
 
+v0.2.5
+------
+
+Bug fixes:
+- Better handling of integer decimation factors.
+
 v0.2.4
 ------
 
