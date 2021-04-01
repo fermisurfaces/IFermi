@@ -6,7 +6,7 @@ import numpy as np
 from pymatgen.electronic_structure.bandstructure import BandStructure
 from pymatgen.electronic_structure.core import Spin
 
-__all__ = ["FourierInterpolator", "LinearInterpolator"]
+__all__ = ["FourierInterpolator", "LinearInterpolator", "trim_bandstructure"]
 
 
 class FourierInterpolator:
@@ -279,3 +279,41 @@ class LinearInterpolator:
         grid_kpoints[:, -1, :] += [0, 1, 0]
         grid_kpoints[:, :, -1] += [0, 0, 1]
         return grid_kpoints, mesh_dim, sort_idx
+
+
+def trim_bandstructure(
+    energy_cutoff: float, band_structure: BandStructure
+) -> BandStructure:
+    """
+    Trim the number of bands in a band structure object based on a cutoff.
+
+    Args:
+        energy_cutoff: An energy cutoff within which to keep the bands. If the system
+            is metallic then the bands to keep will fall within +/- the cutoff around
+            the Fermi level. If the system has a band gap, the bands from the VBM -
+            energy_cutoff to CBM + energy_cutoff will be kept.
+        band_structure: A band structure.
+
+    Returns:
+        A trimmed band structure.
+    """
+    if band_structure.is_metal():
+        min_e = band_structure.efermi - energy_cutoff
+        max_e = band_structure.efermi + energy_cutoff
+    else:
+        min_e = band_structure.get_vbm()["energy"] - energy_cutoff
+        max_e = band_structure.get_cbm()["energy"] + energy_cutoff
+
+    new_bands = {}
+    for spin, bands in band_structure.bands.items():
+        ibands = np.any((bands > min_e) & (bands < max_e), axis=1)
+        new_bands[spin] = bands[ibands]
+
+    return BandStructure(
+        np.array([k.frac_coords for k in band_structure.kpoints]),
+        new_bands,
+        lattice=band_structure.lattice_rec,
+        efermi=band_structure.efermi,
+        coords_are_cartesian=False,
+        structure=band_structure.structure
+    )
