@@ -817,7 +817,9 @@ class FermiSlicePlotter:
         ):
             warnings.warn("Structure does not match expected primitive cell")
 
-        if not isinstance(fermi_slice.reciprocal_slice.reciprocal_space, WignerSeitzCell):
+        if not isinstance(
+            fermi_slice.reciprocal_slice.reciprocal_space, WignerSeitzCell
+        ):
             kpoints = kpoints_to_first_bz(np.array(kpoints))
 
         kpoints = np.dot(

@@ -315,5 +315,5 @@ def trim_bandstructure(
         lattice=band_structure.lattice_rec,
         efermi=band_structure.efermi,
         coords_are_cartesian=False,
-        structure=band_structure.structure
+        structure=band_structure.structure,
     )
