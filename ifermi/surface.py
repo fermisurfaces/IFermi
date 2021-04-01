@@ -428,6 +428,10 @@ class FermiSurface(MSONable):
         bands, kpoints = expand_bands(
             bands, kpoints, supercell_dim=(3, 3, 3), center=(1, 1, 1)
         )
+        if isinstance(decimate_factor, int):
+            # increase number of target faces to account for 3x3x3 supercell
+            decimate_factor *= 27
+
         isosurfaces = compute_isosurfaces(
             bands,
             kpoints,
