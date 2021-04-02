@@ -4,6 +4,9 @@ Change log
 [Unreleased]
 ------------
 
+v0.2.6
+------
+
 Bug fixes:
 - Fixed serialization issues.
 
