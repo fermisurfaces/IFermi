@@ -7,7 +7,7 @@ from typing import Collection, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from monty.dev import requires
-from monty.json import MSONable
+from monty.json import MSONable, jsanitize
 from pymatgen.core.structure import Structure
 from pymatgen.electronic_structure.bandstructure import BandStructure
 from pymatgen.electronic_structure.core import Spin
@@ -476,7 +476,7 @@ class FermiSurface(MSONable):
         """Get a json-serializable dict representation of FermiSurface."""
         d = super().as_dict()
         d["isosurfaces"] = {str(spin): iso for spin, iso in self.isosurfaces.items()}
-        return d
+        return jsanitize(d, strict=True)
 
 
 def compute_isosurfaces(
