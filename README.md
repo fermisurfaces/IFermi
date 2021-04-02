@@ -175,8 +175,7 @@ If you find IFermi useful, please encourage its development by citing the follow
 
 ```
 Ganose, A. M., Searle, A., Jain, A., Griffin, S. M., IFermi: A python library for Fermi 
-surface generation and analysis. Journal of Open Source Software. Journal of Open 
-Source Software, 2021, 6 (59), 3089
+surface generation and analysis. Journal of Open Source Software, 2021, 6 (59), 3089
 ```
 
 
