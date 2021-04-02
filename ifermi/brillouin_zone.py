@@ -29,6 +29,12 @@ class ReciprocalSlice(MSONable):
     transformation: np.ndarray
     _edges: Optional[np.ndarray] = field(default=None, init=False)
 
+    def __post_init__(self):
+        # ensure all inputs are numpy arrays
+
+        self.vertices = np.array(self.vertices)
+        self.transformation = np.array(self.transformation)
+
     @property
     def edges(self) -> np.ndarray:
         """A (n, 2) int array defining the cell edges."""
@@ -64,6 +70,14 @@ class ReciprocalCell(MSONable):
     centers: np.ndarray
     normals: np.ndarray
     _edges: Optional[np.ndarray] = field(default=None, init=False)
+
+    def __post_init__(self):
+        # ensure all inputs are numpy arrays
+
+        self.reciprocal_lattice = np.array(self.reciprocal_lattice)
+        self.vertices = np.array(self.vertices)
+        self.centers = np.array(self.centers)
+        self.normals = np.array(self.normals)
 
     @classmethod
     def from_structure(cls, structure: Structure) -> "ReciprocalCell":

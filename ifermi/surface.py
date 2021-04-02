@@ -58,6 +58,15 @@ class Isosurface(MSONable):
     dimensionality: Optional[str] = None
     orientation: Optional[Tuple[int, int, int]] = None
 
+    def __post_init__(self):
+        # ensure all inputs are numpy arrays
+
+        self.vertices = np.array(self.vertices)
+        self.faces = np.array(self.faces)
+
+        if self.properties is not None:
+            self.properties = np.array(self.properties)
+
     @property
     def area(self) -> float:
         r"""Area of the isosurface in Å\ :sup:`-2`\ ."""

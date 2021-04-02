@@ -30,6 +30,14 @@ class Isoline(MSONable):
     band_idx: int
     properties: Optional[np.ndarray] = None
 
+    def __post_init__(self):
+        # ensure all inputs are numpy arrays
+
+        self.segments = np.array(self.segments)
+
+        if self.properties is not None:
+            self.properties = np.array(self.properties)
+
     @property
     def has_properties(self) -> float:
         """Whether the isoline has properties."""
