@@ -4,7 +4,8 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>ifermi package &mdash; IFermi 0.2.6 documentation</title>
@@ -36,8 +37,6 @@
         <script src="_static/doctools.js"></script>
         <script src="_static/language_data.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -97,13 +96,12 @@
               
             
             
-              <p class="caption"><span class="caption-text">Usage Guide</span></p>
+              <p><span class="caption-text">Usage Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command-line interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction_to_ifermi.html">Python API introduction</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Information</span></p>
+<p><span class="caption-text">Information</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
@@ -111,7 +109,7 @@
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/fermisurfaces/IFermi">IFermi on GitHub</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Function Reference</span></p>
+<p><span class="caption-text">Function Reference</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-ifermi.analysis">ifermi.analysis module</a></li>
@@ -178,9 +176,9 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="ifermi-package">
+<section id="ifermi-package">
 <h1>ifermi package<a class="headerlink" href="#ifermi-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-ifermi.analysis">
+<section id="module-ifermi.analysis">
 <span id="ifermi-analysis-module"></span><h2>ifermi.analysis module<a class="headerlink" href="#module-ifermi.analysis" title="Permalink to this headline">¶</a></h2>
 <p>Isosurface and isoline analysis functions.</p>
 <dl class="py function">
@@ -455,8 +453,8 @@ ignored.</p></li>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="module-ifermi.brillouin_zone">
+</section>
+<section id="module-ifermi.brillouin_zone">
 <span id="ifermi-brillouin-zone-module"></span><h2>ifermi.brillouin_zone module<a class="headerlink" href="#module-ifermi.brillouin_zone" title="Permalink to this headline">¶</a></h2>
 <p>Brillouin zone and slice geometries.</p>
 <dl class="py class">
@@ -659,8 +657,8 @@ the 3D Brillouin zone to points on the 2D slice.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-ifermi.interpolate">
+</section>
+<section id="module-ifermi.interpolate">
 <span id="ifermi-interpolate-module"></span><h2>ifermi.interpolate module<a class="headerlink" href="#module-ifermi.interpolate" title="Permalink to this headline">¶</a></h2>
 <p>Tools for Fourier and linear interpolation.</p>
 <dl class="py class">
@@ -771,8 +769,8 @@ energy_cutoff to CBM + energy_cutoff will be kept.</p></li>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="module-ifermi.kpoints">
+</section>
+<section id="module-ifermi.kpoints">
 <span id="ifermi-kpoints-module"></span><h2>ifermi.kpoints module<a class="headerlink" href="#module-ifermi.kpoints" title="Permalink to this headline">¶</a></h2>
 <p>k-point manipulation functions.</p>
 <dl class="py function">
@@ -873,8 +871,8 @@ energy_cutoff to CBM + energy_cutoff will be kept.</p></li>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="module-ifermi.plot">
+</section>
+<section id="module-ifermi.plot">
 <span id="ifermi-plot-module"></span><h2>ifermi.plot module<a class="headerlink" href="#module-ifermi.plot" title="Permalink to this headline">¶</a></h2>
 <p>Tools to plot FermiSurface and FermiSlice objects.</p>
 <dl class="py class">
@@ -1348,8 +1346,8 @@ pyplot objects, plotly figure objects, and mlab figure objects.</p>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="module-ifermi.slice">
+</section>
+<section id="module-ifermi.slice">
 <span id="ifermi-slice-module"></span><h2>ifermi.slice module<a class="headerlink" href="#module-ifermi.slice" title="Permalink to this headline">¶</a></h2>
 <p>Tools to generate Isolines and Fermi slices.</p>
 <dl class="py class">
@@ -1677,8 +1675,8 @@ very small and will be filtered out.</p>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="module-ifermi.surface">
+</section>
+<section id="module-ifermi.surface">
 <span id="ifermi-surface-module"></span><h2>ifermi.surface module<a class="headerlink" href="#module-ifermi.surface" title="Permalink to this headline">¶</a></h2>
 <p>Tools to generate isosurfaces and Fermi surfaces.</p>
 <dl class="py class">
@@ -2239,8 +2237,8 @@ surface.</p>
 </dl>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
