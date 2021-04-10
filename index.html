@@ -3,10 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Introduction &mdash; IFermi 0.2.6 documentation</title>
   
@@ -20,9 +19,12 @@
   
     <link rel="shortcut icon" href="_static/favicon.ico"/>
   
+
   
   
     <link rel="canonical" href="https://github.com/fermisurfaces/IFermiindex.html"/>
+  
+
   
 
   
@@ -59,7 +61,7 @@
           
 
           
-            <a href="#" class="icon icon-home" alt="Documentation Home"> IFermi
+            <a href="#" class="icon icon-home"> IFermi
           
 
           
@@ -97,13 +99,13 @@
               
             
             
-              <p><span class="caption-text">Usage Guide</span></p>
+              <p class="caption"><span class="caption-text">Usage Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command-line interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction_to_ifermi.html">Python API introduction</a></li>
 </ul>
-<p><span class="caption-text">Information</span></p>
+<p class="caption"><span class="caption-text">Information</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
@@ -111,7 +113,7 @@
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/fermisurfaces/IFermi">IFermi on GitHub</a></li>
 </ul>
-<p><span class="caption-text">Function Reference</span></p>
+<p class="caption"><span class="caption-text">Function Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="ifermi.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
@@ -175,7 +177,7 @@
 </div>
 <div class="toctree-wrapper compound">
 </div>
-<section id="introduction">
+<div class="section" id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
 <p>IFermi is a Python (3.6+) library and set of command-line tools for the generation,
 analysis, and visualisation of Fermi surfaces and Fermi slices. The goal of the library
@@ -195,11 +197,11 @@ including Fermi velocities.</p></li>
 <p>IFermi’s command-line tools only work with VASP calculations but support for additional
 DFT packages will be added in the future.</p>
 <a class="reference external image-reference" href="https://raw.githubusercontent.com/fermisurfaces/IFermi/main/docs/src/_static/fermi-surface-example.png"><img alt="Example Fermi surfaces" src="https://raw.githubusercontent.com/fermisurfaces/IFermi/main/docs/src/_static/fermi-surface-example.png" /></a>
-<section id="quick-start">
+<div class="section" id="quick-start">
 <h2>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference external" href="https://fermisurfaces.github.io/IFermi/cli.html">online documentation</a> provides a full
 description of the available command-line options.</p>
-<section id="analysis">
+<div class="section" id="analysis">
 <h3>Analysis<a class="headerlink" href="#analysis" title="Permalink to this headline">¶</a></h3>
 <p>Fermi surface properties, including dimensionality and orientation can be extracted
 from a vasprun.xml file using:</p>
@@ -225,8 +227,8 @@ Isosurfaces
          8         3.549             1.105e+06      quasi-2D        (0, 0, 1)
 </pre></div>
 </div>
-</section>
-<section id="visualisation">
+</div>
+<div class="section" id="visualisation">
 <h3>Visualisation<a class="headerlink" href="#visualisation" title="Permalink to this headline">¶</a></h3>
 <p>Three-dimensional Fermi surfaces can be visualized from a <code class="docutils literal notranslate"><span class="pre">vasprun.xml</span></code> file using:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot
@@ -237,8 +239,8 @@ indices (j k l) and distance d can be plotted from a <code class="docutils liter
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --slice j k l d
 </pre></div>
 </div>
-</section>
-<section id="python-library">
+</div>
+<div class="section" id="python-library">
 <h3>Python library<a class="headerlink" href="#python-library" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">ifermi</span></code> command line tools are build on the IFermi Python library. Here is an
 example of how to load DFT calculation outputs, interpolate the energies onto a dense mesh,
@@ -327,9 +329,9 @@ and in the <a class="reference external" href="https://fermisurfaces.github.io/I
 <span class="n">show_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span>  <span class="c1"># displays an interactive plot</span>
 </pre></div>
 </div>
-</section>
-</section>
-<section id="citing-ifermi">
+</div>
+</div>
+<div class="section" id="citing-ifermi">
 <h2>Citing IFermi<a class="headerlink" href="#citing-ifermi" title="Permalink to this headline">¶</a></h2>
 <p>If you find IFermi useful, please encourage its development by citing the following
 <a class="reference external" href="https://doi.org/10.21105/joss.03089">paper</a> in your research output:</p>
@@ -337,8 +339,8 @@ and in the <a class="reference external" href="https://fermisurfaces.github.io/I
 <span class="n">surface</span> <span class="n">generation</span> <span class="ow">and</span> <span class="n">analysis</span><span class="o">.</span> <span class="n">Journal</span> <span class="n">of</span> <span class="n">Open</span> <span class="n">Source</span> <span class="n">Software</span><span class="p">,</span> <span class="mi">2021</span><span class="p">,</span> <span class="mi">6</span> <span class="p">(</span><span class="mi">59</span><span class="p">),</span> <span class="mi">3089</span>
 </pre></div>
 </div>
-</section>
-<section id="installation">
+</div>
+<div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>The recommended way to install IFermi is in a conda environment.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda create --name ifermi pip cmake numpy
@@ -356,7 +358,7 @@ open-source python packages, specifically:</p>
 <li><p><a class="reference external" href="https://trimsh.org/">trimesh</a> for manipulating isosurfaces.</p></li>
 <li><p><a class="reference external" href="https://matplotlib.org">matplotlib</a>, <a class="reference external" href="https://docs.enthought.com/mayavi/mayavi/">mayavi</a>, and <a class="reference external" href="https://plot.ly/">plotly</a> for three-dimensional plotting.</p></li>
 </ul>
-<section id="running-tests">
+<div class="section" id="running-tests">
 <h3>Running tests<a class="headerlink" href="#running-tests" title="Permalink to this headline">¶</a></h3>
 <p>The integration tests can be run to ensure IFermi has been installed correctly. First
 download the IFermi source and install the test requirements.</p>
@@ -369,64 +371,61 @@ download the IFermi source and install the test requirements.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest
 </pre></div>
 </div>
-</section>
-</section>
-<section id="need-help">
+</div>
+</div>
+<div class="section" id="need-help">
 <h2>Need Help?<a class="headerlink" href="#need-help" title="Permalink to this headline">¶</a></h2>
 <p>Ask questions about the IFermi Python API and command-line tools on the <a class="reference external" href="https://matsci.org/c/ifermi">IFermi
 support forum</a>.
 If you’ve found an issue with IFermi, please submit a bug report
 <a class="reference external" href="https://github.com/fermisurfaces/IFermi/issues">here</a>.</p>
-</section>
-<section id="whats-new">
+</div>
+<div class="section" id="whats-new">
 <h2>What’s new?<a class="headerlink" href="#whats-new" title="Permalink to this headline">¶</a></h2>
 <p>Track changes to IFermi through the
 <a class="reference external" href="https://fermisurfaces.github.io/IFermi/changelog.html">changelog</a>.</p>
-</section>
-<section id="contributing">
+</div>
+<div class="section" id="contributing">
 <h2>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h2>
 <p>We greatly appreciate any contributions in the form of a pull request.
 Additional information on contributing to IFermi can be found <a class="reference external" href="https://fermisurfaces.github.io/IFermi/contributing.html">here</a>.
 We maintain a list of all contributors <a class="reference external" href="https://fermisurfaces.github.io/IFermi/contributors.html">here</a>.</p>
-</section>
-<section id="license">
+</div>
+<div class="section" id="license">
 <h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
 <p>IFermi is made available under the MIT License (see LICENSE file).</p>
-</section>
-<section id="acknowledgements">
+</div>
+<div class="section" id="acknowledgements">
 <h2>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permalink to this headline">¶</a></h2>
 <p>Developed by Amy Searle and Alex Ganose.
 Sinéad Griffin designed and led the project.</p>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
            
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2021, Amy Searle and Alex Ganose
+        &#169; Copyright 2021, Amy Searle and Alex Ganose.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
