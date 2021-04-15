@@ -3,12 +3,11 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
   
-  <title>ifermi program &mdash; IFermi 0.2.1 documentation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>ifermi program &mdash; IFermi 0.2.6 documentation</title>
   
 
   
@@ -20,9 +19,12 @@
   
     <link rel="shortcut icon" href="_static/favicon.ico"/>
   
+
   
   
     <link rel="canonical" href="https://github.com/fermisurfaces/IFermicli.html"/>
+  
+
   
 
   
@@ -60,7 +62,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> IFermi
+            <a href="index.html" class="icon icon-home"> IFermi
           
 
           
@@ -73,7 +75,7 @@
             
             
               <div class="version">
-                0.2.1
+                0.2.6
               </div>
             
           
@@ -98,7 +100,7 @@
               
             
             
-              <p><span class="caption-text">Usage Guide</span></p>
+              <p class="caption"><span class="caption-text">Usage Guide</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Command-line interface</a><ul>
@@ -131,7 +133,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="introduction_to_ifermi.html">Python API introduction</a></li>
 </ul>
-<p><span class="caption-text">Information</span></p>
+<p class="caption"><span class="caption-text">Information</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
@@ -139,7 +141,7 @@
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/fermisurfaces/IFermi">IFermi on GitHub</a></li>
 </ul>
-<p><span class="caption-text">Function Reference</span></p>
+<p class="caption"><span class="caption-text">Function Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="ifermi.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
@@ -197,7 +199,7 @@
     text-align: unset;
 }
 </style>
-<section id="ifermi-program">
+<div class="section" id="ifermi-program">
 <h1><code class="docutils literal notranslate"><span class="pre">ifermi</span></code> program<a class="headerlink" href="#ifermi-program" title="Permalink to this headline">¶</a></h1>
 <p>IFermi includes command-line tools for generating, analysing, and plotting Fermi
 surfaces. The tools can be accessed using the <code class="docutils literal notranslate"><span class="pre">ifermi</span></code> command-line program.
@@ -214,8 +216,8 @@ plotting backends.</p></li>
 </ol>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Currently, IFermi only works with VASP calculation outputs. Support for additional
-DFT packages will be added in a future release.</p>
+<p>Currently, IFermi’s command-line tools only work with VASP calculation outputs.
+Support for additional DFT packages will be added in a future release.</p>
 </div>
 <p>IFermi is controlled on the command-line using the <code class="docutils literal notranslate"><span class="pre">ifermi</span></code> command. The available
 options can be listed using:</p>
@@ -279,12 +281,12 @@ only input required is a vasprun.xml file. For example:</p>
 </div>
 <p>The two subcommands <code class="docutils literal notranslate"><span class="pre">info</span></code> and <code class="docutils literal notranslate"><span class="pre">plot</span></code> share many of the same options
 which we describe below.</p>
-<section id="generation-options">
+<div class="section" id="generation-options">
 <h2>Generation options<a class="headerlink" href="#generation-options" title="Permalink to this headline">¶</a></h2>
 <p>There are several options affect the generation of Fermi surfaces from <em>ab initio</em>
 calculation outputs. These options are available for both the <code class="docutils literal notranslate"><span class="pre">info</span></code> and <code class="docutils literal notranslate"><span class="pre">plot</span></code>
 subcommands.</p>
-<section id="input-file">
+<div class="section" id="input-file">
 <h3>Input file<a class="headerlink" href="#input-file" title="Permalink to this headline">¶</a></h3>
 <p>IFermi will look for a vasprun.xml or vasprun.xml.gz file in the current directory.
 To specify a particular vasprun file the <code class="docutils literal notranslate"><span class="pre">--filename</span></code> (or <code class="docutils literal notranslate"><span class="pre">-f</span></code> for short) option
@@ -292,8 +294,8 @@ can be used:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --filename my_vasprun.xml
 </pre></div>
 </div>
-</section>
-<section id="interpolation-factor">
+</div>
+<div class="section" id="interpolation-factor">
 <h3>Interpolation factor<a class="headerlink" href="#interpolation-factor" title="Permalink to this headline">¶</a></h3>
 <p>The band structure extracted from the vasprun must be processed before the Fermi
 surface can be generated. The two key issues are:</p>
@@ -320,8 +322,8 @@ result in smoother Fermi surfaces. For example:</p>
 <p>As the interpolation increases, the generation of the Fermi surface, analysis and
 plotting will take a longer time and can result in large file sizes.</p>
 </div>
-</section>
-<section id="fermi-surface-energy">
+</div>
+<div class="section" id="fermi-surface-energy">
 <h3>Fermi surface energy<a class="headerlink" href="#fermi-surface-energy" title="Permalink to this headline">¶</a></h3>
 <p>The energy level offset at which the Fermi surface is calculated is controlled by the
 <code class="docutils literal notranslate"><span class="pre">--mu</span></code> option. The energy level is given relative to the Fermi level of the VASP
@@ -334,13 +336,13 @@ level:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --mu <span class="m">1</span>
 </pre></div>
 </div>
-</section>
-<section id="property-projections">
+</div>
+<div class="section" id="property-projections">
 <span id="property-gen"></span><h3>Property projections<a class="headerlink" href="#property-projections" title="Permalink to this headline">¶</a></h3>
 <p>Additional properties, such as the group velocity and orbital magnetisation (spin
 texture), can be projected onto the Fermi surface using the <code class="docutils literal notranslate"><span class="pre">--property</span></code> option. The
-group velocities are calculated during Fourier interpolation and can be included in the
-Fermi surface using:</p>
+group velocities are calculated during Fourier interpolation (units of m/s) and can be
+included in the Fermi surface using:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --property velocity
 </pre></div>
 </div>
@@ -361,23 +363,23 @@ scalar projection of the spin magnetisation onto the [0 0 1] cartesian direction
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --property spin --projection-axis <span class="m">0</span> <span class="m">0</span> <span class="m">1</span>
 </pre></div>
 </div>
-</section>
-<section id="reciprocal-space">
+</div>
+<div class="section" id="reciprocal-space">
 <h3>Reciprocal space<a class="headerlink" href="#reciprocal-space" title="Permalink to this headline">¶</a></h3>
 <p>By default, the Wigner–Seitz cell is used to contain to the Fermi surface. The
 parallelepiped reciprocal lattice cell can be used instead by selecting the
-<code class="docutils literal notranslate"><span class="pre">--reciprocal-cell</span></code> option (<code class="docutils literal notranslate"><span class="pre">-r</span></code>). For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --reciprocal-cell
+<code class="docutils literal notranslate"><span class="pre">--no-wigner</span></code> option. For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --no-wigner
 </pre></div>
 </div>
-</section>
-</section>
-<section id="visualisation-options">
+</div>
+</div>
+<div class="section" id="visualisation-options">
 <h2>Visualisation options<a class="headerlink" href="#visualisation-options" title="Permalink to this headline">¶</a></h2>
 <p>In addition to the options for generating Fermi surfaces, there are several options
 that control the visualisation parameters. These options are only available for the
 <code class="docutils literal notranslate"><span class="pre">plot</span></code> subcommand.</p>
-<section id="plotting-backend">
+<div class="section" id="plotting-backend">
 <h3>Plotting backend<a class="headerlink" href="#plotting-backend" title="Permalink to this headline">¶</a></h3>
 <p>IFermi supports multiple plotting backends. The default is to the
 <a class="reference external" href="http://plotly.com">plotly</a> package but <a class="reference external" href="http://matplotlib.org">matplotlib</a> and
@@ -393,8 +395,8 @@ example, to use matplotlib:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --type matplotlib
 </pre></div>
 </div>
-</section>
-<section id="output-files">
+</div>
+<div class="section" id="output-files">
 <h3>Output files<a class="headerlink" href="#output-files" title="Permalink to this headline">¶</a></h3>
 <p>By default, IFermi generates interactive plots. To generate static images, an output
 file can be specified using the <code class="docutils literal notranslate"><span class="pre">--output</span></code> (<code class="docutils literal notranslate"><span class="pre">-o</span></code>) option. For example:</p>
@@ -403,12 +405,18 @@ file can be specified using the <code class="docutils literal notranslate"><span
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Saving output files with the plotly backend requires plotly-orca to be installed.</p>
+<p>Saving graphical output files with the plotly backend requires plotly-orca to be
+installed.</p>
 </div>
 <p>Running the above command in the <code class="docutils literal notranslate"><span class="pre">examples/MgB2</span></code> directory produces the plot:</p>
 <a class="reference internal image-reference" href="_images/fs-1.jpg"><img alt="_images/fs-1.jpg" class="align-center" src="_images/fs-1.jpg" style="height: 250px;" /></a>
-</section>
-<section id="selecting-spin-channels">
+<p>Interactive plots can be saved to a html file using the plotly backend by specifying
+a html filename. This will prevent the plot from being opened automatically.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --output fermi-surface.html
+</pre></div>
+</div>
+</div>
+<div class="section" id="selecting-spin-channels">
 <h3>Selecting spin channels<a class="headerlink" href="#selecting-spin-channels" title="Permalink to this headline">¶</a></h3>
 <p>In the plot above, the spins are degenerate (the Hamiltonian does not differentiate
 between the up and down spins). This is why the surface looks dappled, IFermi
@@ -420,8 +428,8 @@ is to plot both spins but a single spin channel can be selected through the name
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/fs-spin-up.jpg"><img alt="_images/fs-spin-up.jpg" class="align-center" src="_images/fs-spin-up.jpg" style="height: 250px;" /></a>
-</section>
-<section id="changing-the-viewpoint">
+</div>
+<div class="section" id="changing-the-viewpoint">
 <h3>Changing the viewpoint<a class="headerlink" href="#changing-the-viewpoint" title="Permalink to this headline">¶</a></h3>
 <p>The viewpoint (camera angle) can be changed using the <code class="docutils literal notranslate"><span class="pre">--azimuth</span></code> (<code class="docutils literal notranslate"><span class="pre">-a</span></code>) and
 <code class="docutils literal notranslate"><span class="pre">--elevation</span></code> (<code class="docutils literal notranslate"><span class="pre">-e</span></code>) options. This will change both the initial viewpoint
@@ -438,8 +446,8 @@ As an example, the viewpoint could be changed using:</p>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/fs-viewpoint.jpg"><img alt="_images/fs-viewpoint.jpg" class="align-center" src="_images/fs-viewpoint.jpg" style="height: 250px;" /></a>
-</section>
-<section id="styling-face-properties">
+</div>
+<div class="section" id="styling-face-properties">
 <span id="prop-style"></span><h3>Styling face properties<a class="headerlink" href="#styling-face-properties" title="Permalink to this headline">¶</a></h3>
 <p>As described in the <a class="reference internal" href="#property-gen"><span class="std std-ref">Property projections</span></a> section, Fermi surfaces (and Fermi slices)
 can include a property projected onto the isosurface faces. By default, if properties
@@ -485,8 +493,8 @@ particularly useful when quantitatively comparing vector properties across multi
 Fermi surfaces. A larger <code class="docutils literal notranslate"><span class="pre">vnorm</span></code> value will increase the size of the arrows.
 The spacing between the arrows is controlled by the <code class="docutils literal notranslate"><span class="pre">--vector-spacing</span></code> option. Smaller
 values will increase the density of the arrows.</p>
-</section>
-<section id="fermi-slices">
+</div>
+<div class="section" id="fermi-slices">
 <h3>Fermi slices<a class="headerlink" href="#fermi-slices" title="Permalink to this headline">¶</a></h3>
 <p>IFermi can also generate two-dimensional slices of the Fermi surface along a specified
 plane using the <code class="docutils literal notranslate"><span class="pre">--slice</span></code> option. Planes are defined by their miller indices (a b c)
@@ -527,17 +535,17 @@ calculation was performed on a 21x21x21 k-point mesh.</p>
 the entire Brillouin zone. I.e., the DFT calculation must have been performed
 without symmetry (<code class="docutils literal notranslate"><span class="pre">ISYM</span> <span class="pre">=</span> <span class="pre">-</span> <span class="pre">1</span></code> in VASP).</p>
 </div>
-</section>
-</section>
-<section id="ifermi-reference">
+</div>
+</div>
+<div class="section" id="ifermi-reference">
 <h2><code class="docutils literal notranslate"><span class="pre">ifermi</span></code> reference<a class="headerlink" href="#ifermi-reference" title="Permalink to this headline">¶</a></h2>
-<section id="ifermi">
+<div class="section" id="ifermi">
 <h3>ifermi<a class="headerlink" href="#ifermi" title="Permalink to this headline">¶</a></h3>
 <p>IFermi is a tool for the generation, analysis and plotting of Fermi surfaces.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ifermi <span class="o">[</span>OPTIONS<span class="o">]</span> COMMAND <span class="o">[</span>ARGS<span class="o">]</span>...
 </pre></div>
 </div>
-<section id="ifermi-info">
+<div class="section" id="ifermi-info">
 <h4>info<a class="headerlink" href="#ifermi-info" title="Permalink to this headline">¶</a></h4>
 <p>Calculate information about the Fermi surface.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ifermi info <span class="o">[</span>OPTIONS<span class="o">]</span>
@@ -589,7 +597,7 @@ without symmetry (<code class="docutils literal notranslate"><span class="pre">I
 <dd><p>projection type</p>
 <dl class="field-list simple">
 <dt class="field-odd">Options</dt>
-<dd class="field-odd"><p>velocity|spin</p>
+<dd class="field-odd"><p>velocity | spin</p>
 </dd>
 </dl>
 </dd></dl>
@@ -639,8 +647,8 @@ without symmetry (<code class="docutils literal notranslate"><span class="pre">I
 </dl>
 </dd></dl>
 
-</section>
-<section id="ifermi-plot">
+</div>
+<div class="section" id="ifermi-plot">
 <h4>plot<a class="headerlink" href="#ifermi-plot" title="Permalink to this headline">¶</a></h4>
 <p>Plot a Fermi surface from a vasprun.xml file.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ifermi plot <span class="o">[</span>OPTIONS<span class="o">]</span>
@@ -692,7 +700,7 @@ without symmetry (<code class="docutils literal notranslate"><span class="pre">I
 <dd><p>projection type</p>
 <dl class="field-list simple">
 <dt class="field-odd">Options</dt>
-<dd class="field-odd"><p>velocity|spin</p>
+<dd class="field-odd"><p>velocity | spin</p>
 </dd>
 </dl>
 </dd></dl>
@@ -768,7 +776,7 @@ without symmetry (<code class="docutils literal notranslate"><span class="pre">I
 <dd class="field-odd"><p>plotly</p>
 </dd>
 <dt class="field-even">Options</dt>
-<dd class="field-even"><p>matplotlib|plotly|mayavi</p>
+<dd class="field-even"><p>matplotlib | plotly | mayavi</p>
 </dd>
 </dl>
 </dd></dl>
@@ -886,7 +894,7 @@ without symmetry (<code class="docutils literal notranslate"><span class="pre">I
 <dd><p>select spin channel</p>
 <dl class="field-list simple">
 <dt class="field-odd">Options</dt>
-<dd class="field-odd"><p>up|down</p>
+<dd class="field-odd"><p>up | down</p>
 </dd>
 </dl>
 </dd></dl>
@@ -908,38 +916,35 @@ without symmetry (<code class="docutils literal notranslate"><span class="pre">I
 </dl>
 </dd></dl>
 
-</section>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
+</div>
 
 
            </div>
            
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2021, Amy Searle and Alex Ganose
+        &#169; Copyright 2021, Amy Searle and Alex Ganose.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

@@ -3,12 +3,11 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
   
-  <title>Python API introduction &mdash; IFermi 0.2.1 documentation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Python API introduction &mdash; IFermi 0.2.6 documentation</title>
   
 
   
@@ -20,9 +19,12 @@
   
     <link rel="shortcut icon" href="_static/favicon.ico"/>
   
+
   
   
     <link rel="canonical" href="https://github.com/fermisurfaces/IFermiintroduction_to_ifermi.html"/>
+  
+
   
 
   
@@ -60,7 +62,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> IFermi
+            <a href="index.html" class="icon icon-home"> IFermi
           
 
           
@@ -73,7 +75,7 @@
             
             
               <div class="version">
-                0.2.1
+                0.2.6
               </div>
             
           
@@ -98,7 +100,7 @@
               
             
             
-              <p><span class="caption-text">Usage Guide</span></p>
+              <p class="caption"><span class="caption-text">Usage Guide</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command-line interface</a></li>
@@ -119,7 +121,7 @@
 </ul>
 </li>
 </ul>
-<p><span class="caption-text">Information</span></p>
+<p class="caption"><span class="caption-text">Information</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
@@ -127,7 +129,7 @@
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/fermisurfaces/IFermi">IFermi on GitHub</a></li>
 </ul>
-<p><span class="caption-text">Function Reference</span></p>
+<p class="caption"><span class="caption-text">Function Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="ifermi.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
@@ -431,7 +433,7 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<section id="Python-API-introduction">
+<div class="section" id="Python-API-introduction">
 <h1>Python API introduction<a class="headerlink" href="#Python-API-introduction" title="Permalink to this headline">¶</a></h1>
 <p>IFermi is a fully featured Python 3.6+ library for the generation, analysis, and visualisation of Fermi surfaces and Fermi slices. The goal of the library is to provide full featured <code class="docutils literal notranslate"><span class="pre">FermiSurface</span></code> and <code class="docutils literal notranslate"><span class="pre">FermiSlice</span></code> objects that allow for easy manipulation and analysis. The main features include:</p>
 <ul class="simple">
@@ -456,7 +458,7 @@ div.rendered_html tbody tr:hover {
 <li><p>The library provides a rich set of functions for the analysis and visualisation of <code class="docutils literal notranslate"><span class="pre">FermiSurface</span></code> and <code class="docutils literal notranslate"><span class="pre">FermiSlice</span></code> objects.</p></li>
 </ol>
 <p>Below, we provide details for each of these steps. This page can also be run as an <a class="reference external" href="https://github.com/fermisurfaces/IFermi/blob/master/examples/introduction_to_ifermi.ipynb">interactive jupyter notebook</a>.</p>
-<section id="Loading-VASP-outputs">
+<div class="section" id="Loading-VASP-outputs">
 <h2>Loading VASP outputs<a class="headerlink" href="#Loading-VASP-outputs" title="Permalink to this headline">¶</a></h2>
 <p>The first step is to load the VASP calculation outputs needed for the plot. This is achieved using the <a class="reference external" href="https://pymatgen.org">pymatgen</a> package, which contains classes for parsing outputs and representing band structure calculations.</p>
 <p>The only input required is a vasprun.xml file. Here, we use the MgB<span class="math notranslate nohighlight">\(_2\)</span> calculation data in the <code class="docutils literal notranslate"><span class="pre">examples/MgB2/</span></code> folder. We first load the vasprun.xml using the <code class="docutils literal notranslate"><span class="pre">Vasprun</span></code> class.</p>
@@ -481,8 +483,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-</section>
-<section id="Interpolating-onto-a-dense-k-point-mesh">
+</div>
+<div class="section" id="Interpolating-onto-a-dense-k-point-mesh">
 <h2>Interpolating onto a dense k-point mesh<a class="headerlink" href="#Interpolating-onto-a-dense-k-point-mesh" title="Permalink to this headline">¶</a></h2>
 <p>There are currently two issues with our extracted band structure:</p>
 <ol class="arabic simple">
@@ -527,8 +529,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-</section>
-<section id="Generating-Fermi-surfaces">
+</div>
+<div class="section" id="Generating-Fermi-surfaces">
 <h2>Generating Fermi surfaces<a class="headerlink" href="#Generating-Fermi-surfaces" title="Permalink to this headline">¶</a></h2>
 <p>The next step is to extract the Fermi surface from the band structure. The <code class="docutils literal notranslate"><span class="pre">FermiSurface.from_band_structure()</span></code> function generates a <code class="docutils literal notranslate"><span class="pre">FermiSurface</span></code> object from the dense band structure we just created.</p>
 <p>This function has a number of options that are detailed in the <a class="reference external" href="https://fermisurfaces.github.io/IFermi/ifermi.html#ifermi.surface.FermiSurface">FermiSurface API Reference page</a>. The two key options are:</p>
@@ -586,8 +588,8 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-</section>
-<section id="Analyzing-Fermi-surfaces">
+</div>
+<div class="section" id="Analyzing-Fermi-surfaces">
 <h2>Analyzing Fermi surfaces<a class="headerlink" href="#Analyzing-Fermi-surfaces" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">FermiSurface</span></code> object includes a rich API that can be used to calcualate many properties of the Fermi surface. The principle attribute is <code class="docutils literal notranslate"><span class="pre">isosurfaces</span></code>. This contains an an <code class="docutils literal notranslate"><span class="pre">Isosurface</span></code> object for each fully-connected surface. The isosurfaces are given for each spin channel in the band structure. The <a class="reference external" href="https://fermisurfaces.github.io/IFermi/ifermi.html#ifermi.surface.FermiSurface">FermiSurface API Reference page</a> gives a list of all available attributes.</p>
 <p>The number of isosurfaces can be obtained using:</p>
@@ -830,8 +832,8 @@ array([795, 735, 253, 239, 242, 259, 261, 263, 793, 731, 212, 214, 217,
        277, 279, 281, 776])
 </pre></div></div>
 </div>
-</section>
-<section id="Fermi-slices">
+</div>
+<div class="section" id="Fermi-slices">
 <h2>Fermi slices<a class="headerlink" href="#Fermi-slices" title="Permalink to this headline">¶</a></h2>
 <p>IFermi can also generate two-dimensional slices of the Fermi surface along a specified plane. Planes are defined by their miller indices (j k l) and a distance from the plane, d. <code class="docutils literal notranslate"><span class="pre">FermiSlice</span></code> objects can be generated directly from <code class="docutils literal notranslate"><span class="pre">FermiSurface</span></code> objects.</p>
 <div class="nbinput nblast docutils container">
@@ -882,8 +884,8 @@ functions available.</p>
 array([ 50, 159, 266, 373, 479, 588, 693])
 </pre></div></div>
 </div>
-</section>
-<section id="Visualising-Fermi-surfaces-and-slices">
+</div>
+<div class="section" id="Visualising-Fermi-surfaces-and-slices">
 <h2>Visualising Fermi surfaces and slices<a class="headerlink" href="#Visualising-Fermi-surfaces-and-slices" title="Permalink to this headline">¶</a></h2>
 <p>IFermi includes a rich set of visualisation tools for plotting <code class="docutils literal notranslate"><span class="pre">FermiSurface</span></code> and <code class="docutils literal notranslate"><span class="pre">FermiSlice</span></code> objects.</p>
 <p>Fermi surfaces can be visualised using the <code class="docutils literal notranslate"><span class="pre">FermiSurfacePlotter</span></code> class. This object supports plotting using <a class="reference external" href="https://matplotlib.org">matplotlib</a>, <a class="reference external" href="https://plot.ly/">plotly</a> and <a class="reference external" href="https://docs.enthought.com/mayavi/mayavi/">mayavi</a> (provided the <code class="docutils literal notranslate"><span class="pre">mayavi</span></code> package <a class="reference external" href="https://docs.enthought.com/mayavi/mayavi/installation.html">is installed</a>). The detailed documentation is available on the <a class="reference external" href="https://fermisurfaces.github.io/IFermi/ifermi.html#ifermi.plot.FermiSurfacePlotter">FermiSurfacePlotter API Reference
@@ -969,7 +971,7 @@ if (outputEl) {{
 
                         })                };                });            </script>        </div></div>
 </div>
-<section id="Selecting-spin-channels">
+<div class="section" id="Selecting-spin-channels">
 <h3>Selecting spin channels<a class="headerlink" href="#Selecting-spin-channels" title="Permalink to this headline">¶</a></h3>
 <p>In the plot above, the spins are degenerate (the Hamiltonian does not differentiate between the up and down spins). This is why the surface looks dappled - the plotter is plotting two redundant sufaces. To stop it from doing this, we can specify that only one component of the spin should be plotted.</p>
 <p><em>Note: from now on we omit the ``plot_type`` argument.</em></p>
@@ -1035,8 +1037,8 @@ if (outputEl) {{
 
                         })                };                });            </script>        </div></div>
 </div>
-</section>
-<section id="Styling-face-properties">
+</div>
+<div class="section" id="Styling-face-properties">
 <h3>Styling face properties<a class="headerlink" href="#Styling-face-properties" title="Permalink to this headline">¶</a></h3>
 <p>As described in the <a class="reference external" href="#Generating%20Fermi%20surfaces">Generating Fermi surfaces</a> section, Fermi surfaces (and Fermi slices) can include a property projected onto the isosurface faces. By default, if properties are included in the Fermi surface they will be indicated by coloring of the isosurface. If the face property is a vector, the norm of the vector will be used as the color intensity. The colormap of the surface can be changed using the <code class="docutils literal notranslate"><span class="pre">properties_colormap</span></code> option. All <a class="reference external" href="https://matplotlib.org/stable/gallery/color/colormap_reference.html">matplotlib
 colormaps</a> are supported. For example:</p>
@@ -1111,8 +1113,8 @@ if (outputEl) {{
 </div>
 <p>The minimum and maximum values for the colorbar limits can be set using the <code class="docutils literal notranslate"><span class="pre">cmin</span></code> and <code class="docutils literal notranslate"><span class="pre">cmax</span></code> parameters. These should be used when quantitatively comparing surface properties between two plots.</p>
 <p>It is also possible calculate the scalar projection of the face properties onto a cartesian axis using the <code class="docutils literal notranslate"><span class="pre">projection_axis</span></code> option. When combined with a diverging colormap this can be used to indicate surface properties that vary between positive and negative numbers. For example, by setting <code class="docutils literal notranslate"><span class="pre">projection_axis=(0,</span> <span class="pre">0,</span> <span class="pre">1)</span></code>, the surface will be colored by the projection of the group velocity onto the [0 0 1] vector (z-axis).</p>
-</section>
-<section id="Plotting-Arrows">
+</div>
+<div class="section" id="Plotting-Arrows">
 <h3>Plotting Arrows<a class="headerlink" href="#Plotting-Arrows" title="Permalink to this headline">¶</a></h3>
 <p>Vector valued Fermi surface properties (such as group velocity or spin magnetisation) can also be visualised as arrows by setting <code class="docutils literal notranslate"><span class="pre">vector_properties=True</span></code>. If <code class="docutils literal notranslate"><span class="pre">projection_axis</span></code> is set, the color of the arrows will be determined by the scalar projection of the property vectors onto the specified axis, otherwise the norm of the projections will be used. The colormap used to color the arrows is specified by setting <code class="docutils literal notranslate"><span class="pre">vector_properties</span></code> to the colormap name. Often it is useful to hide the
 isosurface (<code class="docutils literal notranslate"><span class="pre">hide_surface=True</span></code>) or high-symmetry labels (<code class="docutils literal notranslate"><span class="pre">hide_labels=True</span></code>) when visualising arrows.</p>
@@ -1153,8 +1155,8 @@ require(['plotly'], function(Plotly) {
 }
 </script></div>
 </div>
-</section>
-<section id="id1">
+</div>
+<div class="section" id="id1">
 <h3>Fermi slices<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>Fermi slices can be visualised using the <code class="docutils literal notranslate"><span class="pre">FermiSlicePlotter</span></code> class. This object only supports plotting using <a class="reference external" href="https://matplotlib.org">matplotlib</a>. The detailed documentation is available on the <a class="reference external" href="https://fermisurfaces.github.io/IFermi/ifermi.html#ifermi.plot.FermiSlicePlotter">FermiSlicePlotter API Reference page</a></p>
 <p>First, the plotter is initialised from a <code class="docutils literal notranslate"><span class="pre">FermiSlice</span></code> object.</p>
@@ -1188,8 +1190,8 @@ require(['plotly'], function(Plotly) {
 </div>
 </div>
 <p>Many of the same options for visualing Fermi surfaces, including projections and arrows, are also available for Fermi slices. When including arrows in Fermi slice figures, only the components of the arrows in the 2D plane will be shown.</p>
-</section>
-<section id="Exporting-figures">
+</div>
+<div class="section" id="Exporting-figures">
 <h3>Exporting figures<a class="headerlink" href="#Exporting-figures" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">plot.show()</span></code> works well for viewing Fermi surfaces in a notebook but doesn’t work when generating plots as part of a standalone script.</p>
 <p>To help displaying interactive plots and saving static images you should use the <code class="docutils literal notranslate"><span class="pre">show_plot</span></code> and <code class="docutils literal notranslate"><span class="pre">save_plot</span></code> functions.</p>
@@ -1217,37 +1219,34 @@ require(['plotly'], function(Plotly) {
 &lt;Figure size 432x288 with 0 Axes&gt;
 </pre></div></div>
 </div>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
            </div>
            
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2021, Amy Searle and Alex Ganose
+        &#169; Copyright 2021, Amy Searle and Alex Ganose.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

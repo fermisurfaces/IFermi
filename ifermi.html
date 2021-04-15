@@ -3,12 +3,11 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
   
-  <title>ifermi package &mdash; IFermi 0.2.1 documentation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>ifermi package &mdash; IFermi 0.2.6 documentation</title>
   
 
   
@@ -20,9 +19,12 @@
   
     <link rel="shortcut icon" href="_static/favicon.ico"/>
   
+
   
   
     <link rel="canonical" href="https://github.com/fermisurfaces/IFermiifermi.html"/>
+  
+
   
 
   
@@ -60,7 +62,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> IFermi
+            <a href="index.html" class="icon icon-home"> IFermi
           
 
           
@@ -73,7 +75,7 @@
             
             
               <div class="version">
-                0.2.1
+                0.2.6
               </div>
             
           
@@ -98,13 +100,13 @@
               
             
             
-              <p><span class="caption-text">Usage Guide</span></p>
+              <p class="caption"><span class="caption-text">Usage Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command-line interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction_to_ifermi.html">Python API introduction</a></li>
 </ul>
-<p><span class="caption-text">Information</span></p>
+<p class="caption"><span class="caption-text">Information</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
@@ -112,7 +114,7 @@
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/fermisurfaces/IFermi">IFermi on GitHub</a></li>
 </ul>
-<p><span class="caption-text">Function Reference</span></p>
+<p class="caption"><span class="caption-text">Function Reference</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-ifermi.analysis">ifermi.analysis module</a></li>
@@ -179,9 +181,9 @@
     text-align: unset;
 }
 </style>
-<section id="ifermi-package">
+<div class="section" id="ifermi-package">
 <h1>ifermi package<a class="headerlink" href="#ifermi-package" title="Permalink to this headline">¶</a></h1>
-<section id="module-ifermi.analysis">
+<div class="section" id="module-ifermi.analysis">
 <span id="ifermi-analysis-module"></span><h2>ifermi.analysis module<a class="headerlink" href="#module-ifermi.analysis" title="Permalink to this headline">¶</a></h2>
 <p>Isosurface and isoline analysis functions.</p>
 <dl class="py function">
@@ -456,8 +458,8 @@ ignored.</p></li>
 </dl>
 </dd></dl>
 
-</section>
-<section id="module-ifermi.brillouin_zone">
+</div>
+<div class="section" id="module-ifermi.brillouin_zone">
 <span id="ifermi-brillouin-zone-module"></span><h2>ifermi.brillouin_zone module<a class="headerlink" href="#module-ifermi.brillouin_zone" title="Permalink to this headline">¶</a></h2>
 <p>Brillouin zone and slice geometries.</p>
 <dl class="py class">
@@ -660,8 +662,8 @@ the 3D Brillouin zone to points on the 2D slice.</p>
 
 </dd></dl>
 
-</section>
-<section id="module-ifermi.interpolate">
+</div>
+<div class="section" id="module-ifermi.interpolate">
 <span id="ifermi-interpolate-module"></span><h2>ifermi.interpolate module<a class="headerlink" href="#module-ifermi.interpolate" title="Permalink to this headline">¶</a></h2>
 <p>Tools for Fourier and linear interpolation.</p>
 <dl class="py class">
@@ -749,8 +751,31 @@ k-points must equal the number of bands.</p></li>
 
 </dd></dl>
 
-</section>
-<section id="module-ifermi.kpoints">
+<dl class="py function">
+<dt id="ifermi.interpolate.trim_bandstructure">
+<code class="sig-prename descclassname">ifermi.interpolate.</code><code class="sig-name descname">trim_bandstructure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">energy_cutoff</span></em>, <em class="sig-param"><span class="n">band_structure</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/interpolate.html#trim_bandstructure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.interpolate.trim_bandstructure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Trim the number of bands in a band structure object based on a cutoff.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>energy_cutoff</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – An energy cutoff within which to keep the bands. If the system
+is metallic then the bands to keep will fall within +/- the cutoff around
+the Fermi level. If the system has a band gap, the bands from the VBM -
+energy_cutoff to CBM + energy_cutoff will be kept.</p></li>
+<li><p><strong>band_structure</strong> (<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.bandstructure.html#pymatgen.electronic_structure.bandstructure.BandStructure" title="(in pymatgen v2022.0.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BandStructure</span></code></a>) – A band structure.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.bandstructure.html#pymatgen.electronic_structure.bandstructure.BandStructure" title="(in pymatgen v2022.0.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BandStructure</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A trimmed band structure.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-ifermi.kpoints">
 <span id="ifermi-kpoints-module"></span><h2>ifermi.kpoints module<a class="headerlink" href="#module-ifermi.kpoints" title="Permalink to this headline">¶</a></h2>
 <p>k-point manipulation functions.</p>
 <dl class="py function">
@@ -851,8 +876,8 @@ k-points must equal the number of bands.</p></li>
 </dl>
 </dd></dl>
 
-</section>
-<section id="module-ifermi.plot">
+</div>
+<div class="section" id="module-ifermi.plot">
 <span id="ifermi-plot-module"></span><h2>ifermi.plot module<a class="headerlink" href="#module-ifermi.plot" title="Permalink to this headline">¶</a></h2>
 <p>Tools to plot FermiSurface and FermiSlice objects.</p>
 <dl class="py class">
@@ -1326,8 +1351,8 @@ pyplot objects, plotly figure objects, and mlab figure objects.</p>
 </dl>
 </dd></dl>
 
-</section>
-<section id="module-ifermi.slice">
+</div>
+<div class="section" id="module-ifermi.slice">
 <span id="ifermi-slice-module"></span><h2>ifermi.slice module<a class="headerlink" href="#module-ifermi.slice" title="Permalink to this headline">¶</a></h2>
 <p>Tools to generate Isolines and Fermi slices.</p>
 <dl class="py class">
@@ -1655,8 +1680,8 @@ very small and will be filtered out.</p>
 </dl>
 </dd></dl>
 
-</section>
-<section id="module-ifermi.surface">
+</div>
+<div class="section" id="module-ifermi.surface">
 <span id="ifermi-surface-module"></span><h2>ifermi.surface module<a class="headerlink" href="#module-ifermi.surface" title="Permalink to this headline">¶</a></h2>
 <p>Tools to generate isosurfaces and Fermi surfaces.</p>
 <dl class="py class">
@@ -1725,7 +1750,7 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">projecti
 <dl class="py method">
 <dt id="ifermi.surface.FermiSurface.area">
 <em class="property">property </em><code class="sig-name descname">area</code><a class="headerlink" href="#ifermi.surface.FermiSurface.area" title="Permalink to this definition">¶</a></dt>
-<dd><p>Total area of all isosurfaces in the Fermi surface.</p>
+<dd><p>Total area of all isosurfaces in the Fermi surface in Å<sup>-2</sup>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
@@ -1736,7 +1761,7 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">projecti
 <dl class="py method">
 <dt id="ifermi.surface.FermiSurface.area_surfaces">
 <em class="property">property </em><code class="sig-name descname">area_surfaces</code><a class="headerlink" href="#ifermi.surface.FermiSurface.area_surfaces" title="Permalink to this definition">¶</a></dt>
-<dd><p>Area of each isosurface in the Fermi surface.</p>
+<dd><p>Area of each isosurface in the Fermi surface in Å<sup>-2</sup>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.core.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2022.0.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</p>
@@ -1812,10 +1837,12 @@ the full Brillouin zone if required.</p></li>
 calculated.</p></li>
 <li><p><strong>wigner_seitz</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Controls whether the cell is the Wigner-Seitz cell
 or the reciprocal unit cell parallelepiped.</p></li>
-<li><p><strong>decimate_factor</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – If method is “quadric”, factor is the scaling factor by
-which to reduce the number of faces. I.e., final # faces = initial
-# faces * factor. If method is “cluster”, factor is the voxel size in
-which to cluster points. Default is None (no decimation).</p></li>
+<li><p><strong>decimate_factor</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – If method is “quadric”, and factor is a floating point
+value then factor is the scaling factor by which to reduce the number of
+faces. I.e., final # faces = initial # faces * factor. If method is
+“quadric” but factor is an integer then factor is the target number of
+final faces. If method is “cluster”, factor is the voxel size in which
+to cluster points. Default is None (no decimation).</p></li>
 <li><p><strong>decimate_method</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Algorithm to use for decimation. Options are “quadric”
 or “cluster”.</p></li>
 <li><p><strong>smooth</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – If True, will smooth resulting isosurface. Requires PyMCubes. See
@@ -1982,7 +2009,7 @@ scalars or vectors.</p>
 <dl class="py method">
 <dt id="ifermi.surface.Isosurface.area">
 <em class="property">property </em><code class="sig-name descname">area</code><a class="headerlink" href="#ifermi.surface.Isosurface.area" title="Permalink to this definition">¶</a></dt>
-<dd><p>Area of the isosurface.</p>
+<dd><p>Area of the isosurface in Å<sup>-2</sup>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p>
@@ -2094,10 +2121,12 @@ energies has the shape (nbands, nkpoints).</p></li>
 <li><p><strong>kpoints</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – The k-points in fractional coordinates.</p></li>
 <li><p><strong>fermi_level</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – The energy at which to calculate the Fermi surface.</p></li>
 <li><p><strong>reciprocal_space</strong> (<a class="reference internal" href="#ifermi.brillouin_zone.ReciprocalCell" title="ifermi.brillouin_zone.ReciprocalCell"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReciprocalCell</span></code></a>) – The reciprocal space representation.</p></li>
-<li><p><strong>decimate_factor</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – If method is “quadric”, factor is the scaling factor by which
-to reduce the number of faces. I.e., final # faces = initial # faces *
-factor. If method is “cluster”, factor is the voxel size in which to
-cluster points. Default is None (no decimation).</p></li>
+<li><p><strong>decimate_factor</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – If method is “quadric”, and factor is a floating point value
+then factor is the scaling factor by which to reduce the number of faces.
+I.e., final # faces = initial # faces * factor. If method is “quadric” but
+factor is an integer then factor is the target number of final faces.
+If method is “cluster”, factor is the voxel size in which to cluster points.
+Default is None (no decimation).</p></li>
 <li><p><strong>decimate_method</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – Algorithm to use for decimation. Options are “quadric” or
 “cluster”.</p></li>
 <li><p><strong>smooth</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – If True, will smooth resulting isosurface. Requires PyMCubes. Smoothing
@@ -2128,8 +2157,10 @@ onto the surface. If <code class="docutils literal notranslate"><span class="pre
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>vertices</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – A (n, 3) float array of the vertices in the isosurface.</p></li>
 <li><p><strong>faces</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – A (m, 3) int array of the faces of the isosurface.</p></li>
-<li><p><strong>factor</strong> – If method is “quadric”, factor is the scaling factor by which to
-reduce the number of faces. I.e., final # faces = initial # faces * factor.
+<li><p><strong>factor</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]) – If method is “quadric”, and factor is a floating point value then
+factor is the scaling factor by which to reduce the number of faces.
+I.e., final # faces = initial # faces * factor. If method is “quadric” but
+factor is an integer then factor is the target number of final faces.
 If method is “cluster”, factor is the voxel size in which to cluster points.</p></li>
 <li><p><strong>method</strong> – Algorithm to use for decimation. Options are “quadric” or “cluster”.</p></li>
 </ul>
@@ -2211,36 +2242,33 @@ surface.</p>
 </dl>
 </dd></dl>
 
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
            
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2021, Amy Searle and Alex Ganose
+        &#169; Copyright 2021, Amy Searle and Alex Ganose.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

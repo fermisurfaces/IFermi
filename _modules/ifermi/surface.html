@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>ifermi.surface &mdash; IFermi 0.2.1 documentation</title>
+  <title>ifermi.surface &mdash; IFermi 0.2.6 documentation</title>
   
 
   
@@ -19,9 +19,12 @@
   
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
   
+
   
   
     <link rel="canonical" href="https://github.com/fermisurfaces/IFermi_modules/ifermi/surface.html"/>
+  
+
   
 
   
@@ -57,7 +60,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> IFermi
+            <a href="../../index.html" class="icon icon-home"> IFermi
           
 
           
@@ -70,7 +73,7 @@
             
             
               <div class="version">
-                0.2.1
+                0.2.6
               </div>
             
           
@@ -95,13 +98,13 @@
               
             
             
-              <p><span class="caption-text">Usage Guide</span></p>
+              <p class="caption"><span class="caption-text">Usage Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command-line interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../introduction_to_ifermi.html">Python API introduction</a></li>
 </ul>
-<p><span class="caption-text">Information</span></p>
+<p class="caption"><span class="caption-text">Information</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributors.html">Contributors</a></li>
@@ -109,7 +112,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/fermisurfaces/IFermi">IFermi on GitHub</a></li>
 </ul>
-<p><span class="caption-text">Function Reference</span></p>
+<p class="caption"><span class="caption-text">Function Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../ifermi.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Index</a></li>
@@ -153,7 +156,7 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">monty.dev</span> <span class="kn">import</span> <span class="n">requires</span>
-<span class="kn">from</span> <span class="nn">monty.json</span> <span class="kn">import</span> <span class="n">MSONable</span>
+<span class="kn">from</span> <span class="nn">monty.json</span> <span class="kn">import</span> <span class="n">MSONable</span><span class="p">,</span> <span class="n">jsanitize</span>
 <span class="kn">from</span> <span class="nn">pymatgen.core.structure</span> <span class="kn">import</span> <span class="n">Structure</span>
 <span class="kn">from</span> <span class="nn">pymatgen.electronic_structure.bandstructure</span> <span class="kn">import</span> <span class="n">BandStructure</span>
 <span class="kn">from</span> <span class="nn">pymatgen.electronic_structure.core</span> <span class="kn">import</span> <span class="n">Spin</span>
@@ -204,9 +207,18 @@
     <span class="n">dimensionality</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">orientation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># ensure all inputs are numpy arrays</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">faces</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">faces</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">properties</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">)</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">area</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Area of the isosurface.&quot;&quot;&quot;</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Area of the isosurface in Å\ :sup:`-2`\ .&quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">ifermi.analysis</span> <span class="kn">import</span> <span class="n">isosurface_area</span>
 
         <span class="k">return</span> <span class="n">isosurface_area</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">faces</span><span class="p">)</span>
@@ -354,12 +366,12 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">area</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Total area of all isosurfaces in the Fermi surface.&quot;&quot;&quot;</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Total area of all isosurfaces in the Fermi surface in Å\ :sup:`-2`\ .&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">sum</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">area_surfaces</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">area_surfaces</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Area of each isosurface in the Fermi surface.&quot;&quot;&quot;</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Area of each isosurface in the Fermi surface in Å\ :sup:`-2`\ .&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">i</span><span class="o">.</span><span class="n">area</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">v</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">isosurfaces</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
     <span class="nd">@property</span>
@@ -519,10 +531,12 @@
 <span class="sd">                calculated.</span>
 <span class="sd">            wigner_seitz: Controls whether the cell is the Wigner-Seitz cell</span>
 <span class="sd">                or the reciprocal unit cell parallelepiped.</span>
-<span class="sd">            decimate_factor: If method is &quot;quadric&quot;, factor is the scaling factor by</span>
-<span class="sd">                which to reduce the number of faces. I.e., final # faces = initial</span>
-<span class="sd">                # faces * factor. If method is &quot;cluster&quot;, factor is the voxel size in</span>
-<span class="sd">                which to cluster points. Default is None (no decimation).</span>
+<span class="sd">            decimate_factor: If method is &quot;quadric&quot;, and factor is a floating point</span>
+<span class="sd">                value then factor is the scaling factor by which to reduce the number of</span>
+<span class="sd">                faces. I.e., final # faces = initial # faces * factor. If method is</span>
+<span class="sd">                &quot;quadric&quot; but factor is an integer then factor is the target number of</span>
+<span class="sd">                final faces. If method is &quot;cluster&quot;, factor is the voxel size in which</span>
+<span class="sd">                to cluster points. Default is None (no decimation).</span>
 <span class="sd">            decimate_method: Algorithm to use for decimation. Options are &quot;quadric&quot;</span>
 <span class="sd">                or &quot;cluster&quot;.</span>
 <span class="sd">            smooth: If True, will smooth resulting isosurface. Requires PyMCubes. See</span>
@@ -572,6 +586,10 @@
         <span class="n">bands</span><span class="p">,</span> <span class="n">kpoints</span> <span class="o">=</span> <span class="n">expand_bands</span><span class="p">(</span>
             <span class="n">bands</span><span class="p">,</span> <span class="n">kpoints</span><span class="p">,</span> <span class="n">supercell_dim</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">decimate_factor</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="c1"># increase number of target faces to account for 3x3x3 supercell</span>
+            <span class="n">decimate_factor</span> <span class="o">*=</span> <span class="mi">27</span>
+
         <span class="n">isosurfaces</span> <span class="o">=</span> <span class="n">compute_isosurfaces</span><span class="p">(</span>
             <span class="n">bands</span><span class="p">,</span>
             <span class="n">kpoints</span><span class="p">,</span>
@@ -616,7 +634,7 @@
         <span class="sd">&quot;&quot;&quot;Get a json-serializable dict representation of FermiSurface.&quot;&quot;&quot;</span>
         <span class="n">d</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()</span>
         <span class="n">d</span><span class="p">[</span><span class="s2">&quot;isosurfaces&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">spin</span><span class="p">):</span> <span class="n">iso</span> <span class="k">for</span> <span class="n">spin</span><span class="p">,</span> <span class="n">iso</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">isosurfaces</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-        <span class="k">return</span> <span class="n">d</span></div></div>
+        <span class="k">return</span> <span class="n">jsanitize</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="compute_isosurfaces"><a class="viewcode-back" href="../../ifermi.html#ifermi.surface.compute_isosurfaces">[docs]</a><span class="k">def</span> <span class="nf">compute_isosurfaces</span><span class="p">(</span>
@@ -639,10 +657,12 @@
 <span class="sd">        kpoints: The k-points in fractional coordinates.</span>
 <span class="sd">        fermi_level: The energy at which to calculate the Fermi surface.</span>
 <span class="sd">        reciprocal_space: The reciprocal space representation.</span>
-<span class="sd">        decimate_factor: If method is &quot;quadric&quot;, factor is the scaling factor by which</span>
-<span class="sd">            to reduce the number of faces. I.e., final # faces = initial # faces *</span>
-<span class="sd">            factor. If method is &quot;cluster&quot;, factor is the voxel size in which to</span>
-<span class="sd">            cluster points. Default is None (no decimation).</span>
+<span class="sd">        decimate_factor: If method is &quot;quadric&quot;, and factor is a floating point value</span>
+<span class="sd">            then factor is the scaling factor by which to reduce the number of faces.</span>
+<span class="sd">            I.e., final # faces = initial # faces * factor. If method is &quot;quadric&quot; but</span>
+<span class="sd">            factor is an integer then factor is the target number of final faces.</span>
+<span class="sd">            If method is &quot;cluster&quot;, factor is the voxel size in which to cluster points.</span>
+<span class="sd">            Default is None (no decimation).</span>
 <span class="sd">        decimate_method: Algorithm to use for decimation. Options are &quot;quadric&quot; or</span>
 <span class="sd">            &quot;cluster&quot;.</span>
 <span class="sd">        smooth: If True, will smooth resulting isosurface. Requires PyMCubes. Smoothing</span>
@@ -893,7 +913,9 @@
 
 
 <div class="viewcode-block" id="decimate_mesh"><a class="viewcode-back" href="../../ifermi.html#ifermi.surface.decimate_mesh">[docs]</a><span class="nd">@requires</span><span class="p">(</span><span class="n">open3d</span><span class="p">,</span> <span class="s2">&quot;open3d package is required for mesh decimation&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">decimate_mesh</span><span class="p">(</span><span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">faces</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">factor</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;quadric&quot;</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">decimate_mesh</span><span class="p">(</span>
+    <span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">faces</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">factor</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;quadric&quot;</span>
+<span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Decimate mesh to reduce the number of triangles and vertices.</span>
 
 <span class="sd">    The open3d package is required for decimation.</span>
@@ -901,8 +923,10 @@
 <span class="sd">    Args:</span>
 <span class="sd">        vertices: A (n, 3) float array of the vertices in the isosurface.</span>
 <span class="sd">        faces: A (m, 3) int array of the faces of the isosurface.</span>
-<span class="sd">        factor: If method is &quot;quadric&quot;, factor is the scaling factor by which to</span>
-<span class="sd">            reduce the number of faces. I.e., final # faces = initial # faces * factor.</span>
+<span class="sd">        factor: If method is &quot;quadric&quot;, and factor is a floating point value then</span>
+<span class="sd">            factor is the scaling factor by which to reduce the number of faces.</span>
+<span class="sd">            I.e., final # faces = initial # faces * factor. If method is &quot;quadric&quot; but</span>
+<span class="sd">            factor is an integer then factor is the target number of final faces.</span>
 <span class="sd">            If method is &quot;cluster&quot;, factor is the voxel size in which to cluster points.</span>
 <span class="sd">        method: Algorithm to use for decimation. Options are &quot;quadric&quot; or &quot;cluster&quot;.</span>
 
@@ -916,7 +940,10 @@
 
     <span class="c1"># decimate mesh</span>
     <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;quadric&quot;</span><span class="p">:</span>
-        <span class="n">n_target_triangles</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">faces</span><span class="p">)</span> <span class="o">*</span> <span class="n">factor</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">factor</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">n_target_triangles</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">factor</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">faces</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">n_target_triangles</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">faces</span><span class="p">)</span> <span class="o">*</span> <span class="n">factor</span><span class="p">)</span>
         <span class="n">o3d_new_mesh</span> <span class="o">=</span> <span class="n">o3d_mesh</span><span class="o">.</span><span class="n">simplify_quadric_decimation</span><span class="p">(</span><span class="n">n_target_triangles</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">cluster_type</span> <span class="o">=</span> <span class="n">open3d</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">SimplificationContraction</span><span class="o">.</span><span class="n">Quadric</span>
@@ -929,28 +956,25 @@
            
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2021, Amy Searle and Alex Ganose
+        &#169; Copyright 2021, Amy Searle and Alex Ganose.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

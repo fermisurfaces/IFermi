@@ -17,8 +17,8 @@ IFermi works in 4 stages:
 
 .. NOTE::
 
-    Currently, IFermi only works with VASP calculation outputs. Support for additional
-    DFT packages will be added in a future release.
+    Currently, IFermi's command-line tools only work with VASP calculation outputs.
+    Support for additional DFT packages will be added in a future release.
 
 IFermi is controlled on the command-line using the ``ifermi`` command. The available
 options can be listed using:
@@ -170,8 +170,8 @@ Property projections
 
 Additional properties, such as the group velocity and orbital magnetisation (spin
 texture), can be projected onto the Fermi surface using the ``--property`` option. The
-group velocities are calculated during Fourier interpolation and can be included in the
-Fermi surface using:
+group velocities are calculated during Fourier interpolation (units of m/s) and can be
+included in the Fermi surface using:
 
 .. code-block:: bash
 
@@ -204,11 +204,11 @@ Reciprocal space
 
 By default, the Wigner–Seitz cell is used to contain to the Fermi surface. The
 parallelepiped reciprocal lattice cell can be used instead by selecting the
-``--reciprocal-cell`` option (``-r``). For example:
+``--no-wigner`` option. For example:
 
 .. code-block:: bash
 
-    ifermi plot --reciprocal-cell
+    ifermi plot --no-wigner
 
 
 Visualisation options
@@ -250,13 +250,21 @@ file can be specified using the ``--output`` (``-o``) option. For example:
 
 .. NOTE::
 
-    Saving output files with the plotly backend requires plotly-orca to be installed.
+    Saving graphical output files with the plotly backend requires plotly-orca to be
+    installed.
 
 Running the above command in the ``examples/MgB2`` directory produces the plot:
 
 .. image:: _static/fs-1.jpg
     :height: 250px
     :align: center
+
+Interactive plots can be saved to a html file using the plotly backend by specifying
+a html filename. This will prevent the plot from being opened automatically.
+
+.. code-block:: bash
+
+    ifermi plot --output fermi-surface.html
 
 Selecting spin channels
 ~~~~~~~~~~~~~~~~~~~~~~~

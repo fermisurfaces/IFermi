@@ -3,12 +3,11 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
   
-  <title>Introduction &mdash; IFermi 0.2.1 documentation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Introduction &mdash; IFermi 0.2.6 documentation</title>
   
 
   
@@ -20,9 +19,12 @@
   
     <link rel="shortcut icon" href="_static/favicon.ico"/>
   
+
   
   
     <link rel="canonical" href="https://github.com/fermisurfaces/IFermiintroduction.html"/>
+  
+
   
 
   
@@ -60,7 +62,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> IFermi
+            <a href="index.html" class="icon icon-home"> IFermi
           
 
           
@@ -73,7 +75,7 @@
             
             
               <div class="version">
-                0.2.1
+                0.2.6
               </div>
             
           
@@ -98,7 +100,7 @@
               
             
             
-              <p><span class="caption-text">Usage Guide</span></p>
+              <p class="caption"><span class="caption-text">Usage Guide</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick start</a><ul>
@@ -107,7 +109,12 @@
 <li class="toctree-l3"><a class="reference internal" href="#python-library">Python library</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#citing-ifermi">Citing IFermi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#running-tests">Running tests</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#need-help">Need Help?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#whats-new">What’s new?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#contributing">Contributing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
@@ -117,7 +124,7 @@
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command-line interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction_to_ifermi.html">Python API introduction</a></li>
 </ul>
-<p><span class="caption-text">Information</span></p>
+<p class="caption"><span class="caption-text">Information</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributors.html">Contributors</a></li>
@@ -125,7 +132,7 @@
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/fermisurfaces/IFermi">IFermi on GitHub</a></li>
 </ul>
-<p><span class="caption-text">Function Reference</span></p>
+<p class="caption"><span class="caption-text">Function Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="ifermi.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
@@ -183,7 +190,7 @@
     text-align: unset;
 }
 </style>
-<section id="introduction">
+<div class="section" id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
 <p>IFermi is a Python (3.6+) library and set of command-line tools for the generation,
 analysis, and visualisation of Fermi surfaces and Fermi slices. The goal of the library
@@ -200,14 +207,14 @@ including Fermi velocities.</p></li>
 <a class="reference external" href="https://matplotlib.org">matplotlib</a>.</p></li>
 <li><p>Generation and visualisation of spin-texture.</p></li>
 </ul>
-<p>IFermi currently only works with VASP calculations but support for additional DFT packages
-will be added in the future.</p>
-<a class="reference external image-reference" href="https://raw.githubusercontent.com/fermisurfaces/IFermi/master/docs/src/_static/fermi-surface-example.png"><img alt="Example Fermi surfaces" src="https://raw.githubusercontent.com/fermisurfaces/IFermi/master/docs/src/_static/fermi-surface-example.png" /></a>
-<section id="quick-start">
+<p>IFermi’s command-line tools only work with VASP calculations but support for additional
+DFT packages will be added in the future.</p>
+<a class="reference external image-reference" href="https://raw.githubusercontent.com/fermisurfaces/IFermi/main/docs/src/_static/fermi-surface-example.png"><img alt="Example Fermi surfaces" src="https://raw.githubusercontent.com/fermisurfaces/IFermi/main/docs/src/_static/fermi-surface-example.png" /></a>
+<div class="section" id="quick-start">
 <h2>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference external" href="https://fermisurfaces.github.io/IFermi/cli.html">online documentation</a> provides a full
 description of the available command-line options.</p>
-<section id="analysis">
+<div class="section" id="analysis">
 <h3>Analysis<a class="headerlink" href="#analysis" title="Permalink to this headline">¶</a></h3>
 <p>Fermi surface properties, including dimensionality and orientation can be extracted
 from a vasprun.xml file using:</p>
@@ -233,8 +240,8 @@ Isosurfaces
          8         3.549             1.105e+06      quasi-2D        (0, 0, 1)
 </pre></div>
 </div>
-</section>
-<section id="visualisation">
+</div>
+<div class="section" id="visualisation">
 <h3>Visualisation<a class="headerlink" href="#visualisation" title="Permalink to this headline">¶</a></h3>
 <p>Three-dimensional Fermi surfaces can be visualized from a <code class="docutils literal notranslate"><span class="pre">vasprun.xml</span></code> file using:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot
@@ -245,18 +252,19 @@ indices (j k l) and distance d can be plotted from a <code class="docutils liter
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --slice j k l d
 </pre></div>
 </div>
-</section>
-<section id="python-library">
+</div>
+<div class="section" id="python-library">
 <h3>Python library<a class="headerlink" href="#python-library" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">ifermi</span></code> command line tools are build on the IFermi Python library. Here is an
 example of how to load DFT calculation outputs, interpolate the energies onto a dense mesh,
 generate a Fermi surface, calculate Fermi surface properties, and visualise the surface.
-A more complete summary of the API is given in the <a class="reference external" href="https://fermisurfaces.github.io/IFermi/plotting_using_python.html">API introduction page</a>
+A more complete summary of the API is given in the <a class="reference external" href="https://fermisurfaces.github.io/IFermi/introduction_to_ifermi.html">API introduction page</a>
 and in the <a class="reference external" href="https://fermisurfaces.github.io/IFermi/ifermi.html">API Reference page</a> in the documentation.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pymatgen.io.vasp.outputs</span> <span class="kn">import</span> <span class="n">Vasprun</span>
 <span class="kn">from</span> <span class="nn">ifermi.surface</span> <span class="kn">import</span> <span class="n">FermiSurface</span>
 <span class="kn">from</span> <span class="nn">ifermi.interpolate</span> <span class="kn">import</span> <span class="n">FourierInterpolator</span>
 <span class="kn">from</span> <span class="nn">ifermi.plot</span> <span class="kn">import</span> <span class="n">FermiSlicePlotter</span><span class="p">,</span> <span class="n">FermiSurfacePlotter</span><span class="p">,</span> <span class="n">save_plot</span><span class="p">,</span> <span class="n">show_plot</span>
+<span class="kn">from</span> <span class="nn">ifermi.kpoints</span> <span class="kn">import</span> <span class="n">kpoints_from_bandstructure</span>
 
 <span class="c1"># load VASP calculation outputs</span>
 <span class="n">vr</span> <span class="o">=</span> <span class="n">Vasprun</span><span class="p">(</span><span class="s2">&quot;vasprun.xml&quot;</span><span class="p">)</span>
@@ -264,11 +272,19 @@ and in the <a class="reference external" href="https://fermisurfaces.github.io/I
 
 <span class="c1"># interpolate the energies onto a dense k-point mesh</span>
 <span class="n">interpolator</span> <span class="o">=</span> <span class="n">FourierInterpolator</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span>
-<span class="n">dense_bs</span> <span class="o">=</span> <span class="n">interpolator</span><span class="o">.</span><span class="n">interpolate_bands</span><span class="p">()</span>
+<span class="n">dense_bs</span><span class="p">,</span> <span class="n">velocities</span> <span class="o">=</span> <span class="n">interpolator</span><span class="o">.</span><span class="n">interpolate_bands</span><span class="p">(</span><span class="n">return_velocities</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># generate the Fermi surface and calculate the dimensionality</span>
 <span class="n">fs</span> <span class="o">=</span> <span class="n">FermiSurface</span><span class="o">.</span><span class="n">from_band_structure</span><span class="p">(</span>
   <span class="n">dense_bs</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">wigner_seitz</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">calculate_dimensionality</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># generate the Fermi surface and calculate the group velocity at the</span>
+<span class="c1"># center of each triangular face</span>
+<span class="n">dense_kpoints</span> <span class="o">=</span> <span class="n">kpoints_from_bandstructure</span><span class="p">(</span><span class="n">dense_bs</span><span class="p">)</span>
+<span class="n">fs</span> <span class="o">=</span> <span class="n">FermiSurface</span><span class="o">.</span><span class="n">from_band_structure</span><span class="p">(</span>
+  <span class="n">dense_bs</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">wigner_seitz</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">calculate_dimensionality</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+  <span class="n">property_data</span><span class="o">=</span><span class="n">velocities</span><span class="p">,</span> <span class="n">property_kpoints</span><span class="o">=</span><span class="n">dense_kpoints</span>
 <span class="p">)</span>
 
 <span class="c1"># number of isosurfaces in the Fermi surface</span>
@@ -286,24 +302,24 @@ and in the <a class="reference external" href="https://fermisurfaces.github.io/I
 <span class="c1"># loop over all isosurfaces and check their properties</span>
 <span class="c1"># the isosurfaces are given as a list for each spin channel</span>
 <span class="k">for</span> <span class="n">spin</span><span class="p">,</span> <span class="n">isosurfaces</span> <span class="ow">in</span> <span class="n">fs</span><span class="o">.</span><span class="n">isosurfaces</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-  <span class="k">for</span> <span class="n">isosurface</span> <span class="ow">in</span> <span class="n">isosurfaces</span><span class="p">:</span>
-    <span class="c1"># the dimensionality (does the surface cross periodic boundaries)</span>
-    <span class="n">isosurface</span><span class="o">.</span><span class="n">dimensionality</span>
+    <span class="k">for</span> <span class="n">isosurface</span> <span class="ow">in</span> <span class="n">isosurfaces</span><span class="p">:</span>
+        <span class="c1"># the dimensionality (does the surface cross periodic boundaries)</span>
+        <span class="n">isosurface</span><span class="o">.</span><span class="n">dimensionality</span>
 
-    <span class="c1"># what is the orientation</span>
-    <span class="n">isosurface</span><span class="o">.</span><span class="n">orientation</span>
+        <span class="c1"># what is the orientation</span>
+        <span class="n">isosurface</span><span class="o">.</span><span class="n">orientation</span>
 
-    <span class="c1"># does the surface have face properties</span>
-    <span class="n">isosurface</span><span class="o">.</span><span class="n">has_properties</span>
+        <span class="c1"># does the surface have face properties</span>
+        <span class="n">isosurface</span><span class="o">.</span><span class="n">has_properties</span>
 
-    <span class="c1"># calculate the norms of the properties</span>
-    <span class="n">isosurface</span><span class="o">.</span><span class="n">properties_norms</span>
+        <span class="c1"># calculate the norms of the properties</span>
+        <span class="n">isosurface</span><span class="o">.</span><span class="n">properties_norms</span>
 
-    <span class="c1"># calculate scalar projection of properties on to [0 0 1] vector</span>
-    <span class="n">isosurface</span><span class="o">.</span><span class="n">scalar_projection</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="c1"># calculate scalar projection of properties on to [0 0 1] vector</span>
+        <span class="n">isosurface</span><span class="o">.</span><span class="n">scalar_projection</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
-    <span class="c1"># uniformly sample the surface faces to a consistent density</span>
-    <span class="n">isosurface</span><span class="o">.</span><span class="n">sample_uniform</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+        <span class="c1"># uniformly sample the surface faces to a consistent density</span>
+        <span class="n">isosurface</span><span class="o">.</span><span class="n">sample_uniform</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
 
 <span class="c1"># plot the Fermi surface</span>
 <span class="n">fs_plotter</span> <span class="o">=</span> <span class="n">FermiSurfacePlotter</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
@@ -326,12 +342,25 @@ and in the <a class="reference external" href="https://fermisurfaces.github.io/I
 <span class="n">show_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span>  <span class="c1"># displays an interactive plot</span>
 </pre></div>
 </div>
-</section>
-</section>
-<section id="installation">
+</div>
+</div>
+<div class="section" id="citing-ifermi">
+<h2>Citing IFermi<a class="headerlink" href="#citing-ifermi" title="Permalink to this headline">¶</a></h2>
+<p>If you find IFermi useful, please encourage its development by citing the following
+<a class="reference external" href="https://doi.org/10.21105/joss.03089">paper</a> in your research output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Ganose</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span> <span class="n">M</span><span class="o">.</span><span class="p">,</span> <span class="n">Searle</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="p">,</span> <span class="n">Jain</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="p">,</span> <span class="n">Griffin</span><span class="p">,</span> <span class="n">S</span><span class="o">.</span> <span class="n">M</span><span class="o">.</span><span class="p">,</span> <span class="n">IFermi</span><span class="p">:</span> <span class="n">A</span> <span class="n">python</span> <span class="n">library</span> <span class="k">for</span> <span class="n">Fermi</span>
+<span class="n">surface</span> <span class="n">generation</span> <span class="ow">and</span> <span class="n">analysis</span><span class="o">.</span> <span class="n">Journal</span> <span class="n">of</span> <span class="n">Open</span> <span class="n">Source</span> <span class="n">Software</span><span class="p">,</span> <span class="mi">2021</span><span class="p">,</span> <span class="mi">6</span> <span class="p">(</span><span class="mi">59</span><span class="p">),</span> <span class="mi">3089</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>IFermi can be installed with the command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install ifermi
+<p>The recommended way to install IFermi is in a conda environment.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda create --name ifermi pip cmake numpy
+conda activate ifermi
+conda install -c conda-forge pymatgen boltztrap2 pyfftw
+pip install ifermi
+<span class="sb">`</span>
 </pre></div>
 </div>
 <p>IFermi is currently compatible with Python 3.6+ and relies on a number of
@@ -342,55 +371,74 @@ open-source python packages, specifically:</p>
 <li><p><a class="reference external" href="https://trimsh.org/">trimesh</a> for manipulating isosurfaces.</p></li>
 <li><p><a class="reference external" href="https://matplotlib.org">matplotlib</a>, <a class="reference external" href="https://docs.enthought.com/mayavi/mayavi/">mayavi</a>, and <a class="reference external" href="https://plot.ly/">plotly</a> for three-dimensional plotting.</p></li>
 </ul>
-</section>
-<section id="whats-new">
+<div class="section" id="running-tests">
+<h3>Running tests<a class="headerlink" href="#running-tests" title="Permalink to this headline">¶</a></h3>
+<p>The integration tests can be run to ensure IFermi has been installed correctly. First
+download the IFermi source and install the test requirements.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">fermisurfaces</span><span class="o">/</span><span class="n">IFermi</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">IFermi</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">.</span><span class="p">[</span><span class="n">tests</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The tests can be run in the IFermi folder using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="need-help">
+<h2>Need Help?<a class="headerlink" href="#need-help" title="Permalink to this headline">¶</a></h2>
+<p>Ask questions about the IFermi Python API and command-line tools on the <a class="reference external" href="https://matsci.org/c/ifermi">IFermi
+support forum</a>.
+If you’ve found an issue with IFermi, please submit a bug report
+<a class="reference external" href="https://github.com/fermisurfaces/IFermi/issues">here</a>.</p>
+</div>
+<div class="section" id="whats-new">
 <h2>What’s new?<a class="headerlink" href="#whats-new" title="Permalink to this headline">¶</a></h2>
 <p>Track changes to IFermi through the
 <a class="reference external" href="https://fermisurfaces.github.io/IFermi/changelog.html">changelog</a>.</p>
-</section>
-<section id="contributing">
+</div>
+<div class="section" id="contributing">
 <h2>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h2>
 <p>We greatly appreciate any contributions in the form of a pull request.
+Additional information on contributing to IFermi can be found <a class="reference external" href="https://fermisurfaces.github.io/IFermi/contributing.html">here</a>.
 We maintain a list of all contributors <a class="reference external" href="https://fermisurfaces.github.io/IFermi/contributors.html">here</a>.</p>
-</section>
-<section id="license">
+</div>
+<div class="section" id="license">
 <h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
 <p>IFermi is made available under the MIT License (see LICENSE file).</p>
-</section>
-<section id="acknowledgements">
+</div>
+<div class="section" id="acknowledgements">
 <h2>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permalink to this headline">¶</a></h2>
 <p>Developed by Amy Searle and Alex Ganose.
 Sinéad Griffin designed and led the project.</p>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
            
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2021, Amy Searle and Alex Ganose
+        &#169; Copyright 2021, Amy Searle and Alex Ganose.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
