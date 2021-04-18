@@ -200,6 +200,7 @@ class FermiSurfacePlotter:
         azimuth: float = AZIMUTH,
         elevation: float = ELEVATION,
         color_properties: Union[str, bool] = True,
+        plotly_colors: bool = False,
         vector_properties: Union[str, bool] = False,
         projection_axis: Optional[Tuple[int, int, int]] = None,
         vector_spacing: float = VECTOR_SPACING,
@@ -233,6 +234,9 @@ class FermiSurfacePlotter:
                 - A string specifying which matplotlib colormap to use. See
                   https://matplotlib.org/tutorials/colors/colormaps.html for more
                   information.
+                - A color sequence from the plotly.express.colors.qualitative module.
+                    If this is the case then the 'plotly_colors' argument should be
+                    set to 'True'.
                 - ``None``, in which case the default colors will be used.
 
             color_properties: Whether to use the properties to color the Fermi surface.
@@ -245,6 +249,8 @@ class FermiSurfacePlotter:
                 norm of the properties by default. If used in combination with the
                 ``projection_axis`` option, the color will be determined by the dot
                 product of the properties with the projection axis.
+            plotly_colors: Should be set to 'True' if the 'colors' argument is a color
+                sequence from the plotly.express.colors.qualitative module.
             vector_properties: Whether to plot arrows for vector properties. Note, this
                 will only take effect if the Fermi surface has vector properties. If
                 set to True, the viridis colormap will be used. Alternative colormaps
@@ -288,6 +294,7 @@ class FermiSurfacePlotter:
             elevation=elevation,
             colors=colors,
             color_properties=color_properties,
+            plotly_colors=plotly_colors,
             vector_properties=vector_properties,
             projection_axis=projection_axis,
             vector_spacing=vector_spacing,
@@ -319,6 +326,7 @@ class FermiSurfacePlotter:
         elevation: float = ELEVATION,
         colors: Optional[Union[str, dict, list]] = None,
         color_properties: Union[str, bool] = True,
+        plotly_colors: bool = False,
         vector_properties: Union[str, bool] = False,
         projection_axis: Optional[Tuple[int, int, int]] = None,
         vector_spacing: float = VECTOR_SPACING,
@@ -366,7 +374,7 @@ class FermiSurfacePlotter:
             cmin, cmax = _get_properties_limits(properties, cmin, cmax)
 
         if not color_properties or not self.fermi_surface.has_properties:
-            colors = get_isosurface_colors(colors, self.fermi_surface, spin)
+            colors = get_isosurface_colors(colors, plotly_colors, self.fermi_surface, spin)
             properties = []
             cmin = None
             cmax = None
@@ -840,6 +848,7 @@ class FermiSlicePlotter:
         spin: Optional[Spin] = None,
         colors: Optional[Union[str, dict, list]] = None,
         color_properties: Union[str, bool] = True,
+        plotly_colors: bool = False,
         vector_properties: Union[str, bool] = False,
         projection_axis: Optional[Tuple[int, int, int]] = None,
         scale_linewidth: Union[bool, float] = False,
@@ -875,6 +884,9 @@ class FermiSlicePlotter:
                 - A string specifying which matplotlib colormap to use. See
                   https://matplotlib.org/tutorials/colors/colormaps.html for more
                   information.
+                - A color sequence from the plotly.express.colors.qualitative module.
+                    If this is the case then the 'plotly_colors' argument should be
+                    set to 'True'.
                 - ``None``, in which case the default colors will be used.
 
             color_properties: Whether to use the properties to color the Fermi isolines.
@@ -887,6 +899,8 @@ class FermiSlicePlotter:
                 norm of the properties by default. If used in combination with the
                 ``projection_axis`` option, the color will be determined by the dot
                 product of the properties with the projection axis.
+            plotly_colors: Should be set to 'True' if the 'colors' argument is a color
+                sequence from the plotly.express.colors.qualitative module.
             vector_properties: Whether to plot arrows for vector properties. Note, this
                 will only take effect if the Fermi slice has vector properties. If
                 set to True, the viridis colormap will be used. Alternative colormaps
@@ -956,6 +970,7 @@ class FermiSlicePlotter:
             spin=spin,
             colors=colors,
             color_properties=color_properties,
+            plotly_colors=plotly_colors,
             vector_properties=vector_properties,
             projection_axis=projection_axis,
             vector_spacing=vector_spacing,
@@ -1061,6 +1076,7 @@ class FermiSlicePlotter:
         spin: Optional[Spin] = None,
         colors: Optional[Union[str, dict, list]] = None,
         color_properties: Union[str, bool] = True,
+        plotly_colors: bool = False,
         vector_properties: Union[str, bool] = False,
         projection_axis: Optional[Tuple[int, int, int]] = None,
         vector_spacing: float = VECTOR_SPACING,
@@ -1108,7 +1124,7 @@ class FermiSlicePlotter:
             cmin, cmax = _get_properties_limits(properties, cmin, cmax)
 
         if not color_properties or not self.fermi_slice.has_properties:
-            colors = get_isosurface_colors(colors, self.fermi_slice, spin)
+            colors = get_isosurface_colors(colors, plotly_colors, self.fermi_slice, spin)
             properties = []
             cmin = None
             cmax = None
@@ -1214,6 +1230,7 @@ def get_plot_type(plot: Any) -> str:
 
 def get_isosurface_colors(
     colors: Optional[Union[str, dict, list]],
+    plotly_colors:bool,
     fermi_object: Union[FermiSurface, FermiSlice],
     spins: List[Spin],
 ) -> List[Tuple[float, float, float]]:
@@ -1232,6 +1249,8 @@ def get_isosurface_colors(
               https://matplotlib.org/tutorials/colors/colormaps.html for more
               information.
             - ``None``, in which case the default colors will be used.
+        plotly_colors: Should be set to 'True' if the 'colors' argument is a color
+                sequence from the plotly.express.colors.qualitative module.
         fermi_object: A Fermi surface or Fermi slice object.
         spins: A list of spins for which colors will be generated.
 
@@ -1253,7 +1272,13 @@ def get_isosurface_colors(
 
     n_objects = len(surface_multiplicity)
 
-    if isinstance(colors, (tuple, list, np.ndarray)):
+    if plotly_colors:
+        from plotly.colors import qualitative, unconvert_from_RGB_255, unlabel_rgb
+
+        cc = colors * (len(colors) // n_objects + 1)
+        color_list = [unconvert_from_RGB_255(unlabel_rgb(c)) for c in cc[:n_objects]]
+
+    elif isinstance(colors, (tuple, list, np.ndarray)):
         if isinstance(colors[0], (tuple, list, np.ndarray)):
             # colors is a list of colors
             cc = list(colors) * (len(colors) // n_objects + 1)
