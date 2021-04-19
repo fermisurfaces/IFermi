@@ -37,10 +37,7 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -188,7 +185,7 @@
 <p>Isosurface and isoline analysis functions.</p>
 <dl class="py function">
 <dt id="ifermi.analysis.average_properties">
-<code class="sig-prename descclassname">ifermi.analysis.</code><code class="sig-name descname">average_properties</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vertices</span></em>, <em class="sig-param"><span class="n">faces</span></em>, <em class="sig-param"><span class="n">properties</span></em>, <em class="sig-param"><span class="n">norm</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#average_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.analysis.average_properties" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.analysis.</span></code><code class="sig-name descname"><span class="pre">average_properties</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">faces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#average_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.analysis.average_properties" title="Permalink to this definition">¶</a></dt>
 <dd><p>Average property across an isosurface.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -210,7 +207,7 @@
 
 <dl class="py function">
 <dt id="ifermi.analysis.connected_images">
-<code class="sig-prename descclassname">ifermi.analysis.</code><code class="sig-name descname">connected_images</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fractional_vertices</span></em>, <em class="sig-param"><span class="n">tol</span><span class="o">=</span><span class="default_value">1e-05</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#connected_images"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.analysis.connected_images" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.analysis.</span></code><code class="sig-name descname"><span class="pre">connected_images</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fractional_vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#connected_images"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.analysis.connected_images" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find the images a set of vertices is connected to.</p>
 <p>Note: This function expects the vertices to only belong to a single connected
 mesh, and the vertices should cover a 3x3x3 supercell, where the coordinates
@@ -235,7 +232,7 @@ periodically.</p>
 
 <dl class="py function">
 <dt id="ifermi.analysis.connected_subsurfaces">
-<code class="sig-prename descclassname">ifermi.analysis.</code><code class="sig-name descname">connected_subsurfaces</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vertices</span></em>, <em class="sig-param"><span class="n">faces</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#connected_subsurfaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.analysis.connected_subsurfaces" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.analysis.</span></code><code class="sig-name descname"><span class="pre">connected_subsurfaces</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">faces</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#connected_subsurfaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.analysis.connected_subsurfaces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find connected sub-surfaces (those that share edges).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -255,7 +252,7 @@ periodically.</p>
 
 <dl class="py function">
 <dt id="ifermi.analysis.equivalent_surfaces">
-<code class="sig-prename descclassname">ifermi.analysis.</code><code class="sig-name descname">equivalent_surfaces</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">surfaces_vertices</span></em>, <em class="sig-param"><span class="n">tol</span><span class="o">=</span><span class="default_value">1e-05</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#equivalent_surfaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.analysis.equivalent_surfaces" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.analysis.</span></code><code class="sig-name descname"><span class="pre">equivalent_surfaces</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">surfaces_vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#equivalent_surfaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.analysis.equivalent_surfaces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Note: This function expects the vertices of each surface to only belong to a single
 connected mesh, and the vertices should cover a 3x3x3 supercell, where the
 coordinates from -0.5 to 0.5 indicate the center image.</p>
@@ -279,7 +276,7 @@ its equivalent.</p>
 
 <dl class="py function">
 <dt id="ifermi.analysis.equivalent_vertices">
-<code class="sig-prename descclassname">ifermi.analysis.</code><code class="sig-name descname">equivalent_vertices</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vertices</span></em>, <em class="sig-param"><span class="n">tol</span><span class="o">=</span><span class="default_value">1e-05</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#equivalent_vertices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.analysis.equivalent_vertices" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.analysis.</span></code><code class="sig-name descname"><span class="pre">equivalent_vertices</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#equivalent_vertices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.analysis.equivalent_vertices" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find vertices that are equivalent (closer than a tolerance).</p>
 <p>Note that the algorithm used is effectively recursive. If vertex a is within the
 tolerance of b, and b is within the tolerance of c, even if a and c and not within
@@ -303,7 +300,7 @@ equivalent.</p>
 
 <dl class="py function">
 <dt id="ifermi.analysis.isosurface_area">
-<code class="sig-prename descclassname">ifermi.analysis.</code><code class="sig-name descname">isosurface_area</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vertices</span></em>, <em class="sig-param"><span class="n">faces</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#isosurface_area"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.analysis.isosurface_area" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.analysis.</span></code><code class="sig-name descname"><span class="pre">isosurface_area</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">faces</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#isosurface_area"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.analysis.isosurface_area" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the area of an isosurface.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -323,7 +320,7 @@ equivalent.</p>
 
 <dl class="py function">
 <dt id="ifermi.analysis.isosurface_dimensionality">
-<code class="sig-prename descclassname">ifermi.analysis.</code><code class="sig-name descname">isosurface_dimensionality</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fractional_vertices</span></em>, <em class="sig-param"><span class="n">faces</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#isosurface_dimensionality"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.analysis.isosurface_dimensionality" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.analysis.</span></code><code class="sig-name descname"><span class="pre">isosurface_dimensionality</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fractional_vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">faces</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#isosurface_dimensionality"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.analysis.isosurface_dimensionality" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate isosurface properties a single isosurface (fully connected).</p>
 <p>The vertices must cover a 3x3x3 supercell and must not have been trimmed to fit
 inside the reciprocal lattice.</p>
@@ -349,7 +346,7 @@ in fractional coordinates.</p></li>
 
 <dl class="py function">
 <dt id="ifermi.analysis.line_orientation">
-<code class="sig-prename descclassname">ifermi.analysis.</code><code class="sig-name descname">line_orientation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">images</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#line_orientation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.analysis.line_orientation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.analysis.</span></code><code class="sig-name descname"><span class="pre">line_orientation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">images</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#line_orientation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.analysis.line_orientation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the orientation (direction vector) from a list of rank 1 connected images.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -366,7 +363,7 @@ in fractional coordinates.</p></li>
 
 <dl class="py function">
 <dt id="ifermi.analysis.longest_simple_paths">
-<code class="sig-prename descclassname">ifermi.analysis.</code><code class="sig-name descname">longest_simple_paths</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vertices</span></em>, <em class="sig-param"><span class="n">edges</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#longest_simple_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.analysis.longest_simple_paths" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.analysis.</span></code><code class="sig-name descname"><span class="pre">longest_simple_paths</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edges</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#longest_simple_paths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.analysis.longest_simple_paths" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find the shortest paths that go through all vertices.</p>
 <p>The lines are broken up into the connected sublines. Note this function is only
 designed to work with connected sublines that are either simple cycles or
@@ -389,7 +386,7 @@ chains with no branches.</p>
 
 <dl class="py function">
 <dt id="ifermi.analysis.plane_orientation">
-<code class="sig-prename descclassname">ifermi.analysis.</code><code class="sig-name descname">plane_orientation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">images</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#plane_orientation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.analysis.plane_orientation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.analysis.</span></code><code class="sig-name descname"><span class="pre">plane_orientation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">images</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#plane_orientation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.analysis.plane_orientation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the orientation (surface normal) from a list of rank 2 connected images.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -406,7 +403,7 @@ chains with no branches.</p>
 
 <dl class="py function">
 <dt id="ifermi.analysis.sample_line_uniform">
-<code class="sig-prename descclassname">ifermi.analysis.</code><code class="sig-name descname">sample_line_uniform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">segments</span></em>, <em class="sig-param"><span class="n">spacing</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#sample_line_uniform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.analysis.sample_line_uniform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.analysis.</span></code><code class="sig-name descname"><span class="pre">sample_line_uniform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segments</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spacing</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#sample_line_uniform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.analysis.sample_line_uniform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sample line segments to a consistent density.</p>
 <p>Note: the segments must be ordered so that they are adjacent.</p>
 <dl class="field-list simple">
@@ -427,7 +424,7 @@ chains with no branches.</p>
 
 <dl class="py function">
 <dt id="ifermi.analysis.sample_surface_uniform">
-<code class="sig-prename descclassname">ifermi.analysis.</code><code class="sig-name descname">sample_surface_uniform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vertices</span></em>, <em class="sig-param"><span class="n">faces</span></em>, <em class="sig-param"><span class="n">grid_size</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#sample_surface_uniform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.analysis.sample_surface_uniform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.analysis.</span></code><code class="sig-name descname"><span class="pre">sample_surface_uniform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">faces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/analysis.html#sample_surface_uniform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.analysis.sample_surface_uniform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sample isosurface faces uniformly.</p>
 <p>The algorithm works by:</p>
 <ol class="arabic simple">
@@ -464,42 +461,67 @@ ignored.</p></li>
 <p>Brillouin zone and slice geometries.</p>
 <dl class="py class">
 <dt id="ifermi.brillouin_zone.ReciprocalCell">
-<em class="property">class </em><code class="sig-prename descclassname">ifermi.brillouin_zone.</code><code class="sig-name descname">ReciprocalCell</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reciprocal_lattice</span></em>, <em class="sig-param"><span class="n">vertices</span></em>, <em class="sig-param"><span class="n">faces</span></em>, <em class="sig-param"><span class="n">centers</span></em>, <em class="sig-param"><span class="n">normals</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/brillouin_zone.html#ReciprocalCell"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalCell" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ifermi.brillouin_zone.</span></code><code class="sig-name descname"><span class="pre">ReciprocalCell</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reciprocal_lattice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">faces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">centers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normals</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/brillouin_zone.html#ReciprocalCell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalCell" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">monty.json.MSONable</span></code></p>
 <p>A parallelepiped reciprocal lattice cell.</p>
 <dl class="py attribute">
 <dt id="ifermi.brillouin_zone.ReciprocalCell.reciprocal_lattice">
-<code class="sig-name descname">reciprocal_lattice</code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalCell.reciprocal_lattice" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">reciprocal_lattice</span></code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalCell.reciprocal_lattice" title="Permalink to this definition">¶</a></dt>
 <dd><p>A (3, 3) float array of the reciprocal lattice vectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="ifermi.brillouin_zone.ReciprocalCell.vertices">
-<code class="sig-name descname">vertices</code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalCell.vertices" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">vertices</span></code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalCell.vertices" title="Permalink to this definition">¶</a></dt>
 <dd><p>A (n, 3) float array of the vertices of the Brillouin zone edges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="ifermi.brillouin_zone.ReciprocalCell.faces">
-<code class="sig-name descname">faces</code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalCell.faces" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">faces</span></code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalCell.faces" title="Permalink to this definition">¶</a></dt>
 <dd><p>A (m, 3) int array of the faces of the Brillouin zone.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>List[List[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="ifermi.brillouin_zone.ReciprocalCell.centers">
-<code class="sig-name descname">centers</code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalCell.centers" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">centers</span></code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalCell.centers" title="Permalink to this definition">¶</a></dt>
 <dd><p>A (m, 3) float array of the face centers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="ifermi.brillouin_zone.ReciprocalCell.normals">
-<code class="sig-name descname">normals</code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalCell.normals" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">normals</span></code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalCell.normals" title="Permalink to this definition">¶</a></dt>
 <dd><p>A (m, 3) float array of the face normal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="ifermi.brillouin_zone.ReciprocalCell.edges">
-<em class="property">property </em><code class="sig-name descname">edges</code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalCell.edges" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">edges</span></code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalCell.edges" title="Permalink to this definition">¶</a></dt>
 <dd><p>A (n, 2) int array defining the cell edges.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -510,7 +532,7 @@ ignored.</p></li>
 
 <dl class="py method">
 <dt id="ifermi.brillouin_zone.ReciprocalCell.from_structure">
-<em class="property">classmethod </em><code class="sig-name descname">from_structure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">structure</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/brillouin_zone.html#ReciprocalCell.from_structure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalCell.from_structure" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_structure</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structure</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/brillouin_zone.html#ReciprocalCell.from_structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalCell.from_structure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialise the reciprocal cell from a structure.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -527,7 +549,7 @@ ignored.</p></li>
 
 <dl class="py method">
 <dt id="ifermi.brillouin_zone.ReciprocalCell.get_reciprocal_slice">
-<code class="sig-name descname">get_reciprocal_slice</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">plane_normal</span></em>, <em class="sig-param"><span class="n">distance</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/brillouin_zone.html#ReciprocalCell.get_reciprocal_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalCell.get_reciprocal_slice" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_reciprocal_slice</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plane_normal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/brillouin_zone.html#ReciprocalCell.get_reciprocal_slice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalCell.get_reciprocal_slice" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a reciprocal slice through the Brillouin zone.</p>
 <p>Reciprocal slice defined by the intersection of a plane with the lattice.</p>
 <dl class="field-list simple">
@@ -548,7 +570,7 @@ ignored.</p></li>
 
 <dl class="py method">
 <dt id="ifermi.brillouin_zone.ReciprocalCell.lines">
-<em class="property">property </em><code class="sig-name descname">lines</code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalCell.lines" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">lines</span></code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalCell.lines" title="Permalink to this definition">¶</a></dt>
 <dd><p>A (n, 2, 3) float array defining the cell boundaries.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -561,32 +583,47 @@ ignored.</p></li>
 
 <dl class="py class">
 <dt id="ifermi.brillouin_zone.ReciprocalSlice">
-<em class="property">class </em><code class="sig-prename descclassname">ifermi.brillouin_zone.</code><code class="sig-name descname">ReciprocalSlice</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reciprocal_space</span></em>, <em class="sig-param"><span class="n">vertices</span></em>, <em class="sig-param"><span class="n">transformation</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/brillouin_zone.html#ReciprocalSlice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalSlice" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ifermi.brillouin_zone.</span></code><code class="sig-name descname"><span class="pre">ReciprocalSlice</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reciprocal_space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transformation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/brillouin_zone.html#ReciprocalSlice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalSlice" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">monty.json.MSONable</span></code></p>
 <p>A slice along a pane in reciprocal space.</p>
 <dl class="py attribute">
 <dt id="ifermi.brillouin_zone.ReciprocalSlice.reciprocal_space">
-<code class="sig-name descname">reciprocal_space</code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalSlice.reciprocal_space" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">reciprocal_space</span></code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalSlice.reciprocal_space" title="Permalink to this definition">¶</a></dt>
 <dd><p>The reciprocal space that the slice belongs to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#ifermi.brillouin_zone.ReciprocalCell" title="ifermi.brillouin_zone.ReciprocalCell">ifermi.brillouin_zone.ReciprocalCell</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="ifermi.brillouin_zone.ReciprocalSlice.vertices">
-<code class="sig-name descname">vertices</code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalSlice.vertices" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">vertices</span></code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalSlice.vertices" title="Permalink to this definition">¶</a></dt>
 <dd><p>A (n, 2) float array of the vertices defining the intersection of the
 slice with the Brillouin zone.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="ifermi.brillouin_zone.ReciprocalSlice.transformation">
-<code class="sig-name descname">transformation</code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalSlice.transformation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">transformation</span></code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalSlice.transformation" title="Permalink to this definition">¶</a></dt>
 <dd><p>(n, 4, 4) float array of the transformation that maps points in
 the 3D Brillouin zone to points on the 2D slice.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="ifermi.brillouin_zone.ReciprocalSlice.edges">
-<em class="property">property </em><code class="sig-name descname">edges</code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalSlice.edges" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">edges</span></code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalSlice.edges" title="Permalink to this definition">¶</a></dt>
 <dd><p>A (n, 2) int array defining the cell edges.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -597,7 +634,7 @@ the 3D Brillouin zone to points on the 2D slice.</p>
 
 <dl class="py method">
 <dt id="ifermi.brillouin_zone.ReciprocalSlice.lines">
-<em class="property">property </em><code class="sig-name descname">lines</code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalSlice.lines" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">lines</span></code><a class="headerlink" href="#ifermi.brillouin_zone.ReciprocalSlice.lines" title="Permalink to this definition">¶</a></dt>
 <dd><p>A (n, 2, 2) float array defining the cell boundaries.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -610,42 +647,67 @@ the 3D Brillouin zone to points on the 2D slice.</p>
 
 <dl class="py class">
 <dt id="ifermi.brillouin_zone.WignerSeitzCell">
-<em class="property">class </em><code class="sig-prename descclassname">ifermi.brillouin_zone.</code><code class="sig-name descname">WignerSeitzCell</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reciprocal_lattice</span></em>, <em class="sig-param"><span class="n">vertices</span></em>, <em class="sig-param"><span class="n">faces</span></em>, <em class="sig-param"><span class="n">centers</span></em>, <em class="sig-param"><span class="n">normals</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/brillouin_zone.html#WignerSeitzCell"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.brillouin_zone.WignerSeitzCell" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ifermi.brillouin_zone.</span></code><code class="sig-name descname"><span class="pre">WignerSeitzCell</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reciprocal_lattice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">faces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">centers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normals</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/brillouin_zone.html#WignerSeitzCell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.brillouin_zone.WignerSeitzCell" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#ifermi.brillouin_zone.ReciprocalCell" title="ifermi.brillouin_zone.ReciprocalCell"><code class="xref py py-class docutils literal notranslate"><span class="pre">ifermi.brillouin_zone.ReciprocalCell</span></code></a></p>
 <p>WignerSeitz cell of the reciprocal lattice.</p>
 <dl class="py attribute">
 <dt id="ifermi.brillouin_zone.WignerSeitzCell.reciprocal_lattice">
-<code class="sig-name descname">reciprocal_lattice</code><a class="headerlink" href="#ifermi.brillouin_zone.WignerSeitzCell.reciprocal_lattice" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">reciprocal_lattice</span></code><a class="headerlink" href="#ifermi.brillouin_zone.WignerSeitzCell.reciprocal_lattice" title="Permalink to this definition">¶</a></dt>
 <dd><p>A (3, 3) float array of the reciprocal lattice vectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="ifermi.brillouin_zone.WignerSeitzCell.vertices">
-<code class="sig-name descname">vertices</code><a class="headerlink" href="#ifermi.brillouin_zone.WignerSeitzCell.vertices" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">vertices</span></code><a class="headerlink" href="#ifermi.brillouin_zone.WignerSeitzCell.vertices" title="Permalink to this definition">¶</a></dt>
 <dd><p>A (n, 3) float array of the vertices of the Brillouin zone edges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="ifermi.brillouin_zone.WignerSeitzCell.faces">
-<code class="sig-name descname">faces</code><a class="headerlink" href="#ifermi.brillouin_zone.WignerSeitzCell.faces" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">faces</span></code><a class="headerlink" href="#ifermi.brillouin_zone.WignerSeitzCell.faces" title="Permalink to this definition">¶</a></dt>
 <dd><p>A (m, 3) int array of the faces of the Brillouin zone.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>List[List[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="ifermi.brillouin_zone.WignerSeitzCell.centers">
-<code class="sig-name descname">centers</code><a class="headerlink" href="#ifermi.brillouin_zone.WignerSeitzCell.centers" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">centers</span></code><a class="headerlink" href="#ifermi.brillouin_zone.WignerSeitzCell.centers" title="Permalink to this definition">¶</a></dt>
 <dd><p>A (m, 3) float array of the face centers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="ifermi.brillouin_zone.WignerSeitzCell.normals">
-<code class="sig-name descname">normals</code><a class="headerlink" href="#ifermi.brillouin_zone.WignerSeitzCell.normals" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">normals</span></code><a class="headerlink" href="#ifermi.brillouin_zone.WignerSeitzCell.normals" title="Permalink to this definition">¶</a></dt>
 <dd><p>A (m, 3) float array of the face normal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="ifermi.brillouin_zone.WignerSeitzCell.from_structure">
-<em class="property">classmethod </em><code class="sig-name descname">from_structure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">structure</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/brillouin_zone.html#WignerSeitzCell.from_structure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.brillouin_zone.WignerSeitzCell.from_structure" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_structure</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structure</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/brillouin_zone.html#WignerSeitzCell.from_structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.brillouin_zone.WignerSeitzCell.from_structure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialise the Wigner–Seitz cell from a structure.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -668,7 +730,7 @@ the 3D Brillouin zone to points on the 2D slice.</p>
 <p>Tools for Fourier and linear interpolation.</p>
 <dl class="py class">
 <dt id="ifermi.interpolate.FourierInterpolator">
-<em class="property">class </em><code class="sig-prename descclassname">ifermi.interpolate.</code><code class="sig-name descname">FourierInterpolator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">band_structure</span></em>, <em class="sig-param"><span class="n">magmom</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mommat</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/interpolate.html#FourierInterpolator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.interpolate.FourierInterpolator" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ifermi.interpolate.</span></code><code class="sig-name descname"><span class="pre">FourierInterpolator</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">band_structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magmom</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mommat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/interpolate.html#FourierInterpolator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.interpolate.FourierInterpolator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Class to perform Fourier interpolation of electronic band structures.</p>
 <p>Interpolation is performed using BoltzTraP2.</p>
@@ -683,7 +745,7 @@ the 3D Brillouin zone to points on the 2D slice.</p>
 </dl>
 <dl class="py method">
 <dt id="ifermi.interpolate.FourierInterpolator.interpolate_bands">
-<code class="sig-name descname">interpolate_bands</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">interpolation_factor</span><span class="o">=</span><span class="default_value">5</span></em>, <em class="sig-param"><span class="n">return_velocities</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">nworkers</span><span class="o">=</span><span class="default_value">- 1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/interpolate.html#FourierInterpolator.interpolate_bands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.interpolate.FourierInterpolator.interpolate_bands" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">interpolate_bands</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interpolation_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_velocities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nworkers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/interpolate.html#FourierInterpolator.interpolate_bands"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.interpolate.FourierInterpolator.interpolate_bands" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get an interpolated pymatgen band structure.</p>
 <p>Note, the interpolation mesh is determined using by <code class="docutils literal notranslate"><span class="pre">interpolate_factor</span></code>
 option in the <code class="docutils literal notranslate"><span class="pre">FourierInterpolator</span></code> constructor.</p>
@@ -712,7 +774,7 @@ shape (nbands, nkpoints, 3) and has units of m/s.</p>
 
 <dl class="py class">
 <dt id="ifermi.interpolate.LinearInterpolator">
-<em class="property">class </em><code class="sig-prename descclassname">ifermi.interpolate.</code><code class="sig-name descname">LinearInterpolator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">kpoints</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/interpolate.html#LinearInterpolator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.interpolate.LinearInterpolator" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ifermi.interpolate.</span></code><code class="sig-name descname"><span class="pre">LinearInterpolator</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kpoints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/interpolate.html#LinearInterpolator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.interpolate.LinearInterpolator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Class to perform linear interpolation of periodic properties.</p>
 <dl class="field-list simple">
@@ -732,7 +794,7 @@ or multidimensional.</p></li>
 </dl>
 <dl class="py method">
 <dt id="ifermi.interpolate.LinearInterpolator.interpolate">
-<code class="sig-name descname">interpolate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spin</span></em>, <em class="sig-param"><span class="n">bands</span></em>, <em class="sig-param"><span class="n">kpoints</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/interpolate.html#LinearInterpolator.interpolate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.interpolate.LinearInterpolator.interpolate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">interpolate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bands</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kpoints</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/interpolate.html#LinearInterpolator.interpolate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.interpolate.LinearInterpolator.interpolate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the interpolated data for a spin channel and series of bands and k-points.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -753,7 +815,7 @@ k-points must equal the number of bands.</p></li>
 
 <dl class="py function">
 <dt id="ifermi.interpolate.trim_bandstructure">
-<code class="sig-prename descclassname">ifermi.interpolate.</code><code class="sig-name descname">trim_bandstructure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">energy_cutoff</span></em>, <em class="sig-param"><span class="n">band_structure</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/interpolate.html#trim_bandstructure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.interpolate.trim_bandstructure" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.interpolate.</span></code><code class="sig-name descname"><span class="pre">trim_bandstructure</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">energy_cutoff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band_structure</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/interpolate.html#trim_bandstructure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.interpolate.trim_bandstructure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Trim the number of bands in a band structure object based on a cutoff.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -780,7 +842,7 @@ energy_cutoff to CBM + energy_cutoff will be kept.</p></li>
 <p>k-point manipulation functions.</p>
 <dl class="py function">
 <dt id="ifermi.kpoints.get_kpoint_mesh_dim">
-<code class="sig-prename descclassname">ifermi.kpoints.</code><code class="sig-name descname">get_kpoint_mesh_dim</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">kpoints</span></em>, <em class="sig-param"><span class="n">tol</span><span class="o">=</span><span class="default_value">1e-05</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/kpoints.html#get_kpoint_mesh_dim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.kpoints.get_kpoint_mesh_dim" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.kpoints.</span></code><code class="sig-name descname"><span class="pre">get_kpoint_mesh_dim</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kpoints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/kpoints.html#get_kpoint_mesh_dim"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.kpoints.get_kpoint_mesh_dim" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the k-point mesh dimensions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -800,7 +862,7 @@ energy_cutoff to CBM + energy_cutoff will be kept.</p></li>
 
 <dl class="py function">
 <dt id="ifermi.kpoints.get_kpoint_spacing">
-<code class="sig-prename descclassname">ifermi.kpoints.</code><code class="sig-name descname">get_kpoint_spacing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">kpoints</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/kpoints.html#get_kpoint_spacing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.kpoints.get_kpoint_spacing" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.kpoints.</span></code><code class="sig-name descname"><span class="pre">get_kpoint_spacing</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kpoints</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/kpoints.html#get_kpoint_spacing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.kpoints.get_kpoint_spacing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the spacing between fractional k-points.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -817,7 +879,7 @@ energy_cutoff to CBM + energy_cutoff will be kept.</p></li>
 
 <dl class="py function">
 <dt id="ifermi.kpoints.kpoints_from_bandstructure">
-<code class="sig-prename descclassname">ifermi.kpoints.</code><code class="sig-name descname">kpoints_from_bandstructure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bandstructure</span></em>, <em class="sig-param"><span class="n">cartesian</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/kpoints.html#kpoints_from_bandstructure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.kpoints.kpoints_from_bandstructure" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.kpoints.</span></code><code class="sig-name descname"><span class="pre">kpoints_from_bandstructure</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bandstructure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cartesian</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/kpoints.html#kpoints_from_bandstructure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.kpoints.kpoints_from_bandstructure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract the k-points from a band structure.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -837,7 +899,7 @@ energy_cutoff to CBM + energy_cutoff will be kept.</p></li>
 
 <dl class="py function">
 <dt id="ifermi.kpoints.kpoints_to_first_bz">
-<code class="sig-prename descclassname">ifermi.kpoints.</code><code class="sig-name descname">kpoints_to_first_bz</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">kpoints</span></em>, <em class="sig-param"><span class="n">tol</span><span class="o">=</span><span class="default_value">1e-05</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/kpoints.html#kpoints_to_first_bz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.kpoints.kpoints_to_first_bz" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.kpoints.</span></code><code class="sig-name descname"><span class="pre">kpoints_to_first_bz</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kpoints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/kpoints.html#kpoints_to_first_bz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.kpoints.kpoints_to_first_bz" title="Permalink to this definition">¶</a></dt>
 <dd><p>Translate fractional k-points to the first Brillouin zone.</p>
 <dl class="simple">
 <dt>I.e. all k-points will have fractional coordinates:</dt><dd><p>-0.5 &lt;= fractional coordinates &lt; 0.5</p>
@@ -861,7 +923,7 @@ energy_cutoff to CBM + energy_cutoff will be kept.</p></li>
 
 <dl class="py function">
 <dt id="ifermi.kpoints.sort_boltztrap_to_spglib">
-<code class="sig-prename descclassname">ifermi.kpoints.</code><code class="sig-name descname">sort_boltztrap_to_spglib</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">kpoints</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/kpoints.html#sort_boltztrap_to_spglib"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.kpoints.sort_boltztrap_to_spglib" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.kpoints.</span></code><code class="sig-name descname"><span class="pre">sort_boltztrap_to_spglib</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kpoints</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/kpoints.html#sort_boltztrap_to_spglib"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.kpoints.sort_boltztrap_to_spglib" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get an index array that sorts the k-points from BoltzTraP2 to the order from spglib.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -882,7 +944,7 @@ energy_cutoff to CBM + energy_cutoff will be kept.</p></li>
 <p>Tools to plot FermiSurface and FermiSlice objects.</p>
 <dl class="py class">
 <dt id="ifermi.plot.FermiSlicePlotter">
-<em class="property">class </em><code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">FermiSlicePlotter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fermi_slice</span></em>, <em class="sig-param"><span class="n">symprec</span><span class="o">=</span><span class="default_value">0.001</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#FermiSlicePlotter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.FermiSlicePlotter" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ifermi.plot.</span></code><code class="sig-name descname"><span class="pre">FermiSlicePlotter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fermi_slice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symprec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#FermiSlicePlotter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.plot.FermiSlicePlotter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Class to plot 2D isolines through a FermiSurface.</p>
 <dl class="field-list simple">
@@ -896,7 +958,7 @@ symmetry k-point labels.</p></li>
 </dl>
 <dl class="py method">
 <dt id="ifermi.plot.FermiSlicePlotter.get_plot">
-<code class="sig-name descname">get_plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">spin</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">colors</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">color_properties</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">vector_properties</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">projection_axis</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">scale_linewidth</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">vector_spacing</span><span class="o">=</span><span class="default_value">0.2</span></em>, <em class="sig-param"><span class="n">cmin</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cmax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">vnorm</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">hide_slice</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">hide_labels</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">hide_cell</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">arrow_pivot</span><span class="o">=</span><span class="default_value">'tail'</span></em>, <em class="sig-param"><span class="n">slice_kwargs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cbar_kwargs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">quiver_kwargs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">bz_kwargs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">sym_pt_kwargs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">sym_label_kwargs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#FermiSlicePlotter.get_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.FermiSlicePlotter.get_plot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_plot</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_linewidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vnorm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hide_slice</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hide_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hide_cell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arrow_pivot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tail'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slice_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbar_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quiver_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bz_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sym_pt_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sym_label_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#FermiSlicePlotter.get_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.plot.FermiSlicePlotter.get_plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the Fermi slice.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -987,7 +1049,7 @@ used to style the high-symmetry k-point labels.</p></li>
 
 <dl class="py method">
 <dt id="ifermi.plot.FermiSlicePlotter.get_symmetry_points">
-<em class="property">static </em><code class="sig-name descname">get_symmetry_points</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fermi_slice</span></em>, <em class="sig-param"><span class="n">symprec</span><span class="o">=</span><span class="default_value">0.001</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#FermiSlicePlotter.get_symmetry_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.FermiSlicePlotter.get_symmetry_points" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">get_symmetry_points</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fermi_slice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symprec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#FermiSlicePlotter.get_symmetry_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.plot.FermiSlicePlotter.get_symmetry_points" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the high symmetry k-points and labels for the Fermi slice.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1009,7 +1071,7 @@ used to style the high-symmetry k-point labels.</p></li>
 
 <dl class="py class">
 <dt id="ifermi.plot.FermiSurfacePlotter">
-<em class="property">class </em><code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">FermiSurfacePlotter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fermi_surface</span></em>, <em class="sig-param"><span class="n">symprec</span><span class="o">=</span><span class="default_value">0.001</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#FermiSurfacePlotter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.FermiSurfacePlotter" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ifermi.plot.</span></code><code class="sig-name descname"><span class="pre">FermiSurfacePlotter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fermi_surface</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symprec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#FermiSurfacePlotter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.plot.FermiSurfacePlotter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Class to plot a FermiSurface.</p>
 <dl class="field-list simple">
@@ -1023,7 +1085,7 @@ symmetry k-point labels.</p></li>
 </dl>
 <dl class="py method">
 <dt id="ifermi.plot.FermiSurfacePlotter.get_plot">
-<code class="sig-name descname">get_plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">plot_type</span><span class="o">=</span><span class="default_value">'plotly'</span></em>, <em class="sig-param"><span class="n">spin</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">colors</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">azimuth</span><span class="o">=</span><span class="default_value">45.0</span></em>, <em class="sig-param"><span class="n">elevation</span><span class="o">=</span><span class="default_value">35.0</span></em>, <em class="sig-param"><span class="n">color_properties</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">vector_properties</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">projection_axis</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">vector_spacing</span><span class="o">=</span><span class="default_value">0.2</span></em>, <em class="sig-param"><span class="n">cmin</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cmax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">vnorm</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">hide_surface</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">hide_labels</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">hide_cell</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">plot_kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#FermiSurfacePlotter.get_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.FermiSurfacePlotter.get_plot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_plot</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'plotly'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">azimuth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">45.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elevation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">35.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vnorm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hide_surface</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hide_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hide_cell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plot_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#FermiSurfacePlotter.get_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.plot.FermiSurfacePlotter.get_plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the Fermi surface.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1102,7 +1164,7 @@ methods.</p></li>
 
 <dl class="py method">
 <dt id="ifermi.plot.FermiSurfacePlotter.get_symmetry_points">
-<em class="property">static </em><code class="sig-name descname">get_symmetry_points</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fermi_surface</span></em>, <em class="sig-param"><span class="n">symprec</span><span class="o">=</span><span class="default_value">0.001</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#FermiSurfacePlotter.get_symmetry_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.FermiSurfacePlotter.get_symmetry_points" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">get_symmetry_points</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fermi_surface</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symprec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#FermiSurfacePlotter.get_symmetry_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.plot.FermiSurfacePlotter.get_symmetry_points" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the high symmetry k-points and labels for the Fermi surface.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1124,7 +1186,7 @@ methods.</p></li>
 
 <dl class="py function">
 <dt id="ifermi.plot.cmap_to_mayavi">
-<code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">cmap_to_mayavi</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">colormap</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#cmap_to_mayavi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.cmap_to_mayavi" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.plot.</span></code><code class="sig-name descname"><span class="pre">cmap_to_mayavi</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">colormap</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#cmap_to_mayavi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.plot.cmap_to_mayavi" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a matplotlib colormap to mayavi format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1141,7 +1203,7 @@ methods.</p></li>
 
 <dl class="py function">
 <dt id="ifermi.plot.cmap_to_plotly">
-<code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">cmap_to_plotly</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">colormap</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#cmap_to_plotly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.cmap_to_plotly" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.plot.</span></code><code class="sig-name descname"><span class="pre">cmap_to_plotly</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">colormap</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#cmap_to_plotly"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.plot.cmap_to_plotly" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a matplotlib colormap to plotly colorscale format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1158,7 +1220,7 @@ methods.</p></li>
 
 <dl class="py function">
 <dt id="ifermi.plot.get_face_arrows">
-<code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">get_face_arrows</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fermi_surface</span></em>, <em class="sig-param"><span class="n">spins</span></em>, <em class="sig-param"><span class="n">vector_spacing</span></em>, <em class="sig-param"><span class="n">vnorm</span></em>, <em class="sig-param"><span class="n">projection_axis</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#get_face_arrows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.get_face_arrows" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.plot.</span></code><code class="sig-name descname"><span class="pre">get_face_arrows</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fermi_surface</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_spacing</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vnorm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection_axis</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#get_face_arrows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.plot.get_face_arrows" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get face arrows from vector properties.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1194,7 +1256,7 @@ to color the arrows during plotting.</p>
 
 <dl class="py function">
 <dt id="ifermi.plot.get_isosurface_colors">
-<code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">get_isosurface_colors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">colors</span></em>, <em class="sig-param"><span class="n">fermi_object</span></em>, <em class="sig-param"><span class="n">spins</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#get_isosurface_colors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.get_isosurface_colors" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.plot.</span></code><code class="sig-name descname"><span class="pre">get_isosurface_colors</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">colors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fermi_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spins</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#get_isosurface_colors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.plot.get_isosurface_colors" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get colors for each Fermi surface.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1228,7 +1290,7 @@ from 0 to 1. E.g., red would be <code class="docutils literal notranslate"><span
 
 <dl class="py function">
 <dt id="ifermi.plot.get_plot_type">
-<code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">get_plot_type</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">plot</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#get_plot_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.get_plot_type" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.plot.</span></code><code class="sig-name descname"><span class="pre">get_plot_type</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#get_plot_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.plot.get_plot_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the plot type.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1246,7 +1308,7 @@ pyplot objects, plotly figure objects, and mlab figure objects.</p>
 
 <dl class="py function">
 <dt id="ifermi.plot.get_segment_arrows">
-<code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">get_segment_arrows</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fermi_slice</span></em>, <em class="sig-param"><span class="n">spins</span></em>, <em class="sig-param"><span class="n">vector_spacing</span></em>, <em class="sig-param"><span class="n">vnorm</span></em>, <em class="sig-param"><span class="n">projection_axis</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#get_segment_arrows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.get_segment_arrows" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.plot.</span></code><code class="sig-name descname"><span class="pre">get_segment_arrows</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fermi_slice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vector_spacing</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vnorm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection_axis</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#get_segment_arrows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.plot.get_segment_arrows" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get segment arrows from vector properties.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1282,7 +1344,7 @@ to color the arrows during plotting.</p>
 
 <dl class="py function">
 <dt id="ifermi.plot.plotly_arrow">
-<code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">plotly_arrow</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start</span></em>, <em class="sig-param"><span class="n">stop</span></em>, <em class="sig-param"><span class="n">color</span></em>, <em class="sig-param"><span class="n">line_kwargs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cone_kwargs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#plotly_arrow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.plotly_arrow" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.plot.</span></code><code class="sig-name descname"><span class="pre">plotly_arrow</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cone_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#plotly_arrow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.plot.plotly_arrow" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an arrow object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1307,7 +1369,7 @@ are passed to <code class="docutils literal notranslate"><span class="pre">Cone<
 
 <dl class="py function">
 <dt id="ifermi.plot.rgb_to_plotly">
-<code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">rgb_to_plotly</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">color</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#rgb_to_plotly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.rgb_to_plotly" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.plot.</span></code><code class="sig-name descname"><span class="pre">rgb_to_plotly</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#rgb_to_plotly"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.plot.rgb_to_plotly" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a plotly formatted color from rgb values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1324,7 +1386,7 @@ are passed to <code class="docutils literal notranslate"><span class="pre">Cone<
 
 <dl class="py function">
 <dt id="ifermi.plot.save_plot">
-<code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">save_plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">plot</span></em>, <em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">scale</span><span class="o">=</span><span class="default_value">4</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#save_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.save_plot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.plot.</span></code><code class="sig-name descname"><span class="pre">save_plot</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#save_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.plot.save_plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save a plot to file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1341,7 +1403,7 @@ relative size of the figure and text.</p></li>
 
 <dl class="py function">
 <dt id="ifermi.plot.show_plot">
-<code class="sig-prename descclassname">ifermi.plot.</code><code class="sig-name descname">show_plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">plot</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#show_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.plot.show_plot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.plot.</span></code><code class="sig-name descname"><span class="pre">show_plot</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/plot.html#show_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.plot.show_plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display a plot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1357,31 +1419,41 @@ pyplot objects, plotly figure objects, and mlab figure objects.</p>
 <p>Tools to generate Isolines and Fermi slices.</p>
 <dl class="py class">
 <dt id="ifermi.slice.FermiSlice">
-<em class="property">class </em><code class="sig-prename descclassname">ifermi.slice.</code><code class="sig-name descname">FermiSlice</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">isolines</span></em>, <em class="sig-param"><span class="n">reciprocal_slice</span></em>, <em class="sig-param"><span class="n">structure</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/slice.html#FermiSlice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.slice.FermiSlice" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ifermi.slice.</span></code><code class="sig-name descname"><span class="pre">FermiSlice</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">isolines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reciprocal_slice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/slice.html#FermiSlice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.slice.FermiSlice" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">monty.json.MSONable</span></code></p>
 <p>A FermiSlice object is a 2D slice through a Fermi surface.</p>
 <dl class="py attribute">
 <dt id="ifermi.slice.FermiSlice.isolines">
-<code class="sig-name descname">isolines</code><a class="headerlink" href="#ifermi.slice.FermiSlice.isolines" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">isolines</span></code><a class="headerlink" href="#ifermi.slice.FermiSlice.isolines" title="Permalink to this definition">¶</a></dt>
 <dd><p>A dict containing a list of isolines for each spin channel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.core.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2022.0.4)">pymatgen.electronic_structure.core.Spin</a>, List[<a class="reference internal" href="#ifermi.slice.Isoline" title="ifermi.slice.Isoline">ifermi.slice.Isoline</a>]]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="ifermi.slice.FermiSlice.reciprocal_space">
-<code class="sig-name descname">reciprocal_space</code><a class="headerlink" href="#ifermi.slice.FermiSlice.reciprocal_space" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">reciprocal_space</span></code><a class="headerlink" href="#ifermi.slice.FermiSlice.reciprocal_space" title="Permalink to this definition">¶</a></dt>
 <dd><p>A reciprocal slice defining the intersection of the slice
 with the Brillouin zone edges.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="ifermi.slice.FermiSlice.structure">
-<code class="sig-name descname">structure</code><a class="headerlink" href="#ifermi.slice.FermiSlice.structure" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">structure</span></code><a class="headerlink" href="#ifermi.slice.FermiSlice.structure" title="Permalink to this definition">¶</a></dt>
 <dd><p>The structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pymatgen.org/pymatgen.core.structure.html#pymatgen.core.structure.Structure" title="(in pymatgen v2022.0.4)">pymatgen.core.structure.Structure</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="ifermi.slice.FermiSlice.all_lines">
-<code class="sig-name descname">all_lines</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spins</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/slice.html#FermiSlice.all_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.slice.FermiSlice.all_lines" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">all_lines</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/slice.html#FermiSlice.all_lines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.slice.FermiSlice.all_lines" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the segments for all isolines.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1398,7 +1470,7 @@ with the Brillouin zone edges.</p>
 
 <dl class="py method">
 <dt id="ifermi.slice.FermiSlice.all_properties">
-<code class="sig-name descname">all_properties</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spins</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">projection_axis</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">norm</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/slice.html#FermiSlice.all_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.slice.FermiSlice.all_properties" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">all_properties</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/slice.html#FermiSlice.all_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.slice.FermiSlice.all_properties" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the properties for all isolines.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1421,7 +1493,7 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">projecti
 
 <dl class="py method">
 <dt id="ifermi.slice.FermiSlice.as_dict">
-<code class="sig-name descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/slice.html#FermiSlice.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.slice.FermiSlice.as_dict" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">as_dict</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/slice.html#FermiSlice.as_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.slice.FermiSlice.as_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a json-serializable dict representation of a FermiSlice.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -1432,7 +1504,7 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">projecti
 
 <dl class="py method">
 <dt id="ifermi.slice.FermiSlice.from_dict">
-<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">d</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/slice.html#FermiSlice.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.slice.FermiSlice.from_dict" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_dict</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/slice.html#FermiSlice.from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.slice.FermiSlice.from_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return FermiSlice object from a dict.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -1443,7 +1515,7 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">projecti
 
 <dl class="py method">
 <dt id="ifermi.slice.FermiSlice.from_fermi_surface">
-<em class="property">classmethod </em><code class="sig-name descname">from_fermi_surface</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fermi_surface</span></em>, <em class="sig-param"><span class="n">plane_normal</span></em>, <em class="sig-param"><span class="n">distance</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/slice.html#FermiSlice.from_fermi_surface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.slice.FermiSlice.from_fermi_surface" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_fermi_surface</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fermi_surface</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plane_normal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/slice.html#FermiSlice.from_fermi_surface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.slice.FermiSlice.from_fermi_surface" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a slice through the Fermi surface.</p>
 <p>The slice is defined by the intersection of a plane with the Fermi surface.</p>
 <dl class="field-list simple">
@@ -1465,7 +1537,7 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">projecti
 
 <dl class="py method">
 <dt id="ifermi.slice.FermiSlice.has_properties">
-<em class="property">property </em><code class="sig-name descname">has_properties</code><a class="headerlink" href="#ifermi.slice.FermiSlice.has_properties" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">has_properties</span></code><a class="headerlink" href="#ifermi.slice.FermiSlice.has_properties" title="Permalink to this definition">¶</a></dt>
 <dd><p>Whether all isolines have segment properties.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -1476,7 +1548,7 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">projecti
 
 <dl class="py method">
 <dt id="ifermi.slice.FermiSlice.n_lines">
-<em class="property">property </em><code class="sig-name descname">n_lines</code><a class="headerlink" href="#ifermi.slice.FermiSlice.n_lines" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">n_lines</span></code><a class="headerlink" href="#ifermi.slice.FermiSlice.n_lines" title="Permalink to this definition">¶</a></dt>
 <dd><p>Number of isolines in the Fermi slice.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -1487,7 +1559,7 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">projecti
 
 <dl class="py method">
 <dt id="ifermi.slice.FermiSlice.n_lines_per_band">
-<em class="property">property </em><code class="sig-name descname">n_lines_per_band</code><a class="headerlink" href="#ifermi.slice.FermiSlice.n_lines_per_band" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">n_lines_per_band</span></code><a class="headerlink" href="#ifermi.slice.FermiSlice.n_lines_per_band" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get number of lines for each band index for each spin channel.</p>
 <p>Returned as a dict of <code class="docutils literal notranslate"><span class="pre">{spin:</span> <span class="pre">{band_idx:</span> <span class="pre">count}}</span></code>.</p>
 <dl class="field-list simple">
@@ -1499,7 +1571,7 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">projecti
 
 <dl class="py method">
 <dt id="ifermi.slice.FermiSlice.n_lines_per_spin">
-<em class="property">property </em><code class="sig-name descname">n_lines_per_spin</code><a class="headerlink" href="#ifermi.slice.FermiSlice.n_lines_per_spin" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">n_lines_per_spin</span></code><a class="headerlink" href="#ifermi.slice.FermiSlice.n_lines_per_spin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get number of lines per spin channel.</p>
 <p>Returned as a dict of <code class="docutils literal notranslate"><span class="pre">{spin:</span> <span class="pre">count}</span></code>.</p>
 <dl class="field-list simple">
@@ -1511,7 +1583,7 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">projecti
 
 <dl class="py method">
 <dt id="ifermi.slice.FermiSlice.properties_ndim">
-<em class="property">property </em><code class="sig-name descname">properties_ndim</code><a class="headerlink" href="#ifermi.slice.FermiSlice.properties_ndim" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">properties_ndim</span></code><a class="headerlink" href="#ifermi.slice.FermiSlice.properties_ndim" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dimensionality of isoline properties.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -1522,7 +1594,7 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">projecti
 
 <dl class="py method">
 <dt id="ifermi.slice.FermiSlice.spins">
-<em class="property">property </em><code class="sig-name descname">spins</code><a class="headerlink" href="#ifermi.slice.FermiSlice.spins" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">spins</span></code><a class="headerlink" href="#ifermi.slice.FermiSlice.spins" title="Permalink to this definition">¶</a></dt>
 <dd><p>The spin channels in the Fermi slice.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -1535,31 +1607,46 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">projecti
 
 <dl class="py class">
 <dt id="ifermi.slice.Isoline">
-<em class="property">class </em><code class="sig-prename descclassname">ifermi.slice.</code><code class="sig-name descname">Isoline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">segments</span></em>, <em class="sig-param"><span class="n">band_idx</span></em>, <em class="sig-param"><span class="n">properties</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/slice.html#Isoline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.slice.Isoline" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ifermi.slice.</span></code><code class="sig-name descname"><span class="pre">Isoline</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segments</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band_idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/slice.html#Isoline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.slice.Isoline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">monty.json.MSONable</span></code></p>
 <p>An isoline object contains line segments mesh and line properties.</p>
 <dl class="py attribute">
 <dt id="ifermi.slice.Isoline.segments">
-<code class="sig-name descname">segments</code><a class="headerlink" href="#ifermi.slice.Isoline.segments" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">segments</span></code><a class="headerlink" href="#ifermi.slice.Isoline.segments" title="Permalink to this definition">¶</a></dt>
 <dd><p>A (n, 2, 2) float array of the line segments..</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="ifermi.slice.Isoline.band_idx">
-<code class="sig-name descname">band_idx</code><a class="headerlink" href="#ifermi.slice.Isoline.band_idx" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">band_idx</span></code><a class="headerlink" href="#ifermi.slice.Isoline.band_idx" title="Permalink to this definition">¶</a></dt>
 <dd><p>The band index to which the slice belongs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="ifermi.slice.Isoline.properties">
-<code class="sig-name descname">properties</code><a class="headerlink" href="#ifermi.slice.Isoline.properties" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">properties</span></code><a class="headerlink" href="#ifermi.slice.Isoline.properties" title="Permalink to this definition">¶</a></dt>
 <dd><p>An optional (n, …) float array containing segment properties as
 scalars or vectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Optional[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="ifermi.slice.Isoline.has_properties">
-<em class="property">property </em><code class="sig-name descname">has_properties</code><a class="headerlink" href="#ifermi.slice.Isoline.has_properties" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">has_properties</span></code><a class="headerlink" href="#ifermi.slice.Isoline.has_properties" title="Permalink to this definition">¶</a></dt>
 <dd><p>Whether the isoline has properties.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -1570,7 +1657,7 @@ scalars or vectors.</p>
 
 <dl class="py method">
 <dt id="ifermi.slice.Isoline.properties_ndim">
-<em class="property">property </em><code class="sig-name descname">properties_ndim</code><a class="headerlink" href="#ifermi.slice.Isoline.properties_ndim" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">properties_ndim</span></code><a class="headerlink" href="#ifermi.slice.Isoline.properties_ndim" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dimensionality of face properties.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -1581,7 +1668,7 @@ scalars or vectors.</p>
 
 <dl class="py method">
 <dt id="ifermi.slice.Isoline.properties_norms">
-<em class="property">property </em><code class="sig-name descname">properties_norms</code><a class="headerlink" href="#ifermi.slice.Isoline.properties_norms" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">properties_norms</span></code><a class="headerlink" href="#ifermi.slice.Isoline.properties_norms" title="Permalink to this definition">¶</a></dt>
 <dd><p>(m, ) norm of isoline properties.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -1592,7 +1679,7 @@ scalars or vectors.</p>
 
 <dl class="py method">
 <dt id="ifermi.slice.Isoline.sample_uniform">
-<code class="sig-name descname">sample_uniform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spacing</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/slice.html#Isoline.sample_uniform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.slice.Isoline.sample_uniform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">sample_uniform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spacing</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/slice.html#Isoline.sample_uniform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.slice.Isoline.sample_uniform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sample line segments uniformly.</p>
 <p>See the docstring for <code class="docutils literal notranslate"><span class="pre">ifermi.analysis.sample_line_uniform</span></code> for more details.</p>
 <dl class="field-list simple">
@@ -1610,7 +1697,7 @@ scalars or vectors.</p>
 
 <dl class="py method">
 <dt id="ifermi.slice.Isoline.scalar_projection">
-<code class="sig-name descname">scalar_projection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">axis</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/slice.html#Isoline.scalar_projection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.slice.Isoline.scalar_projection" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">scalar_projection</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/slice.html#Isoline.scalar_projection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.slice.Isoline.scalar_projection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get scalar projection of properties onto axis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1626,7 +1713,7 @@ scalars or vectors.</p>
 
 <dl class="py function">
 <dt id="ifermi.slice.interpolate_segments">
-<code class="sig-prename descclassname">ifermi.slice.</code><code class="sig-name descname">interpolate_segments</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">segments</span></em>, <em class="sig-param"><span class="n">properties</span></em>, <em class="sig-param"><span class="n">max_spacing</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/slice.html#interpolate_segments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.slice.interpolate_segments" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.slice.</span></code><code class="sig-name descname"><span class="pre">interpolate_segments</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segments</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_spacing</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/slice.html#interpolate_segments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.slice.interpolate_segments" title="Permalink to this definition">¶</a></dt>
 <dd><p>Resample a series of line segments to a consistent density.</p>
 <p>Note: the segments must be ordered so that they are adjacent.</p>
 <dl class="field-list simple">
@@ -1649,7 +1736,7 @@ may be slightly smaller than this value.</p></li>
 
 <dl class="py function">
 <dt id="ifermi.slice.process_lines">
-<code class="sig-prename descclassname">ifermi.slice.</code><code class="sig-name descname">process_lines</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">segments</span></em>, <em class="sig-param"><span class="n">face_idxs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/slice.html#process_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.slice.process_lines" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.slice.</span></code><code class="sig-name descname"><span class="pre">process_lines</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segments</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">face_idxs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/slice.html#process_lines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.slice.process_lines" title="Permalink to this definition">¶</a></dt>
 <dd><p>Process segments and face_idxs from mesh_multiplane.</p>
 <p>The key issue is that the segments from mesh_multiplane do not correspond to
 individual lines, nor are they sorted in a continuous order. Instead they are just
@@ -1686,30 +1773,45 @@ very small and will be filtered out.</p>
 <p>Tools to generate isosurfaces and Fermi surfaces.</p>
 <dl class="py class">
 <dt id="ifermi.surface.FermiSurface">
-<em class="property">class </em><code class="sig-prename descclassname">ifermi.surface.</code><code class="sig-name descname">FermiSurface</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">isosurfaces</span></em>, <em class="sig-param"><span class="n">reciprocal_space</span></em>, <em class="sig-param"><span class="n">structure</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#FermiSurface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.surface.FermiSurface" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ifermi.surface.</span></code><code class="sig-name descname"><span class="pre">FermiSurface</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">isosurfaces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reciprocal_space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#FermiSurface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.surface.FermiSurface" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">monty.json.MSONable</span></code></p>
 <p>A FermiSurface object contains isosurfaces and the reciprocal lattice definition.</p>
 <dl class="py attribute">
 <dt id="ifermi.surface.FermiSurface.isosurfaces">
-<code class="sig-name descname">isosurfaces</code><a class="headerlink" href="#ifermi.surface.FermiSurface.isosurfaces" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">isosurfaces</span></code><a class="headerlink" href="#ifermi.surface.FermiSurface.isosurfaces" title="Permalink to this definition">¶</a></dt>
 <dd><p>A dict containing a list of isosurfaces for each spin channel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.core.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2022.0.4)">pymatgen.electronic_structure.core.Spin</a>, List[<a class="reference internal" href="#ifermi.surface.Isosurface" title="ifermi.surface.Isosurface">ifermi.surface.Isosurface</a>]]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="ifermi.surface.FermiSurface.reciprocal_space">
-<code class="sig-name descname">reciprocal_space</code><a class="headerlink" href="#ifermi.surface.FermiSurface.reciprocal_space" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">reciprocal_space</span></code><a class="headerlink" href="#ifermi.surface.FermiSurface.reciprocal_space" title="Permalink to this definition">¶</a></dt>
 <dd><p>A reciprocal space defining periodic boundary conditions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#ifermi.brillouin_zone.ReciprocalCell" title="ifermi.brillouin_zone.ReciprocalCell">ifermi.brillouin_zone.ReciprocalCell</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="ifermi.surface.FermiSurface.structure">
-<code class="sig-name descname">structure</code><a class="headerlink" href="#ifermi.surface.FermiSurface.structure" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">structure</span></code><a class="headerlink" href="#ifermi.surface.FermiSurface.structure" title="Permalink to this definition">¶</a></dt>
 <dd><p>The structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pymatgen.org/pymatgen.core.structure.html#pymatgen.core.structure.Structure" title="(in pymatgen v2022.0.4)">pymatgen.core.structure.Structure</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="ifermi.surface.FermiSurface.all_properties">
-<code class="sig-name descname">all_properties</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spins</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">projection_axis</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">norm</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#FermiSurface.all_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.surface.FermiSurface.all_properties" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">all_properties</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#FermiSurface.all_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.surface.FermiSurface.all_properties" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the properties for all isosurfaces.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1732,7 +1834,7 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">projecti
 
 <dl class="py method">
 <dt id="ifermi.surface.FermiSurface.all_vertices_faces">
-<code class="sig-name descname">all_vertices_faces</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spins</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#FermiSurface.all_vertices_faces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.surface.FermiSurface.all_vertices_faces" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">all_vertices_faces</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#FermiSurface.all_vertices_faces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.surface.FermiSurface.all_vertices_faces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the vertices and faces for all isosurfaces.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1749,7 +1851,7 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">projecti
 
 <dl class="py method">
 <dt id="ifermi.surface.FermiSurface.area">
-<em class="property">property </em><code class="sig-name descname">area</code><a class="headerlink" href="#ifermi.surface.FermiSurface.area" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">area</span></code><a class="headerlink" href="#ifermi.surface.FermiSurface.area" title="Permalink to this definition">¶</a></dt>
 <dd><p>Total area of all isosurfaces in the Fermi surface in Å<sup>-2</sup>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -1760,7 +1862,7 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">projecti
 
 <dl class="py method">
 <dt id="ifermi.surface.FermiSurface.area_surfaces">
-<em class="property">property </em><code class="sig-name descname">area_surfaces</code><a class="headerlink" href="#ifermi.surface.FermiSurface.area_surfaces" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">area_surfaces</span></code><a class="headerlink" href="#ifermi.surface.FermiSurface.area_surfaces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Area of each isosurface in the Fermi surface in Å<sup>-2</sup>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -1771,7 +1873,7 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">projecti
 
 <dl class="py method">
 <dt id="ifermi.surface.FermiSurface.as_dict">
-<code class="sig-name descname">as_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#FermiSurface.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.surface.FermiSurface.as_dict" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">as_dict</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#FermiSurface.as_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.surface.FermiSurface.as_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a json-serializable dict representation of FermiSurface.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -1782,7 +1884,7 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">projecti
 
 <dl class="py method">
 <dt id="ifermi.surface.FermiSurface.average_properties">
-<code class="sig-name descname">average_properties</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">norm</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">projection_axis</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#FermiSurface.average_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.surface.FermiSurface.average_properties" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">average_properties</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">norm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#FermiSurface.average_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.surface.FermiSurface.average_properties" title="Permalink to this definition">¶</a></dt>
 <dd><p>Average property across the full Fermi surface.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1803,7 +1905,7 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">projecti
 
 <dl class="py method">
 <dt id="ifermi.surface.FermiSurface.average_properties_surfaces">
-<code class="sig-name descname">average_properties_surfaces</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">norm</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">projection_axis</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#FermiSurface.average_properties_surfaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.surface.FermiSurface.average_properties_surfaces" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">average_properties_surfaces</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">norm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#FermiSurface.average_properties_surfaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.surface.FermiSurface.average_properties_surfaces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Average property for each isosurface in the Fermi surface.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1824,7 +1926,7 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">projecti
 
 <dl class="py method">
 <dt id="ifermi.surface.FermiSurface.from_band_structure">
-<em class="property">classmethod </em><code class="sig-name descname">from_band_structure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">band_structure</span></em>, <em class="sig-param"><span class="n">mu</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">wigner_seitz</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">decimate_factor</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">decimate_method</span><span class="o">=</span><span class="default_value">'quadric'</span></em>, <em class="sig-param"><span class="n">smooth</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">property_data</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">property_kpoints</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">calculate_dimensionality</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#FermiSurface.from_band_structure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.surface.FermiSurface.from_band_structure" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_band_structure</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">band_structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wigner_seitz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decimate_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decimate_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'quadric'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_kpoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calculate_dimensionality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#FermiSurface.from_band_structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.surface.FermiSurface.from_band_structure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a FermiSurface from a pymatgen band structure object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1869,7 +1971,7 @@ Must be used in combination with <code class="docutils literal notranslate"><spa
 
 <dl class="py method">
 <dt id="ifermi.surface.FermiSurface.from_dict">
-<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">d</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#FermiSurface.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.surface.FermiSurface.from_dict" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_dict</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#FermiSurface.from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.surface.FermiSurface.from_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return FermiSurface object from dict.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -1880,7 +1982,7 @@ Must be used in combination with <code class="docutils literal notranslate"><spa
 
 <dl class="py method">
 <dt id="ifermi.surface.FermiSurface.get_fermi_slice">
-<code class="sig-name descname">get_fermi_slice</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">plane_normal</span></em>, <em class="sig-param"><span class="n">distance</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#FermiSurface.get_fermi_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.surface.FermiSurface.get_fermi_slice" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_fermi_slice</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plane_normal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#FermiSurface.get_fermi_slice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.surface.FermiSurface.get_fermi_slice" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a slice through the Fermi surface.</p>
 <p>Slice defined by the intersection of a plane with the Fermi surface.</p>
 <dl class="field-list simple">
@@ -1901,7 +2003,7 @@ Must be used in combination with <code class="docutils literal notranslate"><spa
 
 <dl class="py method">
 <dt id="ifermi.surface.FermiSurface.has_properties">
-<em class="property">property </em><code class="sig-name descname">has_properties</code><a class="headerlink" href="#ifermi.surface.FermiSurface.has_properties" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">has_properties</span></code><a class="headerlink" href="#ifermi.surface.FermiSurface.has_properties" title="Permalink to this definition">¶</a></dt>
 <dd><p>Whether all isosurfaces have face properties.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -1912,7 +2014,7 @@ Must be used in combination with <code class="docutils literal notranslate"><spa
 
 <dl class="py method">
 <dt id="ifermi.surface.FermiSurface.n_surfaces">
-<em class="property">property </em><code class="sig-name descname">n_surfaces</code><a class="headerlink" href="#ifermi.surface.FermiSurface.n_surfaces" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">n_surfaces</span></code><a class="headerlink" href="#ifermi.surface.FermiSurface.n_surfaces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Number of isosurfaces in the Fermi surface.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -1923,7 +2025,7 @@ Must be used in combination with <code class="docutils literal notranslate"><spa
 
 <dl class="py method">
 <dt id="ifermi.surface.FermiSurface.n_surfaces_per_band">
-<em class="property">property </em><code class="sig-name descname">n_surfaces_per_band</code><a class="headerlink" href="#ifermi.surface.FermiSurface.n_surfaces_per_band" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">n_surfaces_per_band</span></code><a class="headerlink" href="#ifermi.surface.FermiSurface.n_surfaces_per_band" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get number of surfaces for each band index for each spin channel.</p>
 <p>Returned as a dict of <code class="docutils literal notranslate"><span class="pre">{spin:</span> <span class="pre">{band_idx:</span> <span class="pre">count}}</span></code>.</p>
 <dl class="field-list simple">
@@ -1935,7 +2037,7 @@ Must be used in combination with <code class="docutils literal notranslate"><spa
 
 <dl class="py method">
 <dt id="ifermi.surface.FermiSurface.n_surfaces_per_spin">
-<em class="property">property </em><code class="sig-name descname">n_surfaces_per_spin</code><a class="headerlink" href="#ifermi.surface.FermiSurface.n_surfaces_per_spin" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">n_surfaces_per_spin</span></code><a class="headerlink" href="#ifermi.surface.FermiSurface.n_surfaces_per_spin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get number of surfaces per spin channel.</p>
 <p>Returned as a dict of <code class="docutils literal notranslate"><span class="pre">{spin:</span> <span class="pre">count}</span></code>.</p>
 <dl class="field-list simple">
@@ -1947,7 +2049,7 @@ Must be used in combination with <code class="docutils literal notranslate"><spa
 
 <dl class="py method">
 <dt id="ifermi.surface.FermiSurface.properties_ndim">
-<em class="property">property </em><code class="sig-name descname">properties_ndim</code><a class="headerlink" href="#ifermi.surface.FermiSurface.properties_ndim" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">properties_ndim</span></code><a class="headerlink" href="#ifermi.surface.FermiSurface.properties_ndim" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dimensionality of isosurface properties.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -1958,7 +2060,7 @@ Must be used in combination with <code class="docutils literal notranslate"><spa
 
 <dl class="py method">
 <dt id="ifermi.surface.FermiSurface.spins">
-<em class="property">property </em><code class="sig-name descname">spins</code><a class="headerlink" href="#ifermi.surface.FermiSurface.spins" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">spins</span></code><a class="headerlink" href="#ifermi.surface.FermiSurface.spins" title="Permalink to this definition">¶</a></dt>
 <dd><p>The spin channels in the Fermi surface.</p>
 </dd></dl>
 
@@ -1966,49 +2068,79 @@ Must be used in combination with <code class="docutils literal notranslate"><spa
 
 <dl class="py class">
 <dt id="ifermi.surface.Isosurface">
-<em class="property">class </em><code class="sig-prename descclassname">ifermi.surface.</code><code class="sig-name descname">Isosurface</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vertices</span></em>, <em class="sig-param"><span class="n">faces</span></em>, <em class="sig-param"><span class="n">band_idx</span></em>, <em class="sig-param"><span class="n">properties</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dimensionality</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">orientation</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#Isosurface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.surface.Isosurface" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">ifermi.surface.</span></code><code class="sig-name descname"><span class="pre">Isosurface</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">faces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band_idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensionality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#Isosurface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.surface.Isosurface" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">monty.json.MSONable</span></code></p>
 <p>An isosurface object contains a triangular mesh and surface properties.</p>
 <dl class="py attribute">
 <dt id="ifermi.surface.Isosurface.vertices">
-<code class="sig-name descname">vertices</code><a class="headerlink" href="#ifermi.surface.Isosurface.vertices" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">vertices</span></code><a class="headerlink" href="#ifermi.surface.Isosurface.vertices" title="Permalink to this definition">¶</a></dt>
 <dd><p>A (n, 3) float array of the vertices in the isosurface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="ifermi.surface.Isosurface.faces">
-<code class="sig-name descname">faces</code><a class="headerlink" href="#ifermi.surface.Isosurface.faces" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">faces</span></code><a class="headerlink" href="#ifermi.surface.Isosurface.faces" title="Permalink to this definition">¶</a></dt>
 <dd><p>A (m, 3) int array of the faces of the isosurface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="ifermi.surface.Isosurface.band_idx">
-<code class="sig-name descname">band_idx</code><a class="headerlink" href="#ifermi.surface.Isosurface.band_idx" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">band_idx</span></code><a class="headerlink" href="#ifermi.surface.Isosurface.band_idx" title="Permalink to this definition">¶</a></dt>
 <dd><p>The band index to which the surface belongs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="ifermi.surface.Isosurface.properties">
-<code class="sig-name descname">properties</code><a class="headerlink" href="#ifermi.surface.Isosurface.properties" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">properties</span></code><a class="headerlink" href="#ifermi.surface.Isosurface.properties" title="Permalink to this definition">¶</a></dt>
 <dd><p>An optional (m, …) float array containing face properties as
 scalars or vectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Optional[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="ifermi.surface.Isosurface.dimensionality">
-<code class="sig-name descname">dimensionality</code><a class="headerlink" href="#ifermi.surface.Isosurface.dimensionality" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">dimensionality</span></code><a class="headerlink" href="#ifermi.surface.Isosurface.dimensionality" title="Permalink to this definition">¶</a></dt>
 <dd><p>The dimensionality of the surface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Optional[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)">str</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="ifermi.surface.Isosurface.orientation">
-<code class="sig-name descname">orientation</code><a class="headerlink" href="#ifermi.surface.Isosurface.orientation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">orientation</span></code><a class="headerlink" href="#ifermi.surface.Isosurface.orientation" title="Permalink to this definition">¶</a></dt>
 <dd><p>The orientation of the surface (for 1D and 2D surfaces only).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Optional[Tuple[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)">int</a>]]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="ifermi.surface.Isosurface.area">
-<em class="property">property </em><code class="sig-name descname">area</code><a class="headerlink" href="#ifermi.surface.Isosurface.area" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">area</span></code><a class="headerlink" href="#ifermi.surface.Isosurface.area" title="Permalink to this definition">¶</a></dt>
 <dd><p>Area of the isosurface in Å<sup>-2</sup>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -2019,7 +2151,7 @@ scalars or vectors.</p>
 
 <dl class="py method">
 <dt id="ifermi.surface.Isosurface.average_properties">
-<code class="sig-name descname">average_properties</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">norm</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">projection_axis</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#Isosurface.average_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.surface.Isosurface.average_properties" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">average_properties</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">norm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#Isosurface.average_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.surface.Isosurface.average_properties" title="Permalink to this definition">¶</a></dt>
 <dd><p>Average property across isosurface.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2040,7 +2172,7 @@ scalars or vectors.</p>
 
 <dl class="py method">
 <dt id="ifermi.surface.Isosurface.has_properties">
-<em class="property">property </em><code class="sig-name descname">has_properties</code><a class="headerlink" href="#ifermi.surface.Isosurface.has_properties" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">has_properties</span></code><a class="headerlink" href="#ifermi.surface.Isosurface.has_properties" title="Permalink to this definition">¶</a></dt>
 <dd><p>Whether the surface has properties.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -2051,7 +2183,7 @@ scalars or vectors.</p>
 
 <dl class="py method">
 <dt id="ifermi.surface.Isosurface.properties_ndim">
-<em class="property">property </em><code class="sig-name descname">properties_ndim</code><a class="headerlink" href="#ifermi.surface.Isosurface.properties_ndim" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">properties_ndim</span></code><a class="headerlink" href="#ifermi.surface.Isosurface.properties_ndim" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dimensionality of face properties.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -2062,7 +2194,7 @@ scalars or vectors.</p>
 
 <dl class="py method">
 <dt id="ifermi.surface.Isosurface.properties_norms">
-<em class="property">property </em><code class="sig-name descname">properties_norms</code><a class="headerlink" href="#ifermi.surface.Isosurface.properties_norms" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">properties_norms</span></code><a class="headerlink" href="#ifermi.surface.Isosurface.properties_norms" title="Permalink to this definition">¶</a></dt>
 <dd><p>(m, ) norm of isosurface properties.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -2073,7 +2205,7 @@ scalars or vectors.</p>
 
 <dl class="py method">
 <dt id="ifermi.surface.Isosurface.sample_uniform">
-<code class="sig-name descname">sample_uniform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">grid_size</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#Isosurface.sample_uniform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.surface.Isosurface.sample_uniform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">sample_uniform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#Isosurface.sample_uniform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.surface.Isosurface.sample_uniform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sample mesh faces uniformly.</p>
 <p>See the docstring for <code class="docutils literal notranslate"><span class="pre">ifermi.analysis.sample_surface_uniform</span></code> for more
 details.</p>
@@ -2092,7 +2224,7 @@ details.</p>
 
 <dl class="py method">
 <dt id="ifermi.surface.Isosurface.scalar_projection">
-<code class="sig-name descname">scalar_projection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">axis</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#Isosurface.scalar_projection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.surface.Isosurface.scalar_projection" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">scalar_projection</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#Isosurface.scalar_projection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.surface.Isosurface.scalar_projection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get scalar projection of properties onto axis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2111,7 +2243,7 @@ details.</p>
 
 <dl class="py function">
 <dt id="ifermi.surface.compute_isosurfaces">
-<code class="sig-prename descclassname">ifermi.surface.</code><code class="sig-name descname">compute_isosurfaces</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bands</span></em>, <em class="sig-param"><span class="n">kpoints</span></em>, <em class="sig-param"><span class="n">fermi_level</span></em>, <em class="sig-param"><span class="n">reciprocal_space</span></em>, <em class="sig-param"><span class="n">decimate_factor</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">decimate_method</span><span class="o">=</span><span class="default_value">'quadric'</span></em>, <em class="sig-param"><span class="n">smooth</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">calculate_dimensionality</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">property_interpolator</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#compute_isosurfaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.surface.compute_isosurfaces" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.surface.</span></code><code class="sig-name descname"><span class="pre">compute_isosurfaces</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bands</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kpoints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fermi_level</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reciprocal_space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decimate_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decimate_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'quadric'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calculate_dimensionality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_interpolator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#compute_isosurfaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.surface.compute_isosurfaces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the isosurfaces at a particular energy level.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2149,7 +2281,7 @@ onto the surface. If <code class="docutils literal notranslate"><span class="pre
 
 <dl class="py function">
 <dt id="ifermi.surface.decimate_mesh">
-<code class="sig-prename descclassname">ifermi.surface.</code><code class="sig-name descname">decimate_mesh</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vertices</span></em>, <em class="sig-param"><span class="n">faces</span></em>, <em class="sig-param"><span class="n">factor</span></em>, <em class="sig-param"><span class="n">method</span><span class="o">=</span><span class="default_value">'quadric'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#decimate_mesh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.surface.decimate_mesh" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.surface.</span></code><code class="sig-name descname"><span class="pre">decimate_mesh</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">faces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'quadric'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#decimate_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.surface.decimate_mesh" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decimate mesh to reduce the number of triangles and vertices.</p>
 <p>The open3d package is required for decimation.</p>
 <dl class="field-list simple">
@@ -2173,7 +2305,7 @@ If method is “cluster”, factor is the voxel size in which to cluster points.
 
 <dl class="py function">
 <dt id="ifermi.surface.expand_bands">
-<code class="sig-prename descclassname">ifermi.surface.</code><code class="sig-name descname">expand_bands</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bands</span></em>, <em class="sig-param"><span class="n">fractional_kpoints</span></em>, <em class="sig-param"><span class="n">supercell_dim</span><span class="o">=</span><span class="default_value">3, 3, 3</span></em>, <em class="sig-param"><span class="n">center</span><span class="o">=</span><span class="default_value">0, 0, 0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#expand_bands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.surface.expand_bands" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.surface.</span></code><code class="sig-name descname"><span class="pre">expand_bands</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bands</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fractional_kpoints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supercell_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(3,</span> <span class="pre">3,</span> <span class="pre">3)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#expand_bands"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.surface.expand_bands" title="Permalink to this definition">¶</a></dt>
 <dd><p>Expand the band energies and k-points with periodic boundary conditions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2196,7 +2328,7 @@ energies has the shape (nbands, nkpoints).</p></li>
 
 <dl class="py function">
 <dt id="ifermi.surface.face_properties">
-<code class="sig-prename descclassname">ifermi.surface.</code><code class="sig-name descname">face_properties</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">interpolator</span></em>, <em class="sig-param"><span class="n">vertices</span></em>, <em class="sig-param"><span class="n">faces</span></em>, <em class="sig-param"><span class="n">band_idx</span></em>, <em class="sig-param"><span class="n">spin</span></em>, <em class="sig-param"><span class="n">reciprocal_lattice</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#face_properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.surface.face_properties" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.surface.</span></code><code class="sig-name descname"><span class="pre">face_properties</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interpolator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">faces</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band_idx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reciprocal_lattice</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#face_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.surface.face_properties" title="Permalink to this definition">¶</a></dt>
 <dd><p>Interpolate properties data onto the Fermi surfaces.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -2221,7 +2353,7 @@ face in the isosurface.</p>
 
 <dl class="py function">
 <dt id="ifermi.surface.trim_surface">
-<code class="sig-prename descclassname">ifermi.surface.</code><code class="sig-name descname">trim_surface</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reciprocal_cell</span></em>, <em class="sig-param"><span class="n">vertices</span></em>, <em class="sig-param"><span class="n">faces</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#trim_surface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ifermi.surface.trim_surface" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">ifermi.surface.</span></code><code class="sig-name descname"><span class="pre">trim_surface</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reciprocal_cell</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">faces</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ifermi/surface.html#trim_surface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ifermi.surface.trim_surface" title="Permalink to this definition">¶</a></dt>
 <dd><p>Trim the surface to remove parts outside the cell boundaries.</p>
 <p>Will add new triangles at the boundary edges as necessary to produce a smooth
 surface.</p>
