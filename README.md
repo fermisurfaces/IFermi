@@ -82,7 +82,7 @@ ifermi plot --slice j k l d
 The `ifermi` command line tools are build on the IFermi Python library. Here is an
 example of how to load DFT calculation outputs, interpolate the energies onto a dense mesh,
 generate a Fermi surface, calculate Fermi surface properties, and visualise the surface.
-A more complete summary of the API is given in the [API introduction page](https://fermisurfaces.github.io/IFermi/plotting_using_python.html)
+A more complete summary of the API is given in the [API introduction page](https://fermisurfaces.github.io/IFermi/introduction_to_ifermi.html)
 and in the [API Reference page](https://fermisurfaces.github.io/IFermi/ifermi.html) in the documentation.
 
 ```python
