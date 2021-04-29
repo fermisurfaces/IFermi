@@ -63,7 +63,7 @@ _plotly_scene = dict(
     aspectmode="data",
 )
 _plotly_bz_style = {"line": {"color": "black", "width": 3}}
-_plotly_sym_pt_style = {"marker": {"size": 5, "color": "black"}}
+_plotly_sym_pt_style = {"marker": {"size": 6, "color": "black"}}
 _plotly_sym_label_style = dict(
     xshift=15, yshift=15, showarrow=False, font={"size": 20, "color": "black"}
 )
