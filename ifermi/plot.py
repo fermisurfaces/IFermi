@@ -712,7 +712,7 @@ class FermiSurfacePlotter:
     )
     def _get_crystal_toolkit_plot(
         self, plot_data: _FermiSurfacePlotData, opacity: float = 1.0
-    ) -> "Scene":
+    ):
         """
         Get a crystal toolkit Scene showing the Fermi surface.
 

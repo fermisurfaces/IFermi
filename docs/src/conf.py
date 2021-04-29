@@ -104,7 +104,7 @@ html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
 
 html_css_files = ["custom.css"]
-html_favicon = '_static/favicon.ico'
+html_favicon = "_static/favicon.ico"
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.

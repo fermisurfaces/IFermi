@@ -67,7 +67,7 @@ setup(
             "nbsphinx-link",
             "ipython",
         ],
-        "dev": ["black"],
+        "dev": ["black", "pre-commit"],
         "tests": ["pytest"],
         ':python_version < "3.7"': ["dataclasses>=0.6"],
     },

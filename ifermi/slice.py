@@ -222,7 +222,7 @@ class FermiSlice(MSONable):
     @classmethod
     def from_fermi_surface(
         cls,
-        fermi_surface: "FermiSurface",
+        fermi_surface,
         plane_normal: Tuple[int, int, int],
         distance: float = 0,
     ) -> "FermiSlice":

@@ -455,9 +455,7 @@ class FermiSurface(MSONable):
 
         return cls(isosurfaces, reciprocal_space, structure)
 
-    def get_fermi_slice(
-        self, plane_normal: Tuple[int, int, int], distance: float = 0
-    ) -> "FermiSlice":
+    def get_fermi_slice(self, plane_normal: Tuple[int, int, int], distance: float = 0):
         """
         Get a slice through the Fermi surface.
 

@@ -2,15 +2,15 @@
 
 --------
 
-[📖 **Official Documentation** 📖](https://fermisurfaces.github.io/IFermi) 
+[📖 **Official Documentation** 📖](https://fermisurfaces.github.io/IFermi)
 
 [🙋 **Support Forum** 🙋](https://matsci.org/c/ifermi/)
 
 [📝 **JOSS Paper** 📝](https://doi.org/10.21105/joss.03089)
 
-IFermi is a Python (3.6+) library and set of command-line tools for the generation, 
-analysis, and visualisation of Fermi surfaces and Fermi slices. The goal of the library 
-is to provide fully featured FermiSurface and FermiSlice objects that allow for easy 
+IFermi is a Python (3.6+) library and set of command-line tools for the generation,
+analysis, and visualisation of Fermi surfaces and Fermi slices. The goal of the library
+is to provide fully featured FermiSurface and FermiSlice objects that allow for easy
 manipulation and analysis. The main features include:
 
 - Interpolation of electronic band structures onto dense k-point meshes.
@@ -19,23 +19,23 @@ manipulation and analysis. The main features include:
 - Tools to calculate Fermi surface dimensionality, orientation, and averaged projections,
   including Fermi velocities.
 - Interactive visualisation of Fermi surfaces and slices, with support for
-  [mayavi](https://docs.enthought.com/mayavi/mayavi/), [plotly](https://plot.ly/) and 
+  [mayavi](https://docs.enthought.com/mayavi/mayavi/), [plotly](https://plot.ly/) and
   [matplotlib](https://matplotlib.org).
 - Generation and visualisation of spin-texture.
 
-IFermi's command-line tools only work with VASP calculations but support for additional 
+IFermi's command-line tools only work with VASP calculations but support for additional
 DFT packages will be added in the future.
 
 ![Example Fermi surfaces](https://raw.githubusercontent.com/fermisurfaces/IFermi/main/docs/src/_static/fermi-surface-example.png)
 
 ## Quick start
 
-The [online documentation](https://fermisurfaces.github.io/IFermi/cli.html) provides a full 
-description of the available command-line options. 
+The [online documentation](https://fermisurfaces.github.io/IFermi/cli.html) provides a full
+description of the available command-line options.
 
 ### Analysis
 
-Fermi surface properties, including dimensionality and orientation can be extracted 
+Fermi surface properties, including dimensionality and orientation can be extracted
 from a vasprun.xml file using:
 
 ```bash
@@ -70,7 +70,7 @@ Three-dimensional Fermi surfaces can be visualized from a `vasprun.xml` file usi
 ifermi plot
 ```
 
-The two-dimensional slice of a Fermi surface along the plane specified by the miller 
+The two-dimensional slice of a Fermi surface along the plane specified by the miller
 indices (j k l) and distance d can be plotted from a `vasprun.xml` file using:
 
 ```bash
@@ -80,7 +80,7 @@ ifermi plot --slice j k l d
 ### Python library
 
 The `ifermi` command line tools are build on the IFermi Python library. Here is an
-example of how to load DFT calculation outputs, interpolate the energies onto a dense mesh, 
+example of how to load DFT calculation outputs, interpolate the energies onto a dense mesh,
 generate a Fermi surface, calculate Fermi surface properties, and visualise the surface.
 A more complete summary of the API is given in the [API introduction page](https://fermisurfaces.github.io/IFermi/plotting_using_python.html)
 and in the [API Reference page](https://fermisurfaces.github.io/IFermi/ifermi.html) in the documentation.
@@ -105,7 +105,7 @@ fs = FermiSurface.from_band_structure(
   dense_bs, mu=0.0, wigner_seitz=True, calculate_dimensionality=True
 )
 
-# generate the Fermi surface and calculate the group velocity at the 
+# generate the Fermi surface and calculate the group velocity at the
 # center of each triangular face
 dense_kpoints = kpoints_from_bandstructure(dense_bs)
 fs = FermiSurface.from_band_structure(
@@ -170,11 +170,11 @@ show_plot(plot)  # displays an interactive plot
 
 ## Citing IFermi
 
-If you find IFermi useful, please encourage its development by citing the following 
+If you find IFermi useful, please encourage its development by citing the following
 [paper](https://doi.org/10.21105/joss.03089) in your research output:
 
 ```
-Ganose, A. M., Searle, A., Jain, A., Griffin, S. M., IFermi: A python library for Fermi 
+Ganose, A. M., Searle, A., Jain, A., Griffin, S. M., IFermi: A python library for Fermi
 surface generation and analysis. Journal of Open Source Software, 2021, 6 (59), 3089
 ```
 
@@ -200,7 +200,7 @@ open-source python packages, specifically:
 
 ### Running tests
 
-The integration tests can be run to ensure IFermi has been installed correctly. First 
+The integration tests can be run to ensure IFermi has been installed correctly. First
 download the IFermi source and install the test requirements.
 
 ```
@@ -219,7 +219,7 @@ pytest
 
 Ask questions about the IFermi Python API and command-line tools on the [IFermi
 support forum](https://matsci.org/c/ifermi).
-If you've found an issue with IFermi, please submit a bug report 
+If you've found an issue with IFermi, please submit a bug report
 [here](https://github.com/fermisurfaces/IFermi/issues).
 
 ## What’s new?
