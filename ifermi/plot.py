@@ -308,7 +308,7 @@ class FermiSurfacePlotter:
             plot = self._get_crystal_toolkit_plot(plot_data, **plot_kwargs)
         else:
             types = ["matplotlib", "plotly", "mayavi", "crystal_toolkit"]
-            error_msg = "Plot type not recognised, valid options: {}".format(types)
+            error_msg = f"Plot type not recognised, valid options: {types}"
             raise ValueError(error_msg)
         return plot
 
@@ -482,7 +482,7 @@ class FermiSurfacePlotter:
                 _mpl_sym_pt_style.update(sym_pt_kwargs)
                 _mpl_sym_label_style.update(sym_label_kwargs)
                 ax.scatter(*coords, **_mpl_sym_pt_style)
-                ax.text(*coords, "${}$".format(label), **_mpl_sym_label_style)
+                ax.text(*coords, f"${label}$", **_mpl_sym_label_style)
 
         xlim, ylim, zlim = np.linalg.norm(self.rlat, axis=1) / 2
         ax.set(xlim=(-xlim, xlim), ylim=(-ylim, ylim), zlim=(-zlim, zlim))
@@ -597,7 +597,7 @@ class FermiSurfacePlotter:
         scene = _plotly_scene.copy()
         if not plot_data.hide_labels:
             # plot high symmetry k-point markers
-            labels = ["${}$".format(i) for i in self._symmetry_pts[1]]
+            labels = [f"${i}$" for i in self._symmetry_pts[1]]
             x, y, z = self._symmetry_pts[0].T
             _plotly_sym_pt_style.update(sym_pt_kwargs)
             trace = go.Scatter3d(x=x, y=y, z=z, mode="markers", **_plotly_sym_pt_style)
@@ -693,7 +693,7 @@ class FermiSurfacePlotter:
 
         if not plot_data.hide_labels:
             # latexify labels
-            labels = ["${}$".format(i) for i in self._symmetry_pts[1]]
+            labels = [f"${i}$" for i in self._symmetry_pts[1]]
             for coords, label in zip(self._symmetry_pts[0], labels):
                 mlabtex(*coords, label, **_mayavi_sym_label_style)
 
@@ -1031,7 +1031,7 @@ class FermiSlicePlotter:
                 ax.scatter(*coords, **_mpl_sym_pt_style)
                 ax.text(
                     *coords,
-                    "${}$".format(label),
+                    f"${label}$",
                     **_mpl_sym_label_style,
                     transform=ax.transData + offset,
                 )

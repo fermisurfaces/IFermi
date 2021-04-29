@@ -68,7 +68,7 @@ def cli():
     """IFermi is a tool for the generation, analysis and plotting of Fermi surfaces."""
 
     def _warning(message, *_, **__):
-        click.echo("WARNING: {}\n".format(message))
+        click.echo(f"WARNING: {message}\n")
 
     warnings.showwarning = _warning
 
@@ -331,7 +331,7 @@ def plot(filename, **kwargs):
     if output_filename is None:
         show_plot(fig)
     else:
-        click.echo("Saving plot to {}".format(output_filename))
+        click.echo(f"Saving plot to {output_filename}")
         save_plot(fig, output_filename, scale=kwargs["scale"])
 
 
