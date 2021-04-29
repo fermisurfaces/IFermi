@@ -600,7 +600,7 @@ class FermiSurfacePlotter:
             labels = ["${}$".format(i) for i in self._symmetry_pts[1]]
             x, y, z = self._symmetry_pts[0].T
             _plotly_sym_pt_style.update(sym_pt_kwargs)
-            trace = go.Scatter3d(x=x, y=y, z=z, mode="markers", **_plotly_bz_style)
+            trace = go.Scatter3d(x=x, y=y, z=z, mode="markers", **_plotly_sym_pt_style)
             meshes.append(trace)
 
             # add high symmetry label
