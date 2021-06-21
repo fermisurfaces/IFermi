@@ -127,6 +127,7 @@ class _FermiSurfacePlotData:
     cmax: Optional[float]
     hide_labels: bool
     hide_cell: bool
+    plot_index: List[int]
 
 
 @dataclass
@@ -209,6 +210,7 @@ class FermiSurfacePlotter:
         hide_surface: bool = False,
         hide_labels: bool = False,
         hide_cell: bool = False,
+        plot_index: List[int] = None,
         **plot_kwargs,
     ):
         """
@@ -279,6 +281,8 @@ class FermiSurfacePlotter:
                 combination with the ``vector_properties`` option.
             hide_labels: Whether to show the high-symmetry k-point labels.
             hide_cell: Whether to show the reciprocal cell boundary.
+            plot_index: The indices of the surfaces to plot. If none are inputt then the
+            entire surface will be plotted.
             **plot_kwargs: Other keyword arguments supported by the individual plotting
                 methods.
         """
@@ -297,6 +301,7 @@ class FermiSurfacePlotter:
             hide_surface=hide_surface,
             hide_labels=hide_labels,
             hide_cell=hide_cell,
+            plot_index=plot_index
         )
         if plot_type == "matplotlib":
             plot = self._get_matplotlib_plot(plot_data, **plot_kwargs)
@@ -328,6 +333,7 @@ class FermiSurfacePlotter:
         hide_surface: bool = False,
         hide_labels: bool = False,
         hide_cell: bool = False,
+        plot_index: List[int] = None,
     ) -> _FermiSurfacePlotData:
         """
         Get the the Fermi surface plot data.
@@ -395,6 +401,7 @@ class FermiSurfacePlotter:
             cmax=cmax,
             hide_labels=hide_labels,
             hide_cell=hide_cell,
+            plot_index=plot_index
         )
 
     def _get_matplotlib_plot(
@@ -562,6 +569,19 @@ class FermiSurfacePlotter:
                     colorbar=_plotly_cbar_style,
                 )
                 meshes.append(trace)
+
+        elif plot_data.plot_index is not None:
+            for r in plot_data.plot_index:
+                c = plot_data.colors[int(r)]
+                (verts, faces) = plot_data.isosurfaces[int(r)]
+                c = rgb_to_plotly(c)
+                x, y, z = verts.T
+                i, j, k = faces.T
+                trace = go.Mesh3d(
+                    x=x, y=y, z=z, color=c, opacity=1, i=i, j=j, k=k, **mesh_kwargs
+                )
+                meshes.append(trace)
+
         else:
             for c, (verts, faces) in zip(plot_data.colors, plot_data.isosurfaces):
                 c = rgb_to_plotly(c)
