@@ -5,7 +5,7 @@ pymatgen==2022.0.9
 BoltzTraP2==20.7.1
 trimesh==3.9.20
 meshcut==0.2.1
-scikit-image==0.18.1
+scikit-image==0.18.2
 monty==2021.6.10
 spglib==1.16.1
 plotly==5.1.0
