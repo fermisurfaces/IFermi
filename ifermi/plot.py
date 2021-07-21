@@ -209,7 +209,7 @@ class FermiSurfacePlotter:
         hide_surface: bool = False,
         hide_labels: bool = False,
         hide_cell: bool = False,
-        plot_index: List[int] = None,
+        plot_index: Optional[Union[int, list, dict]] = None,
         **plot_kwargs,
     ):
         """
