@@ -73,7 +73,7 @@ class FermiSurfaceTest(unittest.TestCase):
                 np.testing.assert_array_equal(s1.faces, s2.faces)
 
     def test_plot(self):
-        fs = FermiSurface.from_band_structure(self.band_structure)
+        fs = FermiSurface.from_band_structure(self.band_structure, wigner_seitz=True)
         plotter = FermiSurfacePlotter(fs)
 
         plot = plotter.get_plot(plot_type="plotly")
@@ -82,5 +82,5 @@ class FermiSurfaceTest(unittest.TestCase):
         plot = plotter.get_plot(spin=Spin.up)
         plot.show()
 
-        plot = plotter.get_plot(band_index = [1,3])
+        plot = plotter.get_plot(plot_index = [1,3])
         plot.show()
