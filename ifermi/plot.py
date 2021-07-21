@@ -142,6 +142,7 @@ class _FermiSlicePlotData:
     cmax: Optional[float]
     hide_labels: bool
     hide_cell: bool
+    plot_index: List[int]
 
 
 class FermiSurfacePlotter:
@@ -281,8 +282,8 @@ class FermiSurfacePlotter:
                 combination with the ``vector_properties`` option.
             hide_labels: Whether to show the high-symmetry k-point labels.
             hide_cell: Whether to show the reciprocal cell boundary.
-            plot_index: The indices of the surfaces to plot. If none are inputt then the
-            entire surface will be plotted.
+            plot_index: The indices of the surfaces to plot. If none are input then the
+                entire surface will be plotted.
             **plot_kwargs: Other keyword arguments supported by the individual plotting
                 methods.
         """
@@ -352,7 +353,10 @@ class FermiSurfacePlotter:
 
         isosurfaces = []
         if not hide_surface:
-            isosurfaces = self.fermi_surface.all_vertices_faces(spins=spin)
+            if plot_index is None:
+                isosurfaces = self.fermi_surface.all_vertices_faces(spins=spin)
+            else:
+                isosurfaces = [self.fermi_surface.all_vertices_faces(spins=spin)[int(i)] for i in plot_index]
 
         properties = []
         properties_colormap = None
@@ -567,18 +571,6 @@ class FermiSurfacePlotter:
                     cmax=plot_data.cmax,
                     **mesh_kwargs,
                     colorbar=_plotly_cbar_style,
-                )
-                meshes.append(trace)
-
-        elif plot_data.plot_index is not None:
-            for r in plot_data.plot_index:
-                c = plot_data.colors[int(r)]
-                (verts, faces) = plot_data.isosurfaces[int(r)]
-                c = rgb_to_plotly(c)
-                x, y, z = verts.T
-                i, j, k = faces.T
-                trace = go.Mesh3d(
-                    x=x, y=y, z=z, color=c, opacity=1, i=i, j=j, k=k, **mesh_kwargs
                 )
                 meshes.append(trace)
 
@@ -870,6 +862,7 @@ class FermiSlicePlotter:
         hide_slice: bool = False,
         hide_labels: bool = False,
         hide_cell: bool = False,
+        plot_index: List[int] = None,
         arrow_pivot: str = "tail",
         slice_kwargs: Optional[Dict[str, Any]] = None,
         cbar_kwargs: Optional[Dict[str, Any]] = None,
@@ -985,6 +978,8 @@ class FermiSlicePlotter:
             hide_slice=hide_slice,
             hide_labels=hide_labels,
             hide_cell=hide_cell,
+            plot_index=plot_index
+
         )
 
         if ax is None:
@@ -1090,6 +1085,7 @@ class FermiSlicePlotter:
         hide_slice: bool = False,
         hide_labels: bool = False,
         hide_cell: bool = False,
+        plot_index: List[int] = None
     ) -> _FermiSlicePlotData:
         """
         Get the the Fermi slice plot data.
@@ -1155,6 +1151,7 @@ class FermiSlicePlotter:
             cmax=cmax,
             hide_labels=hide_labels,
             hide_cell=hide_cell,
+            plot_index=plot_index
         )
 
 

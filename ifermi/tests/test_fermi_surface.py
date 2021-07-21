@@ -6,6 +6,7 @@ from monty.serialization import loadfn
 from pymatgen.electronic_structure.core import Spin
 
 from ifermi.surface import FermiSurface
+from ifermi.plot import FermiSurfacePlotter
 
 try:
     import open3d
@@ -70,3 +71,16 @@ class FermiSurfaceTest(unittest.TestCase):
 
                 # check faces are exactly equal
                 np.testing.assert_array_equal(s1.faces, s2.faces)
+
+    def test_plot(self):
+        fs = FermiSurface.from_band_structure(self.band_structure)
+        plotter = FermiSurfacePlotter(fs)
+
+        plot = plotter.get_plot(plot_type="plotly")
+        plot.show()
+
+        plot = plotter.get_plot(spin=Spin.up)
+        plot.show()
+
+        plot = plotter.get_plot(band_index = [1,3])
+        plot.show()
