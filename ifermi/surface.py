@@ -298,13 +298,22 @@ class FermiSurface(MSONable):
         return tuple(self.isosurfaces.keys())
 
     def all_vertices_faces(
-        self, spins: Optional[Union[Spin, Collection[Spin]]] = None
+        self, spins: Optional[Union[Spin, Collection[Spin]]] = None, band_index: Optional[Union[int, list, dict]]
+            = None
     ) -> List[Tuple[np.ndarray, np.ndarray]]:
         """
         Get the vertices and faces for all isosurfaces.
 
         Args:
             spins: One or more spin channels to select. Default is all spins available.
+            band_index: A choice of band indices. Valid options are:
+                - A single integer, which will select that band index in both spin channels
+                (if both spin channels are present).
+                - A list of integers, which will select that set of bands from both spin channels (if both a present).
+                - A dictionary of ``{Spin.up: band_index_1, Spin.down: band_index_2}``, where band_index_1 and
+                band_index_2 are either single integers (if one wishes to plot a single band for that particular spin)
+                or a list of integers. Note that the choice of integer and list can be different for different spin
+                channels.
 
         Returns:
             A list of (vertices, faces).
@@ -315,15 +324,37 @@ class FermiSurface(MSONable):
             spins = [spins]
 
         vertices_faces = []
-        for spin in spins:
-            for isosurface in self.isosurfaces[spin]:
-                vertices_faces.append((isosurface.vertices, isosurface.faces))
+        if band_index is None:
+            for spin in spins:
+                for isosurface in self.isosurfaces[spin]:
+                    vertices_faces.append((isosurface.vertices, isosurface.faces))
+        elif isinstance(band_index, int):
+            for spin in spins:
+                vertices_faces.append((self.isosurfaces[spin][band_index].vertices,
+                                       self.isosurfaces[spin][band_index].faces))
+        elif isinstance(band_index, list):
+            for spin in spins:
+                for i in band_index:
+                    vertices_faces.append((self.isosurfaces[spin][i].vertices,
+                                           self.isosurfaces[spin][i].faces))
+        elif isinstance(band_index, dict):
+            for spin in self.spins:
+                if spin in band_index:
+                    if isinstance(band_index[spin], int):
+                        vertices_faces.append((self.isosurfaces[spin][band_index[spin]].vertices,
+                                               self.isosurfaces[spin][band_index[spin]].faces))
+                    elif isinstance(band_index[spin], List):
+                        for i in band_index[spin]:
+                            vertices_faces.append((self.isosurfaces[spin][i].vertices,
+                                                   self.isosurfaces[spin][i].faces))
+
 
         return vertices_faces
 
     def all_properties(
         self,
         spins: Optional[Union[Spin, Collection[Spin]]] = None,
+        band_index: Optional[Union[int, list, dict]] = None,
         projection_axis: Optional[Tuple[int, int, int]] = None,
         norm: bool = False,
     ) -> List[np.ndarray]:
@@ -332,6 +363,14 @@ class FermiSurface(MSONable):
 
         Args:
             spins: One or more spin channels to select. Default is all spins available.
+            band_index: A choice of band indices. Valid options are:
+                - A single integer, which will select that band index in both spin channels
+                (if both spin channels are present).
+                - A list of integers, which will select that set of bands from both spin channels (if both a present).
+                - A dictionary of ``{Spin.up: band_index_1, Spin.down: band_index_2}``, where band_index_1 and
+                band_index_2 are either single integers (if one wishes to plot a single band for that particular spin)
+                or a list of integers. Note that the choice of integer and list can be different for different spin
+                channels.
             projection_axis: A (3, ) in array of the axis to project the properties onto
                 (vector properties only).
             norm: Calculate the norm of the properties (vector properties only).
@@ -354,6 +393,52 @@ class FermiSurface(MSONable):
                     projections.append(isosurface.properties_norms)
                 else:
                     projections.append(isosurface.properties)
+
+        if band_index is None:
+            for spin in spins:
+                for isosurface in self.isosurfaces[spin]:
+                    if projection_axis is not None:
+                        projections.append(isosurface.scalar_projection(projection_axis))
+                    elif norm:
+                        projections.append(isosurface.properties_norms)
+                    else:
+                        projections.append(isosurface.properties)
+        elif isinstance(band_index, int):
+            for spin in spins:
+                if projection_axis is not None:
+                    projections.append(self.isosurfaces[spin][band_index].scalar_projection(projection_axis))
+                elif norm:
+                    projections.append(self.isosurfaces[spin][band_index].properties_norms)
+                else:
+                    projections.append(self.isosurfaces[spin][band_index].properties)
+        elif isinstance(band_index, list):
+            for spin in spins:
+                for i in band_index:
+                    if projection_axis is not None:
+                        projections.append(self.isosurfaces[spin][i].scalar_projection(projection_axis))
+                    elif norm:
+                        projections.append(self.isosurfaces[spin][i].properties_norms)
+                    else:
+                        projections.append(self.isosurfaces[spin][i].properties)
+        elif isinstance(band_index, dict):
+            for spin in self.spins:
+                if spin in band_index:
+                    if isinstance(band_index[spin], int):
+                        if projection_axis is not None:
+                            projections.append(self.isosurfaces[spin][band_index[spin]].scalar_projection(projection_axis))
+                        elif norm:
+                            projections.append(self.isosurfaces[spin][band_index[spin]].properties_norms)
+                        else:
+                            projections.append(self.isosurfaces[spin][band_index[spin]].properties)
+                    elif isinstance(band_index[spin], List):
+                        for i in band_index[spin]:
+                            if projection_axis is not None:
+                                projections.append(
+                                    self.isosurfaces[spin][band_index[spin]].scalar_projection(projection_axis))
+                            elif norm:
+                                projections.append(self.isosurfaces[spin][band_index[spin]].properties_norms)
+                            else:
+                                projections.append(self.isosurfaces[spin][band_index[spin]].properties)
 
         return projections
 

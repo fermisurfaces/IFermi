@@ -127,7 +127,6 @@ class _FermiSurfacePlotData:
     cmax: Optional[float]
     hide_labels: bool
     hide_cell: bool
-    plot_index: List[int]
 
 
 @dataclass
@@ -142,7 +141,6 @@ class _FermiSlicePlotData:
     cmax: Optional[float]
     hide_labels: bool
     hide_cell: bool
-    plot_index: List[int]
 
 
 class FermiSurfacePlotter:
@@ -356,7 +354,7 @@ class FermiSurfacePlotter:
             if plot_index is None:
                 isosurfaces = self.fermi_surface.all_vertices_faces(spins=spin)
             else:
-                isosurfaces = [self.fermi_surface.all_vertices_faces(spins=spin)[int(i)] for i in plot_index]
+                isosurfaces = self.fermi_surface.all_vertices_faces(spins=spin, band_index=plot_index)
 
         properties = []
         properties_colormap = None
@@ -367,7 +365,7 @@ class FermiSurfacePlotter:
             # if the colormap used is different)
             norm = self.fermi_surface.properties_ndim == 2
             properties = self.fermi_surface.all_properties(
-                spins=spin, projection_axis=projection_axis, norm=norm
+                spins=spin, band_index=plot_index, projection_axis=projection_axis, norm=norm
             )
             if isinstance(color_properties, str):
                 properties_colormap = get_cmap(color_properties)
@@ -404,8 +402,7 @@ class FermiSurfacePlotter:
             cmin=cmin,
             cmax=cmax,
             hide_labels=hide_labels,
-            hide_cell=hide_cell,
-            plot_index=plot_index
+            hide_cell=hide_cell
         )
 
     def _get_matplotlib_plot(
@@ -1084,8 +1081,7 @@ class FermiSlicePlotter:
         vnorm: Optional[float] = None,
         hide_slice: bool = False,
         hide_labels: bool = False,
-        hide_cell: bool = False,
-        plot_index: List[int] = None
+        hide_cell: bool = False
     ) -> _FermiSlicePlotData:
         """
         Get the the Fermi slice plot data.
@@ -1150,8 +1146,7 @@ class FermiSlicePlotter:
             cmin=cmin,
             cmax=cmax,
             hide_labels=hide_labels,
-            hide_cell=hide_cell,
-            plot_index=plot_index
+            hide_cell=hide_cell
         )
 
 

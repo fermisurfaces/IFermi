@@ -237,7 +237,7 @@ def info(filename, **kwargs):
     "--hide-surface", is_flag=True, help="hide the Fermi surface", show_default=True
 )
 @option(
-    "--plot-index", multiple=True, default = [int], help="plot specific surfaces"
+    "--plot-index", multiple=True, default=None, help="plot specific surfaces"
 )
 @option(
     "--hide-labels",
