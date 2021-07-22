@@ -70,4 +70,3 @@ class FermiSurfaceTest(unittest.TestCase):
 
                 # check faces are exactly equal
                 np.testing.assert_array_equal(s1.faces, s2.faces)
-

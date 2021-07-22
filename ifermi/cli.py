@@ -237,7 +237,10 @@ def info(filename, **kwargs):
     "--hide-surface", is_flag=True, help="hide the Fermi surface", show_default=True
 )
 @option(
-    "--plot-index", multiple=True, default=None, help="plot specific surfaces"
+    "--plot-index",
+    multiple=True,
+    default=None,
+    help="plot specific bands indices (1 based)",
 )
 @option(
     "--hide-labels",
@@ -292,6 +295,10 @@ def plot(filename, **kwargs):
     spin = {"up": Spin.up, "down": Spin.down, None: None}[kwargs["spin"]]
     projection_axis = kwargs["projection_axis"] or None
 
+    if kwargs["plot_index"] is not None:
+        # user specified bands start at 1 but python api expects 0-based indices
+        kwargs["plot_index"] = [int(i - 1) for i in kwargs["plot_index"]]
+
     if kwargs["slice"]:
         plane_normal = kwargs["slice"][:3]
         distance = kwargs["slice"][3]
@@ -329,7 +336,7 @@ def plot(filename, **kwargs):
             hide_surface=kwargs["hide_surface"],
             hide_labels=kwargs["hide_labels"],
             hide_cell=kwargs["hide_cell"],
-            plot_index=kwargs["plot_index"]
+            plot_index=kwargs["plot_index"],
         )
 
     if output_filename is None:

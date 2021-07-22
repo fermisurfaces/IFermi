@@ -165,22 +165,26 @@ class FermiSlice(MSONable):
         return max(ndims)
 
     def all_lines(
-        self, spins: Optional[Union[Spin, Collection[Spin]]] = None,
-            band_index: Optional[Union[int, list, dict]] = None,
+        self,
+        spins: Optional[Union[Spin, Collection[Spin]]] = None,
+        band_index: Optional[Union[int, list, dict]] = None,
     ) -> List[np.ndarray]:
         """
         Get the segments for all isolines.
 
         Args:
             spins: One or more spin channels to select. Default is all spins available.
-            band_index: A choice of band indices. Valid options are:
-                - A single integer, which will select that band index in both spin channels
-                (if both spin channels are present).
-                - A list of integers, which will select that set of bands from both spin channels (if both a present).
-                - A dictionary of ``{Spin.up: band_index_1, Spin.down: band_index_2}``, where band_index_1 and
-                band_index_2 are either single integers (if one wishes to plot a single band for that particular spin)
-                or a list of integers. Note that the choice of integer and list can be different for different spin
-                channels.
+            band_index: A choice of band indices (0-based). Valid options are:
+                - A single integer, which will select that band index in both spin
+                  channels (if both spin channels are present).
+                - A list of integers, which will select that set of bands from both spin
+                  channels (if both a present).
+                - A dictionary of ``{Spin.up: band_index_1, Spin.down: band_index_2}``,
+                  where band_index_1 and band_index_2 are either single integers (if one
+                  wishes to plot a single band for that particular spin) or a list of
+                  integers. Note that the choice of integer and list can be different
+                  for different spin channels.
+                - ``None`` in which case all bands will be selected.
 
         Returns:
             A list of segments arrays.
@@ -192,8 +196,10 @@ class FermiSlice(MSONable):
 
         lines = []
         if band_index is None:
-            band_index = {spin: list(range(len(spin_surfaces)))
-                                     for spin, spin_surfaces in self.isolines.items()}
+            band_index = {
+                spin: list(range(len(spin_surfaces)))
+                for spin, spin_surfaces in self.isolines.items()
+            }
         if not isinstance(band_index, dict):
             band_index = {spin: band_index for spin in spins}
         for spin, spin_index in band_index.items():
@@ -218,14 +224,17 @@ class FermiSlice(MSONable):
 
         Args:
             spins: One or more spin channels to select. Default is all spins available.
-            band_index: A choice of band indices. Valid options are:
-                - A single integer, which will select that band index in both spin channels
-                (if both spin channels are present).
-                - A list of integers, which will select that set of bands from both spin channels (if both a present).
-                - A dictionary of ``{Spin.up: band_index_1, Spin.down: band_index_2}``, where band_index_1 and
-                band_index_2 are either single integers (if one wishes to plot a single band for that particular spin)
-                or a list of integers. Note that the choice of integer and list can be different for different spin
-                channels.
+            band_index: A choice of band indices (0-based). Valid options are:
+                - A single integer, which will select that band index in both spin
+                  channels (if both spin channels are present).
+                - A list of integers, which will select that set of bands from both spin
+                  channels (if both a present).
+                - A dictionary of ``{Spin.up: band_index_1, Spin.down: band_index_2}``,
+                  where band_index_1 and band_index_2 are either single integers (if one
+                  wishes to plot a single band for that particular spin) or a list of
+                  integers. Note that the choice of integer and list can be different
+                  for different spin channels.
+                - ``None`` in which case all bands will be selected.
             projection_axis: A (3, ) in array of the axis to project the properties onto
                 (vector properties only).
             norm: Calculate the norm of the properties (vector properties only).
@@ -242,8 +251,10 @@ class FermiSlice(MSONable):
         projections = []
 
         if band_index is None:
-            band_index = {spin: list(range(len(spin_surfaces)))
-                                     for spin, spin_surfaces in self.isolines.items()}
+            band_index = {
+                spin: list(range(len(spin_surfaces)))
+                for spin, spin_surfaces in self.isolines.items()
+            }
         if not isinstance(band_index, dict):
             band_index = {spin: band_index for spin in spins}
         for spin, spin_index in band_index.items():
@@ -253,7 +264,9 @@ class FermiSlice(MSONable):
             if spin in band_index:
                 for i in band_index[spin]:
                     if projection_axis is not None:
-                        projections.append(self.isolines[spin][i].scalar_projection(projection_axis))
+                        projections.append(
+                            self.isolines[spin][i].scalar_projection(projection_axis)
+                        )
                     elif norm:
                         projections.append(self.isolines[spin][i].properties_norms)
                     else:

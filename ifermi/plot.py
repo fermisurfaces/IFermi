@@ -280,15 +280,17 @@ class FermiSurfacePlotter:
                 combination with the ``vector_properties`` option.
             hide_labels: Whether to show the high-symmetry k-point labels.
             hide_cell: Whether to show the reciprocal cell boundary.
-            band_index: A choice of band indices. Valid options are:
-                - A single integer, which will select that band index in both spin channels
-                (if both spin channels are present).
-                - A list of integers, which will select that set of bands from both spin channels (if both a present).
-                - A dictionary of ``{Spin.up: band_index_1, Spin.down: band_index_2}``, where band_index_1 and
-                band_index_2 are either single integers (if one wishes to plot a single band for that particular spin)
-                or a list of integers. Note that the choice of integer and list can be different for different spin
-                channels.
-            If none are supplied the entire surface will be plot.
+            plot_index: A choice of band indices (0-based). Valid options are:
+                - A single integer, which will select that band index in both spin
+                  channels (if both spin channels are present).
+                - A list of integers, which will select that set of bands from both spin
+                  channels (if both a present).
+                - A dictionary of ``{Spin.up: band_index_1, Spin.down: band_index_2}``,
+                  where band_index_1 and band_index_2 are either single integers (if one
+                  wishes to plot a single band for that particular spin) or a list of
+                  integers. Note that the choice of integer and list can be different
+                  for different spin channels.
+                - ``None`` in which case all bands will be plotted.
             **plot_kwargs: Other keyword arguments supported by the individual plotting
                 methods.
         """
@@ -307,7 +309,7 @@ class FermiSurfacePlotter:
             hide_surface=hide_surface,
             hide_labels=hide_labels,
             hide_cell=hide_cell,
-            plot_index=plot_index
+            plot_index=plot_index,
         )
         if plot_type == "matplotlib":
             plot = self._get_matplotlib_plot(plot_data, **plot_kwargs)
@@ -358,7 +360,9 @@ class FermiSurfacePlotter:
 
         isosurfaces = []
         if not hide_surface:
-            isosurfaces = self.fermi_surface.all_vertices_faces(spins=spin, band_index=plot_index)
+            isosurfaces = self.fermi_surface.all_vertices_faces(
+                spins=spin, band_index=plot_index
+            )
 
         properties = []
         properties_colormap = None
@@ -369,7 +373,10 @@ class FermiSurfacePlotter:
             # if the colormap used is different)
             norm = self.fermi_surface.properties_ndim == 2
             properties = self.fermi_surface.all_properties(
-                spins=spin, band_index=plot_index, projection_axis=projection_axis, norm=norm
+                spins=spin,
+                band_index=plot_index,
+                projection_axis=projection_axis,
+                norm=norm,
             )
             if isinstance(color_properties, str):
                 properties_colormap = get_cmap(color_properties)
@@ -406,7 +413,7 @@ class FermiSurfacePlotter:
             cmin=cmin,
             cmax=cmax,
             hide_labels=hide_labels,
-            hide_cell=hide_cell
+            hide_cell=hide_cell,
         )
 
     def _get_matplotlib_plot(
@@ -938,6 +945,17 @@ class FermiSlicePlotter:
                 combination with the ``vector_properties`` option.
             hide_labels: Whether to show the high-symmetry k-point labels.
             hide_cell: Whether to show the reciprocal cell boundary.
+            plot_index: A choice of band indices (0-based). Valid options are:
+                - A single integer, which will select that band index in both spin
+                  channels (if both spin channels are present).
+                - A list of integers, which will select that set of bands from both spin
+                  channels (if both a present).
+                - A dictionary of ``{Spin.up: band_index_1, Spin.down: band_index_2}``,
+                  where band_index_1 and band_index_2 are either single integers (if one
+                  wishes to plot a single band for that particular spin) or a list of
+                  integers. Note that the choice of integer and list can be different
+                  for different spin channels.
+                - ``None`` in which case all bands will be plotted.
             arrow_pivot: The part of the arrow that is anchored to the X, Y grid.
                 The arrow rotates about this point, options are: tail, middle, tip.
             slice_kwargs: Optional arguments that are passed to ``LineCollection`` and
@@ -978,8 +996,8 @@ class FermiSlicePlotter:
             vnorm=vnorm,
             hide_slice=hide_slice,
             hide_labels=hide_labels,
-            hide_cell=hide_cell
-
+            hide_cell=hide_cell,
+            plot_index=plot_index,
         )
 
         if ax is None:
@@ -1084,7 +1102,8 @@ class FermiSlicePlotter:
         vnorm: Optional[float] = None,
         hide_slice: bool = False,
         hide_labels: bool = False,
-        hide_cell: bool = False
+        hide_cell: bool = False,
+        plot_index: List[int] = None,
     ) -> _FermiSlicePlotData:
         """
         Get the the Fermi slice plot data.
@@ -1103,7 +1122,7 @@ class FermiSlicePlotter:
 
         slices = []
         if not hide_slice:
-            slices = self.fermi_slice.all_lines(spins=spin)
+            slices = self.fermi_slice.all_lines(spins=spin, band_index=plot_index)
 
         properties = []
         properties_colormap = None
@@ -1114,7 +1133,10 @@ class FermiSlicePlotter:
             # if the colormap used is different)
             norm = self.fermi_slice.properties_ndim == 2
             properties = self.fermi_slice.all_properties(
-                spins=spin, projection_axis=projection_axis, norm=norm
+                spins=spin,
+                band_index=plot_index,
+                projection_axis=projection_axis,
+                norm=norm,
             )
             if isinstance(color_properties, str):
                 properties_colormap = get_cmap(color_properties)
@@ -1149,7 +1171,7 @@ class FermiSlicePlotter:
             cmin=cmin,
             cmax=cmax,
             hide_labels=hide_labels,
-            hide_cell=hide_cell
+            hide_cell=hide_cell,
         )
 
 
