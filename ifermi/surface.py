@@ -308,6 +308,7 @@ class FermiSurface(MSONable):
         Args:
             spins: One or more spin channels to select. Default is all spins available.
             band_index: A choice of band indices (0-based). Valid options are:
+
                 - A single integer, which will select that band index in both spin
                   channels (if both spin channels are present).
                 - A list of integers, which will select that set of bands from both spin
@@ -359,6 +360,7 @@ class FermiSurface(MSONable):
         Args:
             spins: One or more spin channels to select. Default is all spins available.
             band_index: A choice of band indices (0-based). Valid options are:
+
                 - A single integer, which will select that band index in both spin
                   channels (if both spin channels are present).
                 - A list of integers, which will select that set of bands from both spin
@@ -369,6 +371,7 @@ class FermiSurface(MSONable):
                   integers. Note that the choice of integer and list can be different
                   for different spin channels.
                 - ``None`` in which case all bands will be selected.
+
             projection_axis: A (3, ) in array of the axis to project the properties onto
                 (vector properties only).
             norm: Calculate the norm of the properties (vector properties only).

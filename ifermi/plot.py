@@ -281,6 +281,7 @@ class FermiSurfacePlotter:
             hide_labels: Whether to show the high-symmetry k-point labels.
             hide_cell: Whether to show the reciprocal cell boundary.
             plot_index: A choice of band indices (0-based). Valid options are:
+
                 - A single integer, which will select that band index in both spin
                   channels (if both spin channels are present).
                 - A list of integers, which will select that set of bands from both spin
@@ -291,6 +292,7 @@ class FermiSurfacePlotter:
                   integers. Note that the choice of integer and list can be different
                   for different spin channels.
                 - ``None`` in which case all bands will be plotted.
+
             **plot_kwargs: Other keyword arguments supported by the individual plotting
                 methods.
         """
@@ -946,6 +948,7 @@ class FermiSlicePlotter:
             hide_labels: Whether to show the high-symmetry k-point labels.
             hide_cell: Whether to show the reciprocal cell boundary.
             plot_index: A choice of band indices (0-based). Valid options are:
+
                 - A single integer, which will select that band index in both spin
                   channels (if both spin channels are present).
                 - A list of integers, which will select that set of bands from both spin
@@ -956,6 +959,7 @@ class FermiSlicePlotter:
                   integers. Note that the choice of integer and list can be different
                   for different spin channels.
                 - ``None`` in which case all bands will be plotted.
+
             arrow_pivot: The part of the arrow that is anchored to the X, Y grid.
                 The arrow rotates about this point, options are: tail, middle, tip.
             slice_kwargs: Optional arguments that are passed to ``LineCollection`` and

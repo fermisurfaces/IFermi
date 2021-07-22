@@ -175,6 +175,7 @@ class FermiSlice(MSONable):
         Args:
             spins: One or more spin channels to select. Default is all spins available.
             band_index: A choice of band indices (0-based). Valid options are:
+
                 - A single integer, which will select that band index in both spin
                   channels (if both spin channels are present).
                 - A list of integers, which will select that set of bands from both spin
@@ -226,6 +227,7 @@ class FermiSlice(MSONable):
         Args:
             spins: One or more spin channels to select. Default is all spins available.
             band_index: A choice of band indices (0-based). Valid options are:
+
                 - A single integer, which will select that band index in both spin
                   channels (if both spin channels are present).
                 - A list of integers, which will select that set of bands from both spin
