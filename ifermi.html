@@ -1029,6 +1029,22 @@ effect when used with the <code class="docutils literal notranslate"><span class
 combination with the <code class="docutils literal notranslate"><span class="pre">vector_properties</span></code> option.</p></li>
 <li><p><strong>hide_labels</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether to show the high-symmetry k-point labels.</p></li>
 <li><p><strong>hide_cell</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether to show the reciprocal cell boundary.</p></li>
+<li><p><strong>plot_index</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.List" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]) – <p>A choice of band indices (0-based). Valid options are:
+- A single integer, which will select that band index in both spin</p>
+<blockquote>
+<div><p>channels (if both spin channels are present).</p>
+</div></blockquote>
+<ul>
+<li><p>A list of integers, which will select that set of bands from both spin
+channels (if both a present).</p></li>
+<li><p>A dictionary of <code class="docutils literal notranslate"><span class="pre">{Spin.up:</span> <span class="pre">band_index_1,</span> <span class="pre">Spin.down:</span> <span class="pre">band_index_2}</span></code>,
+where band_index_1 and band_index_2 are either single integers (if one
+wishes to plot a single band for that particular spin) or a list of
+integers. Note that the choice of integer and list can be different
+for different spin channels.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> in which case all bands will be plotted.</p></li>
+</ul>
+</p></li>
 <li><p><strong>arrow_pivot</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – The part of the arrow that is anchored to the X, Y grid.
 The arrow rotates about this point, options are: tail, middle, tip.</p></li>
 <li><p><strong>slice_kwargs</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Any" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]) – Optional arguments that are passed to <code class="docutils literal notranslate"><span class="pre">LineCollection</span></code> and
@@ -1158,15 +1174,22 @@ effect when used with the <code class="docutils literal notranslate"><span class
 combination with the <code class="docutils literal notranslate"><span class="pre">vector_properties</span></code> option.</p></li>
 <li><p><strong>hide_labels</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether to show the high-symmetry k-point labels.</p></li>
 <li><p><strong>hide_cell</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether to show the reciprocal cell boundary.</p></li>
-<li><p><strong>band_index</strong> – A choice of band indices. Valid options are:
-- A single integer, which will select that band index in both spin channels
-(if both spin channels are present).
-- A list of integers, which will select that set of bands from both spin channels (if both a present).
-- A dictionary of <code class="docutils literal notranslate"><span class="pre">{Spin.up:</span> <span class="pre">band_index_1,</span> <span class="pre">Spin.down:</span> <span class="pre">band_index_2}</span></code>, where band_index_1 and
-band_index_2 are either single integers (if one wishes to plot a single band for that particular spin)
-or a list of integers. Note that the choice of integer and list can be different for different spin
-channels.</p></li>
-<li><p><strong>plot.</strong> (<em>If none are supplied the entire surface will be</em>) – </p></li>
+<li><p><strong>plot_index</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]) – <p>A choice of band indices (0-based). Valid options are:
+- A single integer, which will select that band index in both spin</p>
+<blockquote>
+<div><p>channels (if both spin channels are present).</p>
+</div></blockquote>
+<ul>
+<li><p>A list of integers, which will select that set of bands from both spin
+channels (if both a present).</p></li>
+<li><p>A dictionary of <code class="docutils literal notranslate"><span class="pre">{Spin.up:</span> <span class="pre">band_index_1,</span> <span class="pre">Spin.down:</span> <span class="pre">band_index_2}</span></code>,
+where band_index_1 and band_index_2 are either single integers (if one
+wishes to plot a single band for that particular spin) or a list of
+integers. Note that the choice of integer and list can be different
+for different spin channels.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> in which case all bands will be plotted.</p></li>
+</ul>
+</p></li>
 <li><p><strong>**plot_kwargs</strong> – Other keyword arguments supported by the individual plotting
 methods.</p></li>
 </ul>
@@ -1471,14 +1494,22 @@ with the Brillouin zone edges.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>spins</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.core.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2022.0.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Collection" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Collection</span></code></a>[<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.core.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2022.0.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>], <a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]) – One or more spin channels to select. Default is all spins available.</p></li>
-<li><p><strong>band_index</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]) – A choice of band indices. Valid options are:
-- A single integer, which will select that band index in both spin channels
-(if both spin channels are present).
-- A list of integers, which will select that set of bands from both spin channels (if both a present).
-- A dictionary of <code class="docutils literal notranslate"><span class="pre">{Spin.up:</span> <span class="pre">band_index_1,</span> <span class="pre">Spin.down:</span> <span class="pre">band_index_2}</span></code>, where band_index_1 and
-band_index_2 are either single integers (if one wishes to plot a single band for that particular spin)
-or a list of integers. Note that the choice of integer and list can be different for different spin
-channels.</p></li>
+<li><p><strong>band_index</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]) – <p>A choice of band indices (0-based). Valid options are:
+- A single integer, which will select that band index in both spin</p>
+<blockquote>
+<div><p>channels (if both spin channels are present).</p>
+</div></blockquote>
+<ul>
+<li><p>A list of integers, which will select that set of bands from both spin
+channels (if both a present).</p></li>
+<li><p>A dictionary of <code class="docutils literal notranslate"><span class="pre">{Spin.up:</span> <span class="pre">band_index_1,</span> <span class="pre">Spin.down:</span> <span class="pre">band_index_2}</span></code>,
+where band_index_1 and band_index_2 are either single integers (if one
+wishes to plot a single band for that particular spin) or a list of
+integers. Note that the choice of integer and list can be different
+for different spin channels.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> in which case all bands will be selected.</p></li>
+</ul>
+</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -1498,14 +1529,22 @@ channels.</p></li>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>spins</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.core.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2022.0.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Collection" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Collection</span></code></a>[<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.core.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2022.0.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>], <a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]) – One or more spin channels to select. Default is all spins available.</p></li>
-<li><p><strong>band_index</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]) – A choice of band indices. Valid options are:
-- A single integer, which will select that band index in both spin channels
-(if both spin channels are present).
-- A list of integers, which will select that set of bands from both spin channels (if both a present).
-- A dictionary of <code class="docutils literal notranslate"><span class="pre">{Spin.up:</span> <span class="pre">band_index_1,</span> <span class="pre">Spin.down:</span> <span class="pre">band_index_2}</span></code>, where band_index_1 and
-band_index_2 are either single integers (if one wishes to plot a single band for that particular spin)
-or a list of integers. Note that the choice of integer and list can be different for different spin
-channels.</p></li>
+<li><p><strong>band_index</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]) – <p>A choice of band indices (0-based). Valid options are:
+- A single integer, which will select that band index in both spin</p>
+<blockquote>
+<div><p>channels (if both spin channels are present).</p>
+</div></blockquote>
+<ul>
+<li><p>A list of integers, which will select that set of bands from both spin
+channels (if both a present).</p></li>
+<li><p>A dictionary of <code class="docutils literal notranslate"><span class="pre">{Spin.up:</span> <span class="pre">band_index_1,</span> <span class="pre">Spin.down:</span> <span class="pre">band_index_2}</span></code>,
+where band_index_1 and band_index_2 are either single integers (if one
+wishes to plot a single band for that particular spin) or a list of
+integers. Note that the choice of integer and list can be different
+for different spin channels.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> in which case all bands will be selected.</p></li>
+</ul>
+</p></li>
 <li><p><strong>projection_axis</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Tuple" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]) – A (3, ) in array of the axis to project the properties onto
 (vector properties only).</p></li>
 <li><p><strong>norm</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Calculate the norm of the properties (vector properties only).
@@ -1847,14 +1886,22 @@ very small and will be filtered out.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>spins</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.core.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2022.0.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Collection" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Collection</span></code></a>[<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.core.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2022.0.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>], <a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]) – One or more spin channels to select. Default is all spins available.</p></li>
-<li><p><strong>band_index</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]) – A choice of band indices. Valid options are:
-- A single integer, which will select that band index in both spin channels
-(if both spin channels are present).
-- A list of integers, which will select that set of bands from both spin channels (if both a present).
-- A dictionary of <code class="docutils literal notranslate"><span class="pre">{Spin.up:</span> <span class="pre">band_index_1,</span> <span class="pre">Spin.down:</span> <span class="pre">band_index_2}</span></code>, where band_index_1 and
-band_index_2 are either single integers (if one wishes to plot a single band for that particular spin)
-or a list of integers. Note that the choice of integer and list can be different for different spin
-channels.</p></li>
+<li><p><strong>band_index</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]) – <p>A choice of band indices (0-based). Valid options are:
+- A single integer, which will select that band index in both spin</p>
+<blockquote>
+<div><p>channels (if both spin channels are present).</p>
+</div></blockquote>
+<ul>
+<li><p>A list of integers, which will select that set of bands from both spin
+channels (if both a present).</p></li>
+<li><p>A dictionary of <code class="docutils literal notranslate"><span class="pre">{Spin.up:</span> <span class="pre">band_index_1,</span> <span class="pre">Spin.down:</span> <span class="pre">band_index_2}</span></code>,
+where band_index_1 and band_index_2 are either single integers (if one
+wishes to plot a single band for that particular spin) or a list of
+integers. Note that the choice of integer and list can be different
+for different spin channels.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> in which case all bands will be selected.</p></li>
+</ul>
+</p></li>
 <li><p><strong>projection_axis</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Tuple" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>]]) – A (3, ) in array of the axis to project the properties onto
 (vector properties only).</p></li>
 <li><p><strong>norm</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Calculate the norm of the properties (vector properties only).
@@ -1878,14 +1925,22 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">projecti
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>spins</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.core.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2022.0.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Collection" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Collection</span></code></a>[<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.core.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2022.0.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>], <a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]) – One or more spin channels to select. Default is all spins available.</p></li>
-<li><p><strong>band_index</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]) – A choice of band indices. Valid options are:
-- A single integer, which will select that band index in both spin channels
-(if both spin channels are present).
-- A list of integers, which will select that set of bands from both spin channels (if both a present).
-- A dictionary of <code class="docutils literal notranslate"><span class="pre">{Spin.up:</span> <span class="pre">band_index_1,</span> <span class="pre">Spin.down:</span> <span class="pre">band_index_2}</span></code>, where band_index_1 and
-band_index_2 are either single integers (if one wishes to plot a single band for that particular spin)
-or a list of integers. Note that the choice of integer and list can be different for different spin
-channels.</p></li>
+<li><p><strong>band_index</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Union" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#list" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, <a class="reference external" href="https://docs.python.org/3.6/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>]) – <p>A choice of band indices (0-based). Valid options are:
+- A single integer, which will select that band index in both spin</p>
+<blockquote>
+<div><p>channels (if both spin channels are present).</p>
+</div></blockquote>
+<ul>
+<li><p>A list of integers, which will select that set of bands from both spin
+channels (if both a present).</p></li>
+<li><p>A dictionary of <code class="docutils literal notranslate"><span class="pre">{Spin.up:</span> <span class="pre">band_index_1,</span> <span class="pre">Spin.down:</span> <span class="pre">band_index_2}</span></code>,
+where band_index_1 and band_index_2 are either single integers (if one
+wishes to plot a single band for that particular spin) or a list of
+integers. Note that the choice of integer and list can be different
+for different spin channels.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> in which case all bands will be selected.</p></li>
+</ul>
+</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>

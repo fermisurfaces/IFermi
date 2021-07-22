@@ -429,15 +429,17 @@
 <span class="sd">                combination with the ``vector_properties`` option.</span>
 <span class="sd">            hide_labels: Whether to show the high-symmetry k-point labels.</span>
 <span class="sd">            hide_cell: Whether to show the reciprocal cell boundary.</span>
-<span class="sd">            band_index: A choice of band indices. Valid options are:</span>
-<span class="sd">                - A single integer, which will select that band index in both spin channels</span>
-<span class="sd">                (if both spin channels are present).</span>
-<span class="sd">                - A list of integers, which will select that set of bands from both spin channels (if both a present).</span>
-<span class="sd">                - A dictionary of ``{Spin.up: band_index_1, Spin.down: band_index_2}``, where band_index_1 and</span>
-<span class="sd">                band_index_2 are either single integers (if one wishes to plot a single band for that particular spin)</span>
-<span class="sd">                or a list of integers. Note that the choice of integer and list can be different for different spin</span>
-<span class="sd">                channels.</span>
-<span class="sd">            If none are supplied the entire surface will be plot.</span>
+<span class="sd">            plot_index: A choice of band indices (0-based). Valid options are:</span>
+<span class="sd">                - A single integer, which will select that band index in both spin</span>
+<span class="sd">                  channels (if both spin channels are present).</span>
+<span class="sd">                - A list of integers, which will select that set of bands from both spin</span>
+<span class="sd">                  channels (if both a present).</span>
+<span class="sd">                - A dictionary of ``{Spin.up: band_index_1, Spin.down: band_index_2}``,</span>
+<span class="sd">                  where band_index_1 and band_index_2 are either single integers (if one</span>
+<span class="sd">                  wishes to plot a single band for that particular spin) or a list of</span>
+<span class="sd">                  integers. Note that the choice of integer and list can be different</span>
+<span class="sd">                  for different spin channels.</span>
+<span class="sd">                - ``None`` in which case all bands will be plotted.</span>
 <span class="sd">            **plot_kwargs: Other keyword arguments supported by the individual plotting</span>
 <span class="sd">                methods.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -456,7 +458,7 @@
             <span class="n">hide_surface</span><span class="o">=</span><span class="n">hide_surface</span><span class="p">,</span>
             <span class="n">hide_labels</span><span class="o">=</span><span class="n">hide_labels</span><span class="p">,</span>
             <span class="n">hide_cell</span><span class="o">=</span><span class="n">hide_cell</span><span class="p">,</span>
-            <span class="n">plot_index</span><span class="o">=</span><span class="n">plot_index</span>
+            <span class="n">plot_index</span><span class="o">=</span><span class="n">plot_index</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="s2">&quot;matplotlib&quot;</span><span class="p">:</span>
             <span class="n">plot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_matplotlib_plot</span><span class="p">(</span><span class="n">plot_data</span><span class="p">,</span> <span class="o">**</span><span class="n">plot_kwargs</span><span class="p">)</span>
@@ -507,7 +509,9 @@
 
         <span class="n">isosurfaces</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">hide_surface</span><span class="p">:</span>
-            <span class="n">isosurfaces</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fermi_surface</span><span class="o">.</span><span class="n">all_vertices_faces</span><span class="p">(</span><span class="n">spins</span><span class="o">=</span><span class="n">spin</span><span class="p">,</span> <span class="n">band_index</span><span class="o">=</span><span class="n">plot_index</span><span class="p">)</span>
+            <span class="n">isosurfaces</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fermi_surface</span><span class="o">.</span><span class="n">all_vertices_faces</span><span class="p">(</span>
+                <span class="n">spins</span><span class="o">=</span><span class="n">spin</span><span class="p">,</span> <span class="n">band_index</span><span class="o">=</span><span class="n">plot_index</span>
+            <span class="p">)</span>
 
         <span class="n">properties</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">properties_colormap</span> <span class="o">=</span> <span class="kc">None</span>
@@ -518,7 +522,10 @@
             <span class="c1"># if the colormap used is different)</span>
             <span class="n">norm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fermi_surface</span><span class="o">.</span><span class="n">properties_ndim</span> <span class="o">==</span> <span class="mi">2</span>
             <span class="n">properties</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fermi_surface</span><span class="o">.</span><span class="n">all_properties</span><span class="p">(</span>
-                <span class="n">spins</span><span class="o">=</span><span class="n">spin</span><span class="p">,</span> <span class="n">band_index</span><span class="o">=</span><span class="n">plot_index</span><span class="p">,</span> <span class="n">projection_axis</span><span class="o">=</span><span class="n">projection_axis</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span>
+                <span class="n">spins</span><span class="o">=</span><span class="n">spin</span><span class="p">,</span>
+                <span class="n">band_index</span><span class="o">=</span><span class="n">plot_index</span><span class="p">,</span>
+                <span class="n">projection_axis</span><span class="o">=</span><span class="n">projection_axis</span><span class="p">,</span>
+                <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">color_properties</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
                 <span class="n">properties_colormap</span> <span class="o">=</span> <span class="n">get_cmap</span><span class="p">(</span><span class="n">color_properties</span><span class="p">)</span>
@@ -555,7 +562,7 @@
             <span class="n">cmin</span><span class="o">=</span><span class="n">cmin</span><span class="p">,</span>
             <span class="n">cmax</span><span class="o">=</span><span class="n">cmax</span><span class="p">,</span>
             <span class="n">hide_labels</span><span class="o">=</span><span class="n">hide_labels</span><span class="p">,</span>
-            <span class="n">hide_cell</span><span class="o">=</span><span class="n">hide_cell</span>
+            <span class="n">hide_cell</span><span class="o">=</span><span class="n">hide_cell</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_get_matplotlib_plot</span><span class="p">(</span>
@@ -1087,6 +1094,17 @@
 <span class="sd">                combination with the ``vector_properties`` option.</span>
 <span class="sd">            hide_labels: Whether to show the high-symmetry k-point labels.</span>
 <span class="sd">            hide_cell: Whether to show the reciprocal cell boundary.</span>
+<span class="sd">            plot_index: A choice of band indices (0-based). Valid options are:</span>
+<span class="sd">                - A single integer, which will select that band index in both spin</span>
+<span class="sd">                  channels (if both spin channels are present).</span>
+<span class="sd">                - A list of integers, which will select that set of bands from both spin</span>
+<span class="sd">                  channels (if both a present).</span>
+<span class="sd">                - A dictionary of ``{Spin.up: band_index_1, Spin.down: band_index_2}``,</span>
+<span class="sd">                  where band_index_1 and band_index_2 are either single integers (if one</span>
+<span class="sd">                  wishes to plot a single band for that particular spin) or a list of</span>
+<span class="sd">                  integers. Note that the choice of integer and list can be different</span>
+<span class="sd">                  for different spin channels.</span>
+<span class="sd">                - ``None`` in which case all bands will be plotted.</span>
 <span class="sd">            arrow_pivot: The part of the arrow that is anchored to the X, Y grid.</span>
 <span class="sd">                The arrow rotates about this point, options are: tail, middle, tip.</span>
 <span class="sd">            slice_kwargs: Optional arguments that are passed to ``LineCollection`` and</span>
@@ -1127,8 +1145,8 @@
             <span class="n">vnorm</span><span class="o">=</span><span class="n">vnorm</span><span class="p">,</span>
             <span class="n">hide_slice</span><span class="o">=</span><span class="n">hide_slice</span><span class="p">,</span>
             <span class="n">hide_labels</span><span class="o">=</span><span class="n">hide_labels</span><span class="p">,</span>
-            <span class="n">hide_cell</span><span class="o">=</span><span class="n">hide_cell</span>
-
+            <span class="n">hide_cell</span><span class="o">=</span><span class="n">hide_cell</span><span class="p">,</span>
+            <span class="n">plot_index</span><span class="o">=</span><span class="n">plot_index</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1233,7 +1251,8 @@
         <span class="n">vnorm</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">hide_slice</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">hide_labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">hide_cell</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">hide_cell</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">plot_index</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_FermiSlicePlotData</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the the Fermi slice plot data.</span>
@@ -1252,7 +1271,7 @@
 
         <span class="n">slices</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">hide_slice</span><span class="p">:</span>
-            <span class="n">slices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fermi_slice</span><span class="o">.</span><span class="n">all_lines</span><span class="p">(</span><span class="n">spins</span><span class="o">=</span><span class="n">spin</span><span class="p">)</span>
+            <span class="n">slices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fermi_slice</span><span class="o">.</span><span class="n">all_lines</span><span class="p">(</span><span class="n">spins</span><span class="o">=</span><span class="n">spin</span><span class="p">,</span> <span class="n">band_index</span><span class="o">=</span><span class="n">plot_index</span><span class="p">)</span>
 
         <span class="n">properties</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">properties_colormap</span> <span class="o">=</span> <span class="kc">None</span>
@@ -1263,7 +1282,10 @@
             <span class="c1"># if the colormap used is different)</span>
             <span class="n">norm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fermi_slice</span><span class="o">.</span><span class="n">properties_ndim</span> <span class="o">==</span> <span class="mi">2</span>
             <span class="n">properties</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fermi_slice</span><span class="o">.</span><span class="n">all_properties</span><span class="p">(</span>
-                <span class="n">spins</span><span class="o">=</span><span class="n">spin</span><span class="p">,</span> <span class="n">projection_axis</span><span class="o">=</span><span class="n">projection_axis</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span>
+                <span class="n">spins</span><span class="o">=</span><span class="n">spin</span><span class="p">,</span>
+                <span class="n">band_index</span><span class="o">=</span><span class="n">plot_index</span><span class="p">,</span>
+                <span class="n">projection_axis</span><span class="o">=</span><span class="n">projection_axis</span><span class="p">,</span>
+                <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">color_properties</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
                 <span class="n">properties_colormap</span> <span class="o">=</span> <span class="n">get_cmap</span><span class="p">(</span><span class="n">color_properties</span><span class="p">)</span>
@@ -1298,7 +1320,7 @@
             <span class="n">cmin</span><span class="o">=</span><span class="n">cmin</span><span class="p">,</span>
             <span class="n">cmax</span><span class="o">=</span><span class="n">cmax</span><span class="p">,</span>
             <span class="n">hide_labels</span><span class="o">=</span><span class="n">hide_labels</span><span class="p">,</span>
-            <span class="n">hide_cell</span><span class="o">=</span><span class="n">hide_cell</span>
+            <span class="n">hide_cell</span><span class="o">=</span><span class="n">hide_cell</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
