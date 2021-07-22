@@ -209,6 +209,7 @@ class FermiSurfacePlotter:
         hide_surface: bool = False,
         hide_labels: bool = False,
         hide_cell: bool = False,
+        plot_index: Optional[Union[int, list, dict]] = None,
         **plot_kwargs,
     ):
         """
@@ -279,6 +280,15 @@ class FermiSurfacePlotter:
                 combination with the ``vector_properties`` option.
             hide_labels: Whether to show the high-symmetry k-point labels.
             hide_cell: Whether to show the reciprocal cell boundary.
+            band_index: A choice of band indices. Valid options are:
+                - A single integer, which will select that band index in both spin channels
+                (if both spin channels are present).
+                - A list of integers, which will select that set of bands from both spin channels (if both a present).
+                - A dictionary of ``{Spin.up: band_index_1, Spin.down: band_index_2}``, where band_index_1 and
+                band_index_2 are either single integers (if one wishes to plot a single band for that particular spin)
+                or a list of integers. Note that the choice of integer and list can be different for different spin
+                channels.
+            If none are supplied the entire surface will be plot.
             **plot_kwargs: Other keyword arguments supported by the individual plotting
                 methods.
         """
@@ -297,6 +307,7 @@ class FermiSurfacePlotter:
             hide_surface=hide_surface,
             hide_labels=hide_labels,
             hide_cell=hide_cell,
+            plot_index=plot_index
         )
         if plot_type == "matplotlib":
             plot = self._get_matplotlib_plot(plot_data, **plot_kwargs)
@@ -328,6 +339,7 @@ class FermiSurfacePlotter:
         hide_surface: bool = False,
         hide_labels: bool = False,
         hide_cell: bool = False,
+        plot_index: List[int] = None,
     ) -> _FermiSurfacePlotData:
         """
         Get the the Fermi surface plot data.
@@ -346,7 +358,7 @@ class FermiSurfacePlotter:
 
         isosurfaces = []
         if not hide_surface:
-            isosurfaces = self.fermi_surface.all_vertices_faces(spins=spin)
+            isosurfaces = self.fermi_surface.all_vertices_faces(spins=spin, band_index=plot_index)
 
         properties = []
         properties_colormap = None
@@ -357,7 +369,7 @@ class FermiSurfacePlotter:
             # if the colormap used is different)
             norm = self.fermi_surface.properties_ndim == 2
             properties = self.fermi_surface.all_properties(
-                spins=spin, projection_axis=projection_axis, norm=norm
+                spins=spin, band_index=plot_index, projection_axis=projection_axis, norm=norm
             )
             if isinstance(color_properties, str):
                 properties_colormap = get_cmap(color_properties)
@@ -394,7 +406,7 @@ class FermiSurfacePlotter:
             cmin=cmin,
             cmax=cmax,
             hide_labels=hide_labels,
-            hide_cell=hide_cell,
+            hide_cell=hide_cell
         )
 
     def _get_matplotlib_plot(
@@ -562,6 +574,7 @@ class FermiSurfacePlotter:
                     colorbar=_plotly_cbar_style,
                 )
                 meshes.append(trace)
+
         else:
             for c, (verts, faces) in zip(plot_data.colors, plot_data.isosurfaces):
                 c = rgb_to_plotly(c)
@@ -850,6 +863,7 @@ class FermiSlicePlotter:
         hide_slice: bool = False,
         hide_labels: bool = False,
         hide_cell: bool = False,
+        plot_index: List[int] = None,
         arrow_pivot: str = "tail",
         slice_kwargs: Optional[Dict[str, Any]] = None,
         cbar_kwargs: Optional[Dict[str, Any]] = None,
@@ -964,7 +978,8 @@ class FermiSlicePlotter:
             vnorm=vnorm,
             hide_slice=hide_slice,
             hide_labels=hide_labels,
-            hide_cell=hide_cell,
+            hide_cell=hide_cell
+
         )
 
         if ax is None:
@@ -1069,7 +1084,7 @@ class FermiSlicePlotter:
         vnorm: Optional[float] = None,
         hide_slice: bool = False,
         hide_labels: bool = False,
-        hide_cell: bool = False,
+        hide_cell: bool = False
     ) -> _FermiSlicePlotData:
         """
         Get the the Fermi slice plot data.
@@ -1134,7 +1149,7 @@ class FermiSlicePlotter:
             cmin=cmin,
             cmax=cmax,
             hide_labels=hide_labels,
-            hide_cell=hide_cell,
+            hide_cell=hide_cell
         )
 
 

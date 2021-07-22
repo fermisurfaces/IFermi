@@ -237,6 +237,9 @@ def info(filename, **kwargs):
     "--hide-surface", is_flag=True, help="hide the Fermi surface", show_default=True
 )
 @option(
+    "--plot-index", multiple=True, default=None, help="plot specific surfaces"
+)
+@option(
     "--hide-labels",
     is_flag=True,
     help="hide the high-symmetry k-point labels",
@@ -326,6 +329,7 @@ def plot(filename, **kwargs):
             hide_surface=kwargs["hide_surface"],
             hide_labels=kwargs["hide_labels"],
             hide_cell=kwargs["hide_cell"],
+            plot_index=kwargs["plot_index"]
         )
 
     if output_filename is None:
