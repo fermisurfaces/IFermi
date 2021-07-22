@@ -8,8 +8,8 @@ v0.3.0
 ------
 
 New features:
-- Support for plotting individual bands. Specified using the ``-plot_type`` command line
-  option. (@aj-searle)
+- Support for plotting individual bands. Specified using the ``--plot-index`` command
+  line option. (@aj-searle)
 
 Enhancements:
 - Fixed high-symmetry points markers.
