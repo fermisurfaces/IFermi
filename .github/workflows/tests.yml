@@ -25,7 +25,6 @@ jobs:
         python -m pip install pip==21.0.1  # fix for github actions failures
         pip install numpy wheel
         pip install -r requirements.txt
-        pip install -e .[plotly]
         pip install -e .[mayavi]
         pip install -e .[tests]
         pip install -e .[decimation]
