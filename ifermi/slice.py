@@ -197,18 +197,19 @@ class FermiSlice(MSONable):
         lines = []
         if band_index is None:
             band_index = {
-                spin: list(range(len(spin_surfaces)))
-                for spin, spin_surfaces in self.isolines.items()
+                spin: [i.band_idx for i in isolines]
+                for spin, isolines in self.isolines.items()
             }
         if not isinstance(band_index, dict):
             band_index = {spin: band_index for spin in spins}
         for spin, spin_index in band_index.items():
             if isinstance(spin_index, int):
                 band_index[spin] = [spin_index]
+
         for spin in spins:
-            if spin in band_index:
-                for i in band_index[spin]:
-                    lines.append(self.isolines[spin][i].segments)
+            for isoline in self.isolines[spin]:
+                if spin in band_index and isoline.band_idx in band_index[spin]:
+                    lines.append(isoline.segments)
 
         return lines
 
@@ -252,25 +253,24 @@ class FermiSlice(MSONable):
 
         if band_index is None:
             band_index = {
-                spin: list(range(len(spin_surfaces)))
-                for spin, spin_surfaces in self.isolines.items()
+                spin: [i.band_idx for i in isolines]
+                for spin, isolines in self.isolines.items()
             }
         if not isinstance(band_index, dict):
             band_index = {spin: band_index for spin in spins}
         for spin, spin_index in band_index.items():
             if isinstance(spin_index, int):
                 band_index[spin] = [spin_index]
+
         for spin in spins:
-            if spin in band_index:
-                for i in band_index[spin]:
+            for isoline in self.isolines[spin]:
+                if spin in band_index and isoline.band_idx in band_index[spin]:
                     if projection_axis is not None:
-                        projections.append(
-                            self.isolines[spin][i].scalar_projection(projection_axis)
-                        )
+                        projections.append(isoline.scalar_projection(projection_axis))
                     elif norm:
-                        projections.append(self.isolines[spin][i].properties_norms)
+                        projections.append(isoline.properties_norms)
                     else:
-                        projections.append(self.isolines[spin][i].properties)
+                        projections.append(isoline.properties)
 
         return projections
 

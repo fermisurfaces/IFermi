@@ -295,9 +295,13 @@ def plot(filename, **kwargs):
     spin = {"up": Spin.up, "down": Spin.down, None: None}[kwargs["spin"]]
     projection_axis = kwargs["projection_axis"] or None
 
-    if kwargs["plot_index"] is not None:
+    if len(kwargs["plot_index"]) > 0:
         # user specified bands start at 1 but python api expects 0-based indices
-        kwargs["plot_index"] = [int(i - 1) for i in kwargs["plot_index"]]
+        kwargs["plot_index"] = [int(i) - 1 for i in kwargs["plot_index"]]
+    else:
+        # click automatically converts plot_index to list, even though the default
+        # should be None
+        kwargs["plot_index"] = None
 
     if kwargs["slice"]:
         plane_normal = kwargs["slice"][:3]
@@ -318,6 +322,7 @@ def plot(filename, **kwargs):
             hide_labels=kwargs["hide_labels"],
             hide_cell=kwargs["hide_cell"],
             scale_linewidth=kwargs["scale_linewidth"],
+            plot_index=kwargs["plot_index"],
         )
     else:
         plotter = FermiSurfacePlotter(fs, symprec=kwargs["symprec"])

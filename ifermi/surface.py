@@ -330,23 +330,19 @@ class FermiSurface(MSONable):
         vertices_faces = []
         if band_index is None:
             band_index = {
-                spin: list(range(len(spin_surfaces)))
-                for spin, spin_surfaces in self.isosurfaces.items()
+                spin: [i.band_idx for i in isosurfaces]
+                for spin, isosurfaces in self.isosurfaces.items()
             }
         if not isinstance(band_index, dict):
             band_index = {spin: band_index for spin in spins}
         for spin, spin_index in band_index.items():
             if isinstance(spin_index, int):
                 band_index[spin] = [spin_index]
+
         for spin in spins:
-            if spin in band_index:
-                for i in band_index[spin]:
-                    vertices_faces.append(
-                        (
-                            self.isosurfaces[spin][i].vertices,
-                            self.isosurfaces[spin][i].faces,
-                        )
-                    )
+            for isosurface in self.isosurfaces[spin]:
+                if spin in band_index and isosurface.band_idx in band_index[spin]:
+                    vertices_faces.append((isosurface.vertices, isosurface.faces))
 
         return vertices_faces
 
@@ -390,25 +386,26 @@ class FermiSurface(MSONable):
 
         if band_index is None:
             band_index = {
-                spin: list(range(len(spin_surfaces)))
-                for spin, spin_surfaces in self.isosurfaces.items()
+                spin: [i.band_idx for i in isosurfaces]
+                for spin, isosurfaces in self.isosurfaces.items()
             }
         if not isinstance(band_index, dict):
             band_index = {spin: band_index for spin in spins}
         for spin, spin_index in band_index.items():
             if isinstance(spin_index, int):
                 band_index[spin] = [spin_index]
+
         for spin in spins:
-            if spin in band_index:
-                for i in band_index[spin]:
+            for isosurface in self.isosurfaces[spin]:
+                if spin in band_index and isosurface.band_idx in band_index[spin]:
                     if projection_axis is not None:
                         projections.append(
-                            self.isosurfaces[spin][i].scalar_projection(projection_axis)
+                            isosurface.scalar_projection(projection_axis)
                         )
                     elif norm:
-                        projections.append(self.isosurfaces[spin][i].properties_norms)
+                        projections.append(isosurface.properties_norms)
                     else:
-                        projections.append(self.isosurfaces[spin][i].properties)
+                        projections.append(isosurface.properties)
 
         return projections
 
