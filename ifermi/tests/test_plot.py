@@ -7,11 +7,6 @@ from pymatgen.electronic_structure.core import Spin
 from ifermi.plot import FermiSlicePlotter, FermiSurfacePlotter
 from ifermi.surface import FermiSurface
 
-try:
-    import open3d
-except ImportError:
-    open3d = None
-
 test_dir = Path(__file__).resolve().parent
 
 
