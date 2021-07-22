@@ -280,8 +280,15 @@ class FermiSurfacePlotter:
                 combination with the ``vector_properties`` option.
             hide_labels: Whether to show the high-symmetry k-point labels.
             hide_cell: Whether to show the reciprocal cell boundary.
-            plot_index: The indices of the surfaces to plot. If none are input then the
-                entire surface will be plotted.
+            band_index: A choice of band indices. Valid options are:
+                - A single integer, which will select that band index in both spin channels
+                (if both spin channels are present).
+                - A list of integers, which will select that set of bands from both spin channels (if both a present).
+                - A dictionary of ``{Spin.up: band_index_1, Spin.down: band_index_2}``, where band_index_1 and
+                band_index_2 are either single integers (if one wishes to plot a single band for that particular spin)
+                or a list of integers. Note that the choice of integer and list can be different for different spin
+                channels.
+            If none are supplied the entire surface will be plot.
             **plot_kwargs: Other keyword arguments supported by the individual plotting
                 methods.
         """
@@ -351,10 +358,7 @@ class FermiSurfacePlotter:
 
         isosurfaces = []
         if not hide_surface:
-            if plot_index is None:
-                isosurfaces = self.fermi_surface.all_vertices_faces(spins=spin)
-            else:
-                isosurfaces = self.fermi_surface.all_vertices_faces(spins=spin, band_index=plot_index)
+            isosurfaces = self.fermi_surface.all_vertices_faces(spins=spin, band_index=plot_index)
 
         properties = []
         properties_colormap = None
@@ -974,8 +978,7 @@ class FermiSlicePlotter:
             vnorm=vnorm,
             hide_slice=hide_slice,
             hide_labels=hide_labels,
-            hide_cell=hide_cell,
-            plot_index=plot_index
+            hide_cell=hide_cell
 
         )
 
