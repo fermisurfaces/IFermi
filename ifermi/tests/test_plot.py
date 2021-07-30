@@ -33,10 +33,10 @@ class FermiSurfaceTest(unittest.TestCase):
 
         # Two following two plots should look the same
 
-        plot = plotter.get_plot(plot_index=[1, 3])
+        plot = plotter.get_plot(plot_index=[6])
         plot.show()
 
-        plot = plotter.get_plot(plot_index={Spin.up: [1, 3], Spin.down: [1, 3]})
+        plot = plotter.get_plot(plot_index={Spin.up: [6], Spin.down: [6]})
         plot.show()
 
     def test_plot_slice(self):
