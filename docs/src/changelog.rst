@@ -8,6 +8,7 @@ v0.3.0
 ------
 
 New features:
+
 - Support for plotting individual bands. Specified using the ``--plot-index`` command
   line option. (@aj-searle)
 
