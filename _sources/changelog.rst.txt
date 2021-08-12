@@ -13,6 +13,7 @@ New features:
   line option. (@aj-searle)
 
 Enhancements:
+
 - Fixed high-symmetry points markers.
 - Updated dependencies.
 
@@ -20,18 +21,21 @@ v0.2.6
 ------
 
 Bug fixes:
+
 - Fixed serialization issues.
 
 v0.2.5
 ------
 
 Bug fixes:
+
 - Better handling of integer decimation factors.
 
 v0.2.4
 ------
 
 Enhancements:
+
 - Added function to trim band structure to within a energy cutoff.
 - Improved decimation options.
 
