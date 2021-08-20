@@ -21,32 +21,18 @@ class FermiSurfaceTest(unittest.TestCase):
         self.ref_fs_wigner = loadfn(test_dir / "fs_BaFe2As2_wigner.json.gz")
         self.ref_fs_reciprocal = loadfn(test_dir / "fs_BaFe2As2_reciprocal.json.gz")
 
-    def test_plot_surface(self):
-        fs = FermiSurface.from_band_structure(self.band_structure, wigner_seitz=True)
-        plotter = FermiSurfacePlotter(fs)
-
-        plot = plotter.get_plot(plot_type="plotly")
-        plot.show()
-
-        plot = plotter.get_plot(spin=Spin.up)
-        plot.show()
-
-        # Two following two plots should look the same
-
-        plot = plotter.get_plot(plot_index=[6])
-        plot.show()
-
-        plot = plotter.get_plot(plot_index={Spin.up: [6], Spin.down: [6]})
-        plot.show()
-
-    def test_plot_slice(self):
+    def test_plot_barcode(self):
         fs = FermiSurface.from_band_structure(
             self.band_structure,
             wigner_seitz=True,
         )
-        fermi_slice = fs.get_fermi_slice(plane_normal=(0, 0, 1), distance=0)
-        slice_plotter = FermiSlicePlotter(fermi_slice)
 
-        plot = slice_plotter.get_plot()
+        from gtda.plotting import plot_diagram
+
+        isosurface = fs.isosurfaces[Spin.down][4]
+        print(isosurface.area)
+        print(isosurface.barcode.shape)
+        plot = plot_diagram(isosurface.barcode[0])
         plot.show()
+
 

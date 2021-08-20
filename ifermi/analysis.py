@@ -509,3 +509,23 @@ def longest_simple_paths(vertices: np.ndarray, edges: np.ndarray) -> List[np.nda
         paths.append(longest_path)
 
     return paths
+
+def calculate_barcode(vertices: np.ndarray, faces: np.ndarray):
+    '''
+
+    :param vertices:
+    :param edges:
+    :return:
+    '''
+    import networkx as nx
+    from networkx.convert_matrix import to_numpy_matrix
+    from gtda.homology import VietorisRipsPersistence
+
+    VR = VietorisRipsPersistence(homology_dimensions=[0, 1, 2])
+    vertices= vertices[None, :, :]
+    diagrams = VR.fit_transform(vertices)
+
+    return diagrams
+
+
+

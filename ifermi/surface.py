@@ -75,6 +75,12 @@ class Isosurface(MSONable):
         return isosurface_area(self.vertices, self.faces)
 
     @property
+    def barcode(self):
+        from ifermi.analysis import calculate_barcode
+
+        return calculate_barcode(self.vertices, self.faces)
+
+    @property
     def has_properties(self) -> float:
         """Whether the surface has properties."""
         return self.properties is not None
