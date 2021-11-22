@@ -1,6 +1,6 @@
 numpy==1.21.4
 scipy==1.7.2
-matplotlib==3.4.3
+matplotlib==3.5.0
 pymatgen==2022.0.16
 BoltzTraP2==20.7.1
 trimesh==3.9.35
