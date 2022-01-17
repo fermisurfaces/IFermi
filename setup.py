@@ -58,7 +58,7 @@ setup(
         "decimation": ["open3d"],
         "smooth": ["PyMCubes"],
         "docs": [
-            "sphinx==4.3.2",
+            "sphinx==4.4.0",
             "sphinx-click==3.0.2",
             "sphinx_rtd_theme==1.0.0",
             "sphinx-autodoc-typehints==1.15.1",
