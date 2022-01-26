@@ -1,88 +1,44 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>Python API introduction &mdash; IFermi 0.3.0 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-
-  
-  
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
     <link rel="shortcut icon" href="_static/favicon.ico"/>
-  
-
-  
-  
     <link rel="canonical" href="https://github.com/fermisurfaces/IFermiintroduction_to_ifermi.html"/>
-  
-
-  
-
-  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
         <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Change log" href="changelog.html" />
     <link rel="prev" title="ifermi program" href="cli.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="index.html" class="icon icon-home"> IFermi
-          
-
-          
-            
             <img src="_static/docs-logo2-02.png" class="logo" alt="Logo"/>
-          
           </a>
-
-          
-            
-            
               <div class="version">
                 0.3.0
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -90,18 +46,7 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Usage Guide</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
@@ -138,34 +83,23 @@
 <li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">IFermi</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content style-external-links">
-        
           <div style="text-align: right;">
 <a href="https://github.com/fermisurfaces/IFermi" target="_blank">» GitHub</a>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   
 <style>
 /* CSS for nbsphinx extension */
@@ -376,7 +310,7 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
-.prompt a.copybtn {
+.prompt .copybtn {
     display: none;
 }
 
@@ -436,8 +370,8 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Python-API-introduction">
-<h1>Python API introduction<a class="headerlink" href="#Python-API-introduction" title="Permalink to this headline">¶</a></h1>
+<section id="Python-API-introduction">
+<h1>Python API introduction<a class="headerlink" href="#Python-API-introduction" title="Permalink to this headline"></a></h1>
 <p>IFermi is a fully featured Python 3.6+ library for the generation, analysis, and visualisation of Fermi surfaces and Fermi slices. The goal of the library is to provide full featured <code class="docutils literal notranslate"><span class="pre">FermiSurface</span></code> and <code class="docutils literal notranslate"><span class="pre">FermiSlice</span></code> objects that allow for easy manipulation and analysis. The main features include:</p>
 <ul class="simple">
 <li><p>Interpolation of electronic band structures onto dense k-point meshes.</p></li>
@@ -461,16 +395,15 @@ div.rendered_html tbody tr:hover {
 <li><p>The library provides a rich set of functions for the analysis and visualisation of <code class="docutils literal notranslate"><span class="pre">FermiSurface</span></code> and <code class="docutils literal notranslate"><span class="pre">FermiSlice</span></code> objects.</p></li>
 </ol>
 <p>Below, we provide details for each of these steps. This page can also be run as an <a class="reference external" href="https://github.com/fermisurfaces/IFermi/blob/master/examples/introduction_to_ifermi.ipynb">interactive jupyter notebook</a>.</p>
-<div class="section" id="Loading-VASP-outputs">
-<h2>Loading VASP outputs<a class="headerlink" href="#Loading-VASP-outputs" title="Permalink to this headline">¶</a></h2>
+<section id="Loading-VASP-outputs">
+<h2>Loading VASP outputs<a class="headerlink" href="#Loading-VASP-outputs" title="Permalink to this headline"></a></h2>
 <p>The first step is to load the VASP calculation outputs needed for the plot. This is achieved using the <a class="reference external" href="https://pymatgen.org">pymatgen</a> package, which contains classes for parsing outputs and representing band structure calculations.</p>
 <p>The only input required is a vasprun.xml file. Here, we use the MgB<span class="math notranslate nohighlight">\(_2\)</span> calculation data in the <code class="docutils literal notranslate"><span class="pre">examples/MgB2/</span></code> folder. We first load the vasprun.xml using the <code class="docutils literal notranslate"><span class="pre">Vasprun</span></code> class.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pymatgen.io.vasp.outputs</span> <span class="kn">import</span> <span class="n">Vasprun</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pymatgen.io.vasp.outputs</span> <span class="kn">import</span> <span class="n">Vasprun</span>
 
 <span class="n">vr</span> <span class="o">=</span> <span class="n">Vasprun</span><span class="p">(</span><span class="s1">&#39;MgB2/vasprun.xml&#39;</span><span class="p">)</span>
 </pre></div>
@@ -481,14 +414,13 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">bs</span> <span class="o">=</span> <span class="n">vr</span><span class="o">.</span><span class="n">get_band_structure</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bs</span> <span class="o">=</span> <span class="n">vr</span><span class="o">.</span><span class="n">get_band_structure</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Interpolating-onto-a-dense-k-point-mesh">
-<h2>Interpolating onto a dense k-point mesh<a class="headerlink" href="#Interpolating-onto-a-dense-k-point-mesh" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="Interpolating-onto-a-dense-k-point-mesh">
+<h2>Interpolating onto a dense k-point mesh<a class="headerlink" href="#Interpolating-onto-a-dense-k-point-mesh" title="Permalink to this headline"></a></h2>
 <p>There are currently two issues with our extracted band structure:</p>
 <ol class="arabic simple">
 <li><p>It only contains the irreducible portion of the Brillouin zone (since symmetry was used in the calculation) and therefore does not contain enough information to plot the Fermi surface across the full reciprocal lattice.</p></li>
@@ -500,8 +432,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">ifermi.interpolate</span> <span class="kn">import</span> <span class="n">FourierInterpolator</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ifermi.interpolate</span> <span class="kn">import</span> <span class="n">FourierInterpolator</span>
 
 <span class="n">interpolator</span> <span class="o">=</span> <span class="n">FourierInterpolator</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span>
 </pre></div>
@@ -516,8 +447,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">dense_bs</span> <span class="o">=</span> <span class="n">interpolator</span><span class="o">.</span><span class="n">interpolate_bands</span><span class="p">(</span><span class="n">interpolation_factor</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dense_bs</span> <span class="o">=</span> <span class="n">interpolator</span><span class="o">.</span><span class="n">interpolate_bands</span><span class="p">(</span><span class="n">interpolation_factor</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -527,14 +457,13 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">dense_bs</span><span class="p">,</span> <span class="n">velocities</span> <span class="o">=</span> <span class="n">interpolator</span><span class="o">.</span><span class="n">interpolate_bands</span><span class="p">(</span><span class="n">interpolation_factor</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">return_velocities</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dense_bs</span><span class="p">,</span> <span class="n">velocities</span> <span class="o">=</span> <span class="n">interpolator</span><span class="o">.</span><span class="n">interpolate_bands</span><span class="p">(</span><span class="n">interpolation_factor</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">return_velocities</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Generating-Fermi-surfaces">
-<h2>Generating Fermi surfaces<a class="headerlink" href="#Generating-Fermi-surfaces" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="Generating-Fermi-surfaces">
+<h2>Generating Fermi surfaces<a class="headerlink" href="#Generating-Fermi-surfaces" title="Permalink to this headline"></a></h2>
 <p>The next step is to extract the Fermi surface from the band structure. The <code class="docutils literal notranslate"><span class="pre">FermiSurface.from_band_structure()</span></code> function generates a <code class="docutils literal notranslate"><span class="pre">FermiSurface</span></code> object from the dense band structure we just created.</p>
 <p>This function has a number of options that are detailed in the <a class="reference external" href="https://fermisurfaces.github.io/IFermi/ifermi.html#ifermi.surface.FermiSurface">FermiSurface API Reference page</a>. The two key options are:</p>
 <ol class="arabic simple">
@@ -550,8 +479,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">ifermi.surface</span> <span class="kn">import</span> <span class="n">FermiSurface</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ifermi.surface</span> <span class="kn">import</span> <span class="n">FermiSurface</span>
 
 <span class="n">fs</span> <span class="o">=</span> <span class="n">FermiSurface</span><span class="o">.</span><span class="n">from_band_structure</span><span class="p">(</span><span class="n">dense_bs</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">wigner_seitz</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
@@ -562,8 +490,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">ifermi.kpoints</span> <span class="kn">import</span> <span class="n">kpoints_from_bandstructure</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ifermi.kpoints</span> <span class="kn">import</span> <span class="n">kpoints_from_bandstructure</span>
 
 <span class="n">dense_kpoints</span> <span class="o">=</span> <span class="n">kpoints_from_bandstructure</span><span class="p">(</span><span class="n">dense_bs</span><span class="p">)</span>
 
@@ -580,8 +507,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">fs</span> <span class="o">=</span> <span class="n">FermiSurface</span><span class="o">.</span><span class="n">from_band_structure</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fs</span> <span class="o">=</span> <span class="n">FermiSurface</span><span class="o">.</span><span class="n">from_band_structure</span><span class="p">(</span>
     <span class="n">dense_bs</span><span class="p">,</span>
     <span class="n">wigner_seitz</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">property_data</span><span class="o">=</span><span class="n">velocities</span><span class="p">,</span>
@@ -591,17 +517,16 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="Analyzing-Fermi-surfaces">
-<h2>Analyzing Fermi surfaces<a class="headerlink" href="#Analyzing-Fermi-surfaces" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="Analyzing-Fermi-surfaces">
+<h2>Analyzing Fermi surfaces<a class="headerlink" href="#Analyzing-Fermi-surfaces" title="Permalink to this headline"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">FermiSurface</span></code> object includes a rich API that can be used to calcualate many properties of the Fermi surface. The principle attribute is <code class="docutils literal notranslate"><span class="pre">isosurfaces</span></code>. This contains an an <code class="docutils literal notranslate"><span class="pre">Isosurface</span></code> object for each fully-connected surface. The isosurfaces are given for each spin channel in the band structure. The <a class="reference external" href="https://fermisurfaces.github.io/IFermi/ifermi.html#ifermi.surface.FermiSurface">FermiSurface API Reference page</a> gives a list of all available attributes.</p>
 <p>The number of isosurfaces can be obtained using:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">fs</span><span class="o">.</span><span class="n">n_surfaces</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fs</span><span class="o">.</span><span class="n">n_surfaces</span>
 </pre></div>
 </div>
 </div>
@@ -619,8 +544,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">fs</span><span class="o">.</span><span class="n">n_surfaces_per_spin</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fs</span><span class="o">.</span><span class="n">n_surfaces_per_spin</span>
 </pre></div>
 </div>
 </div>
@@ -638,8 +562,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">fs</span><span class="o">.</span><span class="n">area</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fs</span><span class="o">.</span><span class="n">area</span>
 </pre></div>
 </div>
 </div>
@@ -657,8 +580,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">fs</span><span class="o">.</span><span class="n">area_surfaces</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fs</span><span class="o">.</span><span class="n">area_surfaces</span>
 </pre></div>
 </div>
 </div>
@@ -677,8 +599,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pymatgen.electronic_structure.core</span> <span class="kn">import</span> <span class="n">Spin</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pymatgen.electronic_structure.core</span> <span class="kn">import</span> <span class="n">Spin</span>
 
 <span class="n">fs</span><span class="o">.</span><span class="n">isosurfaces</span><span class="p">[</span><span class="n">Spin</span><span class="o">.</span><span class="n">up</span><span class="p">]</span>
 </pre></div>
@@ -703,8 +624,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">isosurface</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">isosurfaces</span><span class="p">[</span><span class="n">Spin</span><span class="o">.</span><span class="n">up</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">isosurface</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">isosurfaces</span><span class="p">[</span><span class="n">Spin</span><span class="o">.</span><span class="n">up</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -713,8 +633,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">isosurface</span><span class="o">.</span><span class="n">area</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">isosurface</span><span class="o">.</span><span class="n">area</span>
 </pre></div>
 </div>
 </div>
@@ -732,8 +651,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">isosurface</span><span class="o">.</span><span class="n">dimensionality</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">isosurface</span><span class="o">.</span><span class="n">dimensionality</span>
 </pre></div>
 </div>
 </div>
@@ -751,8 +669,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">isosurface</span><span class="o">.</span><span class="n">orientation</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">isosurface</span><span class="o">.</span><span class="n">orientation</span>
 </pre></div>
 </div>
 </div>
@@ -770,8 +687,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># does the surface have face properties</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># does the surface have face properties</span>
 <span class="n">isosurface</span><span class="o">.</span><span class="n">has_properties</span>
 
 <span class="c1"># calculate the norms of the properties</span>
@@ -802,8 +718,7 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># returns the indices of the faces that give uniform density</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># returns the indices of the faces that give uniform density</span>
 <span class="n">isosurface</span><span class="o">.</span><span class="n">sample_uniform</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -835,16 +750,15 @@ array([795, 735, 253, 239, 242, 259, 261, 263, 793, 731, 212, 214, 217,
        277, 279, 281, 776])
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="Fermi-slices">
-<h2>Fermi slices<a class="headerlink" href="#Fermi-slices" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="Fermi-slices">
+<h2>Fermi slices<a class="headerlink" href="#Fermi-slices" title="Permalink to this headline"></a></h2>
 <p>IFermi can also generate two-dimensional slices of the Fermi surface along a specified plane. Planes are defined by their miller indices (j k l) and a distance from the plane, d. <code class="docutils literal notranslate"><span class="pre">FermiSlice</span></code> objects can be generated directly from <code class="docutils literal notranslate"><span class="pre">FermiSurface</span></code> objects.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="n">fermi_slice</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">get_fermi_slice</span><span class="p">(</span><span class="n">plane_normal</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">distance</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
@@ -856,8 +770,7 @@ functions available.</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># number of isolines in the slice</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># number of isolines in the slice</span>
 <span class="n">fermi_slice</span><span class="o">.</span><span class="n">n_lines</span>
 
 <span class="c1"># do the lines have segment properties</span>
@@ -887,9 +800,9 @@ functions available.</p>
 array([ 50, 159, 266, 373, 479, 588, 693])
 </pre></div></div>
 </div>
-</div>
-<div class="section" id="Visualising-Fermi-surfaces-and-slices">
-<h2>Visualising Fermi surfaces and slices<a class="headerlink" href="#Visualising-Fermi-surfaces-and-slices" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="Visualising-Fermi-surfaces-and-slices">
+<h2>Visualising Fermi surfaces and slices<a class="headerlink" href="#Visualising-Fermi-surfaces-and-slices" title="Permalink to this headline"></a></h2>
 <p>IFermi includes a rich set of visualisation tools for plotting <code class="docutils literal notranslate"><span class="pre">FermiSurface</span></code> and <code class="docutils literal notranslate"><span class="pre">FermiSlice</span></code> objects.</p>
 <p>Fermi surfaces can be visualised using the <code class="docutils literal notranslate"><span class="pre">FermiSurfacePlotter</span></code> class. This object supports plotting using <a class="reference external" href="https://matplotlib.org">matplotlib</a>, <a class="reference external" href="https://plot.ly/">plotly</a> and <a class="reference external" href="https://docs.enthought.com/mayavi/mayavi/">mayavi</a> (provided the <code class="docutils literal notranslate"><span class="pre">mayavi</span></code> package <a class="reference external" href="https://docs.enthought.com/mayavi/mayavi/installation.html">is installed</a>). The detailed documentation is available on the <a class="reference external" href="https://fermisurfaces.github.io/IFermi/ifermi.html#ifermi.plot.FermiSurfacePlotter">FermiSurfacePlotter API Reference
 page</a>.</p>
@@ -898,8 +811,7 @@ page</a>.</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">ifermi.plot</span> <span class="kn">import</span> <span class="n">FermiSurfacePlotter</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ifermi.plot</span> <span class="kn">import</span> <span class="n">FermiSurfacePlotter</span>
 
 <span class="n">fs</span> <span class="o">=</span> <span class="n">FermiSurface</span><span class="o">.</span><span class="n">from_band_structure</span><span class="p">(</span><span class="n">dense_bs</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">wigner_seitz</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -918,8 +830,7 @@ page</a>.</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">plot</span> <span class="o">=</span> <span class="n">plotter</span><span class="o">.</span><span class="n">get_plot</span><span class="p">(</span><span class="n">plot_type</span><span class="o">=</span><span class="s2">&quot;plotly&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span> <span class="o">=</span> <span class="n">plotter</span><span class="o">.</span><span class="n">get_plot</span><span class="p">(</span><span class="n">plot_type</span><span class="o">=</span><span class="s2">&quot;plotly&quot;</span><span class="p">)</span>
 <span class="n">plot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -974,16 +885,15 @@ if (outputEl) {{
 
                         })                };                });            </script>        </div></div>
 </div>
-<div class="section" id="Selecting-spin-channels">
-<h3>Selecting spin channels<a class="headerlink" href="#Selecting-spin-channels" title="Permalink to this headline">¶</a></h3>
+<section id="Selecting-spin-channels">
+<h3>Selecting spin channels<a class="headerlink" href="#Selecting-spin-channels" title="Permalink to this headline"></a></h3>
 <p>In the plot above, the spins are degenerate (the Hamiltonian does not differentiate between the up and down spins). This is why the surface looks dappled - the plotter is plotting two redundant sufaces. To stop it from doing this, we can specify that only one component of the spin should be plotted.</p>
 <p><em>Note: from now on we omit the ``plot_type`` argument.</em></p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pymatgen.electronic_structure.core</span> <span class="kn">import</span> <span class="n">Spin</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pymatgen.electronic_structure.core</span> <span class="kn">import</span> <span class="n">Spin</span>
 
 <span class="n">plot</span> <span class="o">=</span> <span class="n">plotter</span><span class="o">.</span><span class="n">get_plot</span><span class="p">(</span><span class="n">spin</span><span class="o">=</span><span class="n">Spin</span><span class="o">.</span><span class="n">up</span><span class="p">)</span>
 <span class="c1"># plot.show()</span>
@@ -1010,9 +920,9 @@ require(['plotly'], function(Plotly) {
 }
 </script></div>
 </div>
-</div>
-<div class="section" id="Selecting-Individual-Bands">
-<h3>Selecting Individual Bands<a class="headerlink" href="#Selecting-Individual-Bands" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="Selecting-Individual-Bands">
+<h3>Selecting Individual Bands<a class="headerlink" href="#Selecting-Individual-Bands" title="Permalink to this headline"></a></h3>
 <p>Bands can be selected by, when calling <code class="docutils literal notranslate"><span class="pre">get_plot</span></code>, specifying a <code class="docutils literal notranslate"><span class="pre">plot_index</span></code> argument. This can be one of the following:</p>
 <ul class="simple">
 <li><p>A single integer, which will select that band index in both spin channels (if both spin channels are present).</p></li>
@@ -1035,8 +945,7 @@ require(['plotly'], function(Plotly) {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">plot</span> <span class="o">=</span> <span class="n">plotter</span><span class="o">.</span><span class="n">get_plot</span><span class="p">(</span><span class="n">plot_index</span><span class="o">=</span><span class="p">{</span><span class="n">Spin</span><span class="o">.</span><span class="n">up</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">Spin</span><span class="o">.</span><span class="n">down</span><span class="p">:</span> <span class="p">[</span><span class="mi">6</span><span class="p">]})</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span> <span class="o">=</span> <span class="n">plotter</span><span class="o">.</span><span class="n">get_plot</span><span class="p">(</span><span class="n">plot_index</span><span class="o">=</span><span class="p">{</span><span class="n">Spin</span><span class="o">.</span><span class="n">up</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">Spin</span><span class="o">.</span><span class="n">down</span><span class="p">:</span> <span class="p">[</span><span class="mi">6</span><span class="p">]})</span>
 <span class="n">plot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1091,17 +1000,16 @@ if (outputEl) {{
 
                         })                };                });            </script>        </div></div>
 </div>
-</div>
-<div class="section" id="Styling-face-properties">
-<h3>Styling face properties<a class="headerlink" href="#Styling-face-properties" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="Styling-face-properties">
+<h3>Styling face properties<a class="headerlink" href="#Styling-face-properties" title="Permalink to this headline"></a></h3>
 <p>As described in the <a class="reference external" href="#Generating%20Fermi%20surfaces">Generating Fermi surfaces</a> section, Fermi surfaces (and Fermi slices) can include a property projected onto the isosurface faces. By default, if properties are included in the Fermi surface they will be indicated by coloring of the isosurface. If the face property is a vector, the norm of the vector will be used as the color intensity. The colormap of the surface can be changed using the <code class="docutils literal notranslate"><span class="pre">properties_colormap</span></code> option. All <a class="reference external" href="https://matplotlib.org/stable/gallery/color/colormap_reference.html">matplotlib
 colormaps</a> are supported. For example:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">fs</span> <span class="o">=</span> <span class="n">FermiSurface</span><span class="o">.</span><span class="n">from_band_structure</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fs</span> <span class="o">=</span> <span class="n">FermiSurface</span><span class="o">.</span><span class="n">from_band_structure</span><span class="p">(</span>
     <span class="n">dense_bs</span><span class="p">,</span>
     <span class="n">wigner_seitz</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">property_data</span><span class="o">=</span><span class="n">velocities</span><span class="p">,</span>
@@ -1167,9 +1075,9 @@ if (outputEl) {{
 </div>
 <p>The minimum and maximum values for the colorbar limits can be set using the <code class="docutils literal notranslate"><span class="pre">cmin</span></code> and <code class="docutils literal notranslate"><span class="pre">cmax</span></code> parameters. These should be used when quantitatively comparing surface properties between two plots.</p>
 <p>It is also possible calculate the scalar projection of the face properties onto a cartesian axis using the <code class="docutils literal notranslate"><span class="pre">projection_axis</span></code> option. When combined with a diverging colormap this can be used to indicate surface properties that vary between positive and negative numbers. For example, by setting <code class="docutils literal notranslate"><span class="pre">projection_axis=(0,</span> <span class="pre">0,</span> <span class="pre">1)</span></code>, the surface will be colored by the projection of the group velocity onto the [0 0 1] vector (z-axis).</p>
-</div>
-<div class="section" id="Plotting-Arrows">
-<h3>Plotting Arrows<a class="headerlink" href="#Plotting-Arrows" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="Plotting-Arrows">
+<h3>Plotting Arrows<a class="headerlink" href="#Plotting-Arrows" title="Permalink to this headline"></a></h3>
 <p>Vector valued Fermi surface properties (such as group velocity or spin magnetisation) can also be visualised as arrows by setting <code class="docutils literal notranslate"><span class="pre">vector_properties=True</span></code>. If <code class="docutils literal notranslate"><span class="pre">projection_axis</span></code> is set, the color of the arrows will be determined by the scalar projection of the property vectors onto the specified axis, otherwise the norm of the projections will be used. The colormap used to color the arrows is specified by setting <code class="docutils literal notranslate"><span class="pre">vector_properties</span></code> to the colormap name. Often it is useful to hide the
 isosurface (<code class="docutils literal notranslate"><span class="pre">hide_surface=True</span></code>) or high-symmetry labels (<code class="docutils literal notranslate"><span class="pre">hide_labels=True</span></code>) when visualising arrows.</p>
 <p>The size of the arrows can be controlled using the <code class="docutils literal notranslate"><span class="pre">vnorm</span></code> parameter. This is particularly useful when quantitatively comparing vector properties across multiple Fermi surfaces. A larger <code class="docutils literal notranslate"><span class="pre">vnorm</span></code> value will increase the size of the arrows. The spacing between the arrows is controlled by the <code class="docutils literal notranslate"><span class="pre">vector_spacing</span></code> option. Smaller values will increase the density of the arrows.</p>
@@ -1178,8 +1086,7 @@ isosurface (<code class="docutils literal notranslate"><span class="pre">hide_su
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">plot</span> <span class="o">=</span> <span class="n">plotter</span><span class="o">.</span><span class="n">get_plot</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span> <span class="o">=</span> <span class="n">plotter</span><span class="o">.</span><span class="n">get_plot</span><span class="p">(</span>
     <span class="n">vector_properties</span><span class="o">=</span><span class="s2">&quot;RdBu&quot;</span><span class="p">,</span>
     <span class="n">projection_axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
     <span class="n">hide_surface</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1209,17 +1116,16 @@ require(['plotly'], function(Plotly) {
 }
 </script></div>
 </div>
-</div>
-<div class="section" id="id1">
-<h3>Fermi slices<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id1">
+<h3>Fermi slices<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h3>
 <p>Fermi slices can be visualised using the <code class="docutils literal notranslate"><span class="pre">FermiSlicePlotter</span></code> class. This object only supports plotting using <a class="reference external" href="https://matplotlib.org">matplotlib</a>. The detailed documentation is available on the <a class="reference external" href="https://fermisurfaces.github.io/IFermi/ifermi.html#ifermi.plot.FermiSlicePlotter">FermiSlicePlotter API Reference page</a></p>
 <p>First, the plotter is initialised from a <code class="docutils literal notranslate"><span class="pre">FermiSlice</span></code> object.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">ifermi.plot</span> <span class="kn">import</span> <span class="n">FermiSlicePlotter</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ifermi.plot</span> <span class="kn">import</span> <span class="n">FermiSlicePlotter</span>
 
 <span class="n">slice_plotter</span> <span class="o">=</span> <span class="n">FermiSlicePlotter</span><span class="p">(</span><span class="n">fermi_slice</span><span class="p">)</span>
 </pre></div>
@@ -1230,8 +1136,7 @@ require(['plotly'], function(Plotly) {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">plot</span> <span class="o">=</span> <span class="n">slice_plotter</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span> <span class="o">=</span> <span class="n">slice_plotter</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span>
 <span class="n">plot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1244,9 +1149,9 @@ require(['plotly'], function(Plotly) {
 </div>
 </div>
 <p>Many of the same options for visualing Fermi surfaces, including projections and arrows, are also available for Fermi slices. When including arrows in Fermi slice figures, only the components of the arrows in the 2D plane will be shown.</p>
-</div>
-<div class="section" id="Exporting-figures">
-<h3>Exporting figures<a class="headerlink" href="#Exporting-figures" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="Exporting-figures">
+<h3>Exporting figures<a class="headerlink" href="#Exporting-figures" title="Permalink to this headline"></a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">plot.show()</span></code> works well for viewing Fermi surfaces in a notebook but doesn’t work when generating plots as part of a standalone script.</p>
 <p>To help displaying interactive plots and saving static images you should use the <code class="docutils literal notranslate"><span class="pre">show_plot</span></code> and <code class="docutils literal notranslate"><span class="pre">save_plot</span></code> functions.</p>
 <div class="admonition note">
@@ -1257,8 +1162,7 @@ require(['plotly'], function(Plotly) {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">ifermi.plot</span> <span class="kn">import</span> <span class="n">show_plot</span><span class="p">,</span> <span class="n">save_plot</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ifermi.plot</span> <span class="kn">import</span> <span class="n">show_plot</span><span class="p">,</span> <span class="n">save_plot</span>
 
 <span class="n">save_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="s2">&quot;fermi-surface.png&quot;</span><span class="p">)</span>  <span class="c1"># saves the plot to a file</span>
 <span class="n">show_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span>  <span class="c1"># displays an interactive plot</span>
@@ -1273,52 +1177,36 @@ require(['plotly'], function(Plotly) {
 &lt;Figure size 432x288 with 0 Axes&gt;
 </pre></div></div>
 </div>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>
-           
           </div>
           <footer>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, Amy Searle and Alex Ganose.
-
-    </p>
+    <p>&#169; Copyright 2021, Amy Searle and Alex Ganose.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
