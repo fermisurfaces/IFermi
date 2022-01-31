@@ -59,7 +59,7 @@ setup(
         "smooth": ["PyMCubes"],
         "docs": [
             "sphinx==4.4.0",
-            "sphinx-click==3.0.2",
+            "sphinx-click==3.0.3",
             "sphinx_rtd_theme==1.0.0",
             "sphinx-autodoc-typehints==1.15.3",
             "m2r2==0.3.2",
