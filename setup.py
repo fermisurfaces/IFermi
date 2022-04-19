@@ -33,6 +33,7 @@ setup(
     ],
     keywords="fermi-surface pymatgen dft vasp band materials-science",
     packages=find_packages(),
+    setup_requires=["packaging"],
     install_requires=[
         "numpy",
         "scipy",
