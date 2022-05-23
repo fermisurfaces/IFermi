@@ -1,5 +1,5 @@
 numpy==1.22.3
-scipy==1.8.0
+scipy==1.8.1
 matplotlib==3.5.2
 pymatgen==2022.4.26
 BoltzTraP2==22.4.1
