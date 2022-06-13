@@ -8,7 +8,7 @@ meshcut==0.3.0
 scikit-image==0.19.2
 monty==2022.4.26
 spglib==1.16.5
-plotly==5.8.0
+plotly==5.8.2
 pyfftw==0.13.0
 psutil==5.9.1
 click==8.1.3
