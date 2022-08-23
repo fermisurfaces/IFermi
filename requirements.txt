@@ -3,7 +3,7 @@ scipy==1.8.1
 matplotlib==3.5.2
 pymatgen==2022.7.8
 BoltzTraP2==22.6.1
-trimesh==3.10.8
+trimesh==3.13.5
 meshcut==0.3.0
 scikit-image==0.19.3
 monty==2022.4.26
