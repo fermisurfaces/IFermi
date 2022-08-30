@@ -9,6 +9,7 @@ from ifermi.defaults import KTOL
 
 __all__ = [
     "isosurface_area",
+    "isosurface_homology",
     "isosurface_dimensionality",
     "connected_subsurfaces",
     "average_properties",
@@ -88,6 +89,35 @@ def connected_subsurfaces(
     mesh = Trimesh(vertices=vertices, faces=faces)
     connected_meshes = mesh.split(only_watertight=False)
     return [(m.vertices, m.faces) for m in connected_meshes]
+
+def isosurface_homology(
+        faces: List[np.ndarray], band_index = None, k = None
+    ) -> int:
+    """
+        Compute the ranks of the k-th homology group of a given surface in the Fermi surface.
+        i.e. the k-th Betti number of the given surface.
+
+        Args:
+            faces: A (m, 3) int array of the faces of the isosurface.
+            band_index: An int specifying the band index of the surface for which the homology is to be
+                        computed.
+            k: An int indicating which Homology group should be computed.
+
+        Returns:
+            A list of of (vertices, faces) for each sub-surface.
+        """
+
+    from mogutda import SimplicialComplex
+
+    if band_index is None:
+        band_index = 0
+
+    if k is None:
+        k = 0
+
+    fermi_simp = SimplicialComplex(simplices=faces[band_index])
+
+    return fermi_simp.betti_number(k)
 
 
 def equivalent_surfaces(surfaces_vertices: List[np.ndarray], tol=KTOL) -> np.ndarray:

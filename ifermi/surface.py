@@ -69,7 +69,7 @@ class Isosurface(MSONable):
 
     @property
     def area(self) -> float:
-        r"""Area of the isosurface in Å\ :sup:`-2`\ ."""
+        """Area of the isosurface in Å\ :sup:`-2`\ ."""
         from ifermi.analysis import isosurface_area
 
         return isosurface_area(self.vertices, self.faces)
@@ -97,6 +97,11 @@ class Isosurface(MSONable):
             raise ValueError("Isosurface does not have face properties.")
 
         return self.properties.ndim
+
+    def kth_betti_number(self, band_index=None, k=None) -> int:
+        from ifermi.analysis import isosurface_homology
+
+        return isosurface_homology(self.faces, band_index=band_index, k=k)
 
     def average_properties(
         self, norm: bool = False, projection_axis: Optional[Tuple[int, int, int]] = None
@@ -231,6 +236,15 @@ class FermiSurface(MSONable):
         return all(
             [all([i.has_properties for i in s]) for s in self.isosurfaces.values()]
         )
+
+    def kth_betti_number(self, band_index=None, spins=None, k=None) -> int:
+        from ifermi.analysis import isosurface_homology
+
+        isosurfaces = self.all_vertices_faces(spins=spins)
+
+        faces = [l[1] for l in isosurfaces]
+
+        return isosurface_homology(faces, band_index=band_index, k=k)
 
     def average_properties(
         self, norm: bool = False, projection_axis: Optional[Tuple[int, int, int]] = None
