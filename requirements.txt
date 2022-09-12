@@ -6,7 +6,7 @@ BoltzTraP2==22.6.1
 trimesh==3.14.1
 meshcut==0.3.0
 scikit-image==0.19.3
-monty==2022.4.26
+monty==2022.9.9
 spglib==2.0.1
 plotly==5.10.0
 pyfftw==0.13.0
