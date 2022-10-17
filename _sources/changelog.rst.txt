@@ -4,6 +4,11 @@ Change log
 [Unreleased]
 ------------
 
+v0.3.1
+------
+
+Fixed ``hide_cell`` plotting option.
+
 v0.3.0
 ------
 
