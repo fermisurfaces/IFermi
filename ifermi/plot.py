@@ -494,9 +494,10 @@ class FermiSurfacePlotter:
                     ax.quiver(x, y, z, u, v, w, color=color, **quiver_kwargs)
 
         # add the cell outline to the plot
-        _mpl_bz_style.update(bz_kwargs)
-        lines = Line3DCollection(self.reciprocal_space.lines, **_mpl_bz_style)
-        ax.add_collection3d(lines)
+        if not plot_data.hide_cell:
+            _mpl_bz_style.update(bz_kwargs)
+            lines = Line3DCollection(self.reciprocal_space.lines, **_mpl_bz_style)
+            ax.add_collection3d(lines)
 
         if not plot_data.hide_labels:
             for coords, label in zip(*self._symmetry_pts):
@@ -610,11 +611,12 @@ class FermiSurfacePlotter:
                     meshes.extend(arrow)
 
         # add the cell outline to the plot
-        for line in self.reciprocal_space.lines:
-            x, y, z = line.T
-            _plotly_bz_style.update(bz_kwargs)
-            trace = go.Scatter3d(x=x, y=y, z=z, mode="lines", **_plotly_bz_style)
-            meshes.append(trace)
+        if not plot_data.hide_cell:
+            for line in self.reciprocal_space.lines:
+                x, y, z = line.T
+                _plotly_bz_style.update(bz_kwargs)
+                trace = go.Scatter3d(x=x, y=y, z=z, mode="lines", **_plotly_bz_style)
+                meshes.append(trace)
 
         scene = _plotly_scene.copy()
         if not plot_data.hide_labels:
@@ -709,9 +711,10 @@ class FermiSurfacePlotter:
                 pnts.glyph.glyph_source.glyph_source.shaft_radius = 0.035
                 pnts.glyph.glyph_source.glyph_source.tip_length = 0.3
 
-        for line in self.reciprocal_space.lines:
-            x, y, z = line.T
-            mlab.plot3d(x, y, z, **_mayavi_rs_style)
+        if not plot_data.hide_cell:
+            for line in self.reciprocal_space.lines:
+                x, y, z = line.T
+                mlab.plot3d(x, y, z, **_mayavi_rs_style)
 
         if not plot_data.hide_labels:
             # latexify labels
