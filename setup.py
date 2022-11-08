@@ -62,7 +62,7 @@ setup(
             "sphinx==5.3.0",
             "sphinx-click==4.3.0",
             "sphinx_rtd_theme==1.0.0",
-            "sphinx-autodoc-typehints==1.19.5",
+            "sphinx-autodoc-typehints==1.19.4",
             "m2r2==0.3.3",
             "nbsphinx",
             "nbsphinx-link",
