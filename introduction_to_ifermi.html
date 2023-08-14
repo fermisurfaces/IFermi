@@ -7,6 +7,7 @@
   <title>Python API introduction &mdash; IFermi 0.3.1 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/nbsphinx-code-cells.css" type="text/css" />
       <link rel="stylesheet" href="_static/custom.css" type="text/css" />
     <link rel="shortcut icon" href="_static/favicon.ico"/>
     <link rel="canonical" href="https://github.com/fermisurfaces/IFermiintroduction_to_ifermi.html"/>
@@ -102,286 +103,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS for nbsphinx extension */
-
-/* remove conflicting styling from Sphinx themes */
-div.nbinput.container div.prompt *,
-div.nboutput.container div.prompt *,
-div.nbinput.container div.input_area pre,
-div.nboutput.container div.output_area pre,
-div.nbinput.container div.input_area .highlight,
-div.nboutput.container div.output_area .highlight {
-    border: none;
-    padding: 0;
-    margin: 0;
-    box-shadow: none;
-}
-
-div.nbinput.container > div[class*=highlight],
-div.nboutput.container > div[class*=highlight] {
-    margin: 0;
-}
-
-div.nbinput.container div.prompt *,
-div.nboutput.container div.prompt * {
-    background: none;
-}
-
-div.nboutput.container div.output_area .highlight,
-div.nboutput.container div.output_area pre {
-    background: unset;
-}
-
-div.nboutput.container div.output_area div.highlight {
-    color: unset;  /* override Pygments text color */
-}
-
-/* avoid gaps between output lines */
-div.nboutput.container div[class*=highlight] pre {
-    line-height: normal;
-}
-
-/* input/output containers */
-div.nbinput.container,
-div.nboutput.container {
-    display: -webkit-flex;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-    width: 100%;
-}
-@media (max-width: 540px) {
-    div.nbinput.container,
-    div.nboutput.container {
-        flex-direction: column;
-    }
-}
-
-/* input container */
-div.nbinput.container {
-    padding-top: 5px;
-}
-
-/* last container */
-div.nblast.container {
-    padding-bottom: 5px;
-}
-
-/* input prompt */
-div.nbinput.container div.prompt pre {
-    color: #307FC1;
-}
-
-/* output prompt */
-div.nboutput.container div.prompt pre {
-    color: #BF5B3D;
-}
-
-/* all prompts */
-div.nbinput.container div.prompt,
-div.nboutput.container div.prompt {
-    width: 4.5ex;
-    padding-top: 5px;
-    position: relative;
-    user-select: none;
-}
-
-div.nbinput.container div.prompt > div,
-div.nboutput.container div.prompt > div {
-    position: absolute;
-    right: 0;
-    margin-right: 0.3ex;
-}
-
-@media (max-width: 540px) {
-    div.nbinput.container div.prompt,
-    div.nboutput.container div.prompt {
-        width: unset;
-        text-align: left;
-        padding: 0.4em;
-    }
-    div.nboutput.container div.prompt.empty {
-        padding: 0;
-    }
-
-    div.nbinput.container div.prompt > div,
-    div.nboutput.container div.prompt > div {
-        position: unset;
-    }
-}
-
-/* disable scrollbars and line breaks on prompts */
-div.nbinput.container div.prompt pre,
-div.nboutput.container div.prompt pre {
-    overflow: hidden;
-    white-space: pre;
-}
-
-/* input/output area */
-div.nbinput.container div.input_area,
-div.nboutput.container div.output_area {
-    -webkit-flex: 1;
-    flex: 1;
-    overflow: auto;
-}
-@media (max-width: 540px) {
-    div.nbinput.container div.input_area,
-    div.nboutput.container div.output_area {
-        width: 100%;
-    }
-}
-
-/* input area */
-div.nbinput.container div.input_area {
-    border: 1px solid #e0e0e0;
-    border-radius: 2px;
-    /*background: #f5f5f5;*/
-}
-
-/* override MathJax center alignment in output cells */
-div.nboutput.container div[class*=MathJax] {
-    text-align: left !important;
-}
-
-/* override sphinx.ext.imgmath center alignment in output cells */
-div.nboutput.container div.math p {
-    text-align: left;
-}
-
-/* standard error */
-div.nboutput.container div.output_area.stderr {
-    background: #fdd;
-}
-
-/* ANSI colors */
-.ansi-black-fg { color: #3E424D; }
-.ansi-black-bg { background-color: #3E424D; }
-.ansi-black-intense-fg { color: #282C36; }
-.ansi-black-intense-bg { background-color: #282C36; }
-.ansi-red-fg { color: #E75C58; }
-.ansi-red-bg { background-color: #E75C58; }
-.ansi-red-intense-fg { color: #B22B31; }
-.ansi-red-intense-bg { background-color: #B22B31; }
-.ansi-green-fg { color: #00A250; }
-.ansi-green-bg { background-color: #00A250; }
-.ansi-green-intense-fg { color: #007427; }
-.ansi-green-intense-bg { background-color: #007427; }
-.ansi-yellow-fg { color: #DDB62B; }
-.ansi-yellow-bg { background-color: #DDB62B; }
-.ansi-yellow-intense-fg { color: #B27D12; }
-.ansi-yellow-intense-bg { background-color: #B27D12; }
-.ansi-blue-fg { color: #208FFB; }
-.ansi-blue-bg { background-color: #208FFB; }
-.ansi-blue-intense-fg { color: #0065CA; }
-.ansi-blue-intense-bg { background-color: #0065CA; }
-.ansi-magenta-fg { color: #D160C4; }
-.ansi-magenta-bg { background-color: #D160C4; }
-.ansi-magenta-intense-fg { color: #A03196; }
-.ansi-magenta-intense-bg { background-color: #A03196; }
-.ansi-cyan-fg { color: #60C6C8; }
-.ansi-cyan-bg { background-color: #60C6C8; }
-.ansi-cyan-intense-fg { color: #258F8F; }
-.ansi-cyan-intense-bg { background-color: #258F8F; }
-.ansi-white-fg { color: #C5C1B4; }
-.ansi-white-bg { background-color: #C5C1B4; }
-.ansi-white-intense-fg { color: #A1A6B2; }
-.ansi-white-intense-bg { background-color: #A1A6B2; }
-
-.ansi-default-inverse-fg { color: #FFFFFF; }
-.ansi-default-inverse-bg { background-color: #000000; }
-
-.ansi-bold { font-weight: bold; }
-.ansi-underline { text-decoration: underline; }
-
-
-div.nbinput.container div.input_area div[class*=highlight] > pre,
-div.nboutput.container div.output_area div[class*=highlight] > pre,
-div.nboutput.container div.output_area div[class*=highlight].math,
-div.nboutput.container div.output_area.rendered_html,
-div.nboutput.container div.output_area > div.output_javascript,
-div.nboutput.container div.output_area:not(.rendered_html) > img{
-    padding: 5px;
-    margin: 0;
-}
-
-/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
-div.nbinput.container div.input_area > div[class^='highlight'],
-div.nboutput.container div.output_area > div[class^='highlight']{
-    overflow-y: hidden;
-}
-
-/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
-.prompt .copybtn {
-    display: none;
-}
-
-/* Some additional styling taken form the Jupyter notebook CSS */
-.jp-RenderedHTMLCommon table,
-div.rendered_html table {
-  border: none;
-  border-collapse: collapse;
-  border-spacing: 0;
-  color: black;
-  font-size: 12px;
-  table-layout: fixed;
-}
-.jp-RenderedHTMLCommon thead,
-div.rendered_html thead {
-  border-bottom: 1px solid black;
-  vertical-align: bottom;
-}
-.jp-RenderedHTMLCommon tr,
-.jp-RenderedHTMLCommon th,
-.jp-RenderedHTMLCommon td,
-div.rendered_html tr,
-div.rendered_html th,
-div.rendered_html td {
-  text-align: right;
-  vertical-align: middle;
-  padding: 0.5em 0.5em;
-  line-height: normal;
-  white-space: normal;
-  max-width: none;
-  border: none;
-}
-.jp-RenderedHTMLCommon th,
-div.rendered_html th {
-  font-weight: bold;
-}
-.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
-div.rendered_html tbody tr:nth-child(odd) {
-  background: #f5f5f5;
-}
-.jp-RenderedHTMLCommon tbody tr:hover,
-div.rendered_html tbody tr:hover {
-  background: rgba(66, 165, 245, 0.2);
-}
-
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="Python-API-introduction">
+  <section id="Python-API-introduction">
 <h1>Python API introduction<a class="headerlink" href="#Python-API-introduction" title="Permalink to this heading"></a></h1>
 <p>IFermi is a fully featured Python 3.6+ library for the generation, analysis, and visualisation of Fermi surfaces and Fermi slices. The goal of the library is to provide full featured <code class="docutils literal notranslate"><span class="pre">FermiSurface</span></code> and <code class="docutils literal notranslate"><span class="pre">FermiSlice</span></code> objects that allow for easy manipulation and analysis. The main features include:</p>
 <ul class="simple">
@@ -414,9 +136,9 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from pymatgen.io.vasp.outputs import Vasprun
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pymatgen.io.vasp.outputs</span> <span class="kn">import</span> <span class="n">Vasprun</span>
 
-vr = Vasprun(&#39;MgB2/vasprun.xml&#39;)
+<span class="n">vr</span> <span class="o">=</span> <span class="n">Vasprun</span><span class="p">(</span><span class="s1">&#39;MgB2/vasprun.xml&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -425,7 +147,7 @@ vr = Vasprun(&#39;MgB2/vasprun.xml&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>bs = vr.get_band_structure()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bs</span> <span class="o">=</span> <span class="n">vr</span><span class="o">.</span><span class="n">get_band_structure</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -443,9 +165,9 @@ vr = Vasprun(&#39;MgB2/vasprun.xml&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from ifermi.interpolate import FourierInterpolator
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ifermi.interpolate</span> <span class="kn">import</span> <span class="n">FourierInterpolator</span>
 
-interpolator = FourierInterpolator(bs)
+<span class="n">interpolator</span> <span class="o">=</span> <span class="n">FourierInterpolator</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -458,7 +180,7 @@ interpolator = FourierInterpolator(bs)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dense_bs = interpolator.interpolate_bands(interpolation_factor=5)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dense_bs</span> <span class="o">=</span> <span class="n">interpolator</span><span class="o">.</span><span class="n">interpolate_bands</span><span class="p">(</span><span class="n">interpolation_factor</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -468,7 +190,7 @@ interpolator = FourierInterpolator(bs)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dense_bs, velocities = interpolator.interpolate_bands(interpolation_factor=5, return_velocities=True)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dense_bs</span><span class="p">,</span> <span class="n">velocities</span> <span class="o">=</span> <span class="n">interpolator</span><span class="o">.</span><span class="n">interpolate_bands</span><span class="p">(</span><span class="n">interpolation_factor</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">return_velocities</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -490,9 +212,9 @@ interpolator = FourierInterpolator(bs)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from ifermi.surface import FermiSurface
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ifermi.surface</span> <span class="kn">import</span> <span class="n">FermiSurface</span>
 
-fs = FermiSurface.from_band_structure(dense_bs, mu=0.0, wigner_seitz=True)
+<span class="n">fs</span> <span class="o">=</span> <span class="n">FermiSurface</span><span class="o">.</span><span class="n">from_band_structure</span><span class="p">(</span><span class="n">dense_bs</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">wigner_seitz</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -501,15 +223,15 @@ fs = FermiSurface.from_band_structure(dense_bs, mu=0.0, wigner_seitz=True)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from ifermi.kpoints import kpoints_from_bandstructure
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ifermi.kpoints</span> <span class="kn">import</span> <span class="n">kpoints_from_bandstructure</span>
 
-dense_kpoints = kpoints_from_bandstructure(dense_bs)
+<span class="n">dense_kpoints</span> <span class="o">=</span> <span class="n">kpoints_from_bandstructure</span><span class="p">(</span><span class="n">dense_bs</span><span class="p">)</span>
 
-fs = FermiSurface.from_band_structure(
-    dense_bs,
-    property_data=velocities,
-    property_kpoints=dense_kpoints,
-)
+<span class="n">fs</span> <span class="o">=</span> <span class="n">FermiSurface</span><span class="o">.</span><span class="n">from_band_structure</span><span class="p">(</span>
+    <span class="n">dense_bs</span><span class="p">,</span>
+    <span class="n">property_data</span><span class="o">=</span><span class="n">velocities</span><span class="p">,</span>
+    <span class="n">property_kpoints</span><span class="o">=</span><span class="n">dense_kpoints</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -518,13 +240,13 @@ fs = FermiSurface.from_band_structure(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fs = FermiSurface.from_band_structure(
-    dense_bs,
-    wigner_seitz=True,
-    property_data=velocities,
-    property_kpoints=dense_kpoints,
-    calculate_dimensionality=True
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fs</span> <span class="o">=</span> <span class="n">FermiSurface</span><span class="o">.</span><span class="n">from_band_structure</span><span class="p">(</span>
+    <span class="n">dense_bs</span><span class="p">,</span>
+    <span class="n">wigner_seitz</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">property_data</span><span class="o">=</span><span class="n">velocities</span><span class="p">,</span>
+    <span class="n">property_kpoints</span><span class="o">=</span><span class="n">dense_kpoints</span><span class="p">,</span>
+    <span class="n">calculate_dimensionality</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -537,7 +259,7 @@ fs = FermiSurface.from_band_structure(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fs.n_surfaces
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fs</span><span class="o">.</span><span class="n">n_surfaces</span>
 </pre></div>
 </div>
 </div>
@@ -555,7 +277,7 @@ fs = FermiSurface.from_band_structure(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fs.n_surfaces_per_spin
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fs</span><span class="o">.</span><span class="n">n_surfaces_per_spin</span>
 </pre></div>
 </div>
 </div>
@@ -573,7 +295,7 @@ fs = FermiSurface.from_band_structure(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fs.area
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fs</span><span class="o">.</span><span class="n">area</span>
 </pre></div>
 </div>
 </div>
@@ -591,7 +313,7 @@ fs = FermiSurface.from_band_structure(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fs.area_surfaces
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fs</span><span class="o">.</span><span class="n">area_surfaces</span>
 </pre></div>
 </div>
 </div>
@@ -610,9 +332,9 @@ fs = FermiSurface.from_band_structure(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from pymatgen.electronic_structure.core import Spin
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pymatgen.electronic_structure.core</span> <span class="kn">import</span> <span class="n">Spin</span>
 
-fs.isosurfaces[Spin.up]
+<span class="n">fs</span><span class="o">.</span><span class="n">isosurfaces</span><span class="p">[</span><span class="n">Spin</span><span class="o">.</span><span class="n">up</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -635,7 +357,7 @@ fs.isosurfaces[Spin.up]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>isosurface = fs.isosurfaces[Spin.up][0]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">isosurface</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">isosurfaces</span><span class="p">[</span><span class="n">Spin</span><span class="o">.</span><span class="n">up</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -644,7 +366,7 @@ fs.isosurfaces[Spin.up]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>isosurface.area
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">isosurface</span><span class="o">.</span><span class="n">area</span>
 </pre></div>
 </div>
 </div>
@@ -662,7 +384,7 @@ fs.isosurfaces[Spin.up]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>isosurface.dimensionality
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">isosurface</span><span class="o">.</span><span class="n">dimensionality</span>
 </pre></div>
 </div>
 </div>
@@ -680,7 +402,7 @@ fs.isosurfaces[Spin.up]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>isosurface.orientation
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">isosurface</span><span class="o">.</span><span class="n">orientation</span>
 </pre></div>
 </div>
 </div>
@@ -698,20 +420,20 @@ fs.isosurfaces[Spin.up]
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># does the surface have face properties
-isosurface.has_properties
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># does the surface have face properties</span>
+<span class="n">isosurface</span><span class="o">.</span><span class="n">has_properties</span>
 
-# calculate the norms of the properties
-isosurface.properties_norms
+<span class="c1"># calculate the norms of the properties</span>
+<span class="n">isosurface</span><span class="o">.</span><span class="n">properties_norms</span>
 
-# calculate scalar projection of properties on to [0 0 1] vector
-isosurface.scalar_projection((0, 0, 1))
+<span class="c1"># calculate scalar projection of properties on to [0 0 1] vector</span>
+<span class="n">isosurface</span><span class="o">.</span><span class="n">scalar_projection</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
-# get the average property across the surface
-isosurface.average_properties()
+<span class="c1"># get the average property across the surface</span>
+<span class="n">isosurface</span><span class="o">.</span><span class="n">average_properties</span><span class="p">()</span>
 
-# get the average of the property norms across the surface
-isosurface.average_properties(norm=True)
+<span class="c1"># get the average of the property norms across the surface</span>
+<span class="n">isosurface</span><span class="o">.</span><span class="n">average_properties</span><span class="p">(</span><span class="n">norm</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -729,8 +451,8 @@ isosurface.average_properties(norm=True)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># returns the indices of the faces that give uniform density
-isosurface.sample_uniform(0.1)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># returns the indices of the faces that give uniform density</span>
+<span class="n">isosurface</span><span class="o">.</span><span class="n">sample_uniform</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -764,14 +486,14 @@ array([795, 735, 253, 239, 242, 259, 261, 263, 793, 731, 212, 214, 217,
 </section>
 <section id="Fermi-slices">
 <h2>Fermi slices<a class="headerlink" href="#Fermi-slices" title="Permalink to this heading"></a></h2>
-<p>IFermi can also generate two-dimensional slices of the Fermi surface along a specified plane. Planes are defined by their miller indices (j k l) and a distance from the plane, d. <code class="docutils literal notranslate"><span class="pre">FermiSlice</span></code> objects can be generated directly from <code class="docutils literal notranslate"><span class="pre">FermiSurface</span></code> objects.</p>
+<p>IFermi can also generate two-dimensional slices of the Fermi surface along a specified plane. Planes are defined by their miller indices (j k l) and a distance from the plane, d. <code class="docutils literal notranslate"><span class="pre">FermiSlice</span></code> objects can be generated directly from <code class="docutils literal notranslate"><span class="pre">FermiSurface</span></code> objects.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-fermi_slice = fs.get_fermi_slice(plane_normal=(0, 0, 1), distance=0)
+<span class="n">fermi_slice</span> <span class="o">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">get_fermi_slice</span><span class="p">(</span><span class="n">plane_normal</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">distance</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -781,24 +503,24 @@ functions available.</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># number of isolines in the slice
-fermi_slice.n_lines
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># number of isolines in the slice</span>
+<span class="n">fermi_slice</span><span class="o">.</span><span class="n">n_lines</span>
 
-# do the lines have segment properties
-fermi_slice.has_properties
+<span class="c1"># do the lines have segment properties</span>
+<span class="n">fermi_slice</span><span class="o">.</span><span class="n">has_properties</span>
 
-# get the first isoline in the Spin up channel
-isoline = fermi_slice.isolines[Spin.up][0]
+<span class="c1"># get the first isoline in the Spin up channel</span>
+<span class="n">isoline</span> <span class="o">=</span> <span class="n">fermi_slice</span><span class="o">.</span><span class="n">isolines</span><span class="p">[</span><span class="n">Spin</span><span class="o">.</span><span class="n">up</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 
-# calculate the norms of the properties
-isoline.properties_norms
+<span class="c1"># calculate the norms of the properties</span>
+<span class="n">isoline</span><span class="o">.</span><span class="n">properties_norms</span>
 
-# calculate scalar projection of properties on to [0 0 1] vector
-isoline.scalar_projection((0, 0, 1))
+<span class="c1"># calculate scalar projection of properties on to [0 0 1] vector</span>
+<span class="n">isoline</span><span class="o">.</span><span class="n">scalar_projection</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
-# sample the line at a consistent density
-# returns the indices of the segments that give the desired spacing
-isoline.sample_uniform(0.1)
+<span class="c1"># sample the line at a consistent density</span>
+<span class="c1"># returns the indices of the segments that give the desired spacing</span>
+<span class="n">isoline</span><span class="o">.</span><span class="n">sample_uniform</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -822,11 +544,11 @@ page</a>.</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from ifermi.plot import FermiSurfacePlotter
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ifermi.plot</span> <span class="kn">import</span> <span class="n">FermiSurfacePlotter</span>
 
-fs = FermiSurface.from_band_structure(dense_bs, mu=0.0, wigner_seitz=True)
+<span class="n">fs</span> <span class="o">=</span> <span class="n">FermiSurface</span><span class="o">.</span><span class="n">from_band_structure</span><span class="p">(</span><span class="n">dense_bs</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">wigner_seitz</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-plotter = FermiSurfacePlotter(fs)
+<span class="n">plotter</span> <span class="o">=</span> <span class="n">FermiSurfacePlotter</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -841,8 +563,8 @@ plotter = FermiSurfacePlotter(fs)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plot = plotter.get_plot(plot_type=&quot;plotly&quot;)
-plot.show()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span> <span class="o">=</span> <span class="n">plotter</span><span class="o">.</span><span class="n">get_plot</span><span class="p">(</span><span class="n">plot_type</span><span class="o">=</span><span class="s2">&quot;plotly&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -904,10 +626,10 @@ if (outputEl) {{
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from pymatgen.electronic_structure.core import Spin
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pymatgen.electronic_structure.core</span> <span class="kn">import</span> <span class="n">Spin</span>
 
-plot = plotter.get_plot(spin=Spin.up)
-# plot.show()
+<span class="n">plot</span> <span class="o">=</span> <span class="n">plotter</span><span class="o">.</span><span class="n">get_plot</span><span class="p">(</span><span class="n">spin</span><span class="o">=</span><span class="n">Spin</span><span class="o">.</span><span class="n">up</span><span class="p">)</span>
+<span class="c1"># plot.show()</span>
 </pre></div>
 </div>
 </div>
@@ -956,8 +678,8 @@ require(['plotly'], function(Plotly) {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plot = plotter.get_plot(plot_index={Spin.up: [5], Spin.down: [6]})
-plot.show()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span> <span class="o">=</span> <span class="n">plotter</span><span class="o">.</span><span class="n">get_plot</span><span class="p">(</span><span class="n">plot_index</span><span class="o">=</span><span class="p">{</span><span class="n">Spin</span><span class="o">.</span><span class="n">up</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">Spin</span><span class="o">.</span><span class="n">down</span><span class="p">:</span> <span class="p">[</span><span class="mi">6</span><span class="p">]})</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1014,23 +736,23 @@ if (outputEl) {{
 </section>
 <section id="Styling-face-properties">
 <h3>Styling face properties<a class="headerlink" href="#Styling-face-properties" title="Permalink to this heading"></a></h3>
-<p>As described in the <a class="reference external" href="#Generating%20Fermi%20surfaces">Generating Fermi surfaces</a> section, Fermi surfaces (and Fermi slices) can include a property projected onto the isosurface faces. By default, if properties are included in the Fermi surface they will be indicated by coloring of the isosurface. If the face property is a vector, the norm of the vector will be used as the color intensity. The colormap of the surface can be changed using the <code class="docutils literal notranslate"><span class="pre">properties_colormap</span></code> option. All <a class="reference external" href="https://matplotlib.org/stable/gallery/color/colormap_reference.html">matplotlib
+<p>As described in the Generating Fermi surfaces section, Fermi surfaces (and Fermi slices) can include a property projected onto the isosurface faces. By default, if properties are included in the Fermi surface they will be indicated by coloring of the isosurface. If the face property is a vector, the norm of the vector will be used as the color intensity. The colormap of the surface can be changed using the <code class="docutils literal notranslate"><span class="pre">properties_colormap</span></code> option. All <a class="reference external" href="https://matplotlib.org/stable/gallery/color/colormap_reference.html">matplotlib
 colormaps</a> are supported. For example:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fs = FermiSurface.from_band_structure(
-    dense_bs,
-    wigner_seitz=True,
-    property_data=velocities,
-    property_kpoints=dense_kpoints,
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fs</span> <span class="o">=</span> <span class="n">FermiSurface</span><span class="o">.</span><span class="n">from_band_structure</span><span class="p">(</span>
+    <span class="n">dense_bs</span><span class="p">,</span>
+    <span class="n">wigner_seitz</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">property_data</span><span class="o">=</span><span class="n">velocities</span><span class="p">,</span>
+    <span class="n">property_kpoints</span><span class="o">=</span><span class="n">dense_kpoints</span><span class="p">,</span>
+<span class="p">)</span>
 
-plotter = FermiSurfacePlotter(fs)
+<span class="n">plotter</span> <span class="o">=</span> <span class="n">FermiSurfacePlotter</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span>
 
-plot = plotter.get_plot()
-plot.show()
+<span class="n">plot</span> <span class="o">=</span> <span class="n">plotter</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1097,13 +819,13 @@ isosurface (<code class="docutils literal notranslate"><span class="pre">hide_su
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plot = plotter.get_plot(
-    vector_properties=&quot;RdBu&quot;,
-    projection_axis=(0, 0, 1),
-    hide_surface=True,
-    hide_labels=True
-)
-plot.show()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span> <span class="o">=</span> <span class="n">plotter</span><span class="o">.</span><span class="n">get_plot</span><span class="p">(</span>
+    <span class="n">vector_properties</span><span class="o">=</span><span class="s2">&quot;RdBu&quot;</span><span class="p">,</span>
+    <span class="n">projection_axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">hide_surface</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">hide_labels</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1166,9 +888,9 @@ if (outputEl) {{
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from ifermi.plot import FermiSlicePlotter
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ifermi.plot</span> <span class="kn">import</span> <span class="n">FermiSlicePlotter</span>
 
-slice_plotter = FermiSlicePlotter(fermi_slice)
+<span class="n">slice_plotter</span> <span class="o">=</span> <span class="n">FermiSlicePlotter</span><span class="p">(</span><span class="n">fermi_slice</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1177,8 +899,8 @@ slice_plotter = FermiSlicePlotter(fermi_slice)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plot = slice_plotter.get_plot()
-plot.show()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span> <span class="o">=</span> <span class="n">slice_plotter</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1203,10 +925,10 @@ plot.show()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from ifermi.plot import show_plot, save_plot
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ifermi.plot</span> <span class="kn">import</span> <span class="n">show_plot</span><span class="p">,</span> <span class="n">save_plot</span>
 
-save_plot(plot, &quot;fermi-surface.png&quot;)  # saves the plot to a file
-show_plot(plot)  # displays an interactive plot
+<span class="n">save_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="s2">&quot;fermi-surface.png&quot;</span><span class="p">)</span>  <span class="c1"># saves the plot to a file</span>
+<span class="n">show_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span>  <span class="c1"># displays an interactive plot</span>
 </pre></div>
 </div>
 </div>

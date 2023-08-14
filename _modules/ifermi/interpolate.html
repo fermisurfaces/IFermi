@@ -94,7 +94,7 @@
 
 
 <div class="viewcode-block" id="FourierInterpolator"><a class="viewcode-back" href="../../ifermi.html#ifermi.interpolate.FourierInterpolator">[docs]</a><span class="k">class</span> <span class="nc">FourierInterpolator</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Class to perform Fourier interpolation of electronic band structures.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class to perform Fourier interpolation of electronic band structures.</span>
 
 <span class="sd">    Interpolation is performed using BoltzTraP2.</span>
 
@@ -132,7 +132,7 @@
         <span class="n">return_velocities</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">nworkers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Get an interpolated pymatgen band structure.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get an interpolated pymatgen band structure.</span>
 
 <span class="sd">        Note, the interpolation mesh is determined using by ``interpolate_factor``</span>
 <span class="sd">        option in the ``FourierInterpolator`` constructor.</span>
@@ -228,7 +228,7 @@
 
 
 <span class="k">class</span> <span class="nc">DFTData</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;DFTData object used for BoltzTraP2 interpolation.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;DFTData object used for BoltzTraP2 interpolation.</span>
 
 <span class="sd">    Note that the units used by BoltzTraP are different to those used by VASP.</span>
 
@@ -253,12 +253,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mommat</span> <span class="o">=</span> <span class="n">mommat</span>
 
     <span class="k">def</span> <span class="nf">get_lattvec</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Get the lattice matrix. This method is required by BoltzTraP2.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the lattice matrix. This method is required by BoltzTraP2.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice_matrix</span>
 
 
 <div class="viewcode-block" id="LinearInterpolator"><a class="viewcode-back" href="../../ifermi.html#ifermi.interpolate.LinearInterpolator">[docs]</a><span class="k">class</span> <span class="nc">LinearInterpolator</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Class to perform linear interpolation of periodic properties.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class to perform linear interpolation of periodic properties.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        kpoints: The k-points in fractional coordinates as a numpy array.</span>
@@ -277,7 +277,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_setup_interpolators</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">grid_kpoints</span><span class="p">,</span> <span class="n">mesh_dim</span><span class="p">,</span> <span class="n">sort_idx</span><span class="p">)</span>
 
 <div class="viewcode-block" id="LinearInterpolator.interpolate"><a class="viewcode-back" href="../../ifermi.html#ifermi.interpolate.LinearInterpolator.interpolate">[docs]</a>    <span class="k">def</span> <span class="nf">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spin</span><span class="p">:</span> <span class="n">Spin</span><span class="p">,</span> <span class="n">bands</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">kpoints</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the interpolated data for a spin channel and series of bands and k-points.</span>
 
 <span class="sd">        Args:</span>
@@ -368,7 +368,7 @@
 <div class="viewcode-block" id="trim_bandstructure"><a class="viewcode-back" href="../../ifermi.html#ifermi.interpolate.trim_bandstructure">[docs]</a><span class="k">def</span> <span class="nf">trim_bandstructure</span><span class="p">(</span>
     <span class="n">energy_cutoff</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">band_structure</span><span class="p">:</span> <span class="n">BandStructure</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BandStructure</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Trim the number of bands in a band structure object based on a cutoff.</span>
 
 <span class="sd">    Args:</span>

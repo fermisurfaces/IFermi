@@ -102,7 +102,7 @@
 
 
 <div class="viewcode-block" id="kpoints_to_first_bz"><a class="viewcode-back" href="../../ifermi.html#ifermi.kpoints.kpoints_to_first_bz">[docs]</a><span class="k">def</span> <span class="nf">kpoints_to_first_bz</span><span class="p">(</span><span class="n">kpoints</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">KTOL</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Translate fractional k-points to the first Brillouin zone.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Translate fractional k-points to the first Brillouin zone.</span>
 
 <span class="sd">    I.e. all k-points will have fractional coordinates:</span>
 <span class="sd">        -0.5 &lt;= fractional coordinates &lt; 0.5</span>
@@ -125,7 +125,7 @@
 
 
 <div class="viewcode-block" id="get_kpoint_mesh_dim"><a class="viewcode-back" href="../../ifermi.html#ifermi.kpoints.get_kpoint_mesh_dim">[docs]</a><span class="k">def</span> <span class="nf">get_kpoint_mesh_dim</span><span class="p">(</span><span class="n">kpoints</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">KTOL</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the k-point mesh dimensions.</span>
 
 <span class="sd">    Args:</span>
@@ -146,7 +146,7 @@
 
 
 <div class="viewcode-block" id="sort_boltztrap_to_spglib"><a class="viewcode-back" href="../../ifermi.html#ifermi.kpoints.sort_boltztrap_to_spglib">[docs]</a><span class="k">def</span> <span class="nf">sort_boltztrap_to_spglib</span><span class="p">(</span><span class="n">kpoints</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get an index array that sorts the k-points from BoltzTraP2 to the order from spglib.</span>
 
 <span class="sd">    Args:</span>
@@ -181,7 +181,7 @@
 
 
 <div class="viewcode-block" id="get_kpoint_spacing"><a class="viewcode-back" href="../../ifermi.html#ifermi.kpoints.get_kpoint_spacing">[docs]</a><span class="k">def</span> <span class="nf">get_kpoint_spacing</span><span class="p">(</span><span class="n">kpoints</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Get the spacing between fractional k-points.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the spacing between fractional k-points.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        kpoints: A (n, 3) float array of the k-points in fractional coordinates.</span>
@@ -211,7 +211,7 @@
 <div class="viewcode-block" id="kpoints_from_bandstructure"><a class="viewcode-back" href="../../ifermi.html#ifermi.kpoints.kpoints_from_bandstructure">[docs]</a><span class="k">def</span> <span class="nf">kpoints_from_bandstructure</span><span class="p">(</span>
     <span class="n">bandstructure</span><span class="p">:</span> <span class="n">BandStructure</span><span class="p">,</span> <span class="n">cartesian</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Extract the k-points from a band structure.</span>
 
 <span class="sd">    Args:</span>

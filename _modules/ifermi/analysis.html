@@ -108,7 +108,7 @@
 
 
 <div class="viewcode-block" id="isosurface_area"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.isosurface_area">[docs]</a><span class="k">def</span> <span class="nf">isosurface_area</span><span class="p">(</span><span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">faces</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the area of an isosurface.</span>
 
 <span class="sd">    Args:</span>
@@ -127,7 +127,7 @@
 <div class="viewcode-block" id="average_properties"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.average_properties">[docs]</a><span class="k">def</span> <span class="nf">average_properties</span><span class="p">(</span>
     <span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">faces</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">norm</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Average property across an isosurface.</span>
 
 <span class="sd">    Args:</span>
@@ -157,7 +157,7 @@
 <div class="viewcode-block" id="connected_subsurfaces"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.connected_subsurfaces">[docs]</a><span class="k">def</span> <span class="nf">connected_subsurfaces</span><span class="p">(</span>
     <span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">faces</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Find connected sub-surfaces (those that share edges).</span>
 
 <span class="sd">    Args:</span>
@@ -175,7 +175,7 @@
 
 
 <div class="viewcode-block" id="equivalent_surfaces"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.equivalent_surfaces">[docs]</a><span class="k">def</span> <span class="nf">equivalent_surfaces</span><span class="p">(</span><span class="n">surfaces_vertices</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">tol</span><span class="o">=</span><span class="n">KTOL</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">    Note: This function expects the vertices of each surface to only belong to a single</span>
 <span class="sd">    connected mesh, and the vertices should cover a 3x3x3 supercell, where the</span>
@@ -231,7 +231,7 @@
 <div class="viewcode-block" id="isosurface_dimensionality"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.isosurface_dimensionality">[docs]</a><span class="k">def</span> <span class="nf">isosurface_dimensionality</span><span class="p">(</span>
     <span class="n">fractional_vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">faces</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate isosurface properties a single isosurface (fully connected).</span>
 
 <span class="sd">    The vertices must cover a 3x3x3 supercell and must not have been trimmed to fit</span>
@@ -282,7 +282,7 @@
 <div class="viewcode-block" id="connected_images"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.connected_images">[docs]</a><span class="k">def</span> <span class="nf">connected_images</span><span class="p">(</span>
     <span class="n">fractional_vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">KTOL</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Find the images a set of vertices is connected to.</span>
 
 <span class="sd">    Note: This function expects the vertices to only belong to a single connected</span>
@@ -312,7 +312,7 @@
     <span class="n">coordinate_filters</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">filter_coordinates</span><span class="p">(</span><span class="n">axis</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Filter vertices on whether the coordinate fall within an image.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Filter vertices on whether the coordinate fall within an image.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">axis</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">coordinate_filters</span> <span class="ow">or</span> <span class="n">image</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">coordinate_filters</span><span class="p">[</span><span class="n">axis</span><span class="p">]:</span>
             <span class="n">coordinate_filters</span><span class="p">[</span><span class="n">axis</span><span class="p">][</span><span class="n">image</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">vertices</span><span class="p">[:,</span> <span class="n">axis</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">image</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span>
                 <span class="n">vertices</span><span class="p">[:,</span> <span class="n">axis</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">image</span> <span class="o">+</span> <span class="mi">1</span>
@@ -320,7 +320,7 @@
         <span class="k">return</span> <span class="n">coordinate_filters</span><span class="p">[</span><span class="n">axis</span><span class="p">][</span><span class="n">image</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">mesh_in_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">vertex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_vertices</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if any vertices are in a periodic image.</span>
 
 <span class="sd">        If a vertex is provided, the vertices that fall within the periodic image</span>
@@ -364,7 +364,7 @@
 
 
 <div class="viewcode-block" id="line_orientation"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.line_orientation">[docs]</a><span class="k">def</span> <span class="nf">line_orientation</span><span class="p">(</span><span class="n">images</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the orientation (direction vector) from a list of rank 1 connected images.</span>
 
 <span class="sd">    Args:</span>
@@ -383,7 +383,7 @@
 
 
 <div class="viewcode-block" id="plane_orientation"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.plane_orientation">[docs]</a><span class="k">def</span> <span class="nf">plane_orientation</span><span class="p">(</span><span class="n">images</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the orientation (surface normal) from a list of rank 2 connected images.</span>
 
 <span class="sd">    Args:</span>
@@ -403,7 +403,7 @@
 <div class="viewcode-block" id="sample_surface_uniform"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.sample_surface_uniform">[docs]</a><span class="k">def</span> <span class="nf">sample_surface_uniform</span><span class="p">(</span>
     <span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">faces</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">grid_size</span><span class="p">:</span> <span class="nb">float</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sample isosurface faces uniformly.</span>
 
 <span class="sd">    The algorithm works by:</span>
@@ -465,7 +465,7 @@
 
 
 <div class="viewcode-block" id="sample_line_uniform"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.sample_line_uniform">[docs]</a><span class="k">def</span> <span class="nf">sample_line_uniform</span><span class="p">(</span><span class="n">segments</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sample line segments to a consistent density.</span>
 
 <span class="sd">    Note: the segments must be ordered so that they are adjacent.</span>
@@ -498,7 +498,7 @@
 
 
 <div class="viewcode-block" id="equivalent_vertices"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.equivalent_vertices">[docs]</a><span class="k">def</span> <span class="nf">equivalent_vertices</span><span class="p">(</span><span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">KTOL</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Find vertices that are equivalent (closer than a tolerance).</span>
 
 <span class="sd">    Note that the algorithm used is effectively recursive. If vertex a is within the</span>
@@ -543,7 +543,7 @@
 
 
 <div class="viewcode-block" id="longest_simple_paths"><a class="viewcode-back" href="../../ifermi.html#ifermi.analysis.longest_simple_paths">[docs]</a><span class="k">def</span> <span class="nf">longest_simple_paths</span><span class="p">(</span><span class="n">vertices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">edges</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Find the shortest paths that go through all vertices.</span>
 
 <span class="sd">    The lines are broken up into the connected sublines. Note this function is only</span>

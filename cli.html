@@ -111,31 +111,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<section id="ifermi-program">
+  <section id="ifermi-program">
 <h1><code class="docutils literal notranslate"><span class="pre">ifermi</span></code> program<a class="headerlink" href="#ifermi-program" title="Permalink to this heading"></a></h1>
 <p>IFermi includes command-line tools for generating, analysing, and plotting Fermi
 surfaces. The tools can be accessed using the <code class="docutils literal notranslate"><span class="pre">ifermi</span></code> command-line program.
@@ -157,13 +133,13 @@ Support for additional DFT packages will be added in a future release.</p>
 </div>
 <p>IFermi is controlled on the command-line using the <code class="docutils literal notranslate"><span class="pre">ifermi</span></code> command. The available
 options can be listed using:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi -h
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>-h
 </pre></div>
 </div>
 <p>Information on the Fermi surface area, dimensionality,
 and orientation can be extracted using the <code class="docutils literal notranslate"><span class="pre">info</span></code> subcommand.
 The only input required is a vasprun.xml. For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi info
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>info
 </pre></div>
 </div>
 <p>An example output for MgB<sub>2</sub> is shown below:</p>
@@ -188,7 +164,7 @@ Isosurfaces
 <p>If properties are included in the Fermi surface (see <a class="reference internal" href="#property-gen"><span class="std std-ref">Property projections</span></a>), the averaged
 property values will also be calculated. This allows for calculation of the Fermi
 velocity. For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi info --property velocity
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>info<span class="w"> </span>--property<span class="w"> </span>velocity
 </pre></div>
 </div>
 <div class="highlight-md notranslate"><div class="highlight"><pre><span></span><span class="gh">Fermi Surface Summary</span>
@@ -212,7 +188,7 @@ Isosurfaces
 </div>
 <p>Fermi surfaces and slices can be visualised using the <code class="docutils literal notranslate"><span class="pre">plot</span></code> subcommand. Again, the
 only input required is a vasprun.xml file. For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot
 </pre></div>
 </div>
 <p>The two subcommands <code class="docutils literal notranslate"><span class="pre">info</span></code> and <code class="docutils literal notranslate"><span class="pre">plot</span></code> share many of the same options
@@ -227,7 +203,7 @@ subcommands.</p>
 <p>IFermi will look for a vasprun.xml or vasprun.xml.gz file in the current directory.
 To specify a particular vasprun file the <code class="docutils literal notranslate"><span class="pre">--filename</span></code> (or <code class="docutils literal notranslate"><span class="pre">-f</span></code> for short) option
 can be used:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --filename my_vasprun.xml
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot<span class="w"> </span>--filename<span class="w"> </span>my_vasprun.xml
 </pre></div>
 </div>
 </section>
@@ -250,7 +226,7 @@ Brillouin zone.</p>
 argument. A value of 8 (the default value), roughly indicates that the interpolated band
 structure will contain 8x as many k-points. Increasing the interpolation factor will
 result in smoother Fermi surfaces. For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --interpolation-factor <span class="m">10</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot<span class="w"> </span>--interpolation-factor<span class="w"> </span><span class="m">10</span>
 </pre></div>
 </div>
 <div class="admonition warning">
@@ -269,7 +245,7 @@ calculation and is given in eV. By default, the Fermi surface is calculated at
 conduction or valence bands otherwise no Fermi surface will be obtained. For
 example. The following command will generate the Fermi surface at 1 eV above the Fermi
 level:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --mu <span class="m">1</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot<span class="w"> </span>--mu<span class="w"> </span><span class="m">1</span>
 </pre></div>
 </div>
 </section>
@@ -279,12 +255,12 @@ level:</p>
 texture), can be projected onto the Fermi surface using the <code class="docutils literal notranslate"><span class="pre">--property</span></code> option. The
 group velocities are calculated during Fourier interpolation (units of m/s) and can be
 included in the Fermi surface using:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --property velocity
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot<span class="w"> </span>--property<span class="w"> </span>velocity
 </pre></div>
 </div>
 <p>For calculations performed using spin–orbit coupling or non-collinear magnetism, the
 spin magnetisation can be projected onto the Fermi surface using:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --property spin
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot<span class="w"> </span>--property<span class="w"> </span>spin
 </pre></div>
 </div>
 <div class="admonition warning">
@@ -296,7 +272,7 @@ Brillouin zone. I.e., the DFT calculation must have been performed without symme
 <p>It is possible to calculate the scalar projection of the the Fermi surface properties
 onto a cartesian axis using the <code class="docutils literal notranslate"><span class="pre">--projection-axis</span></code> option.. For example, to use the
 scalar projection of the spin magnetisation onto the [0 0 1] cartesian direction:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --property spin --projection-axis <span class="m">0</span> <span class="m">0</span> <span class="m">1</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot<span class="w"> </span>--property<span class="w"> </span>spin<span class="w"> </span>--projection-axis<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span>
 </pre></div>
 </div>
 </section>
@@ -305,7 +281,7 @@ scalar projection of the spin magnetisation onto the [0 0 1] cartesian direction
 <p>By default, the Wigner–Seitz cell is used to contain to the Fermi surface. The
 parallelepiped reciprocal lattice cell can be used instead by selecting the
 <code class="docutils literal notranslate"><span class="pre">--no-wigner</span></code> option. For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --no-wigner
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot<span class="w"> </span>--no-wigner
 </pre></div>
 </div>
 </section>
@@ -328,7 +304,7 @@ and then install IFermi using <code class="docutils literal notranslate"><span c
 </div>
 <p>Different plotting packages can be specified using the <code class="docutils literal notranslate"><span class="pre">--type</span></code> option (<code class="docutils literal notranslate"><span class="pre">-t</span></code>). For
 example, to use matplotlib:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --type matplotlib
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot<span class="w"> </span>--type<span class="w"> </span>matplotlib
 </pre></div>
 </div>
 </section>
@@ -336,7 +312,7 @@ example, to use matplotlib:</p>
 <h3>Output files<a class="headerlink" href="#output-files" title="Permalink to this heading"></a></h3>
 <p>By default, IFermi generates interactive plots. To generate static images, an output
 file can be specified using the <code class="docutils literal notranslate"><span class="pre">--output</span></code> (<code class="docutils literal notranslate"><span class="pre">-o</span></code>) option. For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --output fermi-surface.jpg
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot<span class="w"> </span>--output<span class="w"> </span>fermi-surface.jpg
 </pre></div>
 </div>
 <div class="admonition note">
@@ -348,7 +324,7 @@ installed.</p>
 <a class="reference internal image-reference" href="_images/fs-1.jpg"><img alt="_images/fs-1.jpg" class="align-center" src="_images/fs-1.jpg" style="height: 250px;" /></a>
 <p>Interactive plots can be saved to a html file using the plotly backend by specifying
 a html filename. This will prevent the plot from being opened automatically.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --output fermi-surface.html
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot<span class="w"> </span>--output<span class="w"> </span>fermi-surface.html
 </pre></div>
 </div>
 </section>
@@ -360,7 +336,7 @@ is plotting two redundant surfaces. To stop it from doing this, we can specify t
 only one spin component should be plotted using the <code class="docutils literal notranslate"><span class="pre">--spin</span></code> option. The default
 is to plot both spins but a single spin channel can be selected through the names
 “up” and “down”. For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --spin up
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot<span class="w"> </span>--spin<span class="w"> </span>up
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/fs-spin-up.jpg"><img alt="_images/fs-spin-up.jpg" class="align-center" src="_images/fs-spin-up.jpg" style="height: 250px;" /></a>
@@ -378,7 +354,7 @@ the z-axis. The default is 35°.</p></li>
 </ul>
 <p>The viewpoint always directed to the center of the the Fermi surface (position [0 0 0]).
 As an example, the viewpoint could be changed using:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --azimuth <span class="m">120</span> --elevation <span class="m">5</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot<span class="w"> </span>--azimuth<span class="w"> </span><span class="m">120</span><span class="w"> </span>--elevation<span class="w"> </span><span class="m">5</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/fs-viewpoint.jpg"><img alt="_images/fs-viewpoint.jpg" class="align-center" src="_images/fs-viewpoint.jpg" style="height: 250px;" /></a>
@@ -392,14 +368,14 @@ If the face property is a vector, the norm of the vector will be used as the
 color intensity. The colormap of the surface can be changed using the
 <code class="docutils literal notranslate"><span class="pre">--property-colormap</span></code> option. All <a class="reference external" href="https://matplotlib.org/stable/gallery/color/colormap_reference.html">matplotlib colormaps</a>
 are supported. For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --property velocity --property-colormap viridis
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot<span class="w"> </span>--property<span class="w"> </span>velocity<span class="w"> </span>--property-colormap<span class="w"> </span>viridis
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/fs-velocity.jpg"><img alt="_images/fs-velocity.jpg" class="align-center" src="_images/fs-velocity.jpg" style="height: 250px;" /></a>
 <p>The minimum and maximum values for the colorbar limits can be set using the <code class="docutils literal notranslate"><span class="pre">--cmin</span></code>
 and <code class="docutils literal notranslate"><span class="pre">--cmax</span></code> parameters. These should be used when quantitatively comparing surface
 properties between two plots. For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --property velocity --cmin <span class="m">0</span> --cmax <span class="m">5</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot<span class="w"> </span>--property<span class="w"> </span>velocity<span class="w"> </span>--cmin<span class="w"> </span><span class="m">0</span><span class="w"> </span>--cmax<span class="w"> </span><span class="m">5</span>
 </pre></div>
 </div>
 <p>As described above, it is also possible calculate the scalar projection of the
@@ -407,7 +383,7 @@ face properties onto a cartesian axis using the <code class="docutils literal no
 combined with a diverging colormap this can be used to indicate surface properties that
 vary between positive and negative numbers. For example, below we color the Fermi
 surface of MgB2 by the projection of the group velocity onto the [0 0 1] vector (z-axis).</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --property velocity --projection-axis <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> --property-colormap RdBu
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot<span class="w"> </span>--property<span class="w"> </span>velocity<span class="w"> </span>--projection-axis<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>--property-colormap<span class="w"> </span>RdBu
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/fs-velocity-projection.jpg"><img alt="_images/fs-velocity-projection.jpg" class="align-center" src="_images/fs-velocity-projection.jpg" style="height: 250px;" /></a>
@@ -419,8 +395,8 @@ of the projections will be used. The colormap used to color the arrows is specif
 using <code class="docutils literal notranslate"><span class="pre">--vector-colormap</span></code>. Lastly, often it is useful to hide the isosurface
 (<code class="docutils literal notranslate"><span class="pre">--hide-surface</span></code> option) or high-symmetry labels (<code class="docutils literal notranslate"><span class="pre">-hide-labels</span></code>)
 when visualising arrows. An example of how to combine these options is given below:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --property velocity --projection-axis <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> --property-colormap RdBu <span class="se">\</span>
-            --vector-property --vector-colormap RdBu --hide-surface --hide-labels
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot<span class="w"> </span>--property<span class="w"> </span>velocity<span class="w"> </span>--projection-axis<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>--property-colormap<span class="w"> </span>RdBu<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--vector-property<span class="w"> </span>--vector-colormap<span class="w"> </span>RdBu<span class="w"> </span>--hide-surface<span class="w"> </span>--hide-labels
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/fs-velocity-arrow.jpg"><img alt="_images/fs-velocity-arrow.jpg" class="align-center" src="_images/fs-velocity-arrow.jpg" style="height: 250px;" /></a>
@@ -438,7 +414,7 @@ and a distance from the plane, d. Most of the above options also apply to to Fer
 however, slices are always plotted using matplotlib as the backend.</p>
 <p>For example, a slice through the (0 0 1) plane that passes through the center of the
 Brillouin zone (Γ-point) can be generated using:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --slice <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot<span class="w"> </span>--slice<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">0</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/slice.png"><img alt="_images/slice.png" class="align-center" src="_images/slice.png" style="height: 250px;" /></a>
@@ -449,15 +425,15 @@ arrows in the 2D plane will be shown. As an example below we plot the spin textu
 BiSb (<code class="docutils literal notranslate"><span class="pre">examples/BiSb</span></code>) with and without arrows. The spin texture is colored by the
 projection of the spin onto the [0 0 1] cartesian direction.</p>
 <p>Without arrows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --mu -0.85  -i <span class="m">10</span> --slice <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span> --property spin --hide-cell <span class="se">\</span>
-            --hide-labels --projection-axis <span class="m">0</span> <span class="m">1</span> <span class="m">0</span> --property-colormap RdBu
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot<span class="w"> </span>--mu<span class="w"> </span>-0.85<span class="w">  </span>-i<span class="w"> </span><span class="m">10</span><span class="w"> </span>--slice<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">0</span><span class="w"> </span>--property<span class="w"> </span>spin<span class="w"> </span>--hide-cell<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--hide-labels<span class="w"> </span>--projection-axis<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">0</span><span class="w"> </span>--property-colormap<span class="w"> </span>RdBu
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/slice-property.png"><img alt="_images/slice-property.png" class="align-center" src="_images/slice-property.png" style="height: 250px;" /></a>
 <p>With arrows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --mu -0.85  -i <span class="m">10</span> --slice <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span> --property spin --hide-cell <span class="se">\</span>
-            --hide-labels --projection-axis <span class="m">0</span> <span class="m">1</span> <span class="m">0</span> --property-colormap RdBu <span class="se">\</span>
-            --vector-property --vector-colormap RdBu --vnorm <span class="m">5</span> --vector-spacing <span class="m">0</span>.025
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot<span class="w"> </span>--mu<span class="w"> </span>-0.85<span class="w">  </span>-i<span class="w"> </span><span class="m">10</span><span class="w"> </span>--slice<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">0</span><span class="w"> </span>--property<span class="w"> </span>spin<span class="w"> </span>--hide-cell<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--hide-labels<span class="w"> </span>--projection-axis<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">0</span><span class="w"> </span>--property-colormap<span class="w"> </span>RdBu<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--vector-property<span class="w"> </span>--vector-colormap<span class="w"> </span>RdBu<span class="w"> </span>--vnorm<span class="w"> </span><span class="m">5</span><span class="w"> </span>--vector-spacing<span class="w"> </span><span class="m">0</span>.025
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/slice-arrows.png"><img alt="_images/slice-arrows.png" class="align-center" src="_images/slice-arrows.png" style="height: 250px;" /></a>
@@ -478,13 +454,13 @@ without symmetry (<code class="docutils literal notranslate"><span class="pre">I
 <section id="ifermi">
 <h3>ifermi<a class="headerlink" href="#ifermi" title="Permalink to this heading"></a></h3>
 <p>IFermi is a tool for the generation, analysis and plotting of Fermi surfaces.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ifermi <span class="o">[</span>OPTIONS<span class="o">]</span> COMMAND <span class="o">[</span>ARGS<span class="o">]</span>...
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
 </pre></div>
 </div>
 <section id="ifermi-info">
 <h4>info<a class="headerlink" href="#ifermi-info" title="Permalink to this heading"></a></h4>
 <p>Calculate information about the Fermi surface.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ifermi info <span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>info<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
 <p class="rubric">Options</p>
@@ -587,7 +563,7 @@ without symmetry (<code class="docutils literal notranslate"><span class="pre">I
 <section id="ifermi-plot">
 <h4>plot<a class="headerlink" href="#ifermi-plot" title="Permalink to this heading"></a></h4>
 <p>Plot a Fermi surface from a vasprun.xml file.</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ifermi plot <span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </pre></div>
 </div>
 <p class="rubric">Options</p>

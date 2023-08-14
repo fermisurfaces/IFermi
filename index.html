@@ -83,31 +83,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  
-<style>
-/* CSS overrides for sphinx_rtd_theme */
-
-/* 24px margin */
-.nbinput.nblast.container,
-.nboutput.nblast.container {
-    margin-bottom: 19px;  /* padding has already 5px */
-}
-
-/* ... except between code cells! */
-.nblast.container + .nbinput.container {
-    margin-top: -19px;
-}
-
-.admonition > p:before {
-    margin-right: 4px;  /* make room for the exclamation icon */
-}
-
-/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
-.math {
-    text-align: unset;
-}
-</style>
-<div class="toctree-wrapper compound">
+  <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
 </div>
@@ -141,7 +117,7 @@ description of the available command-line options.</p>
 <h3>Analysis<a class="headerlink" href="#analysis" title="Permalink to this heading"></a></h3>
 <p>Fermi surface properties, including dimensionality and orientation can be extracted
 from a vasprun.xml file using:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi info --property velocity
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>info<span class="w"> </span>--property<span class="w"> </span>velocity
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Fermi Surface Summary
@@ -167,12 +143,12 @@ Isosurfaces
 <section id="visualisation">
 <h3>Visualisation<a class="headerlink" href="#visualisation" title="Permalink to this heading"></a></h3>
 <p>Three-dimensional Fermi surfaces can be visualized from a <code class="docutils literal notranslate"><span class="pre">vasprun.xml</span></code> file using:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot
 </pre></div>
 </div>
 <p>The two-dimensional slice of a Fermi surface along the plane specified by the miller
 indices (j k l) and distance d can be plotted from a <code class="docutils literal notranslate"><span class="pre">vasprun.xml</span></code> file using:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi plot --slice j k l d
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ifermi<span class="w"> </span>plot<span class="w"> </span>--slice<span class="w"> </span>j<span class="w"> </span>k<span class="w"> </span>l<span class="w"> </span>d
 </pre></div>
 </div>
 </section>
@@ -279,10 +255,10 @@ and in the <a class="reference external" href="https://fermisurfaces.github.io/I
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
 <p>The recommended way to install IFermi is in a conda environment.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda create --name ifermi pip cmake numpy
-conda activate ifermi
-conda install -c conda-forge pymatgen boltztrap2 pyfftw
-pip install ifermi
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>ifermi<span class="w"> </span>pip<span class="w"> </span>cmake<span class="w"> </span>numpy
+conda<span class="w"> </span>activate<span class="w"> </span>ifermi
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>pymatgen<span class="w"> </span>boltztrap2<span class="w"> </span>pyfftw
+pip<span class="w"> </span>install<span class="w"> </span>ifermi
 <span class="sb">`</span>
 </pre></div>
 </div>
