@@ -51,8 +51,8 @@ plotly-static = ["kaleido"]
 decimation = ["open3d"]
 smooth = ["PyMCubes"]
 docs = [
-    "sphinx==7.2.4",
-    "sphinx-click==4.4.0",
+    "sphinx==7.2.6",
+    "sphinx-click==5.0.1",
     "furo==2023.9.10",
     "sphinx-autodoc-typehints==1.24.0",
     "myst_parser==2.0.0",
@@ -63,19 +63,19 @@ docs = [
 dev = ["pre-commit>=2.12.1"]
 tests = ["pytest==7.4.2"]
 strict = [
-    "numpy==1.24.1",
-    "scipy==1.10.1",
+    "numpy==1.25.0",
+    "scipy==1.11.3",
     "matplotlib==3.8.0",
     "pymatgen==2023.10.4",
     "BoltzTraP2==22.12.1",
     "trimesh==3.23.5",
     "meshcut==0.3.0",
     "scikit-image==0.22.0",
-    "monty==2022.9.9",
-    "spglib==2.0.2",
+    "monty==2023.9.25",
+    "spglib==2.1.0",
     "plotly==5.17.0",
     "pyfftw==0.13.1",
-    "psutil==5.9.4",
+    "psutil==5.9.5",
     "click==8.1.7",
     "networkx==3.1",
     "tabulate==0.9.0"
