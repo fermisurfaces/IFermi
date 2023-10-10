@@ -65,9 +65,15 @@ class FermiSurfaceTest(unittest.TestCase):
 
             for s1, s2 in zip(iso1, iso2):
                 # check vertex coordinates are almost equal
-                np.testing.assert_array_almost_equal(
-                    s1.vertices, s2.vertices, decimal=5
-                )
+                # first sort vertices to make sure they are comparable
+                v1 = s1.vertices
+                v2 = s2.vertices
+                v1 = v1[np.lexsort((v1[:, 2], v1[:, 1], v1[:, 0]))]
+                v2 = v2[np.lexsort((v2[:, 2], v2[:, 1], v2[:, 0]))]
 
-                # check faces are exactly equal
-                np.testing.assert_array_equal(s1.faces, s2.faces)
+                np.testing.assert_array_almost_equal(v1, v2, decimal=5)
+
+                # check set faces are exactly equal
+                f1 = {tuple(x) for x in s1.faces}
+                f2 = {tuple(x) for x in s2.faces}
+                np.testing.assert_array_equal(f1, f2)
