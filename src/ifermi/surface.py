@@ -1,20 +1,25 @@
 """Tools to generate isosurfaces and Fermi surfaces."""
 
+from __future__ import annotations
+
 import warnings
-from collections.abc import Collection
 from copy import deepcopy
 from dataclasses import dataclass
-from typing import Optional, Union
+from typing import TYPE_CHECKING
 
 import numpy as np
 from monty.dev import requires
 from monty.json import MSONable, jsanitize
-from pymatgen.core.structure import Structure
-from pymatgen.electronic_structure.bandstructure import BandStructure
 from pymatgen.electronic_structure.core import Spin
 
 from ifermi.brillouin_zone import ReciprocalCell, WignerSeitzCell
 from ifermi.interpolate import LinearInterpolator
+
+if TYPE_CHECKING:
+    from collections.abc import Collection
+
+    from pymatgen.core.structure import Structure
+    from pymatgen.electronic_structure.bandstructure import BandStructure
 
 try:
     import mcubes
@@ -54,9 +59,9 @@ class Isosurface(MSONable):
     vertices: np.ndarray
     faces: np.ndarray
     band_idx: int
-    properties: Optional[np.ndarray] = None
-    dimensionality: Optional[str] = None
-    orientation: Optional[tuple[int, int, int]] = None
+    properties: np.ndarray | None = None
+    dimensionality: str | None = None
+    orientation: tuple[int, int, int] | None = None
 
     def __post_init__(self):
         """Ensure all inputs are numpy arrays."""
@@ -98,8 +103,8 @@ class Isosurface(MSONable):
         return self.properties.ndim
 
     def average_properties(
-        self, norm: bool = False, projection_axis: Optional[tuple[int, int, int]] = None
-    ) -> Union[float, np.ndarray]:
+        self, norm: bool = False, projection_axis: tuple[int, int, int] | None = None
+    ) -> float | np.ndarray:
         """Average property across isosurface.
 
         Args:
@@ -225,8 +230,8 @@ class FermiSurface(MSONable):
         return all(all(i.has_properties for i in s) for s in self.isosurfaces.values())
 
     def average_properties(
-        self, norm: bool = False, projection_axis: Optional[tuple[int, int, int]] = None
-    ) -> Union[float, np.ndarray]:
+        self, norm: bool = False, projection_axis: tuple[int, int, int] | None = None
+    ) -> float | np.ndarray:
         """Average property across the full Fermi surface.
 
         Args:
@@ -250,8 +255,8 @@ class FermiSurface(MSONable):
         return scaled_average / total_area
 
     def average_properties_surfaces(
-        self, norm: bool = False, projection_axis: Optional[tuple[int, int, int]] = None
-    ) -> dict[Spin, list[Union[float, np.ndarray]]]:
+        self, norm: bool = False, projection_axis: tuple[int, int, int] | None = None
+    ) -> dict[Spin, list[float | np.ndarray]]:
         """Average property for each isosurface in the Fermi surface.
 
         Args:
@@ -290,8 +295,8 @@ class FermiSurface(MSONable):
 
     def all_vertices_faces(
         self,
-        spins: Optional[Union[Spin, Collection[Spin]]] = None,
-        band_index: Optional[Union[int, list, dict]] = None,
+        spins: Spin | Collection[Spin] | None = None,
+        band_index: int | list | dict | None = None,
     ) -> list[tuple[np.ndarray, np.ndarray]]:
         """Get the vertices and faces for all isosurfaces.
 
@@ -339,9 +344,9 @@ class FermiSurface(MSONable):
 
     def all_properties(
         self,
-        spins: Optional[Union[Spin, Collection[Spin]]] = None,
-        band_index: Optional[Union[int, list, dict]] = None,
-        projection_axis: Optional[tuple[int, int, int]] = None,
+        spins: Spin | Collection[Spin] | None = None,
+        band_index: int | list | dict | None = None,
+        projection_axis: tuple[int, int, int] | None = None,
         norm: bool = False,
     ) -> list[np.ndarray]:
         """Get the properties for all isosurfaces.
@@ -407,13 +412,13 @@ class FermiSurface(MSONable):
         band_structure: BandStructure,
         mu: float = 0.0,
         wigner_seitz: bool = False,
-        decimate_factor: Optional[float] = None,
+        decimate_factor: float | None = None,
         decimate_method: str = "quadric",
         smooth: bool = False,
-        property_data: Optional[dict[Spin, np.ndarray]] = None,
-        property_kpoints: Optional[np.ndarray] = None,
+        property_data: dict[Spin, np.ndarray] | None = None,
+        property_kpoints: np.ndarray | None = None,
         calculate_dimensionality: bool = False,
-    ) -> "FermiSurface":
+    ) -> FermiSurface:
         """Create a FermiSurface from a pymatgen band structure object.
 
         Args:
@@ -515,7 +520,7 @@ class FermiSurface(MSONable):
         return FermiSlice.from_fermi_surface(self, plane_normal, distance=distance)
 
     @classmethod
-    def from_dict(cls, d) -> "FermiSurface":
+    def from_dict(cls, d) -> FermiSurface:
         """Return FermiSurface object from dict."""
         fs = super().from_dict(d)
         fs.isosurfaces = {Spin(int(k)): v for k, v in fs.isosurfaces.items()}
@@ -533,11 +538,11 @@ def compute_isosurfaces(
     kpoints: np.ndarray,
     fermi_level: float,
     reciprocal_space: ReciprocalCell,
-    decimate_factor: Optional[float] = None,
+    decimate_factor: float | None = None,
     decimate_method: str = "quadric",
     smooth: bool = False,
     calculate_dimensionality: bool = False,
-    property_interpolator: Optional[LinearInterpolator] = None,
+    property_interpolator: LinearInterpolator | None = None,
 ) -> dict[Spin, list[Isosurface]]:
     """Compute the isosurfaces at a particular energy level.
 
@@ -616,11 +621,11 @@ def _calculate_band_isosurfaces(
     spacing: np.ndarray,
     reference: np.ndarray,
     reciprocal_space: ReciprocalCell,
-    decimate_factor: Optional[float],
+    decimate_factor: float | None,
     decimate_method: str,
     smooth: bool,
     calculate_dimensionality: bool,
-    property_interpolator: Optional[LinearInterpolator],
+    property_interpolator: LinearInterpolator | None,
 ):
     """Helper function to calculate the connected isosurfaces for a band."""
     from skimage.measure import marching_cubes

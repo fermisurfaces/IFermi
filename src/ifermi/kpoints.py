@@ -1,11 +1,16 @@
 """k-point manipulation functions."""
 
+from __future__ import annotations
+
 import warnings
+from typing import TYPE_CHECKING
 
 import numpy as np
-from pymatgen.electronic_structure.bandstructure import BandStructure
 
 from ifermi.defaults import KTOL
+
+if TYPE_CHECKING:
+    from pymatgen.electronic_structure.bandstructure import BandStructure
 
 __all__ = [
     "kpoints_to_first_bz",

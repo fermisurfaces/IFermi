@@ -1,7 +1,8 @@
 """Isosurface and isoline analysis functions."""
 
+from __future__ import annotations
+
 import warnings
-from typing import Union
 
 import numpy as np
 
@@ -41,7 +42,7 @@ def isosurface_area(vertices: np.ndarray, faces: np.ndarray) -> float:
 
 def average_properties(
     vertices: np.ndarray, faces: np.ndarray, properties: np.ndarray, norm: bool = False
-) -> Union[float, np.ndarray]:
+) -> float | np.ndarray:
     """Average property across an isosurface.
 
     Args:

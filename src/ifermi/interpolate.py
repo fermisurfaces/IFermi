@@ -1,10 +1,14 @@
 """Tools for Fourier and linear interpolation."""
 
-from typing import Optional
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 import numpy as np
 from pymatgen.electronic_structure.bandstructure import BandStructure
-from pymatgen.electronic_structure.core import Spin
+
+if TYPE_CHECKING:
+    from pymatgen.electronic_structure.core import Spin
 
 __all__ = ["FourierInterpolator", "LinearInterpolator", "trim_bandstructure"]
 
@@ -23,8 +27,8 @@ class FourierInterpolator:
     def __init__(
         self,
         band_structure: BandStructure,
-        magmom: Optional[np.ndarray] = None,
-        mommat: Optional[np.ndarray] = None,
+        magmom: np.ndarray | None = None,
+        mommat: np.ndarray | None = None,
     ):
         from BoltzTraP2.units import Angstrom
         from pymatgen.io.ase import AseAtomsAdaptor
@@ -160,7 +164,7 @@ class DFTData:
         kpoints: np.ndarray,
         energies: np.ndarray,
         lattice_matrix: np.ndarray,
-        mommat: Optional[np.ndarray] = None,
+        mommat: np.ndarray | None = None,
     ):
         self.kpoints = kpoints
         self.ebands = energies

@@ -1,16 +1,23 @@
 """Tools to generate Isolines and Fermi slices."""
+
+from __future__ import annotations
+
 import warnings
-from collections.abc import Collection
 from dataclasses import dataclass
-from typing import Optional, Union
+from typing import TYPE_CHECKING
 
 import numpy as np
 from monty.json import MSONable
-from pymatgen.core.structure import Structure
 from pymatgen.electronic_structure.core import Spin
 
 from ifermi.analysis import equivalent_vertices, longest_simple_paths
-from ifermi.brillouin_zone import ReciprocalSlice
+
+if TYPE_CHECKING:
+    from collections.abc import Collection
+
+    from pymatgen.core.structure import Structure
+
+    from ifermi.brillouin_zone import ReciprocalSlice
 
 __all__ = ["Isoline", "FermiSlice", "process_lines", "interpolate_segments"]
 
@@ -28,7 +35,7 @@ class Isoline(MSONable):
 
     segments: np.ndarray
     band_idx: int
-    properties: Optional[np.ndarray] = None
+    properties: np.ndarray | None = None
 
     def __post_init__(self):
         """Ensure all inputs are numpy arrays."""
@@ -161,8 +168,8 @@ class FermiSlice(MSONable):
 
     def all_lines(
         self,
-        spins: Optional[Union[Spin, Collection[Spin]]] = None,
-        band_index: Optional[Union[int, list, dict]] = None,
+        spins: Spin | Collection[Spin] | None = None,
+        band_index: int | list | dict | None = None,
     ) -> list[np.ndarray]:
         """Get the segments for all isolines.
 
@@ -210,9 +217,9 @@ class FermiSlice(MSONable):
 
     def all_properties(
         self,
-        spins: Optional[Union[Spin, Collection[Spin]]] = None,
-        band_index: Optional[Union[int, list, dict]] = None,
-        projection_axis: Optional[tuple[int, int, int]] = None,
+        spins: Spin | Collection[Spin] | None = None,
+        band_index: int | list | dict | None = None,
+        projection_axis: tuple[int, int, int] | None = None,
         norm: bool = False,
     ) -> list[np.ndarray]:
         """Get the properties for all isolines.
@@ -275,7 +282,7 @@ class FermiSlice(MSONable):
         fermi_surface,
         plane_normal: tuple[int, int, int],
         distance: float = 0,
-    ) -> "FermiSlice":
+    ) -> FermiSlice:
         """Get a slice through the Fermi surface.
 
         The slice is defined by the intersection of a plane with the Fermi surface.
@@ -337,7 +344,7 @@ class FermiSlice(MSONable):
         return FermiSlice(dict(isolines), reciprocal_slice, fermi_surface.structure)
 
     @classmethod
-    def from_dict(cls, d) -> "FermiSlice":
+    def from_dict(cls, d) -> FermiSlice:
         """Return FermiSlice object from a dict."""
         fs = super().from_dict(d)
         fs.isolines = {Spin(int(k)): v for k, v in fs.isolines.items()}

@@ -1,11 +1,11 @@
 """Tools to plot FermiSurface and FermiSlice objects."""
 
+from __future__ import annotations
+
 import os
 import warnings
-from collections.abc import Collection
 from dataclasses import dataclass
-from pathlib import Path
-from typing import Any, Optional, Union
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 from matplotlib.colors import Colormap, Normalize
@@ -13,8 +13,13 @@ from monty.dev import requires
 from pymatgen.electronic_structure.core import Spin
 
 from ifermi.defaults import AZIMUTH, COLORMAP, ELEVATION, SCALE, SYMPREC, VECTOR_SPACING
-from ifermi.slice import FermiSlice
 from ifermi.surface import FermiSurface
+
+if TYPE_CHECKING:
+    from collections.abc import Collection
+    from pathlib import Path
+
+    from ifermi.slice import FermiSlice
 
 try:
     import mayavi.mlab as mlab
@@ -125,10 +130,10 @@ class _FermiSurfacePlotData:
     colors: list[tuple[int, int, int]]
     properties: list[np.ndarray]
     arrows: list[tuple[np.ndarray, np.ndarray, np.ndarray]]
-    properties_colormap: Optional[Colormap]
-    arrow_colormap: Optional[Colormap]
-    cmin: Optional[float]
-    cmax: Optional[float]
+    properties_colormap: Colormap | None
+    arrow_colormap: Colormap | None
+    cmin: float | None
+    cmax: float | None
     hide_labels: bool
     hide_cell: bool
 
@@ -139,10 +144,10 @@ class _FermiSlicePlotData:
     colors: list[tuple[int, int, int]]
     properties: list[np.ndarray]
     arrows: list[tuple[np.ndarray, np.ndarray, np.ndarray]]
-    properties_colormap: Optional[Colormap]
-    arrow_colormap: Optional[Colormap]
-    cmin: Optional[float]
-    cmax: Optional[float]
+    properties_colormap: Colormap | None
+    arrow_colormap: Colormap | None
+    cmin: float | None
+    cmax: float | None
     hide_labels: bool
     hide_cell: bool
 
@@ -200,21 +205,21 @@ class FermiSurfacePlotter:
     def get_plot(
         self,
         plot_type: str = "plotly",
-        spin: Optional[Spin] = None,
-        colors: Optional[Union[str, dict, list]] = None,
+        spin: Spin | None = None,
+        colors: str | dict | list | None = None,
         azimuth: float = AZIMUTH,
         elevation: float = ELEVATION,
-        color_properties: Union[str, bool] = True,
-        vector_properties: Union[str, bool] = False,
-        projection_axis: Optional[tuple[int, int, int]] = None,
+        color_properties: str | bool = True,
+        vector_properties: str | bool = False,
+        projection_axis: tuple[int, int, int] | None = None,
         vector_spacing: float = VECTOR_SPACING,
-        cmin: Optional[float] = None,
-        cmax: Optional[float] = None,
-        vnorm: Optional[float] = None,
+        cmin: float | None = None,
+        cmax: float | None = None,
+        vnorm: float | None = None,
         hide_surface: bool = False,
         hide_labels: bool = False,
         hide_cell: bool = False,
-        plot_index: Optional[Union[int, list, dict]] = None,
+        plot_index: int | list | dict | None = None,
         **plot_kwargs,
     ):
         """Plot the Fermi surface.
@@ -333,17 +338,17 @@ class FermiSurfacePlotter:
 
     def _get_plot_data(
         self,
-        spin: Optional[Spin] = None,
+        spin: Spin | None = None,
         azimuth: float = AZIMUTH,
         elevation: float = ELEVATION,
-        colors: Optional[Union[str, dict, list]] = None,
-        color_properties: Union[str, bool] = True,
-        vector_properties: Union[str, bool] = False,
-        projection_axis: Optional[tuple[int, int, int]] = None,
+        colors: str | dict | list | None = None,
+        color_properties: str | bool = True,
+        vector_properties: str | bool = False,
+        projection_axis: tuple[int, int, int] | None = None,
         vector_spacing: float = VECTOR_SPACING,
-        cmin: Optional[float] = None,
-        cmax: Optional[float] = None,
-        vnorm: Optional[float] = None,
+        cmin: float | None = None,
+        cmax: float | None = None,
+        vnorm: float | None = None,
         hide_surface: bool = False,
         hide_labels: bool = False,
         hide_cell: bool = False,
@@ -424,13 +429,13 @@ class FermiSurfacePlotter:
     def _get_matplotlib_plot(
         self,
         plot_data: _FermiSurfacePlotData,
-        ax: Optional[Any] = None,
-        trisurf_kwargs: Optional[dict[str, Any]] = None,
-        cbar_kwargs: Optional[dict[str, Any]] = None,
-        quiver_kwargs: Optional[dict[str, Any]] = None,
-        bz_kwargs: Optional[dict[str, Any]] = None,
-        sym_pt_kwargs: Optional[dict[str, Any]] = None,
-        sym_label_kwargs: Optional[dict[str, Any]] = None,
+        ax: Any | None = None,
+        trisurf_kwargs: dict[str, Any] | None = None,
+        cbar_kwargs: dict[str, Any] | None = None,
+        quiver_kwargs: dict[str, Any] | None = None,
+        bz_kwargs: dict[str, Any] | None = None,
+        sym_pt_kwargs: dict[str, Any] | None = None,
+        sym_label_kwargs: dict[str, Any] | None = None,
     ):
         """Plot the Fermi surface using matplotlib.
 
@@ -519,12 +524,12 @@ class FermiSurfacePlotter:
     def _get_plotly_plot(
         self,
         plot_data: _FermiSurfacePlotData,
-        mesh_kwargs: Optional[dict[str, Any]] = None,
-        arrow_line_kwargs: Optional[dict[str, Any]] = None,
-        arrow_cone_kwargs: Optional[dict[str, Any]] = None,
-        bz_kwargs: Optional[dict[str, Any]] = None,
-        sym_pt_kwargs: Optional[dict[str, Any]] = None,
-        sym_label_kwargs: Optional[dict[str, Any]] = None,
+        mesh_kwargs: dict[str, Any] | None = None,
+        arrow_line_kwargs: dict[str, Any] | None = None,
+        arrow_cone_kwargs: dict[str, Any] | None = None,
+        bz_kwargs: dict[str, Any] | None = None,
+        sym_pt_kwargs: dict[str, Any] | None = None,
+        sym_label_kwargs: dict[str, Any] | None = None,
     ):
         """Plot the Fermi surface using plotly.
 
@@ -864,28 +869,28 @@ class FermiSlicePlotter:
 
     def get_plot(
         self,
-        ax: Optional[Any] = None,
-        spin: Optional[Spin] = None,
-        colors: Optional[Union[str, dict, list]] = None,
-        color_properties: Union[str, bool] = True,
-        vector_properties: Union[str, bool] = False,
-        projection_axis: Optional[tuple[int, int, int]] = None,
-        scale_linewidth: Union[bool, float] = False,
+        ax: Any | None = None,
+        spin: Spin | None = None,
+        colors: str | dict | list | None = None,
+        color_properties: str | bool = True,
+        vector_properties: str | bool = False,
+        projection_axis: tuple[int, int, int] | None = None,
+        scale_linewidth: bool | float = False,
         vector_spacing: float = VECTOR_SPACING,
-        cmin: Optional[float] = None,
-        cmax: Optional[float] = None,
-        vnorm: Optional[float] = None,
+        cmin: float | None = None,
+        cmax: float | None = None,
+        vnorm: float | None = None,
         hide_slice: bool = False,
         hide_labels: bool = False,
         hide_cell: bool = False,
         plot_index: list[int] = None,
         arrow_pivot: str = "tail",
-        slice_kwargs: Optional[dict[str, Any]] = None,
-        cbar_kwargs: Optional[dict[str, Any]] = None,
-        quiver_kwargs: Optional[dict[str, Any]] = None,
-        bz_kwargs: Optional[dict[str, Any]] = None,
-        sym_pt_kwargs: Optional[dict[str, Any]] = None,
-        sym_label_kwargs: Optional[dict[str, Any]] = None,
+        slice_kwargs: dict[str, Any] | None = None,
+        cbar_kwargs: dict[str, Any] | None = None,
+        quiver_kwargs: dict[str, Any] | None = None,
+        bz_kwargs: dict[str, Any] | None = None,
+        sym_pt_kwargs: dict[str, Any] | None = None,
+        sym_label_kwargs: dict[str, Any] | None = None,
     ):
         """Plot the Fermi slice.
 
@@ -1097,15 +1102,15 @@ class FermiSlicePlotter:
 
     def _get_plot_data(
         self,
-        spin: Optional[Spin] = None,
-        colors: Optional[Union[str, dict, list]] = None,
-        color_properties: Union[str, bool] = True,
-        vector_properties: Union[str, bool] = False,
-        projection_axis: Optional[tuple[int, int, int]] = None,
+        spin: Spin | None = None,
+        colors: str | dict | list | None = None,
+        color_properties: str | bool = True,
+        vector_properties: str | bool = False,
+        projection_axis: tuple[int, int, int] | None = None,
         vector_spacing: float = VECTOR_SPACING,
-        cmin: Optional[float] = None,
-        cmax: Optional[float] = None,
-        vnorm: Optional[float] = None,
+        cmin: float | None = None,
+        cmax: float | None = None,
+        vnorm: float | None = None,
         hide_slice: bool = False,
         hide_labels: bool = False,
         hide_cell: bool = False,
@@ -1199,7 +1204,7 @@ def show_plot(plot: Any):
         plot.show()
 
 
-def save_plot(plot: Any, filename: Union[Path, str], scale: float = SCALE):
+def save_plot(plot: Any, filename: Path | str, scale: float = SCALE):
     """Save a plot to file.
 
     Args:
@@ -1255,8 +1260,8 @@ def get_plot_type(plot: Any) -> str:
 
 
 def get_isosurface_colors(
-    colors: Optional[Union[str, dict, list]],
-    fermi_object: Union[FermiSurface, FermiSlice],
+    colors: str | dict | list | None,
+    fermi_object: FermiSurface | FermiSlice,
     spins: list[Spin],
 ) -> list[tuple[float, float, float]]:
     """Get colors for each Fermi surface.
@@ -1329,8 +1334,8 @@ def get_face_arrows(
     fermi_surface: FermiSurface,
     spins: list[Spin],
     vector_spacing: float,
-    vnorm: Optional[float],
-    projection_axis: Optional[tuple[int, int, int]],
+    vnorm: float | None,
+    projection_axis: tuple[int, int, int] | None,
 ) -> list[tuple[np.ndarray, np.ndarray, np.ndarray]]:
     """Get face arrows from vector properties.
 
@@ -1398,8 +1403,8 @@ def get_segment_arrows(
     fermi_slice: FermiSlice,
     spins: Collection[Spin],
     vector_spacing: float,
-    vnorm: Optional[float],
-    projection_axis: Optional[tuple[int, int, int]],
+    vnorm: float | None,
+    projection_axis: tuple[int, int, int] | None,
 ) -> list[tuple[np.ndarray, np.ndarray, np.ndarray]]:
     """Get segment arrows from vector properties.
 
@@ -1473,7 +1478,7 @@ def get_segment_arrows(
 
 
 def _get_properties_limits(
-    projections: list[np.ndarray], cmin: Optional[float], cmax: Optional[float]
+    projections: list[np.ndarray], cmin: float | None, cmax: float | None
 ) -> tuple[float, float]:
     """Get the min and max properties if they are not already set.
 
@@ -1513,8 +1518,8 @@ def plotly_arrow(
     start: np.ndarray,
     stop: np.ndarray,
     color: tuple[float, float, float],
-    line_kwargs: Optional[dict[str, Any]] = None,
-    cone_kwargs: Optional[dict[str, Any]] = None,
+    line_kwargs: dict[str, Any] | None = None,
+    cone_kwargs: dict[str, Any] | None = None,
 ) -> tuple[Any, Any]:
     """Create an arrow object.
 

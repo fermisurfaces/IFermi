@@ -1,12 +1,16 @@
 """Brillouin zone and slice geometries."""
 
+from __future__ import annotations
+
 import itertools
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import TYPE_CHECKING
 
 import numpy as np
 from monty.json import MSONable
-from pymatgen.core.structure import Structure
+
+if TYPE_CHECKING:
+    from pymatgen.core.structure import Structure
 
 __all__ = ["ReciprocalSlice", "ReciprocalCell", "WignerSeitzCell"]
 
@@ -23,10 +27,10 @@ class ReciprocalSlice(MSONable):
             the 3D Brillouin zone to points on the 2D slice.
     """
 
-    reciprocal_space: "ReciprocalCell"
+    reciprocal_space: ReciprocalCell
     vertices: np.ndarray
     transformation: np.ndarray
-    _edges: Optional[np.ndarray] = field(default=None, init=False)
+    _edges: np.ndarray | None = field(default=None, init=False)
 
     def __post_init__(self):
         """Ensure all inputs are numpy arrays."""
@@ -66,7 +70,7 @@ class ReciprocalCell(MSONable):
     faces: list[list[int]]
     centers: np.ndarray
     normals: np.ndarray
-    _edges: Optional[np.ndarray] = field(default=None, init=False)
+    _edges: np.ndarray | None = field(default=None, init=False)
 
     def __post_init__(self):
         """Ensure all inputs are numpy arrays."""
@@ -76,7 +80,7 @@ class ReciprocalCell(MSONable):
         self.normals = np.array(self.normals)
 
     @classmethod
-    def from_structure(cls, structure: Structure) -> "ReciprocalCell":
+    def from_structure(cls, structure: Structure) -> ReciprocalCell:
         """Initialise the reciprocal cell from a structure.
 
         Args:
@@ -195,7 +199,7 @@ class WignerSeitzCell(ReciprocalCell):
     """
 
     @classmethod
-    def from_structure(cls, structure: Structure) -> "WignerSeitzCell":
+    def from_structure(cls, structure: Structure) -> WignerSeitzCell:
         """Initialise the Wigner-Seitz cell from a structure.
 
         Args:
