@@ -1,5 +1,17 @@
 # Change log
 
+## v0.3.2
+
+The minimum supported Python version is now 3.9.
+
+Enhancements:
+
+- Added support for recent trimesh versions.
+- Docs revamped.
+- Moved to pyproject.toml instead of setup.py
+- Tests moved out of the source folder.
+
+
 ## v0.3.1
 
 Fixed `hide_cell` plotting option.
