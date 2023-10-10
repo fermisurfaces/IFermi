@@ -41,7 +41,7 @@ dependencies = [
     "psutil",
     "click",
     "networkx",
-    "tabulate"
+    "tabulate",
 ]
 
 [project.optional-dependencies]
