@@ -7,7 +7,7 @@ from ifermi.interpolate import FourierInterpolator
 from ifermi.surface import FermiSurface
 
 if __name__ == "__main__":
-    example_dir = Path("../../examples")
+    example_dir = Path("../examples")
     vr = Vasprun(example_dir / "MgB2/vasprun.xml")
     bs = vr.get_band_structure()
 

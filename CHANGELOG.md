@@ -1,20 +1,14 @@
-Change log
-==========
+# Change log
 
-[Unreleased]
-------------
+## v0.3.1
 
-v0.3.1
-------
+Fixed `hide_cell` plotting option.
 
-Fixed ``hide_cell`` plotting option.
-
-v0.3.0
-------
+## v0.3.0
 
 New features:
 
-- Support for plotting individual bands. Specified using the ``--plot-index`` command
+- Support for plotting individual bands. Specified using the `--plot-index` command
   line option. (@aj-searle)
 
 Enhancements:
@@ -22,49 +16,42 @@ Enhancements:
 - Fixed high-symmetry points markers.
 - Updated dependencies.
 
-v0.2.6
-------
+## v0.2.6
 
 Bug fixes:
 
 - Fixed serialization issues.
 
-v0.2.5
-------
+## v0.2.5
 
 Bug fixes:
 
 - Better handling of integer decimation factors.
 
-v0.2.4
-------
+## v0.2.4
 
 Enhancements:
 
 - Added function to trim band structure to within a energy cutoff.
 - Improved decimation options.
 
-v0.2.3
-------
+## v0.2.3
 
 Publish IFermi on zenodo.
 
-v0.2.2
-------
+## v0.2.2
 
 Saving interactive html plots is now possible using the plotly backend with:
-``ifermi plot --output filename.html``.
+`ifermi plot --output filename.html`.
 
-v0.2.1
-------
+## v0.2.1
 
 Bug fixes:
 
 - Fixed interpolation of projections for 1D slices.
 - Fixed position of high-symmetry labels.
 
-v0.2.0
-------
+## v0.2.0
 
 This version completely overhauls the Python API and command-line tools. The major
 changes are:
@@ -83,15 +70,15 @@ Command line changes:
 
 IFermi now has a new command line interface. There are two subcommands:
 
-- ``ifermi info``: for calculating Fermi surface properties and dimensionalities.
-- ``ifermi plot``: for visualisation of Fermi surfaces and slices.
+- `ifermi info`: for calculating Fermi surface properties and dimensionalities.
+- `ifermi plot`: for visualisation of Fermi surfaces and slices.
 
 API additions:
 
-- ``FermiSurface`` and ``FermiSlice`` objects now support projections.
-- Added ``Isosurface`` and ``Isoline`` classes.
-- Added many analysis functions to the ``FermiSurface`` and ``FermiSlice`` modules.
-- New ``analysis`` module containing algorithms for:
+- `FermiSurface` and `FermiSlice` objects now support projections.
+- Added `Isosurface` and `Isoline` classes.
+- Added many analysis functions to the `FermiSurface` and `FermiSlice` modules.
+- New `analysis` module containing algorithms for:
 
   - Calculating Fermi surface dimensionality and orientation.
   - Uniformly sampling isosurfaces and isolines.
@@ -100,14 +87,13 @@ API additions:
 
 API changes:
 
-- ``fermi_surface`` module renamed ``surface``.
-- ``FermiSlice`` class and related functions moved to ``slice`` module.
-- ``plotter`` module renamed ``plot``.
-- ``interpolation`` module renamed ``interpolate``, and ``Interpolator`` class
-  renamed ``FourierInterpolator``.
+- `fermi_surface` module renamed `surface`.
+- `FermiSlice` class and related functions moved to `slice` module.
+- `plotter` module renamed `plot`.
+- `interpolation` module renamed `interpolate`, and `Interpolator` class
+  renamed `FourierInterpolator`.
 
-v0.1.5
-------
+## v0.1.5
 
 Enhancements:
 
@@ -118,8 +104,7 @@ Bug fixes:
 - Fixed bug where the Fermi surface was not exactly centered in reciprocal space.
 
 
-v0.1.4
-------
+## v0.1.4
 
 Enhancements:
 
@@ -130,7 +115,7 @@ Enhancements:
 - API updated to separate plotting and saving files. Allows composing multiple Fermi
   surfaces.
 - Surface decimation and smoothing (@mkhorton).
-- Support for ``crystal_toolkit`` (@mkhorton).
+- Support for `crystal_toolkit` (@mkhorton).
 
 Bug fixes:
 
@@ -139,7 +124,6 @@ Bug fixes:
 - Fixed latex labels in plotly (@mdforti).
 - Better support for spin polarized materials.
 
-v0.0.4
-------
+## v0.0.4
 
 Initial release.

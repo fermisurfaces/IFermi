@@ -23,7 +23,7 @@
    :maxdepth: -1
    :hidden:
 
-   API reference <ifermi>
+   API reference <reference>
    genindex
 
 .. include:: introduction.rst

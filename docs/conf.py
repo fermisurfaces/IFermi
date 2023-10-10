@@ -23,7 +23,7 @@ sys.path.insert(0, os.path.abspath("../../"))
 # -- Project information -----------------------------------------------------
 
 project = "IFermi"
-copyright = "2021, Amy Searle and Alex Ganose"
+copyright = "2023, Amy Searle and Alex Ganose"
 author = "Amy Searle and Alex Ganose"
 
 # The short X.Y version
@@ -38,6 +38,8 @@ release = __version__
 #
 # needs_sphinx = '1.0'
 
+autosummary_ignore_module_all = False
+
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
@@ -48,10 +50,10 @@ extensions = [
     "sphinx.ext.mathjax",
     "sphinx.ext.viewcode",
     "sphinx.ext.napoleon",
+    "sphinx.ext.autosummary",
     "sphinx_autodoc_typehints",
     "sphinx_click",
-    "sphinx.ext.todo",
-    "m2r2",
+    "myst_parser",
     "nbsphinx",
     "nbsphinx_link",
 ]
@@ -84,58 +86,18 @@ exclude_patterns = ["Thumbs.db", ".DS_Store", "test*.py"]
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
 
+# better napoleon support
+napoleon_use_param = True
+napoleon_use_rtype = True
+napoleon_use_ivar = True
+
 
 # -- Options for HTML test_log -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "sphinx_rtd_theme"
-
-# Theme options are theme-specific and customize the look and feel of a theme
-# further.  For a list of options available for each theme, see the
-# documentation.
-#
-# html_theme_options = {}
-
-# Add any paths that contain custom static files (such as style sheets) here,
-# relative to this directory. They are copied after the builtin static files,
-# so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ["_static"]
-
-html_css_files = ["custom.css"]
-html_favicon = "_static/favicon.ico"
-
-# Custom sidebar templates, must be a dictionary that maps document names
-# to template names.
-#
-# The default sidebars (for documents that don't match any pattern) are
-# defined by theme itself.  Builtin themes are using these templates by
-# default: ``['localtoc.html', 'relations.html', 'sourcelink.html',
-# 'searchbox.html']``.
-#
-# html_sidebars = {}
-
-# -- Options for HTMLHelp test_log ---------------------------------------------
-
-# Output file base name for HTML help builder.
-htmlhelp_basename = "Ifermidoc"
-
-html_theme_options = {
-    "canonical_url": "https://github.com/fermisurfaces/IFermi",
-    "logo_only": False,
-    "display_version": True,
-    "prev_next_buttons_location": None,
-    "style_external_links": True,
-    # 'style_nav_header_background': 'linear-gradient(0deg, rgba(23,63,162,1) 0%, rgba(0,70,192,1) 100%)',
-    "collapse_navigation": True,
-    "sticky_navigation": True,
-    "navigation_depth": 4,
-    "includehidden": True,
-    "titles_only": False,
-}
-
-# html_logo = "_static/logo-docs-01.png"
+html_theme = "furo"
 html_logo = "_static/docs-logo2-02.png"
 
 html_context = {
@@ -145,6 +107,47 @@ html_context = {
     "github_version": "master",
     "conf_py_path": "/docs_rst/",
 }
+html_show_sphinx = False
+html_show_sourcelink = False
+
+# Add any paths that contain custom static files (such as style sheets) here,
+# relative to this directory. They are copied after the builtin static files,
+# so a file named "default.css" will overwrite the builtin "default.css".
+fonts = [
+    "Lato",
+    "-apple-system",
+    "BlinkMacSystemFont",
+    "Segoe UI",
+    "Helvetica",
+    "Arial",
+    "sans-serif",
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+]
+html_static_path = ["_static"]
+html_css_files = ["custom.css"]
+html_favicon = "_static/favicon.ico"
+html_theme_options = {
+    "light_css_variables": {
+        "admonition-font-size": "92%",
+        "admonition-title-font-size": "92%",
+        "font-stack": ",".join(fonts),
+        "font-size--small": "92%",
+        "font-size--small--2": "87.5%",
+        "font-size--small--3": "87.5%",
+        "font-size--small--4": "87.5%",
+    },
+    "dark_css_variables": {
+        "admonition-font-size": "92%",
+        "admonition-title-font-size": "92%",
+        "font-stack": ",".join(fonts),
+        "font-size--small": "92%",
+        "font-size--small--2": "87.5%",
+        "font-size--small--3": "87.5%",
+        "font-size--small--4": "87.5%",
+    },
+}
+html_title = "jobflow"
 
 
 # -- Options for LaTeX test_log ------------------------------------------------
@@ -170,6 +173,19 @@ latex_elements = {
 latex_documents = [
     (master_doc, "ifermi.tex", "IFermi Documentation", "Amy Searle", "manual")
 ]
+
+nbsphinx_prolog = r"""
+{% set docpath = env.doc2path(env.docname, base=False) %}
+
+.. only:: html
+
+    .. role:: raw-html(raw)
+        :format: html
+
+    .. nbinfo::
+        This page is available as a Jupyter notebook: `{{ docpath }}`__.
+
+    __ https://github.com/materialsproject/jobflow/tree/main/docs/{{ docpath }}"""
 
 
 # -- Options for manual page test_log ------------------------------------------
