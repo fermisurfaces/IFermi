@@ -50,7 +50,6 @@ extensions = [
     "myst_parser",
     "nbsphinx",
     "nbsphinx_link",
-    "jupyter_sphinx",
 ]
 # napoleon_include_init_with_doc = True
 
