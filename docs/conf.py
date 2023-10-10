@@ -177,9 +177,9 @@ nbsphinx_prolog = r"""
         :format: html
 
     .. nbinfo::
-        This page is available as a Jupyter notebook: `{{ docpath }}`__.
+        This page is available as a Jupyter notebook: `{{ docpath | replace(".nblink", ".ipynb") }}`__.
 
-    __ https://github.com/fermisurfaces/IFermi/tree/main/examples/{{ docpath }}"""
+    __ https://github.com/fermisurfaces/IFermi/tree/main/examples/{{ docpath | replace(".nblink", ".ipynb") }}"""
 
 
 # -- Options for manual page test_log ------------------------------------------
