@@ -171,6 +171,11 @@ latex_documents = [
 nbsphinx_prolog = r"""
 {% set docpath = env.doc2path(env.docname, base=False) %}
 
+.. raw:: html
+
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js'></script>
+    <script>require=requirejs;</script>
+
 .. only:: html
 
     .. role:: raw-html(raw)
