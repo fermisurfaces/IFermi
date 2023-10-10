@@ -50,6 +50,7 @@ extensions = [
     "myst_parser",
     "nbsphinx",
     "nbsphinx_link",
+    "jupyter_sphinx",
 ]
 # napoleon_include_init_with_doc = True
 
@@ -123,7 +124,6 @@ html_css_files = ["custom.css"]
 html_favicon = "_static/favicon.ico"
 
 # fix rendering of Fermi surfaces in docs
-html_js_files = ["require.min.js", "custom.js"]
 html_theme_options = {
     "light_css_variables": {
         "admonition-font-size": "92%",
