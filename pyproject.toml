@@ -88,7 +88,7 @@ ifermi = "ifermi.cli:cli"
 homepage = "https://fermisurfaces.github.io/IFermi/"
 repository = "https://github.com/fermisurfaces/IFermi"
 documentation = "https://fermisurfaces.github.io/IFermi/"
-changelog = "https://github.com/fermisurfaces/IFermi/blob/main/docs/src/changelog.rst"
+changelog = "https://github.com/fermisurfaces/IFermi/blob/main/CHANGELOG.md"
 
 [tool.versioningit.vcs]
 method = "git"
