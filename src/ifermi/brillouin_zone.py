@@ -13,8 +13,7 @@ __all__ = ["ReciprocalSlice", "ReciprocalCell", "WignerSeitzCell"]
 
 @dataclass
 class ReciprocalSlice(MSONable):
-    """
-    A slice along a pane in reciprocal space.
+    """A slice along a pane in reciprocal space.
 
     Attributes:
         reciprocal_space: The reciprocal space that the slice belongs to.
@@ -30,8 +29,7 @@ class ReciprocalSlice(MSONable):
     _edges: Optional[np.ndarray] = field(default=None, init=False)
 
     def __post_init__(self):
-        # ensure all inputs are numpy arrays
-
+        """Ensure all inputs are numpy arrays."""
         self.vertices = np.array(self.vertices)
         self.transformation = np.array(self.transformation)
 
@@ -53,8 +51,7 @@ class ReciprocalSlice(MSONable):
 
 @dataclass
 class ReciprocalCell(MSONable):
-    """
-    A parallelepiped reciprocal lattice cell.
+    """A parallelepiped reciprocal lattice cell.
 
     Attributes:
         reciprocal_lattice: A (3, 3) float array of the reciprocal lattice vectors.
@@ -72,8 +69,7 @@ class ReciprocalCell(MSONable):
     _edges: Optional[np.ndarray] = field(default=None, init=False)
 
     def __post_init__(self):
-        # ensure all inputs are numpy arrays
-
+        """Ensure all inputs are numpy arrays."""
         self.reciprocal_lattice = np.array(self.reciprocal_lattice)
         self.vertices = np.array(self.vertices)
         self.centers = np.array(self.centers)
@@ -81,8 +77,7 @@ class ReciprocalCell(MSONable):
 
     @classmethod
     def from_structure(cls, structure: Structure) -> "ReciprocalCell":
-        """
-        Initialise the reciprocal cell from a structure.
+        """Initialise the reciprocal cell from a structure.
 
         Args:
             structure: A structure.
@@ -154,8 +149,7 @@ class ReciprocalCell(MSONable):
     def get_reciprocal_slice(
         self, plane_normal: Tuple[int, int, int], distance: float = 0
     ) -> ReciprocalSlice:
-        """
-        Get a reciprocal slice through the Brillouin zone.
+        """Get a reciprocal slice through the Brillouin zone.
 
         Reciprocal slice defined by the intersection of a plane with the lattice.
 
@@ -190,8 +184,7 @@ class ReciprocalCell(MSONable):
 
 @dataclass
 class WignerSeitzCell(ReciprocalCell):
-    """
-    WignerSeitz cell of the reciprocal lattice.
+    """WignerSeitz cell of the reciprocal lattice.
 
     Attributes:
         reciprocal_lattice: A (3, 3) float array of the reciprocal lattice vectors.
@@ -203,8 +196,7 @@ class WignerSeitzCell(ReciprocalCell):
 
     @classmethod
     def from_structure(cls, structure: Structure) -> "WignerSeitzCell":
-        """
-        Initialise the Wigner–Seitz cell from a structure.
+        """Initialise the Wigner-Seitz cell from a structure.
 
         Args:
             structure: A structure.

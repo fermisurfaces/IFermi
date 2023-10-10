@@ -24,8 +24,7 @@ __all__ = [
 
 
 def isosurface_area(vertices: np.ndarray, faces: np.ndarray) -> float:
-    """
-    Calculate the area of an isosurface.
+    """Calculate the area of an isosurface.
 
     Args:
         vertices: A (n, 3) float array of the vertices in the isosurface.
@@ -43,8 +42,7 @@ def isosurface_area(vertices: np.ndarray, faces: np.ndarray) -> float:
 def average_properties(
     vertices: np.ndarray, faces: np.ndarray, properties: np.ndarray, norm: bool = False
 ) -> Union[float, np.ndarray]:
-    """
-    Average property across an isosurface.
+    """Average property across an isosurface.
 
     Args:
         vertices: A (n, 3) float array of the vertices in the isosurface.
@@ -73,8 +71,7 @@ def average_properties(
 def connected_subsurfaces(
     vertices: np.ndarray, faces: np.ndarray
 ) -> List[Tuple[np.ndarray, np.ndarray]]:
-    """
-    Find connected sub-surfaces (those that share edges).
+    """Find connected sub-surfaces (those that share edges).
 
     Args:
         vertices: A (n, 3) float array of the vertices in the isosurface.
@@ -91,7 +88,7 @@ def connected_subsurfaces(
 
 
 def equivalent_surfaces(surfaces_vertices: List[np.ndarray], tol=KTOL) -> np.ndarray:
-    """
+    """Find equivalent surfaces.
 
     Note: This function expects the vertices of each surface to only belong to a single
     connected mesh, and the vertices should cover a 3x3x3 supercell, where the
@@ -117,8 +114,8 @@ def equivalent_surfaces(surfaces_vertices: List[np.ndarray], tol=KTOL) -> np.nda
         center_cell = np.all(vertices >= -0.5, axis=1) & np.all(vertices < 0.5, axis=1)
 
         if np.any(center_cell):
-            vertices = vertices[center_cell].round(round_dp)
-            mapping[surface_idx] = set(list(map(tuple, vertices)))
+            vert = vertices[center_cell].round(round_dp)
+            mapping[surface_idx] = set(map(tuple, vert))
 
     mapping_order = []
     # now find which other surfaces map to the those that go through the center cell
@@ -127,8 +124,7 @@ def equivalent_surfaces(surfaces_vertices: List[np.ndarray], tol=KTOL) -> np.nda
             mapping_order.append(surface_idx)
             continue
 
-        vertices = kpoints_to_first_bz(vertices).round(round_dp)
-        vertices_set = set(map(tuple, vertices))
+        vertices_set = set(map(tuple, kpoints_to_first_bz(vertices).round(round_dp)))
 
         match = None
         for mapping_idx, mapping_vertices in mapping.items():
@@ -137,7 +133,7 @@ def equivalent_surfaces(surfaces_vertices: List[np.ndarray], tol=KTOL) -> np.nda
                 continue
 
         if not match:
-            warnings.warn("Could not map surface")
+            warnings.warn("Could not map surface", stacklevel=2)
             match = surface_idx
         mapping_order.append(match)
 
@@ -147,8 +143,7 @@ def equivalent_surfaces(surfaces_vertices: List[np.ndarray], tol=KTOL) -> np.nda
 def isosurface_dimensionality(
     fractional_vertices: np.ndarray, faces: np.ndarray
 ) -> Tuple[str, Tuple[int, int, int]]:
-    """
-    Calculate isosurface properties a single isosurface (fully connected).
+    """Calculate isosurface properties a single isosurface (fully connected).
 
     The vertices must cover a 3x3x3 supercell and must not have been trimmed to fit
     inside the reciprocal lattice.
@@ -183,10 +178,7 @@ def isosurface_dimensionality(
 
         # use euler number to decide if mesh is a plane or multiple tubes
         euler_number = Trimesh(vertices=fractional_vertices, faces=faces).euler_number
-        if euler_number == 1:
-            dimensionality = "1D"
-        else:
-            dimensionality = "quasi-2D"
+        dimensionality = "1D" if euler_number == 1 else "quasi-2D"
     elif rank == 0:
         dimensionality = "3D"
     else:
@@ -198,8 +190,7 @@ def isosurface_dimensionality(
 def connected_images(
     fractional_vertices: np.ndarray, tol=KTOL
 ) -> List[Tuple[int, int, int]]:
-    """
-    Find the images a set of vertices is connected to.
+    """Find the images a set of vertices is connected to.
 
     Note: This function expects the vertices to only belong to a single connected
     mesh, and the vertices should cover a 3x3x3 supercell, where the coordinates
@@ -236,8 +227,7 @@ def connected_images(
         return coordinate_filters[axis][image]
 
     def mesh_in_image(image, vertex=None, return_vertices=False):
-        """
-        Check if any vertices are in a periodic image.
+        """Check if any vertices are in a periodic image.
 
         If a vertex is provided, the vertices that fall within the periodic image
         will be mapped back to the center image and used to determine if the provided
@@ -251,15 +241,14 @@ def connected_images(
         )
         if vertex is None and not return_vertices:
             return np.any(mask)
-        elif vertex is None:
+        if vertex is None:
             return np.any(mask), vertices[mask]
 
         vertices_in_image = vertices_first_bz[mask]
         is_in_image = np.any(np.linalg.norm(vertices_in_image - vertex, axis=1) < tol)
         if return_vertices:
             return is_in_image, vertices_in_image
-        else:
-            return is_in_image
+        return is_in_image
 
     if not mesh_in_image((0, 0, 0)):
         # if none of the vertices are in the center cell then skip this mesh
@@ -280,8 +269,7 @@ def connected_images(
 
 
 def line_orientation(images: List[Tuple[int, int, int]]) -> Tuple[int, int, int]:
-    """
-    Get the orientation (direction vector) from a list of rank 1 connected images.
+    """Get the orientation (direction vector) from a list of rank 1 connected images.
 
     Args:
         images: (n, 3) int array of the images.
@@ -299,8 +287,7 @@ def line_orientation(images: List[Tuple[int, int, int]]) -> Tuple[int, int, int]
 
 
 def plane_orientation(images: List[Tuple[int, int, int]]) -> Tuple[int, int, int]:
-    """
-    Get the orientation (surface normal) from a list of rank 2 connected images.
+    """Get the orientation (surface normal) from a list of rank 2 connected images.
 
     Args:
         images: (n, 3) int array of the images.
@@ -319,8 +306,7 @@ def plane_orientation(images: List[Tuple[int, int, int]]) -> Tuple[int, int, int
 def sample_surface_uniform(
     vertices: np.ndarray, faces: np.ndarray, grid_size: float
 ) -> np.ndarray:
-    """
-    Sample isosurface faces uniformly.
+    """Sample isosurface faces uniformly.
 
     The algorithm works by:
 
@@ -381,8 +367,7 @@ def sample_surface_uniform(
 
 
 def sample_line_uniform(segments: np.ndarray, spacing: float) -> np.ndarray:
-    """
-    Sample line segments to a consistent density.
+    """Sample line segments to a consistent density.
 
     Note: the segments must be ordered so that they are adjacent.
 
@@ -414,8 +399,7 @@ def sample_line_uniform(segments: np.ndarray, spacing: float) -> np.ndarray:
 
 
 def equivalent_vertices(vertices: np.ndarray, tol: float = KTOL) -> np.ndarray:
-    """
-    Find vertices that are equivalent (closer than a tolerance).
+    """Find vertices that are equivalent (closer than a tolerance).
 
     Note that the algorithm used is effectively recursive. If vertex a is within the
     tolerance of b, and b is within the tolerance of c, even if a and c and not within
@@ -459,8 +443,7 @@ def equivalent_vertices(vertices: np.ndarray, tol: float = KTOL) -> np.ndarray:
 
 
 def longest_simple_paths(vertices: np.ndarray, edges: np.ndarray) -> List[np.ndarray]:
-    """
-    Find the shortest paths that go through all vertices.
+    """Find the shortest paths that go through all vertices.
 
     The lines are broken up into the connected sublines. Note this function is only
     designed to work with connected sublines that are either simple cycles or

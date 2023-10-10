@@ -193,8 +193,7 @@ class LinearInterpolator:
         self._setup_interpolators(data, grid_kpoints, mesh_dim, sort_idx)
 
     def interpolate(self, spin: Spin, bands: np.ndarray, kpoints: np.ndarray):
-        """
-        Get the interpolated data for a spin channel and series of bands and k-points.
+        """Get the interpolated data for a spin and series of bands and k-points.
 
         Args:
             spin: The spin channel.
@@ -206,8 +205,7 @@ class LinearInterpolator:
             A list of interpolated values.
         """
         v = np.concatenate([np.asarray(bands)[:, None], np.asarray(kpoints)], axis=1)
-        interp_data = self.interpolators[spin](v)
-        return interp_data
+        return self.interpolators[spin](v)
 
     def _setup_interpolators(self, data, grid_kpoints, mesh_dim, sort_idx):
         from scipy.interpolate import RegularGridInterpolator
@@ -226,7 +224,7 @@ class LinearInterpolator:
             # sort the data then reshape them into the grid. The data
             # can now be indexed as data[iband][ikx][iky][ikz]
             sorted_data = spin_data[:, sort_idx]
-            grid_shape = (nbands,) + mesh_dim + data_shape
+            grid_shape = (nbands, *mesh_dim, *data_shape)
             grid_data = sorted_data.reshape(grid_shape)
 
             # wrap the data to account for PBC
@@ -266,7 +264,7 @@ class LinearInterpolator:
 
         # put the kpoints into a 3D grid so that they can be indexed as
         # kpoints[ikx][iky][ikz] = [kx, ky, kz]
-        grid_kpoints = kpoints[sort_idx].reshape(mesh_dim + (3,))
+        grid_kpoints = kpoints[sort_idx].reshape((*mesh_dim, 3))
 
         # Expand the k-point mesh to account for periodic boundary conditions
         grid_kpoints = np.pad(
@@ -284,8 +282,7 @@ class LinearInterpolator:
 def trim_bandstructure(
     energy_cutoff: float, band_structure: BandStructure
 ) -> BandStructure:
-    """
-    Trim the number of bands in a band structure object based on a cutoff.
+    """Trim the number of bands in a band structure object based on a cutoff.
 
     Args:
         energy_cutoff: An energy cutoff within which to keep the bands. If the system

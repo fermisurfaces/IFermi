@@ -41,8 +41,7 @@ def kpoints_to_first_bz(kpoints: np.ndarray, tol: float = KTOL) -> np.ndarray:
 
 
 def get_kpoint_mesh_dim(kpoints: np.ndarray, tol: float = KTOL) -> Tuple[int, int, int]:
-    """
-    Get the k-point mesh dimensions.
+    """Get the k-point mesh dimensions.
 
     Args:
         kpoints: A (n, 3) float array of the k-points in fractional coordinates.
@@ -62,8 +61,7 @@ def get_kpoint_mesh_dim(kpoints: np.ndarray, tol: float = KTOL) -> Tuple[int, in
 
 
 def sort_boltztrap_to_spglib(kpoints: np.ndarray) -> np.ndarray:
-    """
-    Get an index array that sorts the k-points from BoltzTraP2 to the order from spglib.
+    """Get an index array that sorts the k-points from BoltzTraP2 to the spglib order.
 
     Args:
         kpoints: A (n, 3) float array of the k-points in fractional coordinates.
@@ -83,7 +81,7 @@ def sort_boltztrap_to_spglib(kpoints: np.ndarray) -> np.ndarray:
     )
     boltztrap_kpoints = kpoints[sort_idx]
 
-    sort_idx = np.lexsort(
+    return np.lexsort(
         (
             boltztrap_kpoints[:, 0],
             boltztrap_kpoints[:, 0] < 0,
@@ -93,7 +91,6 @@ def sort_boltztrap_to_spglib(kpoints: np.ndarray) -> np.ndarray:
             boltztrap_kpoints[:, 2] < 0,
         )
     )
-    return sort_idx
 
 
 def get_kpoint_spacing(kpoints: np.ndarray) -> np.ndarray:
@@ -119,7 +116,7 @@ def get_kpoint_spacing(kpoints: np.ndarray) -> np.ndarray:
         and np.allclose(diff_b - diff_b[0], 0, atol=1e-7)
         and np.allclose(diff_c - diff_c[0], 0, atol=1e-7)
     ):
-        warnings.warn("k-point mesh is not uniform")
+        warnings.warn("k-point mesh is not uniform", stacklevel=2)
 
     return np.array([diff_a[0], diff_b[0], diff_c[0]])
 
@@ -127,8 +124,7 @@ def get_kpoint_spacing(kpoints: np.ndarray) -> np.ndarray:
 def kpoints_from_bandstructure(
     bandstructure: BandStructure, cartesian: bool = False
 ) -> np.ndarray:
-    """
-    Extract the k-points from a band structure.
+    """Extract the k-points from a band structure.
 
     Args:
         bandstructure: A band structure object.

@@ -42,17 +42,17 @@ def bands_fft(equiv, coeffs, lattvec, nworkers=1):
 
     # The "None"s at the end of the queue signal the workers that there are
     # no more jobs left and they must therefore exit.
-    for i in range(nworkers):
+    for _i in range(nworkers):
         iq.put(None)
 
-    for i in range(nworkers):
+    for _i in range(nworkers):
         workers.append(mp.Process(target=worker, args=(equiv, sallvec, dims, iq, oq)))
 
     for w in workers:
         w.start()
 
     # The results of the FFTs are processed as soon as they are ready.
-    for r in range(len(coeffs)):
+    for _r in range(len(coeffs)):
         iband, eband[iband], vband[iband] = oq.get()
 
     for w in workers:
@@ -90,8 +90,7 @@ def worker(equivalences, sallvec, dims, iqueue, oqueue):
         task = iqueue.get()
         if task is None:
             break
-        else:
-            index, bandcoeff = task
 
+        index, bandcoeff = task
         eband, vband = FFTev(equivalences, bandcoeff, allvec, dims)
         oqueue.put((index, eband, vband))

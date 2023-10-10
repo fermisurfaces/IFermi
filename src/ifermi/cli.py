@@ -56,13 +56,14 @@ _generation_options = [
 
 
 def generation_options(func):
+    """Helper for generation options."""
     for opt in reversed(_generation_options):
         func = opt(func)
     return func
 
 
 @click.group(
-    context_settings=dict(help_option_names=["-h", "--help"], max_content_width=120)
+    context_settings={"help_option_names": ["-h", "--help"], "max_content_width": 120}
 )
 def cli():
     """IFermi is a tool for the generation, analysis and plotting of Fermi surfaces."""
@@ -112,8 +113,7 @@ def info(filename, **kwargs):
     def dp(value):
         if isinstance(value, (list, tuple, np.ndarray)):
             return str(np.array(value))
-        else:
-            return f"{value:.{kwargs['precision']}g}"
+        return f"{value:.{kwargs['precision']}g}"
 
     norm = kwargs["norm"]
     axis = kwargs["projection_axis"] or None
@@ -156,7 +156,7 @@ def info(filename, **kwargs):
             table["Orientation"].append(isosurface.orientation)
 
         # filter columns that have None's in all rows
-        table = {k: v for k, v in table.items() if any([i is not None for i in v])}
+        table = {k: v for k, v in table.items() if any(i is not None for i in v)}
 
         # format table
         table_str = tabulate(
@@ -374,7 +374,7 @@ def _get_fermi_surface(
     wigner_seitz,
     calculate_dimensionality,
 ):
-    """Common helper method to get Fermi surface"""
+    """Common helper method to get Fermi surface."""
     import numpy as np
     from pymatgen.electronic_structure.core import Spin
     from pymatgen.io.vasp.outputs import Vasprun

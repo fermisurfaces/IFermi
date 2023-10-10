@@ -38,8 +38,7 @@ __all__ = [
 
 @dataclass
 class Isosurface(MSONable):
-    """
-    An isosurface object contains a triangular mesh and surface properties.
+    """An isosurface object contains a triangular mesh and surface properties.
 
     Attributes:
         vertices: A (n, 3) float array of the vertices in the isosurface.
@@ -59,8 +58,7 @@ class Isosurface(MSONable):
     orientation: Optional[Tuple[int, int, int]] = None
 
     def __post_init__(self):
-        # ensure all inputs are numpy arrays
-
+        """Ensure all inputs are numpy arrays."""
         self.vertices = np.array(self.vertices)
         self.faces = np.array(self.faces)
 
@@ -101,8 +99,7 @@ class Isosurface(MSONable):
     def average_properties(
         self, norm: bool = False, projection_axis: Optional[Tuple[int, int, int]] = None
     ) -> Union[float, np.ndarray]:
-        """
-        Average property across isosurface.
+        """Average property across isosurface.
 
         Args:
             norm: Average the norm of the properties (vector properties only).
@@ -124,8 +121,7 @@ class Isosurface(MSONable):
         return average_properties(self.vertices, self.faces, properties, norm=norm)
 
     def scalar_projection(self, axis: Tuple[int, int, int]) -> np.ndarray:
-        """
-        Get scalar projection of properties onto axis.
+        """Get scalar projection of properties onto axis.
 
         Args:
             axis: A (3, ) int array of the axis to project onto.
@@ -142,8 +138,7 @@ class Isosurface(MSONable):
         return np.dot(self.properties, axis)
 
     def sample_uniform(self, grid_size: float) -> np.ndarray:
-        """
-        Sample mesh faces uniformly.
+        """Sample mesh faces uniformly.
 
         See the docstring for ``ifermi.analysis.sample_surface_uniform`` for more
         details.
@@ -159,6 +154,7 @@ class Isosurface(MSONable):
         return sample_surface_uniform(self.vertices, self.faces, grid_size)
 
     def __repr__(self):
+        """Get a string representation."""
         rep = [
             f"Isosurface(nvertices={len(self.vertices)}, "
             f"nfaces={len(self.faces)}, band_idx={self.band_idx}",
@@ -173,8 +169,7 @@ class Isosurface(MSONable):
 
 @dataclass
 class FermiSurface(MSONable):
-    """
-    A FermiSurface object contains isosurfaces and the reciprocal lattice definition.
+    """A FermiSurface object contains isosurfaces and the reciprocal lattice definition.
 
     Attributes:
         isosurfaces: A dict containing a list of isosurfaces for each spin channel.
@@ -193,8 +188,7 @@ class FermiSurface(MSONable):
 
     @property
     def n_surfaces_per_band(self) -> Dict[Spin, Dict[int, int]]:
-        """
-        Get number of surfaces for each band index for each spin channel.
+        """Get number of surfaces for each band index for each spin channel.
 
         Returned as a dict of ``{spin: {band_idx: count}}``.
         """
@@ -208,8 +202,7 @@ class FermiSurface(MSONable):
 
     @property
     def n_surfaces_per_spin(self) -> Dict[Spin, int]:
-        """
-        Get number of surfaces per spin channel.
+        """Get number of surfaces per spin channel.
 
         Returned as a dict of ``{spin: count}``.
         """
@@ -228,15 +221,12 @@ class FermiSurface(MSONable):
     @property
     def has_properties(self) -> bool:
         """Whether all isosurfaces have face properties."""
-        return all(
-            [all([i.has_properties for i in s]) for s in self.isosurfaces.values()]
-        )
+        return all(all(i.has_properties for i in s) for s in self.isosurfaces.values())
 
     def average_properties(
         self, norm: bool = False, projection_axis: Optional[Tuple[int, int, int]] = None
     ) -> Union[float, np.ndarray]:
-        """
-        Average property across the full Fermi surface.
+        """Average property across the full Fermi surface.
 
         Args:
             norm: Average the norm of the properties (vector properties only).
@@ -261,8 +251,7 @@ class FermiSurface(MSONable):
     def average_properties_surfaces(
         self, norm: bool = False, projection_axis: Optional[Tuple[int, int, int]] = None
     ) -> Dict[Spin, List[Union[float, np.ndarray]]]:
-        """
-        Average property for each isosurface in the Fermi surface.
+        """Average property for each isosurface in the Fermi surface.
 
         Args:
             norm: Average the norm of the properties (vector properties only).
@@ -287,7 +276,8 @@ class FermiSurface(MSONable):
 
         if len(set(ndims)) != 1:
             warnings.warn(
-                "Isosurfaces have different property dimensions, using the largest."
+                "Isosurfaces have different property dimensions, using the largest.",
+                stacklevel=2,
             )
 
         return max(ndims)
@@ -302,8 +292,7 @@ class FermiSurface(MSONable):
         spins: Optional[Union[Spin, Collection[Spin]]] = None,
         band_index: Optional[Union[int, list, dict]] = None,
     ) -> List[Tuple[np.ndarray, np.ndarray]]:
-        """
-        Get the vertices and faces for all isosurfaces.
+        """Get the vertices and faces for all isosurfaces.
 
         Args:
             spins: One or more spin channels to select. Default is all spins available.
@@ -354,8 +343,7 @@ class FermiSurface(MSONable):
         projection_axis: Optional[Tuple[int, int, int]] = None,
         norm: bool = False,
     ) -> List[np.ndarray]:
-        """
-        Get the properties for all isosurfaces.
+        """Get the properties for all isosurfaces.
 
         Args:
             spins: One or more spin channels to select. Default is all spins available.
@@ -425,14 +413,13 @@ class FermiSurface(MSONable):
         property_kpoints: Optional[np.ndarray] = None,
         calculate_dimensionality: bool = False,
     ) -> "FermiSurface":
-        """
-        Create a FermiSurface from a pymatgen band structure object.
+        """Create a FermiSurface from a pymatgen band structure object.
 
         Args:
             band_structure: A band structure. The k-points must cover the full
                 Brillouin zone (i.e., not just be the irreducible mesh). Use
-                the ``ifermi.interpolator.FourierInterpolator`` class to expand the k-points to
-                the full Brillouin zone if required.
+                the ``ifermi.interpolator.FourierInterpolator`` class to expand the
+                k-points to the full Brillouin zone if required.
             mu: Energy offset from the Fermi energy at which the isosurface is
                 calculated.
             wigner_seitz: Controls whether the cell is the Wigner-Seitz cell
@@ -511,8 +498,7 @@ class FermiSurface(MSONable):
         return cls(isosurfaces, reciprocal_space, structure)
 
     def get_fermi_slice(self, plane_normal: Tuple[int, int, int], distance: float = 0):
-        """
-        Get a slice through the Fermi surface.
+        """Get a slice through the Fermi surface.
 
         Slice defined by the intersection of a plane with the Fermi surface.
 
@@ -552,8 +538,7 @@ def compute_isosurfaces(
     calculate_dimensionality: bool = False,
     property_interpolator: Optional[LinearInterpolator] = None,
 ) -> Dict[Spin, List[Isosurface]]:
-    """
-    Compute the isosurfaces at a particular energy level.
+    """Compute the isosurfaces at a particular energy level.
 
     Args:
         bands: The band energies, given as a dictionary of ``{spin: energies}``, where
@@ -649,11 +634,15 @@ def _calculate_band_isosurfaces(
 
     if smooth and mcubes is None:
         smooth = False
-        warnings.warn("Smoothing disabled, install PyMCubes to enable smoothing.")
+        warnings.warn(
+            "Smoothing disabled, install PyMCubes to enable smoothing.", stacklevel=2
+        )
 
     if decimate_factor is not None and open3d is None:
         decimate_factor = None
-        warnings.warn("Decimation disabled, install open3d to enable decimation.")
+        warnings.warn(
+            "Decimation disabled, install open3d to enable decimation.", stacklevel=2
+        )
 
     band_data = energies.reshape(kpoint_dim)
 
@@ -723,8 +712,7 @@ def _calculate_band_isosurfaces(
 def trim_surface(
     reciprocal_cell: ReciprocalCell, vertices: np.ndarray, faces: np.ndarray
 ) -> Tuple[np.ndarray, np.ndarray]:
-    """
-    Trim the surface to remove parts outside the cell boundaries.
+    """Trim the surface to remove parts outside the cell boundaries.
 
     Will add new triangles at the boundary edges as necessary to produce a smooth
     surface.
@@ -750,8 +738,7 @@ def expand_bands(
     supercell_dim: Tuple[int, int, int] = (3, 3, 3),
     center: Tuple[int, int, int] = (0, 0, 0),
 ) -> Tuple[Dict[Spin, np.ndarray], np.ndarray]:
-    """
-    Expand the band energies and k-points with periodic boundary conditions.
+    """Expand the band energies and k-points with periodic boundary conditions.
 
     Args:
         bands: The band energies, given as a dictionary of ``{spin: energies}``, where
@@ -786,8 +773,7 @@ def face_properties(
     spin: Spin,
     reciprocal_lattice: np.ndarray,
 ) -> np.ndarray:
-    """
-    Interpolate properties data onto the Fermi surfaces.
+    """Interpolate properties data onto the Fermi surfaces.
 
     Args:
         interpolator: Periodic interpolator for property data.
@@ -818,7 +804,7 @@ def face_properties(
 
 @requires(open3d, "open3d package is required for mesh decimation")
 def decimate_mesh(
-    vertices: np.ndarray, faces: np.ndarray, factor: Union[int, float], method="quadric"
+    vertices: np.ndarray, faces: np.ndarray, factor: float, method="quadric"
 ):
     """Decimate mesh to reduce the number of triangles and vertices.
 

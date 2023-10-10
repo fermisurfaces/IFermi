@@ -37,7 +37,7 @@ class FermiSurfaceTest(unittest.TestCase):
 
         fs = FermiSurface.from_band_structure(self.band_structure, decimate_factor=0.8)
         n_faces_new = len(fs.isosurfaces[Spin.up][0].faces)
-        self.assertLess(n_faces_new, n_faces_orig)
+        assert n_faces_new < n_faces_orig
 
     def test_reciprocal_cell(self):
         fs = FermiSurface.from_band_structure(self.band_structure, wigner_seitz=False)
@@ -45,7 +45,8 @@ class FermiSurfaceTest(unittest.TestCase):
 
     def assert_fs_equal(self, fs1: FermiSurface, fs2: FermiSurface):
         # test reciprocal space the same
-        self.assertEqual(type(fs1.reciprocal_space), type(fs2.reciprocal_space))
+        assert isinstance(fs1, FermiSurface)
+        assert isinstance(fs2, FermiSurface)
         np.testing.assert_array_almost_equal(
             fs1.reciprocal_space.reciprocal_lattice,
             fs2.reciprocal_space.reciprocal_lattice,
@@ -53,14 +54,14 @@ class FermiSurfaceTest(unittest.TestCase):
         )
 
         # check number of spin channels in surfaces is the same
-        self.assertEqual(len(fs1.isosurfaces), len(fs2.isosurfaces))
+        assert len(fs1.isosurfaces) == len(fs2.isosurfaces)
 
-        for spin in fs1.isosurfaces.keys():
+        for spin in fs1.isosurfaces:
             iso1 = fs1.isosurfaces[spin]
             iso2 = fs2.isosurfaces[spin]
 
             # check number of spin channels in surfaces is the same
-            self.assertEqual(len(iso1), len(iso2))
+            assert len(iso1) == len(iso2)
 
             for s1, s2 in zip(iso1, iso2):
                 # check vertex coordinates are almost equal

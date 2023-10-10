@@ -16,8 +16,7 @@ __all__ = ["Isoline", "FermiSlice", "process_lines", "interpolate_segments"]
 
 @dataclass
 class Isoline(MSONable):
-    """
-    An isoline object contains line segments mesh and line properties.
+    """An isoline object contains line segments mesh and line properties.
 
     Attributes:
         segments: A (n, 2, 2) float array of the line segments..
@@ -31,8 +30,7 @@ class Isoline(MSONable):
     properties: Optional[np.ndarray] = None
 
     def __post_init__(self):
-        # ensure all inputs are numpy arrays
-
+        """Ensure all inputs are numpy arrays."""
         self.segments = np.array(self.segments)
 
         if self.properties is not None:
@@ -44,8 +42,7 @@ class Isoline(MSONable):
         return self.properties is not None
 
     def scalar_projection(self, axis: Tuple[int, int, int]) -> np.ndarray:
-        """
-        Get scalar projection of properties onto axis.
+        """Get scalar projection of properties onto axis.
 
         Args:
             axis: A (3, ) int array of the axis to project onto.
@@ -78,8 +75,7 @@ class Isoline(MSONable):
         return self.properties.ndim
 
     def sample_uniform(self, spacing: float) -> np.ndarray:
-        """
-        Sample line segments uniformly.
+        """Sample line segments uniformly.
 
         See the docstring for ``ifermi.analysis.sample_line_uniform`` for more details.
 
@@ -96,8 +92,7 @@ class Isoline(MSONable):
 
 @dataclass
 class FermiSlice(MSONable):
-    """
-    A FermiSlice object is a 2D slice through a Fermi surface.
+    """A FermiSlice object is a 2D slice through a Fermi surface.
 
     Attributes:
         isolines: A dict containing a list of isolines for each spin channel.
@@ -117,8 +112,7 @@ class FermiSlice(MSONable):
 
     @property
     def n_lines_per_band(self) -> Dict[Spin, Dict[int, int]]:
-        """
-        Get number of lines for each band index for each spin channel.
+        """Get number of lines for each band index for each spin channel.
 
         Returned as a dict of ``{spin: {band_idx: count}}``.
         """
@@ -132,8 +126,7 @@ class FermiSlice(MSONable):
 
     @property
     def n_lines_per_spin(self) -> Dict[Spin, int]:
-        """
-        Get number of lines per spin channel.
+        """Get number of lines per spin channel.
 
         Returned as a dict of ``{spin: count}``.
         """
@@ -142,7 +135,7 @@ class FermiSlice(MSONable):
     @property
     def has_properties(self) -> bool:
         """Whether all isolines have segment properties."""
-        return all([all([i.has_properties for i in s]) for s in self.isolines.values()])
+        return all(all(i.has_properties for i in s) for s in self.isolines.values())
 
     @property
     def spins(self) -> Tuple[Spin]:
@@ -159,7 +152,8 @@ class FermiSlice(MSONable):
 
         if len(set(ndims)) != 1:
             warnings.warn(
-                "Ioslines have different property dimensions, using the largest."
+                "Ioslines have different property dimensions, using the largest.",
+                stacklevel=2,
             )
 
         return max(ndims)
@@ -169,8 +163,7 @@ class FermiSlice(MSONable):
         spins: Optional[Union[Spin, Collection[Spin]]] = None,
         band_index: Optional[Union[int, list, dict]] = None,
     ) -> List[np.ndarray]:
-        """
-        Get the segments for all isolines.
+        """Get the segments for all isolines.
 
         Args:
             spins: One or more spin channels to select. Default is all spins available.
@@ -221,8 +214,7 @@ class FermiSlice(MSONable):
         projection_axis: Optional[Tuple[int, int, int]] = None,
         norm: bool = False,
     ) -> List[np.ndarray]:
-        """
-        Get the properties for all isolines.
+        """Get the properties for all isolines.
 
         Args:
             spins: One or more spin channels to select. Default is all spins available.
@@ -307,7 +299,6 @@ class FermiSlice(MSONable):
 
         isolines = defaultdict(list)
         for spin in fermi_surface.spins:
-
             for isosurface in fermi_surface.isosurfaces[spin]:
                 mesh = Trimesh(vertices=isosurface.vertices, faces=isosurface.faces)
                 lines, _, face_idxs = mesh_multiplane(
@@ -361,8 +352,7 @@ class FermiSlice(MSONable):
 def process_lines(
     segments: np.ndarray, face_idxs: np.ndarray
 ) -> List[Tuple[np.ndarray, np.ndarray]]:
-    """
-    Process segments and face_idxs from mesh_multiplane.
+    """Process segments and face_idxs from mesh_multiplane.
 
     The key issue is that the segments from mesh_multiplane do not correspond to
     individual lines, nor are they sorted in a continuous order. Instead they are just
@@ -388,7 +378,6 @@ def process_lines(
     Returns:
         A list of (segments, faces) for each path.
     """
-
     # turn segments [shape: (nsegments, 2, 2)], to vertices [shape: (nsegments * 2, 2)]
     vertices = segments.reshape(-1, 2)
 
@@ -447,8 +436,7 @@ def process_lines(
 def interpolate_segments(
     segments: np.ndarray, properties: np.ndarray, max_spacing: float
 ) -> Tuple[np.ndarray, np.ndarray]:
-    """
-    Resample a series of line segments to a consistent density.
+    """Resample a series of line segments to a consistent density.
 
     Note: the segments must be ordered so that they are adjacent.
 

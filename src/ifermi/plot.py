@@ -32,41 +32,44 @@ except ImportError:
 
 
 # define plotly default styles
-_plotly_scene = dict(
-    xaxis=dict(
-        backgroundcolor="rgb(255, 255, 255)",
-        title="",
-        showgrid=False,
-        zeroline=False,
-        showline=False,
-        ticks="",
-        showticklabels=False,
-    ),
-    yaxis=dict(
-        backgroundcolor="rgb(255, 255, 255)",
-        title="",
-        showgrid=False,
-        zeroline=False,
-        showline=False,
-        ticks="",
-        showticklabels=False,
-    ),
-    zaxis=dict(
-        backgroundcolor="rgb(255, 255, 255)",
-        title="",
-        showgrid=False,
-        zeroline=False,
-        showline=False,
-        ticks="",
-        showticklabels=False,
-    ),
-    aspectmode="data",
-)
+_plotly_scene = {
+    "xaxis": {
+        "backgroundcolor": "rgb(255, 255, 255)",
+        "title": "",
+        "showgrid": False,
+        "zeroline": False,
+        "showline": False,
+        "ticks": "",
+        "showticklabels": False,
+    },
+    "yaxis": {
+        "backgroundcolor": "rgb(255, 255, 255)",
+        "title": "",
+        "showgrid": False,
+        "zeroline": False,
+        "showline": False,
+        "ticks": "",
+        "showticklabels": False,
+    },
+    "zaxis": {
+        "backgroundcolor": "rgb(255, 255, 255)",
+        "title": "",
+        "showgrid": False,
+        "zeroline": False,
+        "showline": False,
+        "ticks": "",
+        "showticklabels": False,
+    },
+    "aspectmode": "data",
+}
 _plotly_bz_style = {"line": {"color": "black", "width": 3}}
 _plotly_sym_pt_style = {"marker": {"size": 6, "color": "black"}}
-_plotly_sym_label_style = dict(
-    xshift=15, yshift=15, showarrow=False, font={"size": 20, "color": "black"}
-)
+_plotly_sym_label_style = {
+    "xshift": 15,
+    "yshift": 15,
+    "showarrow": False,
+    "font": {"size": 20, "color": "black"},
+}
 _plotly_cbar_style = {"lenmode": "fraction", "len": 0.5, "tickfont": {"size": 15}}
 
 # define mayavi default styles
@@ -162,8 +165,7 @@ class FermiSurfacePlotter:
     def get_symmetry_points(
         fermi_surface: FermiSurface, symprec: float = SYMPREC
     ) -> Tuple[np.ndarray, List[str]]:
-        """
-        Get the high symmetry k-points and labels for the Fermi surface.
+        """Get the high symmetry k-points and labels for the Fermi surface.
 
         Args:
             fermi_surface: A fermi surface.
@@ -183,7 +185,9 @@ class FermiSurfacePlotter:
         if not np.allclose(
             hskp.prim.lattice.matrix, fermi_surface.structure.lattice.matrix, 1e-5
         ):
-            warnings.warn("Structure does not match expected primitive cell")
+            warnings.warn(
+                "Structure does not match expected primitive cell", stacklevel=2
+            )
 
         if not isinstance(fermi_surface.reciprocal_space, WignerSeitzCell):
             kpoints = kpoints_to_first_bz(np.array(kpoints))
@@ -212,8 +216,7 @@ class FermiSurfacePlotter:
         plot_index: Optional[Union[int, list, dict]] = None,
         **plot_kwargs,
     ):
-        """
-        Plot the Fermi surface.
+        """Plot the Fermi surface.
 
         Args:
             plot_type: Method used for plotting. Valid options are: "matplotlib",
@@ -345,8 +348,7 @@ class FermiSurfacePlotter:
         hide_cell: bool = False,
         plot_index: List[int] = None,
     ) -> _FermiSurfacePlotData:
-        """
-        Get the the Fermi surface plot data.
+        """Get the the Fermi surface plot data.
 
         See ``FermiSurfacePlotter.get_plot()`` for more details.
 
@@ -429,8 +431,7 @@ class FermiSurfacePlotter:
         sym_pt_kwargs: Optional[Dict[str, Any]] = None,
         sym_label_kwargs: Optional[Dict[str, Any]] = None,
     ):
-        """
-        Plot the Fermi surface using matplotlib.
+        """Plot the Fermi surface using matplotlib.
 
         Args:
             plot_data: The plot data.
@@ -524,8 +525,7 @@ class FermiSurfacePlotter:
         sym_pt_kwargs: Optional[Dict[str, Any]] = None,
         sym_label_kwargs: Optional[Dict[str, Any]] = None,
     ):
-        """
-        Plot the Fermi surface using plotly.
+        """Plot the Fermi surface using plotly.
 
         Args:
             plot_data: The data to plot.
@@ -648,8 +648,7 @@ class FermiSurfacePlotter:
 
     @requires(mlab, "mayavi option requires mayavi to be installed.")
     def _get_mayavi_plot(self, plot_data: _FermiSurfacePlotData):
-        """
-        Plot the Fermi surface using mayavi.
+        """Plot the Fermi surface using mayavi.
 
         Args:
             plot_data: The data to plot.
@@ -738,8 +737,7 @@ class FermiSurfacePlotter:
     def _get_crystal_toolkit_plot(
         self, plot_data: _FermiSurfacePlotData, opacity: float = 1.0
     ):
-        """
-        Get a crystal toolkit Scene showing the Fermi surface.
+        """Get a crystal toolkit Scene showing the Fermi surface.
 
         The Scene can be displayed in an interactive web app using Crystal Toolkit, can
         be shown interactively in Jupyter Lab using the crystal-toolkit lab extension,
@@ -756,7 +754,10 @@ class FermiSurfacePlotter:
         from crystal_toolkit.core.scene import Lines, Scene, Spheres, Surface
 
         if plot_data.properties is not None or plot_data.arrows is not None:
-            warnings.warn("crystal_toolkit plot does not support properties or arrows")
+            warnings.warn(
+                "crystal_toolkit plot does not support properties or arrows",
+                stacklevel=2,
+            )
 
         # The implementation here is very similar to the plotly implementation, except
         # the crystal toolkit scene is constructed using the scene primitives from
@@ -818,8 +819,7 @@ class FermiSlicePlotter:
     def get_symmetry_points(
         fermi_slice: FermiSlice, symprec: float = SYMPREC
     ) -> Tuple[np.ndarray, List[str]]:
-        """
-        Get the high symmetry k-points and labels for the Fermi slice.
+        """Get the high symmetry k-points and labels for the Fermi slice.
 
         Args:
             fermi_slice: A fermi slice.
@@ -840,7 +840,9 @@ class FermiSlicePlotter:
         if not np.allclose(
             hskp.prim.lattice.matrix, fermi_slice.structure.lattice.matrix, 1e-5
         ):
-            warnings.warn("Structure does not match expected primitive cell")
+            warnings.warn(
+                "Structure does not match expected primitive cell", stacklevel=2
+            )
 
         if not isinstance(
             fermi_slice.reciprocal_slice.reciprocal_space, WignerSeitzCell
@@ -884,8 +886,7 @@ class FermiSlicePlotter:
         sym_pt_kwargs: Optional[Dict[str, Any]] = None,
         sym_label_kwargs: Optional[Dict[str, Any]] = None,
     ):
-        """
-        Plot the Fermi slice.
+        """Plot the Fermi slice.
 
         Args:
             ax: Matplotlib axes object on which to plot.
@@ -1025,10 +1026,7 @@ class FermiSlicePlotter:
                 if scale_linewidth is False:
                     linewidth = 2
                 else:
-                    if isinstance(scale_linewidth, (float, int)):
-                        base_width = 4
-                    else:
-                        base_width = 4
+                    base_width = 4 if isinstance(scale_linewidth, (float, int)) else 4
                     linewidth = abs(proj) * base_width / reference
 
                 slice_style = {"antialiaseds": True, "linewidth": linewidth}
@@ -1112,8 +1110,7 @@ class FermiSlicePlotter:
         hide_cell: bool = False,
         plot_index: List[int] = None,
     ) -> _FermiSlicePlotData:
-        """
-        Get the the Fermi slice plot data.
+        """Get the the Fermi slice plot data.
 
         See ``FermiSlicePlotter.get_plot()`` for more details.
 
@@ -1248,10 +1245,10 @@ def get_plot_type(plot: Any) -> str:
 
     if isinstance(plot, Figure):
         return "plotly"
-    elif hasattr(plot, "__name__"):
+    if hasattr(plot, "__name__"):
         if "matplotlib" in plot.__name__:
             return "matplotlib"
-        elif "mayavi" in plot.__name__:
+        if "mayavi" in plot.__name__:
             return "mayavi"
     raise ValueError("Unrecognised plot type.")
 
@@ -1261,8 +1258,7 @@ def get_isosurface_colors(
     fermi_object: Union[FermiSurface, FermiSlice],
     spins: List[Spin],
 ) -> List[Tuple[float, float, float]]:
-    """
-    Get colors for each Fermi surface.
+    """Get colors for each Fermi surface.
 
     Args:
         colors: The color specification. Valid options are:
@@ -1292,7 +1288,7 @@ def get_isosurface_colors(
 
     surface_multiplicity = []
     for spin in spins:
-        for band_idx in sorted(list(n_objects_per_band[spin].keys())):
+        for band_idx in sorted(n_objects_per_band[spin].keys()):
             surface_multiplicity.append(n_objects_per_band[spin][band_idx])
 
     n_objects = len(surface_multiplicity)
@@ -1335,8 +1331,7 @@ def get_face_arrows(
     vnorm: Optional[float],
     projection_axis: Optional[Tuple[int, int, int]],
 ) -> List[Tuple[np.ndarray, np.ndarray, np.ndarray]]:
-    """
-    Get face arrows from vector properties.
+    """Get face arrows from vector properties.
 
     Args:
         fermi_surface: The fermi surface containing the isosurfaces and properties.
@@ -1405,8 +1400,7 @@ def get_segment_arrows(
     vnorm: Optional[float],
     projection_axis: Optional[Tuple[int, int, int]],
 ) -> List[Tuple[np.ndarray, np.ndarray, np.ndarray]]:
-    """
-    Get segment arrows from vector properties.
+    """Get segment arrows from vector properties.
 
     Args:
         fermi_slice: The Fermi slice containing the isolines and properties.
@@ -1480,8 +1474,7 @@ def get_segment_arrows(
 def _get_properties_limits(
     projections: List[np.ndarray], cmin: Optional[float], cmax: Optional[float]
 ) -> Tuple[float, float]:
-    """
-    Get the min and max properties if they are not already set.
+    """Get the min and max properties if they are not already set.
 
     Args:
         projections: The properties for each Fermi surface as a list of numpy arrays.
@@ -1508,9 +1501,11 @@ def _get_plotly_camera(azimuth: float, elevation: float) -> Dict[str, Dict[str, 
     x = np.sin(azimuth) * np.cos(elevation) * norm
     y = np.cos(azimuth) * np.cos(elevation) * norm
     z = np.sin(elevation) * norm
-    return dict(
-        up=dict(x=0, y=0, z=1), center=dict(x=0, y=0, z=0), eye=dict(x=x, y=y, z=z)
-    )
+    return {
+        "up": {"x": 0, "y": 0, "z": 1},
+        "center": {"x": 0, "y": 0, "z": 0},
+        "eye": {"x": x, "y": y, "z": z},
+    }
 
 
 def plotly_arrow(
@@ -1520,8 +1515,7 @@ def plotly_arrow(
     line_kwargs: Optional[Dict[str, Any]] = None,
     cone_kwargs: Optional[Dict[str, Any]] = None,
 ) -> Tuple[Any, Any]:
-    """
-    Create an arrow object.
+    """Create an arrow object.
 
     Args:
         start: The starting coordinates.
@@ -1575,8 +1569,7 @@ def plotly_arrow(
 
 
 def rgb_to_plotly(color: Tuple[float, float, float]) -> str:
-    """
-    Get a plotly formatted color from rgb values.
+    """Get a plotly formatted color from rgb values.
 
     Args:
         color: The color in rgb format as a tuple of three floats from 0 to 1.
@@ -1590,8 +1583,7 @@ def rgb_to_plotly(color: Tuple[float, float, float]) -> str:
 
 
 def cmap_to_plotly(colormap: Colormap) -> List[str]:
-    """
-    Convert a matplotlib colormap to plotly colorscale format.
+    """Convert a matplotlib colormap to plotly colorscale format.
 
     Args:
         colormap: A matplotlib colormap object.
@@ -1606,8 +1598,7 @@ def cmap_to_plotly(colormap: Colormap) -> List[str]:
 
 
 def cmap_to_mayavi(colormap: Colormap) -> np.ndarray:
-    """
-    Convert a matplotlib colormap to mayavi format.
+    """Convert a matplotlib colormap to mayavi format.
 
     Args:
         colormap: A matplotlib colormap object.
@@ -1619,8 +1610,7 @@ def cmap_to_mayavi(colormap: Colormap) -> np.ndarray:
 
 
 def _get_rotation(reciprocal_slice) -> np.ndarray:
-    """
-    Get a rotation matrix that aligns the longest slice length along the x axis.
+    """Get a rotation matrix that aligns the longest slice length along the x axis.
 
     Args:
         reciprocal_slice: A reciprocal slice.

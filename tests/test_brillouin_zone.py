@@ -32,11 +32,11 @@ class BrillouinZoneTest(unittest.TestCase):
         rs2: Union[ReciprocalCell, WignerSeitzCell],
     ):
         # test reciprocal space the same
-        self.assertEqual(type(rs1), type(rs2))
+        assert type(rs1) == type(rs2)
         np.testing.assert_array_almost_equal(
             rs1.reciprocal_lattice, rs2.reciprocal_lattice, decimal=5
         )
 
-        self.assertEqual(len(rs1.faces), len(rs2.faces))
+        assert len(rs1.faces) == len(rs2.faces)
         for face1, face2 in zip(rs1.faces, rs2.faces):
             np.testing.assert_array_almost_equal(face1, face2, decimal=5)
