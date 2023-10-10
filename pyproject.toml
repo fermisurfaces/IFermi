@@ -63,7 +63,7 @@ docs = [
 dev = ["pre-commit>=2.12.1"]
 tests = ["pytest==7.4.2"]
 strict = [
-    "numpy==1.25.0",
+    "numpy==1.26.0",
     "scipy==1.11.3",
     "matplotlib==3.8.0",
     "pymatgen==2023.10.4",

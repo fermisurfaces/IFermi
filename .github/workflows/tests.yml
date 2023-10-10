@@ -63,6 +63,9 @@ jobs:
           cache: pip
           cache-dependency-path: pyproject.toml
 
+      - name: Install pandoc
+        run: sudo apt-get install pandoc
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
