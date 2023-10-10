@@ -1,0 +1,54 @@
+﻿ifermi.slice
+============
+
+.. automodule:: ifermi.slice
+
+   
+
+
+
+   
+
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      process_lines
+      interpolate_segments
+
+
+
+   
+
+
+
+   
+      
+   
+   
+      
+   
+   
+   
+
+
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      Isoline
+      FermiSlice
+
+
+
+
+   
+   
+   
+
+
+

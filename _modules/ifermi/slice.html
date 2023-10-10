@@ -1,50 +1,184 @@
-<!DOCTYPE html>
-<html class="writer-html5" lang="en" >
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ifermi.slice &mdash; IFermi 0.3.1 documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
-    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
-    <link rel="canonical" href="https://github.com/fermisurfaces/IFermi_modules/ifermi/slice.html"/>
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="../../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
-</head>
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> IFermi
-            <img src="../../_static/docs-logo2-02.png" class="logo" alt="Logo"/>
-          </a>
-              <div class="version">
-                0.3.1
-              </div>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Usage Guide</span></p>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/><!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>ifermi.slice - IFermi</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=859cf19d" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --admonition-font-size: 92%;
+  --admonition-title-font-size: 92%;
+  --font-stack: Lato,-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  --font-size--small: 92%;
+  --font-size--small--2: 87.5%;
+  --font-size--small--3: 87.5%;
+  --font-size--small--4: 87.5%;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --admonition-font-size: 92%;
+  --admonition-title-font-size: 92%;
+  --font-stack: Lato,-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  --font-size--small: 92%;
+  --font-size--small--2: 87.5%;
+  --font-size--small--3: 87.5%;
+  --font-size--small--4: 87.5%;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --admonition-font-size: 92%;
+  --admonition-title-font-size: 92%;
+  --font-stack: Lato,-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  --font-size--small: 92%;
+  --font-size--small--2: 87.5%;
+  --font-size--small--3: 87.5%;
+  --font-size--small--4: 87.5%;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">IFermi</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../../_static/docs-logo2-02.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">IFermi</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Usage Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command-line interface</a></li>
@@ -60,32 +194,116 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Function Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../ifermi.html">API reference</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../reference.html">API reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../ifermi.analysis.html">ifermi.analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of ifermi.analysis</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.analysis.isosurface_area.html">isosurface_area</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.analysis.isosurface_dimensionality.html">isosurface_dimensionality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.analysis.connected_subsurfaces.html">connected_subsurfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.analysis.average_properties.html">average_properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.analysis.line_orientation.html">line_orientation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.analysis.plane_orientation.html">plane_orientation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.analysis.connected_images.html">connected_images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.analysis.equivalent_surfaces.html">equivalent_surfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.analysis.equivalent_vertices.html">equivalent_vertices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.analysis.sample_line_uniform.html">sample_line_uniform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.analysis.sample_surface_uniform.html">sample_surface_uniform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.analysis.longest_simple_paths.html">longest_simple_paths</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../ifermi.brillouin_zone.html">ifermi.brillouin_zone</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of ifermi.brillouin_zone</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.brillouin_zone.ReciprocalSlice.html">ReciprocalSlice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.brillouin_zone.ReciprocalCell.html">ReciprocalCell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.brillouin_zone.WignerSeitzCell.html">WignerSeitzCell</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../ifermi.interpolate.html">ifermi.interpolate</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of ifermi.interpolate</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.interpolate.trim_bandstructure.html">trim_bandstructure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.interpolate.FourierInterpolator.html">FourierInterpolator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.interpolate.LinearInterpolator.html">LinearInterpolator</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../ifermi.kpoints.html">ifermi.kpoints</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of ifermi.kpoints</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.kpoints.kpoints_to_first_bz.html">kpoints_to_first_bz</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.kpoints.kpoints_from_bandstructure.html">kpoints_from_bandstructure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.kpoints.get_kpoint_mesh_dim.html">get_kpoint_mesh_dim</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.kpoints.get_kpoint_spacing.html">get_kpoint_spacing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.kpoints.sort_boltztrap_to_spglib.html">sort_boltztrap_to_spglib</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../ifermi.plot.html">ifermi.plot</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of ifermi.plot</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.plot.save_plot.html">save_plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.plot.show_plot.html">show_plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.plot.get_plot_type.html">get_plot_type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.plot.get_isosurface_colors.html">get_isosurface_colors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.plot.plotly_arrow.html">plotly_arrow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.plot.rgb_to_plotly.html">rgb_to_plotly</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.plot.cmap_to_mayavi.html">cmap_to_mayavi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.plot.cmap_to_plotly.html">cmap_to_plotly</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.plot.get_segment_arrows.html">get_segment_arrows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.plot.get_face_arrows.html">get_face_arrows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.plot.FermiSlicePlotter.html">FermiSlicePlotter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.plot.FermiSurfacePlotter.html">FermiSurfacePlotter</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../ifermi.slice.html">ifermi.slice</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of ifermi.slice</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.slice.process_lines.html">process_lines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.slice.interpolate_segments.html">interpolate_segments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.slice.Isoline.html">Isoline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.slice.FermiSlice.html">FermiSlice</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../ifermi.surface.html">ifermi.surface</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of ifermi.surface</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.surface.compute_isosurfaces.html">compute_isosurfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.surface.trim_surface.html">trim_surface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.surface.expand_bands.html">expand_bands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.surface.decimate_mesh.html">decimate_mesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.surface.face_properties.html">face_properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.surface.Isosurface.html">Isosurface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ifermi.surface.FermiSurface.html">FermiSurface</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../genindex.html">Index</a></li>
 </ul>
 
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">IFermi</a>
-      </nav>
-
-      <div class="wy-nav-content">
-        <div class="rst-content style-external-links">
-          <div style="text-align: right;">
-<a href="https://github.com/fermisurfaces/IFermi" target="_blank">» GitHub</a>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
-  <h1>Source code for ifermi.slice</h1><div class="highlight"><pre>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <h1>Source code for ifermi.slice</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Tools to generate Isolines and Fermi slices.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Collection</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Collection</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">monty.json</span> <span class="kn">import</span> <span class="n">MSONable</span>
@@ -98,10 +316,11 @@
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Isoline&quot;</span><span class="p">,</span> <span class="s2">&quot;FermiSlice&quot;</span><span class="p">,</span> <span class="s2">&quot;process_lines&quot;</span><span class="p">,</span> <span class="s2">&quot;interpolate_segments&quot;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="Isoline"><a class="viewcode-back" href="../../ifermi.html#ifermi.slice.Isoline">[docs]</a><span class="nd">@dataclass</span>
+<div class="viewcode-block" id="Isoline">
+<a class="viewcode-back" href="../../ifermi.slice.Isoline.html#ifermi.slice.Isoline">[docs]</a>
+<span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">Isoline</span><span class="p">(</span><span class="n">MSONable</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    An isoline object contains line segments mesh and line properties.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An isoline object contains line segments mesh and line properties.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        segments: A (n, 2, 2) float array of the line segments..</span>
@@ -115,8 +334,7 @@
     <span class="n">properties</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># ensure all inputs are numpy arrays</span>
-
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure all inputs are numpy arrays.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">segments</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">segments</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -127,9 +345,10 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether the isoline has properties.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="Isoline.scalar_projection"><a class="viewcode-back" href="../../ifermi.html#ifermi.slice.Isoline.scalar_projection">[docs]</a>    <span class="k">def</span> <span class="nf">scalar_projection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get scalar projection of properties onto axis.</span>
+<div class="viewcode-block" id="Isoline.scalar_projection">
+<a class="viewcode-back" href="../../ifermi.slice.Isoline.html#ifermi.slice.Isoline.scalar_projection">[docs]</a>
+    <span class="k">def</span> <span class="nf">scalar_projection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get scalar projection of properties onto axis.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            axis: A (3, ) int array of the axis to project onto.</span>
@@ -141,6 +360,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Isoline does not have vector properties.&quot;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span></div>
+
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">properties_norms</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
@@ -161,9 +381,10 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">ndim</span>
 
-<div class="viewcode-block" id="Isoline.sample_uniform"><a class="viewcode-back" href="../../ifermi.html#ifermi.slice.Isoline.sample_uniform">[docs]</a>    <span class="k">def</span> <span class="nf">sample_uniform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sample line segments uniformly.</span>
+<div class="viewcode-block" id="Isoline.sample_uniform">
+<a class="viewcode-back" href="../../ifermi.slice.Isoline.html#ifermi.slice.Isoline.sample_uniform">[docs]</a>
+    <span class="k">def</span> <span class="nf">sample_uniform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spacing</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample line segments uniformly.</span>
 
 <span class="sd">        See the docstring for ``ifermi.analysis.sample_line_uniform`` for more details.</span>
 
@@ -175,13 +396,16 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">ifermi.analysis</span> <span class="kn">import</span> <span class="n">sample_line_uniform</span>
 
-        <span class="k">return</span> <span class="n">sample_line_uniform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">segments</span><span class="p">,</span> <span class="n">spacing</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">sample_line_uniform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">segments</span><span class="p">,</span> <span class="n">spacing</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="FermiSlice"><a class="viewcode-back" href="../../ifermi.html#ifermi.slice.FermiSlice">[docs]</a><span class="nd">@dataclass</span>
+
+<div class="viewcode-block" id="FermiSlice">
+<a class="viewcode-back" href="../../ifermi.slice.FermiSlice.html#ifermi.slice.FermiSlice">[docs]</a>
+<span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">FermiSlice</span><span class="p">(</span><span class="n">MSONable</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A FermiSlice object is a 2D slice through a Fermi surface.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A FermiSlice object is a 2D slice through a Fermi surface.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        isolines: A dict containing a list of isolines for each spin channel.</span>
@@ -190,7 +414,7 @@
 <span class="sd">        structure: The structure.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">isolines</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Isoline</span><span class="p">]]</span>
+    <span class="n">isolines</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Isoline</span><span class="p">]]</span>
     <span class="n">reciprocal_slice</span><span class="p">:</span> <span class="n">ReciprocalSlice</span>
     <span class="n">structure</span><span class="p">:</span> <span class="n">Structure</span>
 
@@ -200,9 +424,8 @@
         <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_lines_per_spin</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">n_lines_per_band</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get number of lines for each band index for each spin channel.</span>
+    <span class="k">def</span> <span class="nf">n_lines_per_band</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get number of lines for each band index for each spin channel.</span>
 
 <span class="sd">        Returned as a dict of ``{spin: {band_idx: count}}``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -215,9 +438,8 @@
         <span class="k">return</span> <span class="n">n_surfaces</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">n_lines_per_spin</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get number of lines per spin channel.</span>
+    <span class="k">def</span> <span class="nf">n_lines_per_spin</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get number of lines per spin channel.</span>
 
 <span class="sd">        Returned as a dict of ``{spin: count}``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -226,10 +448,10 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">has_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether all isolines have segment properties.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">all</span><span class="p">([</span><span class="nb">all</span><span class="p">([</span><span class="n">i</span><span class="o">.</span><span class="n">has_properties</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">s</span><span class="p">])</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">isolines</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+        <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="nb">all</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">has_properties</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">isolines</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">spins</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Spin</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">spins</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Spin</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The spin channels in the Fermi slice.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isolines</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
@@ -243,18 +465,20 @@
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ndims</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;Ioslines have different property dimensions, using the largest.&quot;</span>
+                <span class="s2">&quot;Ioslines have different property dimensions, using the largest.&quot;</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">ndims</span><span class="p">)</span>
 
-<div class="viewcode-block" id="FermiSlice.all_lines"><a class="viewcode-back" href="../../ifermi.html#ifermi.slice.FermiSlice.all_lines">[docs]</a>    <span class="k">def</span> <span class="nf">all_lines</span><span class="p">(</span>
+<div class="viewcode-block" id="FermiSlice.all_lines">
+<a class="viewcode-back" href="../../ifermi.slice.FermiSlice.html#ifermi.slice.FermiSlice.all_lines">[docs]</a>
+    <span class="k">def</span> <span class="nf">all_lines</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">spins</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Spin</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">band_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the segments for all isolines.</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the segments for all isolines.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            spins: One or more spin channels to select. Default is all spins available.</span>
@@ -298,15 +522,17 @@
 
         <span class="k">return</span> <span class="n">lines</span></div>
 
-<div class="viewcode-block" id="FermiSlice.all_properties"><a class="viewcode-back" href="../../ifermi.html#ifermi.slice.FermiSlice.all_properties">[docs]</a>    <span class="k">def</span> <span class="nf">all_properties</span><span class="p">(</span>
+
+<div class="viewcode-block" id="FermiSlice.all_properties">
+<a class="viewcode-back" href="../../ifermi.slice.FermiSlice.html#ifermi.slice.FermiSlice.all_properties">[docs]</a>
+    <span class="k">def</span> <span class="nf">all_properties</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">spins</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Spin</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">band_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">projection_axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">projection_axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">norm</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the properties for all isolines.</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the properties for all isolines.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            spins: One or more spin channels to select. Default is all spins available.</span>
@@ -360,11 +586,14 @@
 
         <span class="k">return</span> <span class="n">projections</span></div>
 
-<div class="viewcode-block" id="FermiSlice.from_fermi_surface"><a class="viewcode-back" href="../../ifermi.html#ifermi.slice.FermiSlice.from_fermi_surface">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="FermiSlice.from_fermi_surface">
+<a class="viewcode-back" href="../../ifermi.slice.FermiSlice.html#ifermi.slice.FermiSlice.from_fermi_surface">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_fermi_surface</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">fermi_surface</span><span class="p">,</span>
-        <span class="n">plane_normal</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+        <span class="n">plane_normal</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
         <span class="n">distance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;FermiSlice&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a slice through the Fermi surface.</span>
@@ -391,7 +620,6 @@
 
         <span class="n">isolines</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">spin</span> <span class="ow">in</span> <span class="n">fermi_surface</span><span class="o">.</span><span class="n">spins</span><span class="p">:</span>
-
             <span class="k">for</span> <span class="n">isosurface</span> <span class="ow">in</span> <span class="n">fermi_surface</span><span class="o">.</span><span class="n">isosurfaces</span><span class="p">[</span><span class="n">spin</span><span class="p">]:</span>
                 <span class="n">mesh</span> <span class="o">=</span> <span class="n">Trimesh</span><span class="p">(</span><span class="n">vertices</span><span class="o">=</span><span class="n">isosurface</span><span class="o">.</span><span class="n">vertices</span><span class="p">,</span> <span class="n">faces</span><span class="o">=</span><span class="n">isosurface</span><span class="o">.</span><span class="n">faces</span><span class="p">)</span>
                 <span class="n">lines</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">face_idxs</span> <span class="o">=</span> <span class="n">mesh_multiplane</span><span class="p">(</span>
@@ -428,25 +656,34 @@
 
         <span class="k">return</span> <span class="n">FermiSlice</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">isolines</span><span class="p">),</span> <span class="n">reciprocal_slice</span><span class="p">,</span> <span class="n">fermi_surface</span><span class="o">.</span><span class="n">structure</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="FermiSlice.from_dict"><a class="viewcode-back" href="../../ifermi.html#ifermi.slice.FermiSlice.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="FermiSlice.from_dict">
+<a class="viewcode-back" href="../../ifermi.slice.FermiSlice.html#ifermi.slice.FermiSlice.from_dict">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;FermiSlice&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return FermiSlice object from a dict.&quot;&quot;&quot;</span>
         <span class="n">fs</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
         <span class="n">fs</span><span class="o">.</span><span class="n">isolines</span> <span class="o">=</span> <span class="p">{</span><span class="n">Spin</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="p">)):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">fs</span><span class="o">.</span><span class="n">isolines</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
         <span class="k">return</span> <span class="n">fs</span></div>
 
-<div class="viewcode-block" id="FermiSlice.as_dict"><a class="viewcode-back" href="../../ifermi.html#ifermi.slice.FermiSlice.as_dict">[docs]</a>    <span class="k">def</span> <span class="nf">as_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+
+<div class="viewcode-block" id="FermiSlice.as_dict">
+<a class="viewcode-back" href="../../ifermi.slice.FermiSlice.html#ifermi.slice.FermiSlice.as_dict">[docs]</a>
+    <span class="k">def</span> <span class="nf">as_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a json-serializable dict representation of a FermiSlice.&quot;&quot;&quot;</span>
         <span class="n">d</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()</span>
         <span class="n">d</span><span class="p">[</span><span class="s2">&quot;isolines&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">spin</span><span class="p">):</span> <span class="n">iso</span> <span class="k">for</span> <span class="n">spin</span><span class="p">,</span> <span class="n">iso</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">isolines</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-        <span class="k">return</span> <span class="n">d</span></div></div>
+        <span class="k">return</span> <span class="n">d</span></div>
+</div>
 
 
-<div class="viewcode-block" id="process_lines"><a class="viewcode-back" href="../../ifermi.html#ifermi.slice.process_lines">[docs]</a><span class="k">def</span> <span class="nf">process_lines</span><span class="p">(</span>
+
+<div class="viewcode-block" id="process_lines">
+<a class="viewcode-back" href="../../ifermi.slice.process_lines.html#ifermi.slice.process_lines">[docs]</a>
+<span class="k">def</span> <span class="nf">process_lines</span><span class="p">(</span>
     <span class="n">segments</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">face_idxs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Process segments and face_idxs from mesh_multiplane.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Process segments and face_idxs from mesh_multiplane.</span>
 
 <span class="sd">    The key issue is that the segments from mesh_multiplane do not correspond to</span>
 <span class="sd">    individual lines, nor are they sorted in a continuous order. Instead they are just</span>
@@ -472,7 +709,6 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        A list of (segments, faces) for each path.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># turn segments [shape: (nsegments, 2, 2)], to vertices [shape: (nsegments * 2, 2)]</span>
     <span class="n">vertices</span> <span class="o">=</span> <span class="n">segments</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
@@ -528,11 +764,13 @@
     <span class="k">return</span> <span class="n">path_data</span></div>
 
 
-<div class="viewcode-block" id="interpolate_segments"><a class="viewcode-back" href="../../ifermi.html#ifermi.slice.interpolate_segments">[docs]</a><span class="k">def</span> <span class="nf">interpolate_segments</span><span class="p">(</span>
+
+<div class="viewcode-block" id="interpolate_segments">
+<a class="viewcode-back" href="../../ifermi.slice.interpolate_segments.html#ifermi.slice.interpolate_segments">[docs]</a>
+<span class="k">def</span> <span class="nf">interpolate_segments</span><span class="p">(</span>
     <span class="n">segments</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">properties</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">max_spacing</span><span class="p">:</span> <span class="nb">float</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Resample a series of line segments to a consistent density.</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resample a series of line segments to a consistent density.</span>
 
 <span class="sd">    Note: the segments must be ordered so that they are adjacent.</span>
 
@@ -592,6 +830,7 @@
     <span class="k">return</span> <span class="n">new_segments</span><span class="p">,</span> <span class="n">new_proj</span></div>
 
 
+
 <span class="k">def</span> <span class="nf">_pairwise</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert an iterable, s, to (s0,s1), (s1,s2), (s2, s3), ...&quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">tee</span>
@@ -600,32 +839,40 @@
     <span class="nb">next</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
 </pre></div>
-
-           </div>
-          </div>
-          <footer>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2021, Amy Searle and Alex Ganose.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
-        </div>
+        </article>
       </div>
-    </section>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2023, Amy Searle and Alex Ganose
+            </div>
+            Made with 
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
   </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
-
-</body>
+</div><script src="../../_static/documentation_options.js?v=71d9d8e6"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=32e29ea5"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    </body>
 </html>

@@ -1,0 +1,8 @@
+ReciprocalCell
+==============
+
+.. currentmodule:: ifermi.brillouin_zone
+
+.. autoclass:: ReciprocalCell
+   :show-inheritance:
+   :members:

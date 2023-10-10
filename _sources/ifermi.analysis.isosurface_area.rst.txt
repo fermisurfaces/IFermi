@@ -1,0 +1,6 @@
+isosurface\_area
+================
+
+.. currentmodule:: ifermi.analysis
+
+.. autofunction:: isosurface_area

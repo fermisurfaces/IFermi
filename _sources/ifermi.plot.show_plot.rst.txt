@@ -1,0 +1,6 @@
+show\_plot
+==========
+
+.. currentmodule:: ifermi.plot
+
+.. autofunction:: show_plot

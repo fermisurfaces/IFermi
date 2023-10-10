@@ -1,0 +1,47 @@
+﻿ifermi.brillouin\_zone
+======================
+
+.. automodule:: ifermi.brillouin_zone
+
+   
+
+
+
+   
+
+
+
+   
+
+
+
+   
+      
+   
+   
+      
+   
+   
+      
+   
+
+
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      ReciprocalSlice
+      ReciprocalCell
+      WignerSeitzCell
+
+
+
+
+   
+   
+   
+
+
+

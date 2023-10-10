@@ -1,0 +1,6 @@
+connected\_images
+=================
+
+.. currentmodule:: ifermi.analysis
+
+.. autofunction:: connected_images

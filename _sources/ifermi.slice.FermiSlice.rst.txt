@@ -1,0 +1,8 @@
+FermiSlice
+==========
+
+.. currentmodule:: ifermi.slice
+
+.. autoclass:: FermiSlice
+   :show-inheritance:
+   :members:

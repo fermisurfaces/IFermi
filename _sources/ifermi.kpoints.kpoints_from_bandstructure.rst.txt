@@ -1,0 +1,6 @@
+kpoints\_from\_bandstructure
+============================
+
+.. currentmodule:: ifermi.kpoints
+
+.. autofunction:: kpoints_from_bandstructure

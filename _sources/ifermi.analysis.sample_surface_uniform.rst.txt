@@ -1,0 +1,6 @@
+sample\_surface\_uniform
+========================
+
+.. currentmodule:: ifermi.analysis
+
+.. autofunction:: sample_surface_uniform

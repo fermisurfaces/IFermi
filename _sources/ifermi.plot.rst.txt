@@ -1,0 +1,70 @@
+﻿ifermi.plot
+===========
+
+.. automodule:: ifermi.plot
+
+   
+
+
+
+   
+
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      save_plot
+      show_plot
+      get_plot_type
+      get_isosurface_colors
+      plotly_arrow
+      rgb_to_plotly
+      cmap_to_mayavi
+      cmap_to_plotly
+      get_segment_arrows
+      get_face_arrows
+
+
+
+   
+
+
+
+   
+      
+   
+   
+      
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+
+
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      FermiSlicePlotter
+      FermiSurfacePlotter
+
+
+
+
+   
+   
+   
+
+
+

@@ -1,0 +1,6 @@
+average\_properties
+===================
+
+.. currentmodule:: ifermi.analysis
+
+.. autofunction:: average_properties

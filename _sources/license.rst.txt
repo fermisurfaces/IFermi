@@ -2,7 +2,9 @@ License
 =======
 
 IFermi is developed under an MIT License (an open-source license), reproduced
-below::
+below.
+
+.. code-block::
 
     The MIT License
 

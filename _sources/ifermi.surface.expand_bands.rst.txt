@@ -1,0 +1,6 @@
+expand\_bands
+=============
+
+.. currentmodule:: ifermi.surface
+
+.. autofunction:: expand_bands

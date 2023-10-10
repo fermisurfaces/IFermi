@@ -1,0 +1,6 @@
+sample\_line\_uniform
+=====================
+
+.. currentmodule:: ifermi.analysis
+
+.. autofunction:: sample_line_uniform

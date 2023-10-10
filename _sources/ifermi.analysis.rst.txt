@@ -1,0 +1,58 @@
+﻿ifermi.analysis
+===============
+
+.. automodule:: ifermi.analysis
+
+   
+
+
+
+   
+
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      isosurface_area
+      isosurface_dimensionality
+      connected_subsurfaces
+      average_properties
+      line_orientation
+      plane_orientation
+      connected_images
+      equivalent_surfaces
+      equivalent_vertices
+      sample_line_uniform
+      sample_surface_uniform
+      longest_simple_paths
+
+
+
+   
+
+
+
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+
+
+
+
+   
+   
+   
+
+
+

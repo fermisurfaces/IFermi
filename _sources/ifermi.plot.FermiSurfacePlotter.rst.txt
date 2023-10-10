@@ -1,0 +1,8 @@
+FermiSurfacePlotter
+===================
+
+.. currentmodule:: ifermi.plot
+
+.. autoclass:: FermiSurfacePlotter
+   :show-inheritance:
+   :members:

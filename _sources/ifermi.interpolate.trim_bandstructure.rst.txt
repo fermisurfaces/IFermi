@@ -1,0 +1,6 @@
+trim\_bandstructure
+===================
+
+.. currentmodule:: ifermi.interpolate
+
+.. autofunction:: trim_bandstructure

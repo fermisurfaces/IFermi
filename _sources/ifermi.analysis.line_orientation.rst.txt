@@ -1,0 +1,6 @@
+line\_orientation
+=================
+
+.. currentmodule:: ifermi.analysis
+
+.. autofunction:: line_orientation

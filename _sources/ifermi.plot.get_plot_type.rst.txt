@@ -1,0 +1,6 @@
+get\_plot\_type
+===============
+
+.. currentmodule:: ifermi.plot
+
+.. autofunction:: get_plot_type

@@ -1,0 +1,6 @@
+trim\_surface
+=============
+
+.. currentmodule:: ifermi.surface
+
+.. autofunction:: trim_surface

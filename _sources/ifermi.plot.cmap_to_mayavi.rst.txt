@@ -1,0 +1,6 @@
+cmap\_to\_mayavi
+================
+
+.. currentmodule:: ifermi.plot
+
+.. autofunction:: cmap_to_mayavi

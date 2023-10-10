@@ -1,0 +1,6 @@
+get\_kpoint\_mesh\_dim
+======================
+
+.. currentmodule:: ifermi.kpoints
+
+.. autofunction:: get_kpoint_mesh_dim

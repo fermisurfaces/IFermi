@@ -1,0 +1,8 @@
+FermiSlicePlotter
+=================
+
+.. currentmodule:: ifermi.plot
+
+.. autoclass:: FermiSlicePlotter
+   :show-inheritance:
+   :members:

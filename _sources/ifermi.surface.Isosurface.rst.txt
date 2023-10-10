@@ -1,0 +1,8 @@
+Isosurface
+==========
+
+.. currentmodule:: ifermi.surface
+
+.. autoclass:: Isosurface
+   :show-inheritance:
+   :members:

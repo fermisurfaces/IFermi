@@ -1,0 +1,8 @@
+ReciprocalSlice
+===============
+
+.. currentmodule:: ifermi.brillouin_zone
+
+.. autoclass:: ReciprocalSlice
+   :show-inheritance:
+   :members:

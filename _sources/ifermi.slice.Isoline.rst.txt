@@ -1,0 +1,8 @@
+Isoline
+=======
+
+.. currentmodule:: ifermi.slice
+
+.. autoclass:: Isoline
+   :show-inheritance:
+   :members:

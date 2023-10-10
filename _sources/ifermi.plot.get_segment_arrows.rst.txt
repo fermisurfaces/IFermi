@@ -1,0 +1,6 @@
+get\_segment\_arrows
+====================
+
+.. currentmodule:: ifermi.plot
+
+.. autofunction:: get_segment_arrows

@@ -1,0 +1,6 @@
+decimate\_mesh
+==============
+
+.. currentmodule:: ifermi.surface
+
+.. autofunction:: decimate_mesh

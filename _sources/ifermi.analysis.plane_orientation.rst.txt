@@ -1,0 +1,6 @@
+plane\_orientation
+==================
+
+.. currentmodule:: ifermi.analysis
+
+.. autofunction:: plane_orientation

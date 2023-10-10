@@ -1,0 +1,60 @@
+﻿ifermi.surface
+==============
+
+.. automodule:: ifermi.surface
+
+   
+
+
+
+   
+
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      compute_isosurfaces
+      trim_surface
+      expand_bands
+      decimate_mesh
+      face_properties
+
+
+
+   
+
+
+
+   
+      
+   
+   
+      
+   
+   
+   
+   
+   
+   
+
+
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      Isosurface
+      FermiSurface
+
+
+
+
+   
+   
+   
+
+
+

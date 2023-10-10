@@ -1,0 +1,8 @@
+FermiSurface
+============
+
+.. currentmodule:: ifermi.surface
+
+.. autoclass:: FermiSurface
+   :show-inheritance:
+   :members:

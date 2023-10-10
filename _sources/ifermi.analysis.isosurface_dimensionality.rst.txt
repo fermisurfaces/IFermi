@@ -1,0 +1,6 @@
+isosurface\_dimensionality
+==========================
+
+.. currentmodule:: ifermi.analysis
+
+.. autofunction:: isosurface_dimensionality

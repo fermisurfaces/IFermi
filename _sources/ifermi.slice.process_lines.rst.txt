@@ -1,0 +1,6 @@
+process\_lines
+==============
+
+.. currentmodule:: ifermi.slice
+
+.. autofunction:: process_lines

@@ -1,0 +1,6 @@
+equivalent\_vertices
+====================
+
+.. currentmodule:: ifermi.analysis
+
+.. autofunction:: equivalent_vertices

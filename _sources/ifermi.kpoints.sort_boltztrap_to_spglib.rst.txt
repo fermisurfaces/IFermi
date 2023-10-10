@@ -1,0 +1,6 @@
+sort\_boltztrap\_to\_spglib
+===========================
+
+.. currentmodule:: ifermi.kpoints
+
+.. autofunction:: sort_boltztrap_to_spglib

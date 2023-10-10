@@ -1,0 +1,6 @@
+interpolate\_segments
+=====================
+
+.. currentmodule:: ifermi.slice
+
+.. autofunction:: interpolate_segments

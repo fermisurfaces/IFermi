@@ -1,0 +1,6 @@
+kpoints\_to\_first\_bz
+======================
+
+.. currentmodule:: ifermi.kpoints
+
+.. autofunction:: kpoints_to_first_bz

@@ -1,0 +1,6 @@
+cmap\_to\_plotly
+================
+
+.. currentmodule:: ifermi.plot
+
+.. autofunction:: cmap_to_plotly

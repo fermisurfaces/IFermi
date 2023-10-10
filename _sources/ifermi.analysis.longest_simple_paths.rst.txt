@@ -1,0 +1,6 @@
+longest\_simple\_paths
+======================
+
+.. currentmodule:: ifermi.analysis
+
+.. autofunction:: longest_simple_paths

@@ -1,0 +1,6 @@
+connected\_subsurfaces
+======================
+
+.. currentmodule:: ifermi.analysis
+
+.. autofunction:: connected_subsurfaces

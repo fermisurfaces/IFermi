@@ -1,0 +1,8 @@
+WignerSeitzCell
+===============
+
+.. currentmodule:: ifermi.brillouin_zone
+
+.. autoclass:: WignerSeitzCell
+   :show-inheritance:
+   :members:

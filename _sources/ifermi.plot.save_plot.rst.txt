@@ -1,0 +1,6 @@
+save\_plot
+==========
+
+.. currentmodule:: ifermi.plot
+
+.. autofunction:: save_plot

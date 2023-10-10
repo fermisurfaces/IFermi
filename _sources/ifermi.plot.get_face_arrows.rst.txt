@@ -1,0 +1,6 @@
+get\_face\_arrows
+=================
+
+.. currentmodule:: ifermi.plot
+
+.. autofunction:: get_face_arrows

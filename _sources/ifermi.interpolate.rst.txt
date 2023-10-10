@@ -1,0 +1,52 @@
+﻿ifermi.interpolate
+==================
+
+.. automodule:: ifermi.interpolate
+
+   
+
+
+
+   
+
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      trim_bandstructure
+
+
+
+   
+
+
+
+   
+      
+   
+   
+      
+   
+   
+
+
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      FourierInterpolator
+      LinearInterpolator
+
+
+
+
+   
+   
+   
+
+
+

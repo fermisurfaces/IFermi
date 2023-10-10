@@ -1,0 +1,6 @@
+plotly\_arrow
+=============
+
+.. currentmodule:: ifermi.plot
+
+.. autofunction:: plotly_arrow

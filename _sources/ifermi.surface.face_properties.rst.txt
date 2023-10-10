@@ -1,0 +1,6 @@
+face\_properties
+================
+
+.. currentmodule:: ifermi.surface
+
+.. autofunction:: face_properties

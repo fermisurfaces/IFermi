@@ -1,0 +1,8 @@
+FourierInterpolator
+===================
+
+.. currentmodule:: ifermi.interpolate
+
+.. autoclass:: FourierInterpolator
+   :show-inheritance:
+   :members:

@@ -1,0 +1,6 @@
+rgb\_to\_plotly
+===============
+
+.. currentmodule:: ifermi.plot
+
+.. autofunction:: rgb_to_plotly

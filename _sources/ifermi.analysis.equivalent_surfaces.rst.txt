@@ -1,0 +1,6 @@
+equivalent\_surfaces
+====================
+
+.. currentmodule:: ifermi.analysis
+
+.. autofunction:: equivalent_surfaces

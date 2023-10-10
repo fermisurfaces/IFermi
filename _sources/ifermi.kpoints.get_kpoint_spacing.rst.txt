@@ -1,0 +1,6 @@
+get\_kpoint\_spacing
+====================
+
+.. currentmodule:: ifermi.kpoints
+
+.. autofunction:: get_kpoint_spacing

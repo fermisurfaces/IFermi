@@ -1,0 +1,8 @@
+LinearInterpolator
+==================
+
+.. currentmodule:: ifermi.interpolate
+
+.. autoclass:: LinearInterpolator
+   :show-inheritance:
+   :members:
