@@ -1,4 +1,4 @@
-<img alt="IFermi logo" src="https://raw.githubusercontent.com/fermisurfaces/IFermi/main/docs/src/_static/logo2-01.png" height="150px">
+<img alt="IFermi logo" src="https://raw.githubusercontent.com/fermisurfaces/IFermi/main/docs/_static/logo2-01.png" height="150px">
 
 --------
 
@@ -26,7 +26,7 @@ manipulation and analysis. The main features include:
 IFermi's command-line tools only work with VASP calculations but support for additional
 DFT packages will be added in the future.
 
-![Example Fermi surfaces](https://raw.githubusercontent.com/fermisurfaces/IFermi/main/docs/src/_static/fermi-surface-example.png)
+![Example Fermi surfaces](https://raw.githubusercontent.com/fermisurfaces/IFermi/main/docs/_static/fermi-surface-example.png)
 
 ## Quick start
 
