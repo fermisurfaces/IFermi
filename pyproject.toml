@@ -63,8 +63,6 @@ docs = [
 dev = ["pre-commit>=2.12.1"]
 tests = ["pytest==7.4.2"]
 strict = [
-    "numpy",
-    "scipy==1.11.3",
     "matplotlib==3.8.0",
     "pymatgen==2023.10.4",
     "BoltzTraP2==22.12.1",
@@ -78,7 +76,9 @@ strict = [
     "psutil==5.9.5",
     "click==8.1.7",
     "networkx==3.1",
-    "tabulate==0.9.0"
+    "tabulate==0.9.0",
+    "numpy",
+    "scipy",
 ]
 
 [project.scripts]
