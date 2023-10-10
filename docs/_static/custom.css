@@ -1,0 +1,70 @@
+html {
+    font-size: 100% !important;
+    font-weight: 400;
+}
+
+@media (min-width: 97em) {
+    html {
+        font-size: 100%;
+    }
+}
+
+/* Hide link icons in external links*/
+.rst-content.style-external-links a.reference.external:after {
+    display: none;
+}
+.sidebar-tree .reference.external:after {
+    display: none;
+}
+
+h1 {
+    font-size: 2rem;
+}
+h2 {
+    font-size: 1.5rem;
+}
+h3 {
+    font-size: 1.15rem;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('fonts/lato-normal.woff2') format('woff2'), url('fonts/lato-normal.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('fonts/lato-bold.woff2') format('woff2'), url('fonts/lato-bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: block;
+ }
+
+@font-face {
+  font-family: 'Lato';
+  src: url('fonts/lato-bold-italic.woff2') format('woff2'), url('fonts/lato-bold-italic.woff') format('woff');
+  font-weight: 700;
+  font-style: italic;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('fonts/lato-normal-italic.woff2') format('woff2'), url('fonts/lato-normal-italic.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+  font-display: block;
+ }
+
+/* Hide nbsphinx prompt numbers */
+div.nbinput div.prompt {
+    display: none;
+}
+
+/* Hide nbsphinx prompt numbers */
+div.nboutput div.prompt {
+    display: none;
+}

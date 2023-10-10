@@ -1,36 +1,66 @@
-name: Release and publish
+name: deploy
 
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_run:
+    workflows: [testing]
+    types: [completed]
 
 jobs:
-  release:
+
+  deploy-docs:
+
+    # only run if commit is a push to master and the testing finished
+    if: github.repository_owner == 'fermisurfaces' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' && startsWith(github.event.workflow_run.head_branch, 'v0.')
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
         with:
-          python-version: 3.8
+          ref: ${{ github.event.workflow_run.head_branch }}
+
+      - name: Install pandoc
+        run: sudo apt-get install pandoc
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: pyproject.toml
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install numpy wheel packaging
-          pip install -r requirements.txt
-          pip install -e .[tests]
-          pip install -e .[decimation]
+          pip install .[strict,docs]
 
-      - name: Test
-        run: python setup.py test
+      - name: Build
+        run: sphinx-build docs docs_build
 
-      - name: Build packages
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: ./docs_build/
+
+  deploy-pypi:
+
+    # only run if commit is a push to master, the testing finished, and tagged as version
+    if: github.repository_owner == 'fermisurfaces' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' && startsWith(github.event.workflow_run.head_branch, 'v0.')
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Build
         run: |
-          pip install setuptools setuptools_scm wheel
-          python setup.py sdist bdist_wheel
+          pip install build
+          python -m build
 
       - name: Remove newline from github secret
         run: echo "PYPI_PASSWORD=$(echo -n ${{ secrets.PYPI_PASSWORD }})" >> $GITHUB_ENV
@@ -41,9 +71,22 @@ jobs:
           user: __token__
           password: ${{ env.PYPI_PASSWORD }}
 
+  deploy-github:
+
+    runs-on: ubuntu-latest
+    needs:
+      - deploy-pypi
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+
       - name: Write release info
         run: |
-          awk 'BEGIN {p = 0} {a = 0 }; /^v\d*.\d*.\d*./ { p += 1; a = 1}; p + a == 1 { print } ' docs/src/changelog.rst | sed -e '1,1d' | sed  -e '/./,$!d' -e :a -e '/^\n*$/{$d;N;ba' -e '}' > release_info.txt
+          awk 'BEGIN {p = 0} {a = 0 }; /^v\d*.\d*.\d*./ { p += 1; a = 1}; p + a == 1 { print } ' CHANGELOG.md | sed -e '1,1d' | sed  -e '/./,$!d' -e :a -e '/^\n*$/{$d;N;ba' -e '}' > release_info.txt
+          echo "" >> release_info.txt
+          awk '/CONTRIBUTOR SECTION/{f=1; c=0} f' CHANGELOG.md >> release_info.txt
 
       - name: Release
         uses: actions/create-release@v1
@@ -51,8 +94,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
+          tag_name: ${{ github.event.workflow_run.head_branch }}
+          release_name: ${{ github.event.workflow_run.head_branch }}
           body_path: release_info.txt
           draft: false
           prerelease: false

@@ -1,0 +1,191 @@
+[build-system]
+requires = ["setuptools >= 42", "versioningit ~= 1.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ifermi"
+description = "Fermi surface plotting tool from DFT output"
+readme = "README.md"
+keywords = ["fermi-surface", "pymatgen", "dft", "vasp", "band", "materials-science"]
+license = { text = "MIT" }
+authors = [{ name = "Amy Searle", email = "amyjadesearle@gmail.com" }]
+dynamic = ["version"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Topic :: Scientific/Engineering :: Chemistry",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Scientific/Engineering",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.9",
+    "Topic :: Other/Nonlisted Topic",
+    "Topic :: Scientific/Engineering",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "numpy",
+    "scipy",
+    "matplotlib",
+    "pymatgen>=2017.12.30",
+    "BoltzTraP2",
+    "trimesh",
+    "meshcut",
+    "scikit-image",
+    "monty",
+    "spglib",
+    "plotly",
+    "pyfftw",
+    "psutil",
+    "click",
+    "networkx",
+    "tabulate",
+]
+
+[project.optional-dependencies]
+mayavi = ["mayavi", "mlabtex", "vtk"]
+crystal-toolkit = ["crystal-toolkit"]
+plotly-static = ["kaleido"]
+decimation = ["open3d"]
+smooth = ["PyMCubes"]
+docs = [
+    "sphinx==7.2.6",
+    "sphinx-click==5.0.1",
+    "furo==2023.9.10",
+    "sphinx-autodoc-typehints==1.24.0",
+    "myst_parser==2.0.0",
+    "nbsphinx==0.9.3",
+    "nbsphinx-link==1.3.0",
+    "ipython==8.16.1",
+]
+dev = ["pre-commit>=2.12.1"]
+tests = ["pytest==7.4.2"]
+strict = [
+    "matplotlib==3.8.0",
+    "pymatgen==2023.10.4",
+    "BoltzTraP2==22.12.1",
+    "trimesh==3.23.5",
+    "meshcut==0.3.0",
+    "scikit-image==0.22.0",
+    "monty==2023.9.25",
+    "spglib==2.1.0",
+    "plotly==5.17.0",
+    "pyfftw==0.13.1",
+    "psutil==5.9.5",
+    "click==8.1.7",
+    "networkx==3.1",
+    "tabulate==0.9.0",
+    "numpy",
+    "scipy",
+]
+
+[project.scripts]
+ifermi = "ifermi.cli:cli"
+
+[project.urls]
+homepage = "https://fermisurfaces.github.io/IFermi/"
+repository = "https://github.com/fermisurfaces/IFermi"
+documentation = "https://fermisurfaces.github.io/IFermi/"
+changelog = "https://github.com/fermisurfaces/IFermi/blob/main/docs/src/changelog.rst"
+
+[tool.versioningit.vcs]
+method = "git"
+default-tag = "0.0.1"
+
+[tool.flake8]
+max-line-length = 88
+max-doc-length = 88
+select = "C, E, F, W, B"
+extend-ignore = "E203, W503, E501, F401, RST21"
+min-python-version = "3.8.0"
+docstring-convention = "google"
+rst-roles = "class, func, ref, obj"
+
+[tool.mypy]
+ignore_missing_imports = true
+no_strict_optional = true
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore:.*POTCAR.*:UserWarning",
+    "ignore:.*input structure.*:UserWarning",
+    "ignore:.*is not gzipped.*:UserWarning",
+    "ignore:.*magmom.*:UserWarning",
+    "ignore::DeprecationWarning",
+]
+
+[tool.coverage.run]
+include = ["src/*"]
+parallel = true
+branch = true
+
+[tool.coverage.paths]
+source = ["src/"]
+
+[tool.coverage.report]
+skip_covered = true
+show_missing = true
+exclude_lines = [
+    '^\s*@overload( |$)',
+    '^\s*assert False(,|$)',
+    'if typing.TYPE_CHECKING:',
+]
+
+[tool.ruff]
+target-version = "py38"
+select = [
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "D",    # pydocstyle
+    "E",    # pycodestyle error
+    "EXE",  # flake8-executable
+    "F",    # pyflakes
+    "FLY",  # flynt
+    "I",    # isort
+    "ICN",  # flake8-import-conventions
+    "ISC",  # flake8-implicit-str-concat
+    "PD",   # pandas-vet
+    "PERF", # perflint
+    "PIE",  # flake8-pie
+    "PL",   # pylint
+    "PT",   # flake8-pytest-style
+    "PYI",  # flakes8-pyi
+    "Q",    # flake8-quotes
+    "RET",  # flake8-return
+    "RSE",  # flake8-raise
+    "RUF",  # Ruff-specific rules
+    "SIM",  # flake8-simplify
+    "SLOT", # flake8-slots
+    "TCH",  # flake8-type-checking
+    "TID",  # tidy imports
+    "TID",  # flake8-tidy-imports
+    "UP",   # pyupgrade
+    "W",    # pycodestyle warning
+    "YTT",  # flake8-2020
+]
+ignore = [
+    "PD011",   # pandas-use-of-dot-values
+    "PERF203", # try-except-in-loop
+    "PERF401",
+    "PLR",     # pylint-refactor
+    "PT004",   # pytest-missing-fixture-name-underscore
+    "PT006",   # pytest-parametrize-names-wrong-type
+    "PLW2901",
+    "RUF013",  # implicit-optional
+    # TODO remove PT011, pytest.raises() should always check err msg
+    "PT011", # pytest-raises-too-broad
+    "PT013", # pytest-incorrect-pytest-import
+    "D107"
+]
+pydocstyle.convention = "google"
+isort.known-first-party = ["ifermi"]
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]
+"**/tests/*" = ["D"]
+# flake8-type-checking (TCH): things inside TYPE_CHECKING aren't available
+#     at runtime and so can't be used by pydantic models
+# flake8-future-annotations (FA): future annotations only work in pydantic models in python 3.10+
+"**/schemas/*" = ["FA", "TCH"]
