@@ -83,7 +83,7 @@ The `ifermi` command line tools are build on the IFermi Python library. Here is 
 example of how to load DFT calculation outputs, interpolate the energies onto a dense mesh,
 generate a Fermi surface, calculate Fermi surface properties, and visualise the surface.
 A more complete summary of the API is given in the [API introduction page](https://fermisurfaces.github.io/IFermi/introduction_to_ifermi.html)
-and in the [API Reference page](https://fermisurfaces.github.io/IFermi/ifermi.html) in the documentation.
+and in the [API Reference page](https://fermisurfaces.github.io/IFermi/reference.html) in the documentation.
 
 ```python
 from pymatgen.io.vasp.outputs import Vasprun
