@@ -1,7 +1,7 @@
 """Isosurface and isoline analysis functions."""
 
 import warnings
-from typing import List, Tuple, Union
+from typing import Union
 
 import numpy as np
 
@@ -70,7 +70,7 @@ def average_properties(
 
 def connected_subsurfaces(
     vertices: np.ndarray, faces: np.ndarray
-) -> List[Tuple[np.ndarray, np.ndarray]]:
+) -> list[tuple[np.ndarray, np.ndarray]]:
     """Find connected sub-surfaces (those that share edges).
 
     Args:
@@ -87,7 +87,7 @@ def connected_subsurfaces(
     return [(m.vertices, m.faces) for m in connected_meshes]
 
 
-def equivalent_surfaces(surfaces_vertices: List[np.ndarray], tol=KTOL) -> np.ndarray:
+def equivalent_surfaces(surfaces_vertices: list[np.ndarray], tol=KTOL) -> np.ndarray:
     """Find equivalent surfaces.
 
     Note: This function expects the vertices of each surface to only belong to a single
@@ -142,7 +142,7 @@ def equivalent_surfaces(surfaces_vertices: List[np.ndarray], tol=KTOL) -> np.nda
 
 def isosurface_dimensionality(
     fractional_vertices: np.ndarray, faces: np.ndarray
-) -> Tuple[str, Tuple[int, int, int]]:
+) -> tuple[str, tuple[int, int, int]]:
     """Calculate isosurface properties a single isosurface (fully connected).
 
     The vertices must cover a 3x3x3 supercell and must not have been trimmed to fit
@@ -189,7 +189,7 @@ def isosurface_dimensionality(
 
 def connected_images(
     fractional_vertices: np.ndarray, tol=KTOL
-) -> List[Tuple[int, int, int]]:
+) -> list[tuple[int, int, int]]:
     """Find the images a set of vertices is connected to.
 
     Note: This function expects the vertices to only belong to a single connected
@@ -268,7 +268,7 @@ def connected_images(
     return found_connections
 
 
-def line_orientation(images: List[Tuple[int, int, int]]) -> Tuple[int, int, int]:
+def line_orientation(images: list[tuple[int, int, int]]) -> tuple[int, int, int]:
     """Get the orientation (direction vector) from a list of rank 1 connected images.
 
     Args:
@@ -286,7 +286,7 @@ def line_orientation(images: List[Tuple[int, int, int]]) -> Tuple[int, int, int]
     return get_integer_index(vh[0, :])  # return line of best fit
 
 
-def plane_orientation(images: List[Tuple[int, int, int]]) -> Tuple[int, int, int]:
+def plane_orientation(images: list[tuple[int, int, int]]) -> tuple[int, int, int]:
     """Get the orientation (surface normal) from a list of rank 2 connected images.
 
     Args:
@@ -442,7 +442,7 @@ def equivalent_vertices(vertices: np.ndarray, tol: float = KTOL) -> np.ndarray:
     return np.array([inverse_mapping[i] for i in range(len(vertices))])
 
 
-def longest_simple_paths(vertices: np.ndarray, edges: np.ndarray) -> List[np.ndarray]:
+def longest_simple_paths(vertices: np.ndarray, edges: np.ndarray) -> list[np.ndarray]:
     """Find the shortest paths that go through all vertices.
 
     The lines are broken up into the connected sublines. Note this function is only

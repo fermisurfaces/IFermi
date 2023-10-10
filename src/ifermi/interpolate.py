@@ -1,6 +1,6 @@
 """Tools for Fourier and linear interpolation."""
 
-from typing import Dict, Optional
+from typing import Optional
 
 import numpy as np
 from pymatgen.electronic_structure.bandstructure import BandStructure
@@ -188,7 +188,7 @@ class LinearInterpolator:
             or multidimensional.
     """
 
-    def __init__(self, kpoints: np.ndarray, data: Dict[Spin, np.ndarray]):
+    def __init__(self, kpoints: np.ndarray, data: dict[Spin, np.ndarray]):
         grid_kpoints, mesh_dim, sort_idx = self._grid_kpoints(kpoints)
         self._setup_interpolators(data, grid_kpoints, mesh_dim, sort_idx)
 

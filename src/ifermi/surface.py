@@ -1,9 +1,10 @@
 """Tools to generate isosurfaces and Fermi surfaces."""
 
 import warnings
+from collections.abc import Collection
 from copy import deepcopy
 from dataclasses import dataclass
-from typing import Collection, Dict, List, Optional, Tuple, Union
+from typing import Optional, Union
 
 import numpy as np
 from monty.dev import requires
@@ -55,7 +56,7 @@ class Isosurface(MSONable):
     band_idx: int
     properties: Optional[np.ndarray] = None
     dimensionality: Optional[str] = None
-    orientation: Optional[Tuple[int, int, int]] = None
+    orientation: Optional[tuple[int, int, int]] = None
 
     def __post_init__(self):
         """Ensure all inputs are numpy arrays."""
@@ -97,7 +98,7 @@ class Isosurface(MSONable):
         return self.properties.ndim
 
     def average_properties(
-        self, norm: bool = False, projection_axis: Optional[Tuple[int, int, int]] = None
+        self, norm: bool = False, projection_axis: Optional[tuple[int, int, int]] = None
     ) -> Union[float, np.ndarray]:
         """Average property across isosurface.
 
@@ -120,7 +121,7 @@ class Isosurface(MSONable):
 
         return average_properties(self.vertices, self.faces, properties, norm=norm)
 
-    def scalar_projection(self, axis: Tuple[int, int, int]) -> np.ndarray:
+    def scalar_projection(self, axis: tuple[int, int, int]) -> np.ndarray:
         """Get scalar projection of properties onto axis.
 
         Args:
@@ -177,7 +178,7 @@ class FermiSurface(MSONable):
         structure: The structure.
     """
 
-    isosurfaces: Dict[Spin, List[Isosurface]]
+    isosurfaces: dict[Spin, list[Isosurface]]
     reciprocal_space: ReciprocalCell
     structure: Structure
 
@@ -187,7 +188,7 @@ class FermiSurface(MSONable):
         return sum(self.n_surfaces_per_spin.values())
 
     @property
-    def n_surfaces_per_band(self) -> Dict[Spin, Dict[int, int]]:
+    def n_surfaces_per_band(self) -> dict[Spin, dict[int, int]]:
         """Get number of surfaces for each band index for each spin channel.
 
         Returned as a dict of ``{spin: {band_idx: count}}``.
@@ -201,7 +202,7 @@ class FermiSurface(MSONable):
         return n_surfaces
 
     @property
-    def n_surfaces_per_spin(self) -> Dict[Spin, int]:
+    def n_surfaces_per_spin(self) -> dict[Spin, int]:
         """Get number of surfaces per spin channel.
 
         Returned as a dict of ``{spin: count}``.
@@ -214,7 +215,7 @@ class FermiSurface(MSONable):
         return sum(map(sum, self.area_surfaces.values()))
 
     @property
-    def area_surfaces(self) -> Dict[Spin, np.ndarray]:
+    def area_surfaces(self) -> dict[Spin, np.ndarray]:
         r"""Area of each isosurface in the Fermi surface in Å\ :sup:`-2`\ ."""
         return {k: np.array([i.area for i in v]) for k, v in self.isosurfaces.items()}
 
@@ -224,7 +225,7 @@ class FermiSurface(MSONable):
         return all(all(i.has_properties for i in s) for s in self.isosurfaces.values())
 
     def average_properties(
-        self, norm: bool = False, projection_axis: Optional[Tuple[int, int, int]] = None
+        self, norm: bool = False, projection_axis: Optional[tuple[int, int, int]] = None
     ) -> Union[float, np.ndarray]:
         """Average property across the full Fermi surface.
 
@@ -249,8 +250,8 @@ class FermiSurface(MSONable):
         return scaled_average / total_area
 
     def average_properties_surfaces(
-        self, norm: bool = False, projection_axis: Optional[Tuple[int, int, int]] = None
-    ) -> Dict[Spin, List[Union[float, np.ndarray]]]:
+        self, norm: bool = False, projection_axis: Optional[tuple[int, int, int]] = None
+    ) -> dict[Spin, list[Union[float, np.ndarray]]]:
         """Average property for each isosurface in the Fermi surface.
 
         Args:
@@ -291,7 +292,7 @@ class FermiSurface(MSONable):
         self,
         spins: Optional[Union[Spin, Collection[Spin]]] = None,
         band_index: Optional[Union[int, list, dict]] = None,
-    ) -> List[Tuple[np.ndarray, np.ndarray]]:
+    ) -> list[tuple[np.ndarray, np.ndarray]]:
         """Get the vertices and faces for all isosurfaces.
 
         Args:
@@ -340,9 +341,9 @@ class FermiSurface(MSONable):
         self,
         spins: Optional[Union[Spin, Collection[Spin]]] = None,
         band_index: Optional[Union[int, list, dict]] = None,
-        projection_axis: Optional[Tuple[int, int, int]] = None,
+        projection_axis: Optional[tuple[int, int, int]] = None,
         norm: bool = False,
-    ) -> List[np.ndarray]:
+    ) -> list[np.ndarray]:
         """Get the properties for all isosurfaces.
 
         Args:
@@ -409,7 +410,7 @@ class FermiSurface(MSONable):
         decimate_factor: Optional[float] = None,
         decimate_method: str = "quadric",
         smooth: bool = False,
-        property_data: Optional[Dict[Spin, np.ndarray]] = None,
+        property_data: Optional[dict[Spin, np.ndarray]] = None,
         property_kpoints: Optional[np.ndarray] = None,
         calculate_dimensionality: bool = False,
     ) -> "FermiSurface":
@@ -497,7 +498,7 @@ class FermiSurface(MSONable):
 
         return cls(isosurfaces, reciprocal_space, structure)
 
-    def get_fermi_slice(self, plane_normal: Tuple[int, int, int], distance: float = 0):
+    def get_fermi_slice(self, plane_normal: tuple[int, int, int], distance: float = 0):
         """Get a slice through the Fermi surface.
 
         Slice defined by the intersection of a plane with the Fermi surface.
@@ -528,7 +529,7 @@ class FermiSurface(MSONable):
 
 
 def compute_isosurfaces(
-    bands: Dict[Spin, np.ndarray],
+    bands: dict[Spin, np.ndarray],
     kpoints: np.ndarray,
     fermi_level: float,
     reciprocal_space: ReciprocalCell,
@@ -537,7 +538,7 @@ def compute_isosurfaces(
     smooth: bool = False,
     calculate_dimensionality: bool = False,
     property_interpolator: Optional[LinearInterpolator] = None,
-) -> Dict[Spin, List[Isosurface]]:
+) -> dict[Spin, list[Isosurface]]:
     """Compute the isosurfaces at a particular energy level.
 
     Args:
@@ -611,7 +612,7 @@ def _calculate_band_isosurfaces(
     spin: Spin,
     band_idx: int,
     energies: np.ndarray,
-    kpoint_dim: Tuple[int, int, int],
+    kpoint_dim: tuple[int, int, int],
     spacing: np.ndarray,
     reference: np.ndarray,
     reciprocal_space: ReciprocalCell,
@@ -711,7 +712,7 @@ def _calculate_band_isosurfaces(
 
 def trim_surface(
     reciprocal_cell: ReciprocalCell, vertices: np.ndarray, faces: np.ndarray
-) -> Tuple[np.ndarray, np.ndarray]:
+) -> tuple[np.ndarray, np.ndarray]:
     """Trim the surface to remove parts outside the cell boundaries.
 
     Will add new triangles at the boundary edges as necessary to produce a smooth
@@ -733,11 +734,11 @@ def trim_surface(
 
 
 def expand_bands(
-    bands: Dict[Spin, np.ndarray],
+    bands: dict[Spin, np.ndarray],
     fractional_kpoints: np.ndarray,
-    supercell_dim: Tuple[int, int, int] = (3, 3, 3),
-    center: Tuple[int, int, int] = (0, 0, 0),
-) -> Tuple[Dict[Spin, np.ndarray], np.ndarray]:
+    supercell_dim: tuple[int, int, int] = (3, 3, 3),
+    center: tuple[int, int, int] = (0, 0, 0),
+) -> tuple[dict[Spin, np.ndarray], np.ndarray]:
     """Expand the band energies and k-points with periodic boundary conditions.
 
     Args:

@@ -1,7 +1,6 @@
 """k-point manipulation functions."""
 
 import warnings
-from typing import Tuple
 
 import numpy as np
 from pymatgen.electronic_structure.bandstructure import BandStructure
@@ -40,7 +39,7 @@ def kpoints_to_first_bz(kpoints: np.ndarray, tol: float = KTOL) -> np.ndarray:
     return kp
 
 
-def get_kpoint_mesh_dim(kpoints: np.ndarray, tol: float = KTOL) -> Tuple[int, int, int]:
+def get_kpoint_mesh_dim(kpoints: np.ndarray, tol: float = KTOL) -> tuple[int, int, int]:
     """Get the k-point mesh dimensions.
 
     Args:

@@ -2,7 +2,7 @@
 
 import itertools
 from dataclasses import dataclass, field
-from typing import List, Optional, Tuple
+from typing import Optional
 
 import numpy as np
 from monty.json import MSONable
@@ -63,7 +63,7 @@ class ReciprocalCell(MSONable):
 
     reciprocal_lattice: np.ndarray
     vertices: np.ndarray
-    faces: List[List[int]]
+    faces: list[list[int]]
     centers: np.ndarray
     normals: np.ndarray
     _edges: Optional[np.ndarray] = field(default=None, init=False)
@@ -147,7 +147,7 @@ class ReciprocalCell(MSONable):
         return self.vertices[self.edges]
 
     def get_reciprocal_slice(
-        self, plane_normal: Tuple[int, int, int], distance: float = 0
+        self, plane_normal: tuple[int, int, int], distance: float = 0
     ) -> ReciprocalSlice:
         """Get a reciprocal slice through the Brillouin zone.
 

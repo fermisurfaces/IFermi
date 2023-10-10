@@ -2,9 +2,10 @@
 
 import os
 import warnings
+from collections.abc import Collection
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Collection, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 import numpy as np
 from matplotlib.colors import Colormap, Normalize
@@ -118,12 +119,12 @@ __all__ = [
 
 @dataclass
 class _FermiSurfacePlotData:
-    isosurfaces: List[Tuple[np.ndarray, np.ndarray]]
+    isosurfaces: list[tuple[np.ndarray, np.ndarray]]
     azimuth: float
     elevation: float
-    colors: List[Tuple[int, int, int]]
-    properties: List[np.ndarray]
-    arrows: List[Tuple[np.ndarray, np.ndarray, np.ndarray]]
+    colors: list[tuple[int, int, int]]
+    properties: list[np.ndarray]
+    arrows: list[tuple[np.ndarray, np.ndarray, np.ndarray]]
     properties_colormap: Optional[Colormap]
     arrow_colormap: Optional[Colormap]
     cmin: Optional[float]
@@ -134,10 +135,10 @@ class _FermiSurfacePlotData:
 
 @dataclass
 class _FermiSlicePlotData:
-    slices: List[np.ndarray]
-    colors: List[Tuple[int, int, int]]
-    properties: List[np.ndarray]
-    arrows: List[Tuple[np.ndarray, np.ndarray, np.ndarray]]
+    slices: list[np.ndarray]
+    colors: list[tuple[int, int, int]]
+    properties: list[np.ndarray]
+    arrows: list[tuple[np.ndarray, np.ndarray, np.ndarray]]
     properties_colormap: Optional[Colormap]
     arrow_colormap: Optional[Colormap]
     cmin: Optional[float]
@@ -164,7 +165,7 @@ class FermiSurfacePlotter:
     @staticmethod
     def get_symmetry_points(
         fermi_surface: FermiSurface, symprec: float = SYMPREC
-    ) -> Tuple[np.ndarray, List[str]]:
+    ) -> tuple[np.ndarray, list[str]]:
         """Get the high symmetry k-points and labels for the Fermi surface.
 
         Args:
@@ -205,7 +206,7 @@ class FermiSurfacePlotter:
         elevation: float = ELEVATION,
         color_properties: Union[str, bool] = True,
         vector_properties: Union[str, bool] = False,
-        projection_axis: Optional[Tuple[int, int, int]] = None,
+        projection_axis: Optional[tuple[int, int, int]] = None,
         vector_spacing: float = VECTOR_SPACING,
         cmin: Optional[float] = None,
         cmax: Optional[float] = None,
@@ -338,7 +339,7 @@ class FermiSurfacePlotter:
         colors: Optional[Union[str, dict, list]] = None,
         color_properties: Union[str, bool] = True,
         vector_properties: Union[str, bool] = False,
-        projection_axis: Optional[Tuple[int, int, int]] = None,
+        projection_axis: Optional[tuple[int, int, int]] = None,
         vector_spacing: float = VECTOR_SPACING,
         cmin: Optional[float] = None,
         cmax: Optional[float] = None,
@@ -346,7 +347,7 @@ class FermiSurfacePlotter:
         hide_surface: bool = False,
         hide_labels: bool = False,
         hide_cell: bool = False,
-        plot_index: List[int] = None,
+        plot_index: list[int] = None,
     ) -> _FermiSurfacePlotData:
         """Get the the Fermi surface plot data.
 
@@ -424,12 +425,12 @@ class FermiSurfacePlotter:
         self,
         plot_data: _FermiSurfacePlotData,
         ax: Optional[Any] = None,
-        trisurf_kwargs: Optional[Dict[str, Any]] = None,
-        cbar_kwargs: Optional[Dict[str, Any]] = None,
-        quiver_kwargs: Optional[Dict[str, Any]] = None,
-        bz_kwargs: Optional[Dict[str, Any]] = None,
-        sym_pt_kwargs: Optional[Dict[str, Any]] = None,
-        sym_label_kwargs: Optional[Dict[str, Any]] = None,
+        trisurf_kwargs: Optional[dict[str, Any]] = None,
+        cbar_kwargs: Optional[dict[str, Any]] = None,
+        quiver_kwargs: Optional[dict[str, Any]] = None,
+        bz_kwargs: Optional[dict[str, Any]] = None,
+        sym_pt_kwargs: Optional[dict[str, Any]] = None,
+        sym_label_kwargs: Optional[dict[str, Any]] = None,
     ):
         """Plot the Fermi surface using matplotlib.
 
@@ -518,12 +519,12 @@ class FermiSurfacePlotter:
     def _get_plotly_plot(
         self,
         plot_data: _FermiSurfacePlotData,
-        mesh_kwargs: Optional[Dict[str, Any]] = None,
-        arrow_line_kwargs: Optional[Dict[str, Any]] = None,
-        arrow_cone_kwargs: Optional[Dict[str, Any]] = None,
-        bz_kwargs: Optional[Dict[str, Any]] = None,
-        sym_pt_kwargs: Optional[Dict[str, Any]] = None,
-        sym_label_kwargs: Optional[Dict[str, Any]] = None,
+        mesh_kwargs: Optional[dict[str, Any]] = None,
+        arrow_line_kwargs: Optional[dict[str, Any]] = None,
+        arrow_cone_kwargs: Optional[dict[str, Any]] = None,
+        bz_kwargs: Optional[dict[str, Any]] = None,
+        sym_pt_kwargs: Optional[dict[str, Any]] = None,
+        sym_label_kwargs: Optional[dict[str, Any]] = None,
     ):
         """Plot the Fermi surface using plotly.
 
@@ -818,7 +819,7 @@ class FermiSlicePlotter:
     @staticmethod
     def get_symmetry_points(
         fermi_slice: FermiSlice, symprec: float = SYMPREC
-    ) -> Tuple[np.ndarray, List[str]]:
+    ) -> tuple[np.ndarray, list[str]]:
         """Get the high symmetry k-points and labels for the Fermi slice.
 
         Args:
@@ -868,7 +869,7 @@ class FermiSlicePlotter:
         colors: Optional[Union[str, dict, list]] = None,
         color_properties: Union[str, bool] = True,
         vector_properties: Union[str, bool] = False,
-        projection_axis: Optional[Tuple[int, int, int]] = None,
+        projection_axis: Optional[tuple[int, int, int]] = None,
         scale_linewidth: Union[bool, float] = False,
         vector_spacing: float = VECTOR_SPACING,
         cmin: Optional[float] = None,
@@ -877,14 +878,14 @@ class FermiSlicePlotter:
         hide_slice: bool = False,
         hide_labels: bool = False,
         hide_cell: bool = False,
-        plot_index: List[int] = None,
+        plot_index: list[int] = None,
         arrow_pivot: str = "tail",
-        slice_kwargs: Optional[Dict[str, Any]] = None,
-        cbar_kwargs: Optional[Dict[str, Any]] = None,
-        quiver_kwargs: Optional[Dict[str, Any]] = None,
-        bz_kwargs: Optional[Dict[str, Any]] = None,
-        sym_pt_kwargs: Optional[Dict[str, Any]] = None,
-        sym_label_kwargs: Optional[Dict[str, Any]] = None,
+        slice_kwargs: Optional[dict[str, Any]] = None,
+        cbar_kwargs: Optional[dict[str, Any]] = None,
+        quiver_kwargs: Optional[dict[str, Any]] = None,
+        bz_kwargs: Optional[dict[str, Any]] = None,
+        sym_pt_kwargs: Optional[dict[str, Any]] = None,
+        sym_label_kwargs: Optional[dict[str, Any]] = None,
     ):
         """Plot the Fermi slice.
 
@@ -1100,7 +1101,7 @@ class FermiSlicePlotter:
         colors: Optional[Union[str, dict, list]] = None,
         color_properties: Union[str, bool] = True,
         vector_properties: Union[str, bool] = False,
-        projection_axis: Optional[Tuple[int, int, int]] = None,
+        projection_axis: Optional[tuple[int, int, int]] = None,
         vector_spacing: float = VECTOR_SPACING,
         cmin: Optional[float] = None,
         cmax: Optional[float] = None,
@@ -1108,7 +1109,7 @@ class FermiSlicePlotter:
         hide_slice: bool = False,
         hide_labels: bool = False,
         hide_cell: bool = False,
-        plot_index: List[int] = None,
+        plot_index: list[int] = None,
     ) -> _FermiSlicePlotData:
         """Get the the Fermi slice plot data.
 
@@ -1256,8 +1257,8 @@ def get_plot_type(plot: Any) -> str:
 def get_isosurface_colors(
     colors: Optional[Union[str, dict, list]],
     fermi_object: Union[FermiSurface, FermiSlice],
-    spins: List[Spin],
-) -> List[Tuple[float, float, float]]:
+    spins: list[Spin],
+) -> list[tuple[float, float, float]]:
     """Get colors for each Fermi surface.
 
     Args:
@@ -1326,11 +1327,11 @@ def get_isosurface_colors(
 
 def get_face_arrows(
     fermi_surface: FermiSurface,
-    spins: List[Spin],
+    spins: list[Spin],
     vector_spacing: float,
     vnorm: Optional[float],
-    projection_axis: Optional[Tuple[int, int, int]],
-) -> List[Tuple[np.ndarray, np.ndarray, np.ndarray]]:
+    projection_axis: Optional[tuple[int, int, int]],
+) -> list[tuple[np.ndarray, np.ndarray, np.ndarray]]:
     """Get face arrows from vector properties.
 
     Args:
@@ -1398,8 +1399,8 @@ def get_segment_arrows(
     spins: Collection[Spin],
     vector_spacing: float,
     vnorm: Optional[float],
-    projection_axis: Optional[Tuple[int, int, int]],
-) -> List[Tuple[np.ndarray, np.ndarray, np.ndarray]]:
+    projection_axis: Optional[tuple[int, int, int]],
+) -> list[tuple[np.ndarray, np.ndarray, np.ndarray]]:
     """Get segment arrows from vector properties.
 
     Args:
@@ -1472,8 +1473,8 @@ def get_segment_arrows(
 
 
 def _get_properties_limits(
-    projections: List[np.ndarray], cmin: Optional[float], cmax: Optional[float]
-) -> Tuple[float, float]:
+    projections: list[np.ndarray], cmin: Optional[float], cmax: Optional[float]
+) -> tuple[float, float]:
     """Get the min and max properties if they are not already set.
 
     Args:
@@ -1493,7 +1494,7 @@ def _get_properties_limits(
     return cmin, cmax
 
 
-def _get_plotly_camera(azimuth: float, elevation: float) -> Dict[str, Dict[str, float]]:
+def _get_plotly_camera(azimuth: float, elevation: float) -> dict[str, dict[str, float]]:
     """Get plotly viewpoint from azimuth and elevation."""
     azimuth = np.radians(azimuth)
     elevation = np.radians(elevation)
@@ -1511,10 +1512,10 @@ def _get_plotly_camera(azimuth: float, elevation: float) -> Dict[str, Dict[str, 
 def plotly_arrow(
     start: np.ndarray,
     stop: np.ndarray,
-    color: Tuple[float, float, float],
-    line_kwargs: Optional[Dict[str, Any]] = None,
-    cone_kwargs: Optional[Dict[str, Any]] = None,
-) -> Tuple[Any, Any]:
+    color: tuple[float, float, float],
+    line_kwargs: Optional[dict[str, Any]] = None,
+    cone_kwargs: Optional[dict[str, Any]] = None,
+) -> tuple[Any, Any]:
     """Create an arrow object.
 
     Args:
@@ -1568,7 +1569,7 @@ def plotly_arrow(
     return line, cone
 
 
-def rgb_to_plotly(color: Tuple[float, float, float]) -> str:
+def rgb_to_plotly(color: tuple[float, float, float]) -> str:
     """Get a plotly formatted color from rgb values.
 
     Args:
@@ -1582,7 +1583,7 @@ def rgb_to_plotly(color: Tuple[float, float, float]) -> str:
     return label_rgb(convert_to_RGB_255(color))
 
 
-def cmap_to_plotly(colormap: Colormap) -> List[str]:
+def cmap_to_plotly(colormap: Colormap) -> list[str]:
     """Convert a matplotlib colormap to plotly colorscale format.
 
     Args:
