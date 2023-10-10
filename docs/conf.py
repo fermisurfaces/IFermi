@@ -141,7 +141,7 @@ html_theme_options = {
         "font-size--small--4": "87.5%",
     },
 }
-html_title = "jobflow"
+html_title = "IFermi"
 
 
 # -- Options for LaTeX test_log ------------------------------------------------
