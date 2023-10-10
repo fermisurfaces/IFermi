@@ -740,7 +740,7 @@ def trim_surface(
     from trimesh.intersections import slice_faces_plane
 
     for center, normal in zip(reciprocal_cell.centers, reciprocal_cell.normals):
-        vertices, faces = slice_faces_plane(vertices, faces, -normal, center)
+        vertices, faces, _ = slice_faces_plane(vertices, faces, -normal, center)
     return vertices, faces
 
 
