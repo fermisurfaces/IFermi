@@ -73,7 +73,11 @@ class FermiSurfaceTest(unittest.TestCase):
 
                 np.testing.assert_array_almost_equal(v1, v2, decimal=5)
 
-                # check set faces are exactly equal
-                f1 = {tuple(x) for x in s1.faces}
-                f2 = {tuple(x) for x in s2.faces}
-                np.testing.assert_array_equal(f1, f2)
+                # face orderings can change, so just calculate the centroid for each
+                # and compare those
+                c1 = s1.vertices[s1.faces].sum(axis=1)
+                c2 = s2.vertices[s2.faces].sum(axis=1)
+                c1 = c1[np.lexsort((c1[:, 2], c1[:, 1], c1[:, 0]))]
+                c2 = c2[np.lexsort((c2[:, 2], c2[:, 1], c2[:, 0]))]
+
+                np.testing.assert_array_almost_equal(c1, c2, decimal=5)
