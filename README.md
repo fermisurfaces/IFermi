@@ -190,7 +190,7 @@ conda install -c conda-forge pymatgen boltztrap2 pyfftw
 pip install ifermi
 ````
 
-IFermi is currently compatible with Python 3.6+ and relies on a number of
+IFermi is currently compatible with Python 3.9+ and relies on a number of
 open-source python packages, specifically:
 
 - [pymatgen](http://pymatgen.org) for parsing DFT calculation outputs.
