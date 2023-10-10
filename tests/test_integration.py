@@ -9,7 +9,7 @@ from ifermi.plot import FermiSurfacePlotter, save_plot
 from ifermi.surface import FermiSurface
 
 test_dir = Path(__file__).resolve().parent
-root_dir = test_dir / "../.."
+root_dir = test_dir / ".."
 example_dir = root_dir / "examples"
 
 

@@ -179,7 +179,7 @@ nbsphinx_prolog = r"""
     .. nbinfo::
         This page is available as a Jupyter notebook: `{{ docpath }}`__.
 
-    __ https://github.com/materialsproject/jobflow/tree/main/docs/{{ docpath }}"""
+    __ https://github.com/fermisurfaces/IFermi/tree/main/examples/{{ docpath }}"""
 
 
 # -- Options for manual page test_log ------------------------------------------
