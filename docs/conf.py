@@ -121,6 +121,9 @@ fonts = [
 html_static_path = ["_static"]
 html_css_files = ["custom.css"]
 html_favicon = "_static/favicon.ico"
+
+# fix rendering of Fermi surfaces in docs
+html_js_files = ["require.min.js", "custom.js"]
 html_theme_options = {
     "light_css_variables": {
         "admonition-font-size": "92%",
@@ -170,11 +173,6 @@ latex_documents = [
 
 nbsphinx_prolog = r"""
 {% set docpath = env.doc2path(env.docname, base=False) %}
-
-.. raw:: html
-
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js'></script>
-    <script>require=requirejs;</script>
 
 .. only:: html
 
