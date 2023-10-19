@@ -418,6 +418,8 @@ class FermiSurface(MSONable):
         property_data: dict[Spin, np.ndarray] | None = None,
         property_kpoints: np.ndarray | None = None,
         calculate_dimensionality: bool = False,
+        supercell_dim: Tuple[int, int, int] = (3, 3, 3),
+        trim_surface: bool = True,
     ) -> FermiSurface:
         """Create a FermiSurface from a pymatgen band structure object.
 
@@ -449,6 +451,9 @@ class FermiSurface(MSONable):
             property_kpoints: The k-points on which the data is generated.
                 Must be used in combination with ``data``.
             calculate_dimensionality: Whether to calculate isosurface dimensionalities.
+            supercell_dim: The supercell mesh dimensions.
+            trim_surface: If true, only includes Fermi surface within one Brillouin
+                zone. If false, include Fermi surface within entire supercell.
 
         Returns:
             A Fermi surface.
@@ -483,7 +488,7 @@ class FermiSurface(MSONable):
             raise ValueError("Both data and kpoints must be specified.")
 
         bands, kpoints = expand_bands(
-            bands, kpoints, supercell_dim=(3, 3, 3), center=(1, 1, 1)
+            bands, kpoints, supercell_dim=supercell_dim, center=(1, 1, 1)
         )
         if isinstance(decimate_factor, int):
             # increase number of target faces to account for 3x3x3 supercell
@@ -499,6 +504,7 @@ class FermiSurface(MSONable):
             smooth=smooth,
             calculate_dimensionality=calculate_dimensionality,
             property_interpolator=interpolator,
+            trim_surface=trim_surface,
         )
 
         return cls(isosurfaces, reciprocal_space, structure)
@@ -543,6 +549,7 @@ def compute_isosurfaces(
     smooth: bool = False,
     calculate_dimensionality: bool = False,
     property_interpolator: LinearInterpolator | None = None,
+    trim_surface: bool = True,
 ) -> dict[Spin, list[Isosurface]]:
     """Compute the isosurfaces at a particular energy level.
 
@@ -567,6 +574,8 @@ def compute_isosurfaces(
         calculate_dimensionality: Whether to calculate isosurface dimensionality.
         property_interpolator: An interpolator class for interpolating properties
             onto the surface. If ``None``, no properties will be calculated.
+        trim_surface: If true, only includes Fermi surface within one Brillouin
+            zone. If false, include Fermi surface within entire supercell.
 
     Returns:
         A dictionary containing a list of isosurfaces for each spin channel.
@@ -605,6 +614,7 @@ def compute_isosurfaces(
                 smooth,
                 calculate_dimensionality,
                 property_interpolator,
+                trim_surface,
             )
             spin_isosurface.extend(band_isosurfaces)
 
@@ -626,6 +636,7 @@ def _calculate_band_isosurfaces(
     smooth: bool,
     calculate_dimensionality: bool,
     property_interpolator: LinearInterpolator | None,
+    trim_surface: bool = True,
 ):
     """Helper function to calculate the connected isosurfaces for a band."""
     from skimage.measure import marching_cubes
@@ -689,7 +700,8 @@ def _calculate_band_isosurfaces(
     for (subverts, subfaces), idx in zip(subsurfaces, mapping):
         # convert vertices to cartesian coordinates
         subverts = np.dot(subverts, rlat)
-        subverts, subfaces = trim_surface(reciprocal_space, subverts, subfaces)
+        if trim_surface:
+            subverts, subfaces = trim_surface(reciprocal_space, subverts, subfaces)
 
         if len(subverts) == 0:
             # skip surfaces that do not enter the reciprocal space boundaries
