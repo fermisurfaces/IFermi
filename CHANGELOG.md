@@ -1,5 +1,11 @@
 # Change log
 
+## v0.3.3
+
+Enhancements:
+
+* Catch Fermi surfaces and slices that don't cross any bands by @utf in https://github.com/fermisurfaces/IFermi/pull/350
+
 ## v0.3.2
 
 The minimum supported Python version is now 3.9.
