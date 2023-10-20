@@ -1299,6 +1299,10 @@ def get_isosurface_colors(
 
     n_objects = len(surface_multiplicity)
 
+    if n_objects == 0:
+        # catch the case of no surfaces present
+        return []
+
     if isinstance(colors, (tuple, list, np.ndarray)):
         if isinstance(colors[0], (tuple, list, np.ndarray)):
             # colors is a list of colors

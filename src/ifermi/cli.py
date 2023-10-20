@@ -136,6 +136,10 @@ def info(filename, **kwargs):
         click.echo(f"  Avg {prop}: {dp(avg_property)}{unit}")
 
     for spin in fs.spins:
+        if fs.n_surfaces_per_spin[spin] == 0:
+            # no surfaces in this spin channel
+            continue
+
         if bs.is_spin_polarized:
             title = f"Spin {spin.name.capitalize()} Isosurfaces"
         else:
