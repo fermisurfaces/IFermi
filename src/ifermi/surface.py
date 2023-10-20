@@ -418,7 +418,7 @@ class FermiSurface(MSONable):
         property_data: dict[Spin, np.ndarray] | None = None,
         property_kpoints: np.ndarray | None = None,
         calculate_dimensionality: bool = False,
-        supercell_dim: Tuple[int, int, int] = (3, 3, 3),
+        supercell_dim: tuple[int, int, int] = (3, 3, 3),
         trim_to_first_bz: bool = True,
     ) -> FermiSurface:
         """Create a FermiSurface from a pymatgen band structure object.
