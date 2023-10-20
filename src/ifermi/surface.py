@@ -227,7 +227,10 @@ class FermiSurface(MSONable):
     @property
     def has_properties(self) -> bool:
         """Whether all isosurfaces have face properties."""
-        return all(all(i.has_properties for i in s) for s in self.isosurfaces.values())
+        return len(self.isosurfaces) > 0 and all(
+            len(s) > 0 and all(i.has_properties for i in s)  # also check surfaces exist
+            for s in self.isosurfaces.values()
+        )
 
     def average_properties(
         self, norm: bool = False, projection_axis: tuple[int, int, int] | None = None
@@ -280,7 +283,7 @@ class FermiSurface(MSONable):
 
         ndims = [i.properties_ndim for v in self.isosurfaces.values() for i in v]
 
-        if len(set(ndims)) != 1:
+        if len(ndims) > 0 and len(set(ndims)) != 1:
             warnings.warn(
                 "Isosurfaces have different property dimensions, using the largest.",
                 stacklevel=2,
@@ -463,11 +466,11 @@ class FermiSurface(MSONable):
         kpoints = kpoints_from_bandstructure(band_structure)
 
         kpoint_dim = get_kpoint_mesh_dim(kpoints)
-        if np.product(kpoint_dim) != len(kpoints):
+        if np.prod(kpoint_dim) != len(kpoints):
             raise ValueError(
                 "Number of k-points ({}) in band structure does not match number of "
                 "k-points expected from mesh dimensions ({})".format(
-                    len(band_structure.kpoints), np.product(kpoint_dim)
+                    len(band_structure.kpoints), np.prod(kpoint_dim)
                 )
             )
 
@@ -500,6 +503,12 @@ class FermiSurface(MSONable):
             calculate_dimensionality=calculate_dimensionality,
             property_interpolator=interpolator,
         )
+
+        if sum(len(spin_iso) for spin_iso in isosurfaces.values()) == 0:
+            warnings.warn(
+                "Fermi level does not cross any bands. Fermi surface will be empty.",
+                stacklevel=2,
+            )
 
         return cls(isosurfaces, reciprocal_space, structure)
 
@@ -758,7 +767,7 @@ def expand_bands(
     """
     final_ebands = {}
     nk = len(fractional_kpoints)
-    ncells = np.product(supercell_dim)
+    ncells = np.prod(supercell_dim)
 
     final_kpoints = np.tile(fractional_kpoints, (ncells, 1))
     for n, (i, j, k) in enumerate(np.ndindex(supercell_dim)):

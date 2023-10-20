@@ -219,7 +219,7 @@ class FermiSurfacePlotter:
         hide_surface: bool = False,
         hide_labels: bool = False,
         hide_cell: bool = False,
-        plot_index: int | list | dict | None = None,
+        plot_index: list[int] | dict[Spin, list[int] | int] | int = None,
         **plot_kwargs,
     ):
         """Plot the Fermi surface.
@@ -294,7 +294,7 @@ class FermiSurfacePlotter:
                 - A single integer, which will select that band index in both spin
                   channels (if both spin channels are present).
                 - A list of integers, which will select that set of bands from both spin
-                  channels (if both a present).
+                  channels (if both are present).
                 - A dictionary of ``{Spin.up: band_index_1, Spin.down: band_index_2}``,
                   where band_index_1 and band_index_2 are either single integers (if one
                   wishes to plot a single band for that particular spin) or a list of
@@ -352,7 +352,7 @@ class FermiSurfacePlotter:
         hide_surface: bool = False,
         hide_labels: bool = False,
         hide_cell: bool = False,
-        plot_index: list[int] = None,
+        plot_index: list[int] | dict[Spin, list[int] | int] | int = None,
     ) -> _FermiSurfacePlotData:
         """Get the the Fermi surface plot data.
 
@@ -395,7 +395,7 @@ class FermiSurfacePlotter:
             cmin, cmax = _get_properties_limits(properties, cmin, cmax)
 
         if not color_properties or not self.fermi_surface.has_properties:
-            colors = get_isosurface_colors(colors, self.fermi_surface, spin)
+            colors = get_isosurface_colors(colors, self.fermi_surface, spin, plot_index)
             properties = []
             cmin = None
             cmax = None
@@ -883,7 +883,7 @@ class FermiSlicePlotter:
         hide_slice: bool = False,
         hide_labels: bool = False,
         hide_cell: bool = False,
-        plot_index: list[int] = None,
+        plot_index: list[int] | dict[Spin, list[int] | int] | int = None,
         arrow_pivot: str = "tail",
         slice_kwargs: dict[str, Any] | None = None,
         cbar_kwargs: dict[str, Any] | None = None,
@@ -1114,7 +1114,7 @@ class FermiSlicePlotter:
         hide_slice: bool = False,
         hide_labels: bool = False,
         hide_cell: bool = False,
-        plot_index: list[int] = None,
+        plot_index: list[int] | dict[Spin, list[int] | int] | int = None,
     ) -> _FermiSlicePlotData:
         """Get the the Fermi slice plot data.
 
@@ -1155,7 +1155,7 @@ class FermiSlicePlotter:
             cmin, cmax = _get_properties_limits(properties, cmin, cmax)
 
         if not color_properties or not self.fermi_slice.has_properties:
-            colors = get_isosurface_colors(colors, self.fermi_slice, spin)
+            colors = get_isosurface_colors(colors, self.fermi_slice, spin, plot_index)
             properties = []
             cmin = None
             cmax = None
@@ -1263,6 +1263,7 @@ def get_isosurface_colors(
     colors: str | dict | list | None,
     fermi_object: FermiSurface | FermiSlice,
     spins: list[Spin],
+    plot_index: list[int] | dict[Spin, list[int] | int] | int,
 ) -> list[tuple[float, float, float]]:
     """Get colors for each Fermi surface.
 
@@ -1280,6 +1281,18 @@ def get_isosurface_colors(
             - ``None``, in which case the default colors will be used.
         fermi_object: A Fermi surface or Fermi slice object.
         spins: A list of spins for which colors will be generated.
+        plot_index: A choice of band indices (0-based). Valid options are:
+
+            - A single integer, which will select that band index in both spin channels
+              (if both spin channels are present).
+            - A list of integers, which will select that set of bands from both spin
+              channels (if both are present).
+            - A dictionary of ``{Spin.up: band_index_1, Spin.down: band_index_2}``,
+              where band_index_1 and band_index_2 are either single integers (if one
+              wishes to plot a single band for that particular spin) or a list of
+              integers. Note that the choice of integer and list can be different for
+              different spin channels.
+            - ``None`` in which case all bands will be selected.
 
     Returns:
         The colors as a list of tuples, where each color is specified as the rgb values
@@ -1294,10 +1307,25 @@ def get_isosurface_colors(
 
     surface_multiplicity = []
     for spin in spins:
-        for band_idx in sorted(n_objects_per_band[spin].keys()):
+        if isinstance(plot_index, dict):
+            # if plot_index is a dict, the get the idxs and make sure they are a list
+            idxs = plot_index.get(spin, [])
+            idxs = idxs if isinstance(idxs, (list, tuple)) else [idxs]
+        elif isinstance(plot_index, int):
+            idxs = [plot_index]
+        elif isinstance(plot_index, (list, tuple)):
+            idxs = plot_index
+        else:
+            # otherwise plot all bands
+            idxs = sorted(n_objects_per_band[spin].keys())
+        for band_idx in idxs:
             surface_multiplicity.append(n_objects_per_band[spin][band_idx])
 
     n_objects = len(surface_multiplicity)
+
+    if n_objects == 0:
+        # catch the case of no surfaces present
+        return []
 
     if isinstance(colors, (tuple, list, np.ndarray)):
         if isinstance(colors[0], (tuple, list, np.ndarray)):
