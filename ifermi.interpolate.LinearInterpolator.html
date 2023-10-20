@@ -313,7 +313,7 @@
 <li><p><strong>kpoints</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – The k-points in fractional coordinates as a numpy array.
 with the shape (nkpoints, 3). Note, the k-points must cover
 the full Brillouin zone, not just the irreducible part.</p></li>
-<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="http://pymatgen.org/pymatgen.electronic_structure.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2023.7.17)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]) – The data to interpolate. Should be given for spin up
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2023.7.17)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]) – The data to interpolate. Should be given for spin up
 and spin down bands. If the system is not spin polarized
 then only spin up should be set. The data for each spin
 channel should be a numpy array with the shape
@@ -329,7 +329,7 @@ or multidimensional.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>spin</strong> (<a class="reference external" href="http://pymatgen.org/pymatgen.electronic_structure.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2023.7.17)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>) – The spin channel.</p></li>
+<li><p><strong>spin</strong> (<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2023.7.17)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>) – The spin channel.</p></li>
 <li><p><strong>bands</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – A list of bands at which to interpolate.</p></li>
 <li><p><strong>kpoints</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – A list of k-points at which to interpolate. The number of
 k-points must equal the number of bands.</p></li>
@@ -415,7 +415,7 @@ k-points must equal the number of bands.</p></li>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=71d9d8e6"></script>
+</div><script src="_static/documentation_options.js?v=d5a15cff"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>
