@@ -614,7 +614,7 @@ def compute_isosurfaces(
                 smooth,
                 calculate_dimensionality,
                 property_interpolator,
-                trim_surface,
+                trim_to_first_bz,
             )
             spin_isosurface.extend(band_isosurfaces)
 
