@@ -466,11 +466,11 @@ class FermiSurface(MSONable):
         kpoints = kpoints_from_bandstructure(band_structure)
 
         kpoint_dim = get_kpoint_mesh_dim(kpoints)
-        if np.product(kpoint_dim) != len(kpoints):
+        if np.prod(kpoint_dim) != len(kpoints):
             raise ValueError(
                 "Number of k-points ({}) in band structure does not match number of "
                 "k-points expected from mesh dimensions ({})".format(
-                    len(band_structure.kpoints), np.product(kpoint_dim)
+                    len(band_structure.kpoints), np.prod(kpoint_dim)
                 )
             )
 
@@ -767,7 +767,7 @@ def expand_bands(
     """
     final_ebands = {}
     nk = len(fractional_kpoints)
-    ncells = np.product(supercell_dim)
+    ncells = np.prod(supercell_dim)
 
     final_kpoints = np.tile(fractional_kpoints, (ncells, 1))
     for n, (i, j, k) in enumerate(np.ndindex(supercell_dim)):

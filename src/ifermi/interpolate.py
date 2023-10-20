@@ -258,7 +258,7 @@ class LinearInterpolator:
 
         kpoints = kpoints_to_first_bz(kpoints)
         mesh_dim = get_kpoint_mesh_dim(kpoints)
-        if np.product(mesh_dim) != len(kpoints):
+        if np.prod(mesh_dim) != len(kpoints):
             raise ValueError("k-points do not cover full Brillouin zone.")
 
         kpoints = np.around(kpoints, 5)
