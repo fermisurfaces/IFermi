@@ -227,7 +227,7 @@ class FermiSurface(MSONable):
     @property
     def has_properties(self) -> bool:
         """Whether all isosurfaces have face properties."""
-        return all(
+        return len(self.isosurfaces) > 0 and all(
             len(s) > 0 and all(i.has_properties for i in s)  # also check surfaces exist
             for s in self.isosurfaces.values()
         )

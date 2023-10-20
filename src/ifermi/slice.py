@@ -143,7 +143,10 @@ class FermiSlice(MSONable):
     @property
     def has_properties(self) -> bool:
         """Whether all isolines have segment properties."""
-        return all(all(i.has_properties for i in s) for s in self.isolines.values())
+        return len(self.isolines) > 0 and all(
+            len(s) > 0 and all(i.has_properties for i in s)  # ensure isolines exist
+            for s in self.isolines.values()
+        )
 
     @property
     def spins(self) -> tuple[Spin]:
@@ -340,6 +343,12 @@ class FermiSlice(MSONable):
         reciprocal_slice = fermi_surface.reciprocal_space.get_reciprocal_slice(
             plane_normal, distance
         )
+
+        if len(isolines) == 0:
+            warnings.warn(
+                "Fermi slice does not cross any isosurfaces and will be empty.",
+                stacklevel=2,
+            )
 
         return FermiSlice(dict(isolines), reciprocal_slice, fermi_surface.structure)
 
