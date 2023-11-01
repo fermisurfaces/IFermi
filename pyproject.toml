@@ -61,7 +61,7 @@ docs = [
     "ipython==8.17.2",
 ]
 dev = ["pre-commit>=2.12.1"]
-tests = ["pytest==7.4.2"]
+tests = ["pytest==7.4.3"]
 strict = [
     "matplotlib==3.8.1",
     "pymatgen==2023.10.4",
