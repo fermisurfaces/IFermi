@@ -64,7 +64,7 @@ dev = ["pre-commit>=2.12.1"]
 tests = ["pytest==7.4.3"]
 strict = [
     "matplotlib==3.8.2",
-    "pymatgen==2023.11.12",
+    "pymatgen==2023.12.18",
     "BoltzTraP2==22.12.1",
     "trimesh==4.0.5",
     "meshcut==0.3.0",
