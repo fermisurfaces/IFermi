@@ -66,7 +66,7 @@ strict = [
     "matplotlib==3.8.2",
     "pymatgen==2024.1.27",
     "BoltzTraP2==22.12.1",
-    "trimesh==4.0.8",
+    "trimesh==4.1.0",
     "meshcut==0.3.0",
     "scikit-image==0.22.0",
     "monty==2024.1.26",
