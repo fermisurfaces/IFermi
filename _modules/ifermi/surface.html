@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <link rel="shortcut icon" href="../../_static/favicon.ico"/><!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
         <title>ifermi.surface - IFermi</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
@@ -750,6 +750,8 @@
         <span class="n">property_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">property_kpoints</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">calculate_dimensionality</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">supercell_dim</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="n">trim_to_first_bz</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FermiSurface</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a FermiSurface from a pymatgen band structure object.</span>
 
@@ -781,6 +783,9 @@
 <span class="sd">            property_kpoints: The k-points on which the data is generated.</span>
 <span class="sd">                Must be used in combination with ``data``.</span>
 <span class="sd">            calculate_dimensionality: Whether to calculate isosurface dimensionalities.</span>
+<span class="sd">            supercell_dim: The supercell mesh dimensions.</span>
+<span class="sd">            trim_to_first_bz: If true, only includes Fermi surface within one Brillouin</span>
+<span class="sd">                zone. If false, include Fermi surface within entire supercell.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            A Fermi surface.</span>
@@ -815,7 +820,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Both data and kpoints must be specified.&quot;</span><span class="p">)</span>
 
         <span class="n">bands</span><span class="p">,</span> <span class="n">kpoints</span> <span class="o">=</span> <span class="n">expand_bands</span><span class="p">(</span>
-            <span class="n">bands</span><span class="p">,</span> <span class="n">kpoints</span><span class="p">,</span> <span class="n">supercell_dim</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">bands</span><span class="p">,</span> <span class="n">kpoints</span><span class="p">,</span> <span class="n">supercell_dim</span><span class="o">=</span><span class="n">supercell_dim</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">decimate_factor</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="c1"># increase number of target faces to account for 3x3x3 supercell</span>
@@ -831,6 +836,7 @@
             <span class="n">smooth</span><span class="o">=</span><span class="n">smooth</span><span class="p">,</span>
             <span class="n">calculate_dimensionality</span><span class="o">=</span><span class="n">calculate_dimensionality</span><span class="p">,</span>
             <span class="n">property_interpolator</span><span class="o">=</span><span class="n">interpolator</span><span class="p">,</span>
+            <span class="n">trim_to_first_bz</span><span class="o">=</span><span class="n">trim_to_first_bz</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">spin_iso</span><span class="p">)</span> <span class="k">for</span> <span class="n">spin_iso</span> <span class="ow">in</span> <span class="n">isosurfaces</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -894,6 +900,7 @@
     <span class="n">smooth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">calculate_dimensionality</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">property_interpolator</span><span class="p">:</span> <span class="n">LinearInterpolator</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">trim_to_first_bz</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Spin</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Isosurface</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the isosurfaces at a particular energy level.</span>
 
@@ -918,6 +925,8 @@
 <span class="sd">        calculate_dimensionality: Whether to calculate isosurface dimensionality.</span>
 <span class="sd">        property_interpolator: An interpolator class for interpolating properties</span>
 <span class="sd">            onto the surface. If ``None``, no properties will be calculated.</span>
+<span class="sd">        trim_to_first_bz: If true, only includes Fermi surface within one Brillouin</span>
+<span class="sd">            zone. If false, include Fermi surface within entire supercell.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A dictionary containing a list of isosurfaces for each spin channel.</span>
@@ -956,6 +965,7 @@
                 <span class="n">smooth</span><span class="p">,</span>
                 <span class="n">calculate_dimensionality</span><span class="p">,</span>
                 <span class="n">property_interpolator</span><span class="p">,</span>
+                <span class="n">trim_to_first_bz</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">spin_isosurface</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">band_isosurfaces</span><span class="p">)</span>
 
@@ -978,6 +988,7 @@
     <span class="n">smooth</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">calculate_dimensionality</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">property_interpolator</span><span class="p">:</span> <span class="n">LinearInterpolator</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">trim_to_first_bz</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper function to calculate the connected isosurfaces for a band.&quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">skimage.measure</span> <span class="kn">import</span> <span class="n">marching_cubes</span>
@@ -1041,7 +1052,8 @@
     <span class="k">for</span> <span class="p">(</span><span class="n">subverts</span><span class="p">,</span> <span class="n">subfaces</span><span class="p">),</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">subsurfaces</span><span class="p">,</span> <span class="n">mapping</span><span class="p">):</span>
         <span class="c1"># convert vertices to cartesian coordinates</span>
         <span class="n">subverts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">subverts</span><span class="p">,</span> <span class="n">rlat</span><span class="p">)</span>
-        <span class="n">subverts</span><span class="p">,</span> <span class="n">subfaces</span> <span class="o">=</span> <span class="n">trim_surface</span><span class="p">(</span><span class="n">reciprocal_space</span><span class="p">,</span> <span class="n">subverts</span><span class="p">,</span> <span class="n">subfaces</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">trim_to_first_bz</span><span class="p">:</span>
+            <span class="n">subverts</span><span class="p">,</span> <span class="n">subfaces</span> <span class="o">=</span> <span class="n">trim_surface</span><span class="p">(</span><span class="n">reciprocal_space</span><span class="p">,</span> <span class="n">subverts</span><span class="p">,</span> <span class="n">subfaces</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">subverts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="c1"># skip surfaces that do not enter the reciprocal space boundaries</span>
@@ -1241,7 +1253,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=d5a15cff"></script>
+</div><script src="../../_static/documentation_options.js?v=1e28cc32"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=32e29ea5"></script>

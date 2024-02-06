@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="LinearInterpolator" href="ifermi.interpolate.LinearInterpolator.html" /><link rel="prev" title="trim_bandstructure" href="ifermi.interpolate.trim_bandstructure.html" />
 
-    <link rel="shortcut icon" href="_static/favicon.ico"/><!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <link rel="shortcut icon" href="_static/favicon.ico"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
         <title>FourierInterpolator - IFermi</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
@@ -311,9 +311,9 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>band_structure</strong> (<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.html#pymatgen.electronic_structure.bandstructure.BandStructure" title="(in pymatgen v2023.7.17)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BandStructure</span></code></a>) – The Bandstructure object to be interpolated.</p></li>
-<li><p><strong>magmom</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]) – Magnetic moments of the atoms.</p></li>
-<li><p><strong>mommat</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]) – Momentum matrix, as supported by BoltzTraP2.</p></li>
+<li><p><strong>band_structure</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.html#pymatgen.electronic_structure.bandstructure.BandStructure" title="(in pymatgen v2023.7.17)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BandStructure</span></code></a></span>) – The Bandstructure object to be interpolated.</p></li>
+<li><p><strong>magmom</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – Magnetic moments of the atoms.</p></li>
+<li><p><strong>mommat</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.6/library/typing.html#typing.Optional" title="(in Python v3.6)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – Momentum matrix, as supported by BoltzTraP2.</p></li>
 </ul>
 </dd>
 </dl>
@@ -327,10 +327,10 @@ option in the <code class="docutils literal notranslate"><span class="pre">Fouri
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>interpolation_factor</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>) – The factor by which the band structure will
+<li><p><strong>interpolation_factor</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#float" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – The factor by which the band structure will
 be interpolated.</p></li>
-<li><p><strong>return_velocities</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether to return the group velocities.</p></li>
-<li><p><strong>nworkers</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – The number of processors used to perform the
+<li><p><strong>return_velocities</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#bool" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to return the group velocities.</p></li>
+<li><p><strong>nworkers</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.6/library/functions.html#int" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – The number of processors used to perform the
 interpolation. If set to <code class="docutils literal notranslate"><span class="pre">-1</span></code>, the number of workers will
 be set to the number of CPU cores.</p></li>
 </ul>
@@ -418,7 +418,7 @@ shape (nbands, nkpoints, 3) and has units of m/s.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=d5a15cff"></script>
+</div><script src="_static/documentation_options.js?v=1e28cc32"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>

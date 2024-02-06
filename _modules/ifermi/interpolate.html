@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <link rel="shortcut icon" href="../../_static/favicon.ico"/><!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
         <title>ifermi.interpolate - IFermi</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
@@ -431,6 +431,7 @@
         <span class="n">efermi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_band_structure</span><span class="o">.</span><span class="n">efermi</span>
 
         <span class="n">atoms</span> <span class="o">=</span> <span class="n">AseAtomsAdaptor</span><span class="p">()</span><span class="o">.</span><span class="n">get_atoms</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_band_structure</span><span class="o">.</span><span class="n">structure</span><span class="p">)</span>
+        <span class="n">atoms</span> <span class="o">=</span> <span class="p">(</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(),</span> <span class="n">atoms</span><span class="o">.</span><span class="n">get_scaled_positions</span><span class="p">(),</span> <span class="n">atoms</span><span class="o">.</span><span class="n">numbers</span><span class="p">)</span>
         <span class="n">mapping</span><span class="p">,</span> <span class="n">grid</span> <span class="o">=</span> <span class="n">spglib</span><span class="o">.</span><span class="n">get_ir_reciprocal_mesh</span><span class="p">(</span>
             <span class="n">interpolation_mesh</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">symprec</span><span class="o">=</span><span class="mf">0.1</span>
         <span class="p">)</span>
@@ -665,7 +666,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=d5a15cff"></script>
+</div><script src="../../_static/documentation_options.js?v=1e28cc32"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=32e29ea5"></script>

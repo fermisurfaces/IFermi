@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="ifermi.kpoints" href="ifermi.kpoints.html" /><link rel="prev" title="FourierInterpolator" href="ifermi.interpolate.FourierInterpolator.html" />
 
-    <link rel="shortcut icon" href="_static/favicon.ico"/><!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <link rel="shortcut icon" href="_static/favicon.ico"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
         <title>LinearInterpolator - IFermi</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
@@ -310,10 +310,10 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>kpoints</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – The k-points in fractional coordinates as a numpy array.
+<li><p><strong>kpoints</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – The k-points in fractional coordinates as a numpy array.
 with the shape (nkpoints, 3). Note, the k-points must cover
 the full Brillouin zone, not just the irreducible part.</p></li>
-<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2023.7.17)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]) – The data to interpolate. Should be given for spin up
+<li><p><strong>data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3.6/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2023.7.17)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>]</span>) – The data to interpolate. Should be given for spin up
 and spin down bands. If the system is not spin polarized
 then only spin up should be set. The data for each spin
 channel should be a numpy array with the shape
@@ -329,9 +329,9 @@ or multidimensional.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>spin</strong> (<a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2023.7.17)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a>) – The spin channel.</p></li>
-<li><p><strong>bands</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – A list of bands at which to interpolate.</p></li>
-<li><p><strong>kpoints</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>) – A list of k-points at which to interpolate. The number of
+<li><p><strong>spin</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://pymatgen.org/pymatgen.electronic_structure.html#pymatgen.electronic_structure.core.Spin" title="(in pymatgen v2023.7.17)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Spin</span></code></a></span>) – The spin channel.</p></li>
+<li><p><strong>bands</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – A list of bands at which to interpolate.</p></li>
+<li><p><strong>kpoints</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></span>) – A list of k-points at which to interpolate. The number of
 k-points must equal the number of bands.</p></li>
 </ul>
 </dd>
@@ -415,7 +415,7 @@ k-points must equal the number of bands.</p></li>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=d5a15cff"></script>
+</div><script src="_static/documentation_options.js?v=1e28cc32"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>
