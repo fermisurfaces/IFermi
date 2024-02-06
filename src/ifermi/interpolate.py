@@ -126,6 +126,7 @@ class FourierInterpolator:
         efermi = self._band_structure.efermi
 
         atoms = AseAtomsAdaptor().get_atoms(self._band_structure.structure)
+        atoms = (atoms.get_cell(), atoms.get_scaled_positions(), atoms.numbers)
         mapping, grid = spglib.get_ir_reciprocal_mesh(
             interpolation_mesh, atoms, symprec=0.1
         )
