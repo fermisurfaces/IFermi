@@ -1,5 +1,9 @@
 # Change log
 
+## v0.3.4
+
+Fix compatability with latest spglib.
+
 ## v0.3.3
 
 Enhancements:
