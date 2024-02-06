@@ -2,7 +2,7 @@
 
 ## v0.3.4
 
-Fix compatability with latest spglib.
+Fix compatibility with latest spglib.
 
 ## v0.3.3
 
