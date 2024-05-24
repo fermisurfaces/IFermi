@@ -361,7 +361,7 @@ class FermiSurfacePlotter:
         Returns:
             The Fermi surface plot data.
         """
-        from matplotlib.cm import get_cmap
+        from matplotlib.pyplot import get_cmap
 
         if not spin:
             spin = self.fermi_surface.spins
