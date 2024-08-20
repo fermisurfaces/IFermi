@@ -7,8 +7,6 @@
 
 
 
-   
-
    .. rubric:: Functions
 
    .. autosummary::
@@ -22,8 +20,6 @@
       face_properties
 
 
-
-   
 
 
 
@@ -48,13 +44,5 @@
    
       Isosurface
       FermiSurface
-
-
-
-
-   
-   
-   
-
 
 

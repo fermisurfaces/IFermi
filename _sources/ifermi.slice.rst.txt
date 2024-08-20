@@ -7,8 +7,6 @@
 
 
 
-   
-
    .. rubric:: Functions
 
    .. autosummary::
@@ -19,8 +17,6 @@
       interpolate_segments
 
 
-
-   
 
 
 
@@ -42,13 +38,5 @@
    
       Isoline
       FermiSlice
-
-
-
-
-   
-   
-   
-
 
 

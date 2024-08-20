@@ -7,8 +7,6 @@
 
 
 
-   
-
    .. rubric:: Functions
 
    .. autosummary::
@@ -18,8 +16,6 @@
       trim_bandstructure
 
 
-
-   
 
 
 
@@ -40,13 +36,5 @@
    
       FourierInterpolator
       LinearInterpolator
-
-
-
-
-   
-   
-   
-
 
 

@@ -7,8 +7,6 @@
 
 
 
-   
-
    .. rubric:: Functions
 
    .. autosummary::
@@ -23,22 +21,12 @@
 
 
 
-   
-
-
-
-   
-   
-   
-   
-   
-
-
 
 
    
    
    
-
+   
+   
 
 
