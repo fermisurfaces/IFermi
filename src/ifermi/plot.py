@@ -1341,8 +1341,14 @@ def get_isosurface_colors(
             raise ValueError(
                 "colors dict must have same number of spin channels as spins to plot"
             )
+        if isinstance(fermi_object, FermiSurface):
+            return [
+                colors[s]
+                for s in spins
+                for _ in range(fermi_object.n_surfaces_per_spin[s])
+            ]
         return [
-            colors[s] for s in spins for _ in range(fermi_object.n_surfaces_per_spin[s])
+            colors[s] for s in spins for _ in range(fermi_object.n_lines_per_spin[s])
         ]
 
     elif isinstance(colors, str):
