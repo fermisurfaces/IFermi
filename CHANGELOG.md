@@ -1,5 +1,9 @@
 # Change log
 
+## v0.3.6
+
+* Fix plotting bug #437.
+
 ## v0.3.5
 
 * get_cmap deprecation by @tschaume in https://github.com/fermisurfaces/IFermi/pull/410
