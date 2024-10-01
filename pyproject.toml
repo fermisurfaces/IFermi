@@ -72,7 +72,7 @@ strict = [
     "scikit-image==0.24.0",
     "monty==2024.7.30",
     "spglib==2.5.0",
-    "plotly==5.24.0",
+    "plotly==5.24.1",
     "pyfftw==0.14.0",
     "psutil==6.0.0",
     "click==8.1.7",
