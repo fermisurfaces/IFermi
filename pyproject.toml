@@ -51,7 +51,7 @@ plotly-static = ["kaleido"]
 decimation = ["open3d"]
 smooth = ["PyMCubes"]
 docs = [
-    "sphinx==8.0.2",
+    "sphinx==8.1.3",
     "sphinx-click==6.0.0",
     "furo==2024.8.6",
     "sphinx-autodoc-typehints==2.4.4",
