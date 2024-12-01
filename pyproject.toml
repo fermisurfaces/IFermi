@@ -73,7 +73,7 @@ strict = [
     "monty==2024.10.21",
     "spglib==2.5.0",
     "plotly==5.24.1",
-    "pyfftw==0.14.0",
+    "pyfftw==0.15.0",
     "psutil==6.1.0",
     "click==8.1.7",
     "networkx==3.2.1",
