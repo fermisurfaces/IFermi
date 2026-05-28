@@ -75,11 +75,11 @@ class FourierInterpolator:
         """
         import multiprocessing
 
+        import spglib
         from BoltzTraP2 import fite, sphere
         from BoltzTraP2.units import eV
         from pymatgen.io.ase import AseAtomsAdaptor
         from scipy.constants import physical_constants
-        from spglib import spglib
 
         from ifermi.boltztrap import bands_fft
         from ifermi.kpoints import sort_boltztrap_to_spglib
@@ -127,7 +127,7 @@ class FourierInterpolator:
 
         atoms = AseAtomsAdaptor().get_atoms(self._band_structure.structure)
         atoms = (atoms.get_cell(), atoms.get_scaled_positions(), atoms.numbers)
-        mapping, grid = spglib.get_ir_reciprocal_mesh(
+        _mapping, grid = spglib.get_ir_reciprocal_mesh(
             interpolation_mesh, atoms, symprec=0.1
         )
         kpoints = grid / interpolation_mesh
