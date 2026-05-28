@@ -75,11 +75,11 @@ class FourierInterpolator:
         """
         import multiprocessing
 
+        import spglib
         from BoltzTraP2 import fite, sphere
         from BoltzTraP2.units import eV
         from pymatgen.io.ase import AseAtomsAdaptor
         from scipy.constants import physical_constants
-        import spglib
 
         from ifermi.boltztrap import bands_fft
         from ifermi.kpoints import sort_boltztrap_to_spglib
