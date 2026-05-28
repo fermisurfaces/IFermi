@@ -18,13 +18,13 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.9",
     "Topic :: Other/Nonlisted Topic",
     "Topic :: Scientific/Engineering",
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [
     "numpy",
     "scipy",
@@ -100,7 +100,7 @@ max-line-length = 88
 max-doc-length = 88
 select = "C, E, F, W, B"
 extend-ignore = "E203, W503, E501, F401, RST21"
-min-python-version = "3.8.0"
+min-python-version = "3.10.0"
 docstring-convention = "google"
 rst-roles = "class, func, ref, obj"
 
@@ -135,7 +135,7 @@ exclude_lines = [
 ]
 
 [tool.ruff]
-target-version = "py38"
+target-version = "py310"
 select = [
     "B",    # flake8-bugbear
     "C4",   # flake8-comprehensions
@@ -170,6 +170,7 @@ ignore = [
     "PD011",   # pandas-use-of-dot-values
     "PERF203", # try-except-in-loop
     "PERF401",
+    "B905",    # historical zip usage without strict=
     "PLR",     # pylint-refactor
     "PT004",   # pytest-missing-fixture-name-underscore
     "PT006",   # pytest-parametrize-names-wrong-type
