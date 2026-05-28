@@ -1,5 +1,13 @@
 # Change log
 
+## v0.3.8
+
+* Fix compatibility with latest spglib version.
+
+## v0.3.7
+
+* Remove deprecated pkg_resources by @esoteric-ephemera in https://github.com/fermisurfaces/IFermi/pull/508
+
 ## v0.3.6
 
 * Fix plotting bug #437.
