@@ -8,7 +8,7 @@
 
 [📝 **JOSS Paper** 📝](https://doi.org/10.21105/joss.03089)
 
-IFermi is a Python (3.9+) library and set of command-line tools for the generation,
+IFermi is a Python (3.10+) library and set of command-line tools for the generation,
 analysis, and visualisation of Fermi surfaces and Fermi slices. The goal of the library
 is to provide fully featured FermiSurface and FermiSlice objects that allow for easy
 manipulation and analysis. The main features include:
@@ -190,7 +190,7 @@ conda install -c conda-forge pymatgen boltztrap2 pyfftw
 pip install ifermi
 ````
 
-IFermi is currently compatible with Python 3.9+ and relies on a number of
+IFermi is currently compatible with Python 3.10+ and relies on a number of
 open-source python packages, specifically:
 
 - [pymatgen](http://pymatgen.org) for parsing DFT calculation outputs.
