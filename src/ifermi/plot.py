@@ -1032,7 +1032,7 @@ class FermiSlicePlotter:
                 if scale_linewidth is False:
                     linewidth = 2
                 else:
-                    base_width = 4 if isinstance(scale_linewidth, (float, int)) else 4
+                    base_width = 4 if isinstance(scale_linewidth, float | int) else 4
                     linewidth = abs(proj) * base_width / reference
 
                 slice_style = {"antialiaseds": True, "linewidth": linewidth}
@@ -1310,10 +1310,10 @@ def get_isosurface_colors(
         if isinstance(plot_index, dict):
             # if plot_index is a dict, the get the idxs and make sure they are a list
             idxs = plot_index.get(spin, [])
-            idxs = idxs if isinstance(idxs, (list, tuple)) else [idxs]
+            idxs = idxs if isinstance(idxs, list | tuple) else [idxs]
         elif isinstance(plot_index, int):
             idxs = [plot_index]
-        elif isinstance(plot_index, (list, tuple)):
+        elif isinstance(plot_index, list | tuple):
             idxs = plot_index
         else:
             # otherwise plot all bands
@@ -1327,8 +1327,8 @@ def get_isosurface_colors(
         # catch the case of no surfaces present
         return []
 
-    if isinstance(colors, (tuple, list, np.ndarray)):
-        if isinstance(colors[0], (tuple, list, np.ndarray)):
+    if isinstance(colors, tuple | list | np.ndarray):
+        if isinstance(colors[0], tuple | list | np.ndarray):
             # colors is a list of colors
             cc = list(colors) * (len(colors) // n_objects + 1)
             color_list = cc[:n_objects]

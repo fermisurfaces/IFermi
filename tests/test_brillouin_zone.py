@@ -1,6 +1,5 @@
 import unittest
 from pathlib import Path
-from typing import Union
 
 import numpy as np
 from monty.serialization import loadfn
@@ -28,8 +27,8 @@ class BrillouinZoneTest(unittest.TestCase):
 
     def assert_rs_equal(
         self,
-        rs1: Union[ReciprocalCell, WignerSeitzCell],
-        rs2: Union[ReciprocalCell, WignerSeitzCell],
+        rs1: ReciprocalCell | WignerSeitzCell,
+        rs2: ReciprocalCell | WignerSeitzCell,
     ):
         # test reciprocal space the same
         assert type(rs1) == type(rs2)

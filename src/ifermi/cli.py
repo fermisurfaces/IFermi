@@ -111,7 +111,7 @@ def info(filename, **kwargs):
     np.set_printoptions(precision=kwargs["precision"])
 
     def dp(value):
-        if isinstance(value, (list, tuple, np.ndarray)):
+        if isinstance(value, list | tuple | np.ndarray):
             return str(np.array(value))
         return f"{value:.{kwargs['precision']}g}"
 
