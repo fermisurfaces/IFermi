@@ -1032,7 +1032,12 @@ class FermiSlicePlotter:
                 if scale_linewidth is False:
                     linewidth = 2
                 else:
-                    base_width = 4 if isinstance(scale_linewidth, float | int) else 4
+                    base_width = (
+                        scale_linewidth
+                        if isinstance(scale_linewidth, float | int)
+                        and not isinstance(scale_linewidth, bool)
+                        else 4
+                    )
                     linewidth = abs(proj) * base_width / reference
 
                 slice_style = {"antialiaseds": True, "linewidth": linewidth}
