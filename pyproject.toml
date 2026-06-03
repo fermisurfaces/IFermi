@@ -58,7 +58,7 @@ docs = [
     "myst_parser==4.0.1",
     "nbsphinx==0.9.8",
     "nbsphinx-link==1.4.1",
-    "ipython==8.31.0",
+    "ipython==8.39.0",
     "docutils==0.20.1",
 ]
 dev = ["pre-commit>=2.12.1"]
