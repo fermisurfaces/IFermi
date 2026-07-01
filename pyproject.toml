@@ -59,7 +59,7 @@ docs = [
     "nbsphinx==0.9.8",
     "nbsphinx-link==1.4.1",
     "ipython==8.39.0",
-    "docutils==0.20.1",
+    "docutils==0.23",
 ]
 dev = ["pre-commit>=2.12.1"]
 tests = ["pytest==9.1.1"]
