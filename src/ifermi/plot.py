@@ -1128,7 +1128,7 @@ class FermiSlicePlotter:
         Returns:
             The Fermi slice plot data.
         """
-        from matplotlib.cm import get_cmap
+        from matplotlib.pyplot import get_cmap
 
         if not spin:
             spin = self.fermi_slice.spins
@@ -1303,7 +1303,7 @@ def get_isosurface_colors(
         The colors as a list of tuples, where each color is specified as the rgb values
         from 0 to 1. E.g., red would be ``(1, 0, 0)``.
     """
-    from matplotlib.cm import get_cmap
+    from matplotlib.pyplot import get_cmap
 
     if isinstance(fermi_object, FermiSurface):
         n_objects_per_band = fermi_object.n_surfaces_per_band
